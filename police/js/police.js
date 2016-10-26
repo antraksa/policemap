@@ -8,7 +8,7 @@ $(function() {
 		{id : 'areas',  name : 'Муниципальные округа',  map :  getMapObjects, checked : true}, 
 		{id : 'regions',  name : 'Районы',  map :  getMapObjects, checked : true}, 
 		{id : 'region_points',  name : 'Районные отделения',  map : getMapObjects, checked : true }, 
-		{id : 'sectors', name : 'Участковые отделения', map : getMapObjects, checked : true} 
+		{id : 'sectors', name : 'Участковые отделения', map : getMapObjects, checked : false} 
 	] 
    	$('#layers').render(layers).find('li').on('click', function() {
    		var index = $(this).toggleClass('checked').index();
@@ -48,17 +48,17 @@ $(function() {
     	addAreas();
     	addRegions();
     	addRegionsPoints();
-    	//addSectors();
+    	addSectors();
     	validateLayers()
     }
     function addRegions() {
     	var colors = Common.getColors(regions.length);
     	mapobjects.regions = [];
     	regions.forEach(function(o, i) {
-    		var pol = new ymaps.Polygon([o.coords, []], { hintContent : o.name}, {fillOpacity:0.2,  strokeColor : colors[i], strokeWidth : 2, fillColor : colors[i]});
+    		var pol = new ymaps.Polygon([o.coords, []], { hintContent : o.name}, {fillOpacity:0.3, strokeWidth:0, fillColor : colors[i]});
     		map.geoObjects.add(pol);
-    		pol.events.add('mouseenter', function (e) {pol.options.set('fillOpacity',  0.4); }) 
-    		pol.events.add('mouseleave', function (e) {pol.options.set('fillOpacity',  0.2); })
+    		pol.events.add('mouseenter', function (e) {pol.options.set('fillOpacity',  0.5); }) 
+    		pol.events.add('mouseleave', function (e) {pol.options.set('fillOpacity',  0.3); })
     		pol.events.add('click', function (e) {
 				console.log('select region', o)
 			})
