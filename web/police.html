@@ -1,0 +1,60 @@
+<!DOCTYPE html> 
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1">
+<meta charset="utf-8">
+
+<link href="css/reset.css" rel="stylesheet" media="screen">
+<link href="css/style.css" rel="stylesheet" media="screen">
+<link href="css/police.css" rel="stylesheet" media="screen">
+
+<script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
+<script src="js/libs/jquery-2.1.3.min.js"></script>
+<script src="js/libs/mustache.js"></script>
+
+<script src="js/common/controls.js"></script>
+<script src="js/common/common.js"></script>
+<script src="js/common/core.js"></script>
+<script src="js/api.js"></script>
+<script src="js/police.js"></script>
+
+
+<body class="bgc">
+	<div class="all ">
+		<div class="pane toolbar"> 	
+			<a class="pane-toggle"> 
+				<i class=" icon-angle-left"></i> 
+				<i class="icon-search"> </i> 
+			</a> 
+			<div class="pane-cont">
+				<div class="search">
+					<input type="text" id="txt-search" class="txt-search" placeholder="Поиск" name="">
+					<i class="icon-search" id="btn-search"> </i>
+				</div>
+				<ul id="search-popup" class="popup  recent collapsed template">
+					{{#.}}
+					<li>{{{name}}}</li>
+					{{/.}}
+				</ul>	
+				<h3 class="search-toggle"><i class="icon-"></i> Слои</h3>
+				<ul id="layers" class="checkbox-list">
+					{{#.}}
+					<li title="{{desc}}" class="{{#checked}} checked {{/checked}}"><i class="icon-check"></i> {{name}}</li>
+					{{/.}}
+				</ul>
+			</div>
+		</div>
+		<div class="pane details collapsed"> 
+			<a class="pane-toggle">  
+				<i class=" icon-angle-left"></i> 
+				<i class="icon-th-list "> </i> 
+				<b> Details</b>
+			</a> 
+
+			<div id="details" class="pane-cont template">
+
+			</div>
+		</div> 
+		<div class="pane results " id="map" >
+
+		</div>
+	</div>
+</body>
