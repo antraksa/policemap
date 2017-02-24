@@ -73,7 +73,7 @@
 		return $(this);
 		
 	}
-	$.fn.autocomplete = function ($qpopup, apicall, options) {
+	$.fn.autocomplete = function ($qpopup, template, apicall, options) {
 		 
 		var prevQ, qtimeout, ptimeout, hoveredRow, data;
 		options = options || {};
@@ -85,20 +85,16 @@
 				var dopos = function() {
 					clearTimeout(ptimeout)
 					$qpopup.removeClass('collapsed')	
-					//console.log('pos')
 					if (options.position) {
 						var p = $this.offset()
 						$qpopup.css('top', p.top + 'px').css('left', p.left + 'px').width( $this.outerWidth())
 					}
 				}
 				var render = function() {
-					// var labels = data.map(function(d) {
-					// 	return d.replace(new RegExp(q,'gi'), '<i>{0}</i>'.format(q)) ;
-					// })
-					var $lis = $qpopup.render(data).find('li').on('mousedown', function(e) {
+					$qpopup.html(Mustache.render(template, data))
+					var $lis =  $qpopup.find('li').on('mousedown', function(e) {
 						prevQ = $(this).text();
 						triggerChange($(this))
-
 						$qpopup.addClass('collapsed');
 						clearTimeout(ptimeout)
 					});
@@ -126,29 +122,20 @@
 			}
 		}
 		
+		
 		var $this = $(this);
-		//$qpopup.appendTo('body')
-		$this.on('change', function(e, args) {
+		$qpopup.appendTo('body')
+		$this.on('change keyup', function(e, args) {
 			clearTimeout(qtimeout)
-			if (!args) {
-				check.call(this);
-				//console.log(3)
-			}
-		})  
-		$this.on('keyup', function(e, args) {
-			clearTimeout(qtimeout)
-			if (e.keyCode == 13) {
+			if (args) return;
+			if (e.keyCode && e.keyCode == 13) {
 				if (hoveredRow)  triggerChange(hoveredRow);
-				//console.log(1); 
-				$qpopup.addClass('collapsed')
-				clearTimeout(ptimeout) 
+				$qpopup.addClass('collapsed');
 				return;
-			} else {
-				//console.log(1)
-				check.call(this);
 			}
+			check.call(this);
 		}).on('blur', function() {
-			setTimeout( function() { $qpopup.addClass('collapsed');}, 1) 
+			setTimeout(function() { $qpopup.addClass('collapsed'); }, 300)
 			clearTimeout(qtimeout)
 		}).on('keydown', function(e) {
 			if (e.keyCode == 40) {
@@ -157,17 +144,19 @@
 				hoverRow(true)
 			} 
 		}).on('focus', function() {  
-			check.call(this, true);
+			setTimeout(function() { $this.select(); }, 50)  
+			check.call(this);
 		})
 		
 		function triggerChange($row) {
 			if (data) { 
 				if (data.length > 0) $this.val($row.text());
-				//console.log('triggerChange', $row.text())
 				$this.trigger('change', [{ 
 					label : $row.text(),
 					item : data[$row.index()]
 				}] )
+				clearTimeout(ptimeout)
+				$qpopup.addClass('collapsed');
 			}
 		}
 		
@@ -183,39 +172,6 @@
 		return this;
 	}
 
-	$.fn.render = function (data, options) {
-		if (!options) options ={};
-		$(this).each(function() {
-			var template = this, intempl = options.innerTemplate;
-			if (!template.templateData) {
-				template.templateData = template.innerHTML;
-
-			}
-			$(this).removeClass('template')
-
-			if (intempl && !template.innerTemplateData) {
-				template.innerTemplateData = []
-				$(this).find(options.innerTemplate).each(function(i) {
-					template.innerTemplateData[i] = this.innerHTML
-				});
-			}
-				
-			var templateData = !options.template ? template.templateData : options.template;
-			//console.log(templateData)
-			var tar =  (options.target) ? options.target : template;
-			var htm = Mustache.render(templateData, data);
-			tar.innerHTML = (options.append) ?  tar.innerHTML + htm :  htm;
-			if (intempl) {
-				var i = 0;
-				$(tar).find(options.innerTemplate).each(function() {
-					this.templateData = template.innerTemplateData[i++];
-					if (i == template.innerTemplateData.length) i = 0;
-				});
-			}
-
-		});
-		return (options.target) ? options.target : this;
-	}
 	
 	$.fn.blink = function (timeout) {
 		$(this).each(function() {

@@ -1,16 +1,15 @@
 'use strict';
 $(function() {
 	var map;
-    var regions, region_points, sectors, areas; 
+    var regions, sectors, areas, templates = Common.getTemplates(); 
     var mapobjects = {}
     var getMapObjects  = function() { return mapobjects[this.id]} 
 	var layers = [
 		{id : 'areas',  name : 'Муниципальные округа',  map :  getMapObjects, checked : true}, 
 		{id : 'regions',  name : 'Районы',  map :  getMapObjects, checked : true}, 
-		{id : 'region_points',  name : 'Районные отделения',  map : getMapObjects, checked : true }, 
 		{id : 'sectors', name : 'Участковые отделения', map : getMapObjects, checked : false} 
 	] 
-   	$('#layers').render(layers).find('li').on('click', function() {
+   	$('#layers').html(Mustache.render(templates.layers, layers)).find('li').on('click', function() {
    		var index = $(this).toggleClass('checked').index();
 		var layer = layers[index]; 
 		layer.checked =  $(this).hasClass('checked')
@@ -28,28 +27,39 @@ $(function() {
 	})
 
 	API.all(function(args) {
-		regions = args.regions;
-		region_points = args.region_points;
-		sectors = args.sectors;
-		areas = args.areas;
-		console.log('areas', areas)
-	    		
-		console.log('regions', regions) 
-		console.log('region_points', region_points)
-		if (window.ymaps) 
-			ymaps.ready(createMap);
-		else 
-			console.warn('Yandex !!')
-	})
-	//$.getJSON('https://search-maps.yandex.ru/v1/?apikey=eb3157f9-eeac-40d6-82c7-8623511be6e4&rspn=1&spn=0.552069,0.400552&results=1000&ll=30.371486%2C59.920140&text=%D0%BE%D1%82%D0%B4%D0%B5%D0%BB%D0%B5%D0%BD%D0%B8%D1%8F%20%D0%BF%D0%BE%D0%BB%D0%B8%D1%86%D0%B8%D0%B8&lang=ru', function(data) {
-	
+        regions = args.regions;
+        sectors = args.sectors;
+        areas = args.areas;
+        console.log('areas', areas)
+        console.log('sectors', sectors[0])
+        console.log('regions', regions) 
+        renderRegions();
+        if (window.ymaps) 
+            ymaps.ready(createMap);
+        else 
+            console.warn('Yandex !!')
+        args.templates = templates;
+        Core.trigger('init', args)
+    })
+    //$.getJSON('https://search-maps.yandex.ru/v1/?apikey=eb3157f9-eeac-40d6-82c7-8623511be6e4&rspn=1&spn=0.552069,0.400552&results=1000&ll=30.371486%2C59.920140&text=%D0%BE%D1%82%D0%B4%D0%B5%D0%BB%D0%B5%D0%BD%D0%B8%D1%8F%20%D0%BF%D0%BE%D0%BB%D0%B8%D1%86%D0%B8%D0%B8&lang=ru', function(data) {
+    
     function createMap (state) {
-    	map = new ymaps.Map('map', { controls :  ["zoomControl", "fullscreenControl"], zoom : 12, center : [59.948814, 30.309640] });
-    	addAreas();
-    	addRegions();
-    	addRegionsPoints();
-    	addSectors();
-    	validateLayers()
+        map = new ymaps.Map('map', { controls :  ["zoomControl"], zoom : 12, center : [59.948814, 30.309640] });
+        addAreas();
+        addRegions();
+        addSectors();
+        validateLayers()
+    }
+    function renderRegions() {
+        $('#regions-list').html(Mustache.render(templates.regionsList, regions))
+        .find('.item').on('click', function() {
+            var r = regions[$(this).index()];
+            if (r.select) 
+                r.select()
+            else 
+                Core.trigger('region.select', {region : r})
+            //console.log('region item select', r)
+        })
     }
     function addRegions() {
     	var colors = Common.getColors(regions.length);
@@ -59,10 +69,29 @@ $(function() {
     		map.geoObjects.add(pol);
     		pol.events.add('mouseenter', function (e) {pol.options.set('fillOpacity',  0.5); }) 
     		pol.events.add('mouseleave', function (e) {pol.options.set('fillOpacity',  0.3); })
-    		pol.events.add('click', function (e) {
-				console.log('select region', o)
-			})
+            pol.events.add('click', o.select)
+    		pol.events.add('dblclick', function (e) {
+                pol.editor.startDrawing();
+                //pol.editor.stopEditing();
+            })
+            pol.geometry.events.add("change", function () {
+                console.log('change', pol.geometry.getBounds())
+            });
 			mapobjects.regions.push(pol)
+            if (o.point) {
+                var place = new ymaps.Placemark(o.point.coords, {
+                    balloonContentHeader: o.name,
+                },{
+                    //preset: 'islands#circleIcon',
+                    iconColor: '#f00'
+                });
+                o.select = function() {
+                     Core.trigger('region.select', {region : o})
+                     place.balloon.open()
+                }
+                o.place = place;
+                map.geoObjects.add(place);
+            }
 		})
     }
     function addAreas() {
@@ -79,39 +108,25 @@ $(function() {
 			mapobjects.areas.push(pol)
 		})
     }
-    function addRegionsPoints() {
-    	mapobjects.region_points = [];
-    	region_points.forEach(function(o, i) {
-    		var place = new ymaps.Placemark(o.coords, {
-    			balloonContentHeader: o.name,
-			},{
-	            preset: 'islands#circleIcon',
-	            iconColor: '#f00'
-	        });
-			o.place = place;
-			map.geoObjects.add(place);
-    		place.events.add('click', function (e) {
-				console.log('select region point', o)
-			})
-			mapobjects.region_points.push(place)
-   		})
-    }
+
     function addSectors() {
 		mapobjects.sectors = []
-		sectors.forEach(function(s) {
+        sectors.forEach(function(s) {
+            if (!s.coords) return
     		var place = new ymaps.Placemark(s.coords, {
     			balloonContentHeader: s.name,
-			    balloonContentBody: s.desc,
-			    balloonContentFooter: s.phones,
+			    balloonContentBody: s.raddr,
+			    balloonContentFooter: s.tel,
 			    hintContent: s.name
-    		}, {  preset: 'islands#circleDotIcon',
-            	iconColor: 'black'});
-    		s.place = place;
-			
-    		place.events.add('click', function (e) {
-    			console.log('sector', s)
-			})
-			map.geoObjects.add(place);
+    		}, {  preset: 'islands#circleDotIcon', iconColor: 'black'});
+
+            //console.log(s)
+            s.place = place;
+			s.select = function() {
+    	        Core.trigger('sector.select', {sector : s})
+            }
+            place.events.add('click', s.select) 
+            map.geoObjects.add(place);
 			mapobjects.sectors.push(place)
     	})
 	}
@@ -133,9 +148,9 @@ $(function() {
     	}
 
     })
-    $txtSearch.autocomplete($('#search-popup'), function(q, success) {
+    $txtSearch.autocomplete($('#search-popup'), templates.autocomplete, function(q, success) {
     	if (regions)
-			success(region_points.filter( function(r) {  return r.name && r.name.indexOf(q) >= 0 }))
+			success(regions.filter( function(r) {  return r.name && r.name.indexOf(q) >= 0 }))
 	})
 
    	//console.log(getcolors())

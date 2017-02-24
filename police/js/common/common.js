@@ -58,134 +58,15 @@ String.prototype.capitalize = function() {
 
 var Common = (function () {
 	return {
-		getSelectionCoords : function () {
-			var sel = document.selection, range, rect;
-			var x = 0, y = 0;
-			if (sel) {
-				if (sel.type != "Control") {
-					range = sel.createRange();
-					range.collapse(true);
-					x = range.boundingLeft;
-					y = range.boundingTop;
-				}
-			} else if (window.getSelection) {
-				sel = window.getSelection();
-				if (sel.rangeCount) {
-					range = sel.getRangeAt(0).cloneRange();
-					if (range.getClientRects) {
-						range.collapse(true);
-						if (range.getClientRects().length>0){
-							rect = range.getClientRects()[0];
-							x = rect.left;
-							y = rect.top;
-						}
-					}
-				
-				// Fall back to inserting a temporary element
-					 if (x == 0 && y == 0) {
-						var span = document.createElement("span");
-						if (span.getClientRects) {
-							// Ensure span has dimensions and position by
-							// adding a zero-width space character
-							span.appendChild( document.createTextNode("\u200b") );
-							range.insertNode(span);
-							rect = span.getClientRects()[0];
-							x = rect.left;
-							y = rect.top;
-							var spanParent = span.parentNode;
-							spanParent.removeChild(span);
-
-							// Glue any broken text nodes back together
-							spanParent.normalize();
-						}
-					}
-				}
-			}
-			return { x: x, y: y };
+		getTemplates : function() {
+			var templates = {}
+			$('[data-template').each(function() {
+				var $this = $(this)
+				templates[$this.attr('data-template')] =$this.html();
+			}).appendTo($('body'))
+			return templates
 		},
-
-		parseTouch : function (e, i) {
-			e = e.originalEvent;
-			var touch = e.touches ? e.touches.item( i || 0) : null;
-			return {
-				x: touch ? touch.clientX : e.clientX,
-				y: touch ? touch.clientY : e.clientY,
-				target: touch ? document.elementFromPoint(touch.clientX, touch.clientY) : e.target 
-			};
-		},
-		hexToRgb : function (hex, a) {
-			var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-			return result ? 'rgba({0},{1},{2}, {3})'.format( parseInt(result[1], 16), parseInt(result[2], 16),parseInt(result[3], 16), a) : null;
-		},
-		indexOf : function(arr, callback) {
-			for (var i = 0; i < arr.length; i ++ ) {
-				if (callback(arr[i])) return i;
-			}
-			return -1;
-		},
-		sortByField  : function (arr, expr, asc) {
-			if (arr)
-			return arr.sort(function(a,b) {
-				a = a[expr] != null ? a[expr] : '';
-				b = b[expr] != null ? b[expr] : '';
-				if (a < b) return (asc) ? -1 : 1;
-				if (a > b) return (asc) ? 1 : -1;
-				return 0;
-			});
-		},
-		uriEncode : function(obj) {
-			var str = [];
-			for(var p in obj)
-			if (obj.hasOwnProperty(p)) {
-			  str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
-			}
-			return str.join("&");
-	   },
-		uriDecode : function(queryString) {
-			var obj = {};
-			var pairs = queryString.split('&');
-			pairs.forEach(function(o) {
-				var split = o.split('=');
-				var key = decodeURIComponent(split[0]);
-				if (key)
-					obj[key] = decodeURIComponent(split[1]);
-			});
-			return obj;
-	   },
-	   clone: function(o){
-          return JSON.parse(JSON.stringify(o));
-        },
-		//convert svg to imgage url 
-		svgSerialize : function(el, success, transform, size) {
-			//var svgMarkup = '<svg xmlns="http://www.w3.org/2000/svg" width="{0}"  height="{1}"><g class="root">'.format(size.w, window.innerHeight/2) + el.find('.root')[0].innerHTML+'</g></svg>';
-			
-			el.attr('xmlns','http://www.w3.org/2000/svg')
-			
-			var svgMarkup = el.wrapAll('<div>').parent().html();
-			//console.warn(svgMarkup)
-			
-			var $svg = $(svgMarkup);
-			transform($svg)
-			svgMarkup = $svg.wrapAll('<div>').parent().html();
-			var DOMURL = window.URL || window.webkitURL || window;
-			//try {
-				
-				var blob = new Blob([svgMarkup], {type: "image/svg+xml;charset=utf-8"});
-				var url = DOMURL.createObjectURL(blob);
-				var img = new Image();
-				img.src = url;
-				img.onload = function() {
-					var can = $('#screenshot-renderer')[0]
-					can.width = size.width/5;
-					can.height = size.height/5;
-					var ctx =  can.getContext('2d');
-					ctx.clearRect(0, 0, size.width/5, size.height/5);
-					ctx.drawImage(img, 0,0, size.width/5, size.height/5)
-					var rurl = can.toDataURL()
-					//$('.screenshot')[0].src = rurl;
-					if (success) success({ url : rurl })
-				}
-		},
+	
 		download : function(name, data, nojson) {
 			var pom = document.createElement('a');
 			if (!nojson)
@@ -203,6 +84,15 @@ var Common = (function () {
 			else {
 				pom.click();
 			}
+		},
+		getColors : function (l) {
+			var colors = []
+			var step = Math.ceil(360/l)
+			for (var i = step; i <= 360; i+=step) {
+				var c = Common.hslToRgb(i/360, 0.6, 0.4);
+				colors.push('rgb({0},{1}, {2})'.format(c[0], c[1], c[2]))
+			}
+			return colors
 		}, 
 		hslToRgb : function (h, s, l){
 		    var r, g, b;
@@ -227,15 +117,6 @@ var Common = (function () {
 
 		    return [Math.round(r * 255), Math.round(g * 255), Math.round(b * 255)];
 		}, 
-		getColors : function (l) {
-			var colors = []
-			var step = Math.ceil(360/l)
-			for (var i = step; i <= 360; i+=step) {
-				var c = Common.hslToRgb(i/360, 0.6, 0.4);
-				colors.push('rgb({0},{1}, {2})'.format(c[0], c[1], c[2]))
-			}
-			return colors
-		}
 	
 	}	
 })();
@@ -247,43 +128,6 @@ if (window.d3) {
 	  });
 	};
 }
-/*
-var Http = (function() {
-	function ajax(url, args) {
-		args = args || {};
-		var method = args.method || 'GET'
-			
-		var xhr = new XMLHttpRequest();
-		var promise = new Promise(function(resolve, reject) {
-			xhr.open(method, url, true);
-
-			xhr.onload = function() {
-			  if (this.status == 200) {
-				resolve(this.response);
-			  } else {
-				var error = new Error(this.statusText);
-				error.code = this.status;
-				reject(error);
-			  }
-			};
-
-			xhr.onerror = function() {
-			  reject(new Error("Network Error"));
-			};
-
-			xhr.send();
-		});
-		promise.xhr = xhr;
-		console.log(promise.xhr)
-		return promise;
-	}
-	
-	return { 
-		ajax : ajax,
-		get : function(url) { return ajax(url) },
-		post : function(url, data) { return ajax(url, { data : data }) }
-	}
-})();*/
 
 var Storage = (function () {
 	var objects = {}
