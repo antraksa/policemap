@@ -55,9 +55,27 @@ String.prototype.equals = function (s) {
 String.prototype.capitalize = function() {
     return this.charAt(0).toUpperCase() + this.slice(1);
 }
+Date.prototype.fineFormat = function() {
+	var date = this;
+	//var date = new Date((time || "").replace(/-/g, "/").replace(/[TZ]/g, " ")),
+	var	diff = (((new Date()).getTime() - date.getTime()) / 1000),
+		day_diff = Math.floor(diff / 86400);
+
+	if (isNaN(day_diff) || day_diff < 0 || day_diff >= 40) return ''; //date.toLocaleDateString();
+	var res =  day_diff == 0 && (diff < 60 && "just now" || diff < 120 && "a minute ago" 
+		|| diff < 3600 && Math.floor(diff / 60) + " minutes ago" || diff < 7200 && "1 hour ago" 
+		|| diff < 86400 && Math.floor(diff / 3600) + " hours ago") || day_diff == 1 && "yesturday" || day_diff < 7 && day_diff + " days ago" 
+		|| day_diff < 31 && Math.ceil(day_diff / 7) + " weeks ago" ;
+	return res;
+
+}
 
 var Common = (function () {
 	return {
+		clone: function(o){
+          return JSON.parse(JSON.stringify(o));
+        },
+		
 		getTemplates : function() {
 			var templates = {}
 			$('[data-template').each(function() {

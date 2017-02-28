@@ -1,5 +1,7 @@
 'use strict'
 $(function() {
+	return
+
 	regions()
 	function regions(success) {
 		$.when($.getJSON("data/poligoni_rayonov.geojson"), 

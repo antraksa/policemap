@@ -12,7 +12,16 @@
 <script src="js/common/common.js"></script>
 <script src="js/parser.js"></script>
 
+<style type="text/css">
 
+	#test {background: #00f}
+	div  div.test { background: #000 }
+	div.test { background: #0f0 }
+	div { background: #f00 }
+
+</style>
 
 <body class="bgc">
+	<div id="test" class="test">123 </div>
+	<div id="test" class="test"> <div class="test">123</div> </div>
 </body>
