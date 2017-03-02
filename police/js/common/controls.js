@@ -103,12 +103,12 @@
 				if (q!=prevQ) {
 					qtimeout = setTimeout(function() {
 						apicall(q, function(_data) {
-							data = _data.slice(0, 10);
+							data = _data//.slice(0, 10);
 							dopos()
 							render()
 							prevQ = q;
 						})
-					}, 300)
+					}, 500)
 					hoveredRow = null;
 				}	 
 				else {
@@ -150,10 +150,11 @@
 		
 		function triggerChange($row) {
 			if (data) { 
-				if (data.length > 0) $this.val($row.text());
+				$this.val($row.text());
 				$this.trigger('change', [{ 
 					label : $row.text(),
-					item : data[$row.index()]
+					$row : $row,
+					//item : data[$row.index()]
 				}] )
 				clearTimeout(ptimeout)
 				$qpopup.addClass('collapsed');

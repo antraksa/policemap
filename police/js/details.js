@@ -1,8 +1,9 @@
 $(function() {
 
-	var regions, sectors, templates, map, ank1, ank2;
+	var regions, sectors, templates, map, ank1, ank2, areas;
 	Core.on('init', function(args) {
 		templates = args.templates;
+		areas = args.areas;
 		sectors = args.sectors;
 		map = args.map;
 		ank1 = args.ank1;
@@ -12,14 +13,26 @@ $(function() {
 	var $details = $('#details'), $anketa = $('#anketa');
 	Core.on('region.select', function(args) {
 		$('#lb-details').text('Отделение милиции')
-		var region = args.region;
+		var region = args.region, rdata = region.region;
+
+		if (!region.area &&  region.pol && rdata.point) {
+			areas.forEach(function(a) {
+				if (a.pol && a.pol.geometry.contains(rdata.point.coords)) {
+					region.area = a;
+					console.log(rdata.point.coords)
+				}
+			})
+
+		}
 		if (!region.sectors && region.pol) {
 			region.sectors = []
 			sectors.forEach(function(s) {
 				if (!s.coords) return
 				var contains = region.pol.geometry.contains(s.coords)
-				if (contains) region.sectors.push(s);
-				s.region = region;
+				if (contains) {
+				 	region.sectors.push(s);
+					s.region = region;
+				}
 			})
 		}
 		$details.html(Mustache.render(templates.region, region))
@@ -64,15 +77,15 @@ $(function() {
 
    	function renderAnketa(r) {
 		$anketa.addClass('shown')
-		console.log($anketa.hasClass('shown'))
 		var render  = function(ankId, ank) {
 			var $ank = $('#' + ankId);
 			var num = r.region.number;
    			var vals = ank.values[num];
    			var ankData = ank.fields.map(function(fi, i) { 
 	   			var state = vals ? (vals[i] ? 'checked' : '') : 'empty';
-				return {title : fi, state : state}
+				return {title : fi.title, weight : fi.weight, state : state}
 			})
+			console.log(ank, ankData)
 			$ank.html(Mustache.render(templates.anketa, ankData)).find('b').on('click', function() {
 				var $item = $(this).parent();
 				$item.removeClass('empty').toggleClass('checked');

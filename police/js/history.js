@@ -29,17 +29,9 @@ $(function() {
 			$item.nextAll().addClass('undone').each(function() {
 				setAction(actions[$item.index()])
 			})
-			// for (var i= uindex + 1; i < actions.length; i++) {
-
-			// }
 			var a = actions[uindex];
 
 			Core.trigger('region.updated', setAction(a))
-			// switch (a.type) {
-			// 	case 'ank1': case : 'ank2' : {
-
-			// 	}
-			// }
 		})
 	}
 	function restore() {

@@ -1,13 +1,13 @@
 'use strict';
 $(function() {
-	var map;
+	var map, city = 'Санкт-Петербург';
     var regions, sectors, areas, templates = Common.getTemplates(), initArgs; 
     var mapobjects = {}
     var getMapObjects  = function() { return mapobjects[this.id]} 
 	var layers = [
 		{id : 'areas',  name : 'Муниципальные округа',  map :  getMapObjects, checked : false}, 
-        {id : 'regions',  name : 'Районы',  map :  getMapObjects, checked : true}, 
-		{id : 'regionPoints',  name : 'Районные отделения',  map :  getMapObjects, checked : true}, 
+        {id : 'regions',  name : 'Районы отделений',  map :  getMapObjects, checked : true}, 
+		{id : 'regionPoints',  name : 'Адреса отделений',  map :  getMapObjects, checked : true}, 
 		{id : 'sectors', name : 'Участковые ', map : getMapObjects, checked : false} 
 	] 
    	$('#layers').html(Mustache.render(templates.layers, layers)).find('li').on('click', function() {
@@ -30,6 +30,11 @@ $(function() {
     $('.dash-toggle a').on('click', function() {
         $(this).addClass('selected').siblings().removeClass('selected');
         $dashPanels.eq($(this).index()).addClass('shown').siblings().removeClass('shown')
+    })
+     var $ankPanels = $('.ank-panel');
+    $('.ank-toggle a').on('click', function() {
+        $(this).addClass('selected').siblings().removeClass('selected');
+        $ankPanels.eq($(this).index()).addClass('shown').siblings().removeClass('shown')
     })
 
 	API.all(function(args) {
@@ -58,6 +63,7 @@ $(function() {
         addAreas();
         addRegions();
         addSectors();
+
         validateLayers()
         Core.trigger('map-init', {map : map})
     }
@@ -89,7 +95,7 @@ $(function() {
         mapobjects.regionPoints = [];
         regions.forEach(function(r, i) {
             var reg = r.region;
-            var pol = new ymaps.Polygon([reg.coords, []], { hintContent : reg.name}, {fillOpacity:0.3, strokeWidth:1, strokeColor :  r.color, fillColor : r.color });
+            var pol = new ymaps.Polygon([reg.coords, []], { hintContent : reg.name}, {   zIndex: 10,  fillOpacity:0.3, strokeWidth:1, strokeColor :  r.color, fillColor : r.color });
     		map.geoObjects.add(pol);
     		pol.events.add('mouseenter', function (e) {  
                 if (selected != r)
@@ -109,7 +115,12 @@ $(function() {
             if (reg.point) {
                 var place = new ymaps.Placemark(reg.point.coords, {
                     balloonContentHeader: reg.name,
+                    balloonContentBody: reg.addr,
+                    balloonContentFooter: reg.tel,
+                    hintContent: reg.name,
+                    iconContent: reg.number
                 },{//preset: 'islands#circleIcon',
+                    preset: 'islands#blackStretchyIcon',
                     iconColor: '#f00'
                 });
                 r.place = place;
@@ -122,9 +133,10 @@ $(function() {
     function addAreas() {
     	mapobjects.areas = [];
     	var colors = Common.getColors(areas.length);
-    	areas.forEach(function(o, i) {
-    		var pol = new ymaps.Polyline(o.coords, { hintContent : o.name}, {strokeOpacity:0.7, strokeColor : '#592167', strokeWidth : 2});
+    	areas.forEach(function(a, i) {
+    		var pol = new ymaps.Polygon([a.coords, []], { hintContent : a.name}, { zIndex: 0,  strokeOpacity:0.7, fillOpacity:0, strokeColor : '#592167', strokeWidth : 2});
     		map.geoObjects.add(pol);
+            a.pol = pol;
 			mapobjects.areas.push(pol)
 		})
     }
@@ -162,14 +174,46 @@ $(function() {
     .on('focus', function() { this.select() })
     .on('change', function(e, args) {
         if (args && args.item) {
-            map.setCenter(args.item.coords, 15)
+            searchPoint(args.item.coords);
             //args.item.place.balloon.open()
+        } 
+        else if (lastResolved && lastResolved[0]){
+            searchPoint(lastResolved[0].coords)
         }
 
     })
+    function searchPoint(pos) {
+        console.log('searchPoint', pos)
+        if (!map) return;
+        for (var i=0; i < regions.length; i++) {
+            var r = regions[i];
+            if (r.pol.geometry.contains(pos)) {
+                r.select()
+                return;
+            }
+        }
+        map.setCenter(pos, 15)
+    }
+
+    Core.on('map-init', function() {
+        navigator.geolocation.getCurrentPosition(function(location) {
+            searchPoint( [location.coords.latitude , location.coords.longitude ])
+        }, function() {   })
+    })
+
+    var lastResolved
     $txtSearch.autocomplete($('#search-popup'), templates.autocomplete, function(q, success) {
-        if (regions)
-            success(regions.filter( function(r) {  return r.reg.name && r.reg.name.indexOf(q) >= 0 }))
+        var regs = regions.filter( function(r) {  return r.region.name && r.region.name.toLowerCase().indexOf(q) >= 0 });
+        var sects = sectors.filter( function(s) {  return s.name && s.name.toLowerCase().indexOf(q) >= 0 });
+
+        API.resolveAddr(city, q, function(addrs) {
+            lastResolved = addrs;
+            var res = [{ title : 'Адреса', data :addrs.slice(0, 5)}, { title : 'Отделения', data :regs}, { title : 'Участковые', data :sects} ]
+            console.log(res)
+            success(res)
+            //success({regions : regions, addrs : addrs })
+            
+        })
     })
    
   
@@ -245,7 +289,21 @@ $(function() {
         },
         render : function(ank) {
             Core.trigger('region.select', {region : this, ank : ank})
-        }
+        },
+        name : function() { return this.region.name}
     }
 
 })()
+
+        // regions.forEach(function(r) {
+        //     sectors.forEach(function(s) {
+        //         if (!s.coords) return
+        //         var contains = r.pol.geometry.contains(s.coords)
+        //         if (contains) {
+        //             s.regionId = r.region.number;
+        //         }
+        //     })
+
+        // })
+        // console.log(JSON.stringify(sectors) )
+        //addSectors();

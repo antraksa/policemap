@@ -32,14 +32,19 @@
 					<input type="text" id="txt-search" class="txt-search" placeholder="Поиск" name="">
 					<i class="icon-search" id="btn-search"> </i>
 				</div>
-				<ul id="search-popup" class="popup  recent collapsed template">
-					{{#.}}
-					<li>{{{name}}}</li>
-					{{/.}}
-				</ul>
+				<div id="search-popup" class="popup  autocomplete collapsed ">
+
+				</div>
 				<script data-template="autocomplete" type="text/template">
 					{{#.}}
-					<li>{{{name}}}</li>
+						{{#data.length}}
+						<h3> {{title }}</h3>
+						<ul>
+							{{#data}}
+							<li class="">{{{name}}}</li>
+							{{/data}}
+						</ul>
+						{{/data.length}}
 					{{/.}}
 				</script>	
 				<h3 class="search-toggle"> Слои</h3>
@@ -82,7 +87,7 @@
 		</div>
 		<div class="pane details"> 
 			<a class="pane-toggle">  
-				<i class="toggle-btn icon-angle-left"></i> 
+				<i class="toggle-btn icon-angle-right"></i> 
 				<i class="toggle-btn icon-th-list "> </i> 
 				<b id="lb-details">  </b>
 			</a> 
@@ -99,13 +104,14 @@
 				</div>
 				<div class="details-wrap">
 					<h1 class="name"><u class="number">{{region.number}} </u> <span class="editable">{{region.name}}</span> </h1>
-					<h2  class="addr editable">{{region.addr}}</h2>
+					<h3  class="area">{{area.name}}</h3>
+					<h2  class="addr editable">{{region.raddr}}</h2>
 					<h2 class="desc editable">{{region.desc}}</h2>
 					<ul class="sectors sub-details">
 						{{#sectors}}
 						<li class="sub-item">
 							<h6 class="s-title">{{name}}</h6>
-							<h4  class="s-addr">{{addr}}</h4>
+							<h4  class="s-val">{{addr}}</h4>
 						</li>
 						{{/sectors}}
 					</ul>
@@ -113,12 +119,26 @@
 			</script>
 
 			<script data-template="sector" type="text/template">
-				<div class="img" style="background-image: url('{{photo}}') "></div>
 				<div class="details-wrap">
+					<div class="img" style="background-image: url('{{photo}}') "></div>
 					<h1 class="name">{{name}} </h1>
-					<h2  class="addr editable">{{addr}}</h2>
+					<h2 class="rank"> {{rank}} </h2>
+					<h2  class="addr">{{raddr}}</h2>
 					<h3  class="tel"> <i class="icon-phone"></i> {{tel}}</h3>
+					<div class="clear"></div>
 					<a class="back"> <i class=" icon-angle-left"></i> {{region.region.name}}</a>
+					<ul class="streets ">
+						{{#streets}}
+						<li class="street ">
+							<h4 class="title">{{name}}</h4>
+							<div class="numbers "> 
+							{{#numbers}}
+								<span>{{.}}</span>
+							{{/numbers}}
+							</div>
+						</li>
+						{{/streets}}
+					</ul>
 				</div>
 
 			</script>
@@ -126,8 +146,13 @@
 		<div class="pane results "  >
 			<div id="map" class="map"></div>
 			<div id="anketa" class="anketa faded edit-mode"> 
-				<div id="ank1" class="ank-temp"></div>
-				<div id="ank2" class="ank-temp"></div>
+				<div class="ank-toggle">
+					<a class="selected">Анкета 1</a>
+					<a>Анкета 2</a>
+				</div>
+				<div id="ank1" class="ank-temp ank-panel faded shown"></div>
+				<div id="ank2" class="ank-temp ank-panel faded"></div>
+				
 				<div class="tools ">
 					<button class="btn cancel"> <i class="icon-close"></i> </button> 
 				</div>
@@ -135,7 +160,7 @@
 			<script data-template="anketa" type="text/template">
 				<ul>
 					{{#.}}
-					<li title="{{title}} " class="item overflow {{state}}"> <b > <i class=" icon-check"></i> </b>  {{title}} </li>
+					<li title="{{title}} " class="item overflow {{state}}"> <b > <i class=" icon-check"></i> </b> <u class="weight rated{{weight}}">{{weight}}</u> {{title}} </li>
 					{{/.}}
 				</ul>
 				<button class="btn save"> <i class="icon-check"></i> Сохранить </button>

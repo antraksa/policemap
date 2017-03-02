@@ -1,8 +1,7 @@
 'use strict'
 $(function() {
-	return
-
-	regions()
+	
+	//regions()
 	function regions(success) {
 		$.when($.getJSON("data/poligoni_rayonov.geojson"), 
 			$.getJSON( "data/tochki_otdelov.geojson"), 
@@ -127,14 +126,15 @@ $(function() {
 	    		pots.forEach(function(p) {
 	    			//console.log(p.addr.join(','))
 	    			//var addr = p.addr.toLowerCase();
+	    			//pots.streets = 
 	    			if (p.coords) {
 	    				p.coords = p.coords.pos.split(' ').map(function(x) { return Number(x) }).reverse()
 	    			}
 
-	    			console.log(p.coords)
+	    			//console.log(p.coords)
 	    		})
-	    		download('sectors.json', pots)
 	    		return;
+	    		download('sectors.json', pots)
 	    		download('ank1.json', ank1)
 	    		download('ank2.json', ank2)
 	    		download('areas.json', areas)
@@ -213,14 +213,22 @@ $(function() {
 
 		var offset = 0, size = 19;
 		var url = 'https://xn--b1aew.xn--p1ai/district/search';
-		var form  = 'subject=7800000000000&subzone=&city=&street=&type=undefined&offset={0}&address=';
+		//var sub  = 7800000000000//SPb
+		var sub  = 3600000000000//Vor
+		//var sub  = 7700000000000//Msc
+
+		var form  = 'subject={1}&subzone=&city=&street=&type=undefined&offset={0}&address=';
 		var res = [];
 		var parse = function() {
-			$.post(url, form.format(offset * size), function(data) {
+			$.post(url, form.format(offset * size, sub), function(data) {
 		        var $list = $(JSON.parse (data).list).filter(function(i) { return $(this).hasClass('sl-holder') });
-		        if (!$list.length) {
+		       	if (!$list.length) {
+		        //if (offset > 1) {
 		        	console.log('complete')
-		        	download('ment.json', res)
+		        	//download('ment{0}).json'.format(sub), res)
+		        	window.res  = res;
+		        	console.clear();
+		        	console.log(JSON.stringify(res))
 		        	return
 		        }
 		        $list.each(function() {
