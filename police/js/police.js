@@ -1,13 +1,14 @@
 'use strict';
 $(function() {
 	var map, city = 'Санкт-Петербург';
-    var regions, sectors, areas, templates = Common.getTemplates(), initArgs; 
+    var regions, sectors, areas, templates = Common.getTemplates(), initArgs, streets, departments, regionsDict; 
     var mapobjects = {}
     var getMapObjects  = function() { return mapobjects[this.id]} 
 	var layers = [
-		{id : 'areas',  name : 'Муниципальные округа',  map :  getMapObjects, checked : false}, 
-        {id : 'regions',  name : 'Районы отделений',  map :  getMapObjects, checked : true}, 
-		{id : 'regionPoints',  name : 'Адреса отделений',  map :  getMapObjects, checked : true}, 
+        {id : 'areas',  name : 'Муниципальные округа',  map :  getMapObjects, checked : false}, 
+		{id : 'departments',  name : 'ОУМВД',  map :  getMapObjects, checked : false}, 
+        {id : 'regions',  name : 'ОП',  map :  getMapObjects, checked : true}, 
+		// {id : 'regionPoints',  name : 'Адреса отделений',  map :  getMapObjects, checked : true}, 
 		{id : 'sectors', name : 'Участковые ', map : getMapObjects, checked : false} 
 	] 
    	$('#layers').html(Mustache.render(templates.layers, layers)).find('li').on('click', function() {
@@ -26,17 +27,14 @@ $(function() {
 		$(this).parent().parent().toggleClass('collapsed');
 		setTimeout(function() { if (map) map.container.fitToViewport() }, 500) 
 	})
-    var $dashPanels = $('.dash-panel');
+    var $dashPanels = $('.dash-content').children();
     $('.dash-toggle a').on('click', function() {
         $(this).addClass('selected').siblings().removeClass('selected');
         $dashPanels.eq($(this).index()).addClass('shown').siblings().removeClass('shown')
     })
-     var $ankPanels = $('.ank-panel');
-    $('.ank-toggle a').on('click', function() {
-        $(this).addClass('selected').siblings().removeClass('selected');
-        $ankPanels.eq($(this).index()).addClass('shown').siblings().removeClass('shown')
-    })
+   
 
+    loading(true)
 	API.all(function(args) {
         args.templates = templates;
         Core.trigger('init', args)
@@ -44,91 +42,87 @@ $(function() {
         sectors = args.sectors;
         areas = args.areas;
         regions = args.regions;
+        streets = args.streets;
+        departments = args.departments;
+        regionsDict = args.regionsDict;
 
         regions.forEach(function(r) {r.calcRate() })
+
         
         if (window.ymaps) 
             ymaps.ready(createMap);
-        else 
+        else {
             console.warn('Yandex !!')
+            renderRegions();
+            loading(false)
+        }
         initArgs = args;
 
-        renderRegions();
     })
     //$.getJSON('https://search-maps.yandex.ru/v1/?apikey=eb3157f9-eeac-40d6-82c7-8623511be6e4&rspn=1&spn=0.552069,0.400552&results=1000&ll=30.371486%2C59.920140&text=%D0%BE%D1%82%D0%B4%D0%B5%D0%BB%D0%B5%D0%BD%D0%B8%D1%8F%20%D0%BF%D0%BE%D0%BB%D0%B8%D1%86%D0%B8%D0%B8&lang=ru', function(data) {
     
     function createMap (state) {
         map = new ymaps.Map('map', { controls :  ["zoomControl"], zoom : 12, center : [59.948814, 30.309640] });
-
+        Core.trigger('map-init', {map : map, mapobjects : mapobjects})
         addAreas();
-        addRegions();
-        addSectors();
+        
+        addObjects('regions');
+        addObjects('sectors');
+        addObjects('departments');
+        
+        console.log(mapobjects)
+        prepare()
+        renderRegions();
 
         validateLayers()
-        Core.trigger('map-init', {map : map})
+        loading(false)
     }
     function renderRegions() {
         var $rate;
-        $('#regions-list').html(Mustache.render(templates.regionsList, regions))
-        .find('.item').on('click', function() {
-            var r = regions[$(this).index()];
+        var $deps = $('#departments-list').html(Mustache.render(templates.departmensList, departments));
+        $deps.find('.head-item').on('click', function() {
+            var d = departments[$(this).index()];
+            d.select()
+            console.log('dep', d)
+        })
+        $deps.find('.item').on('click', function() {
+            var r = regionsDict[$(this).attr('data-id')];
             r.select(!!$rate)
             $rate = null;
         }).find('b').on('click', function() {$rate = $(this); }) 
     }
-
+    function prepare() {
+        regions.forEach(function(r) {
+            var rdata = r.region;
+            r.sectors = []
+            sectors.forEach(function(s) {
+                if (!s.coords) return
+                var contains = r.pol.geometry.contains(s.coords)
+                if (contains) {
+                    s.regionId = r.region.number;
+                    s.region = r;
+                }
+            })
+            areas.forEach(function(a) {
+                if (rdata.point && a.pol.geometry.contains(rdata.point.coords)) {
+                    r.area = a;
+                }
+            })
+        })
+    }
     var selected;
     Core.on('region.updated', function(args) {
         console.log('region.updated', args)
         updateRegion(args.region, !!args.ank) 
     }) 
 
-    function updateRegion(reg, ank) {
+    function updateRegion(reg) {
         regions.forEach(function(r) {r.calcRate() })
-        reg.render(ank)
+        if (!reg) reg = selected;
+        if (reg) reg.render()
         renderRegions() 
     }
 
-   
-    function addRegions() {
-        mapobjects.regions = [];
-        mapobjects.regionPoints = [];
-        regions.forEach(function(r, i) {
-            var reg = r.region;
-            var pol = new ymaps.Polygon([reg.coords, []], { hintContent : reg.name}, {   zIndex: 10,  fillOpacity:0.3, strokeWidth:1, strokeColor :  r.color, fillColor : r.color });
-    		map.geoObjects.add(pol);
-    		pol.events.add('mouseenter', function (e) {  
-                if (selected != r)
-                    pol.options.set('fillOpacity',  0.5); 
-            }) 
-            pol.events.add('mouseleave', function (e) {   
-                if (selected != r)
-                    pol.options.set('fillOpacity',  0.3); 
-            })
-            r.pol = pol;
-            pol.events.add('click', function() { 
-                r.select() 
-                selected = r;
-
-            })
-            mapobjects.regions.push(pol)
-            if (reg.point) {
-                var place = new ymaps.Placemark(reg.point.coords, {
-                    balloonContentHeader: reg.name,
-                    balloonContentBody: reg.addr,
-                    balloonContentFooter: reg.tel,
-                    hintContent: reg.name,
-                    iconContent: reg.number
-                },{//preset: 'islands#circleIcon',
-                    preset: 'islands#blackStretchyIcon',
-                    iconColor: '#f00'
-                });
-                r.place = place;
-                map.geoObjects.add(place);
-                mapobjects.regionPoints.push(place)
-            }
-		})
-    }
 
     function addAreas() {
     	mapobjects.areas = [];
@@ -140,28 +134,16 @@ $(function() {
 			mapobjects.areas.push(pol)
 		})
     }
+    function addObjects(oname) {
+        mapobjects[oname] = []
+        initArgs[oname].forEach(function(o, i) {
+            var mo = o.draw();
+            if (!mo) return
+            map.geoObjects.add(mo);
+            mapobjects[oname].push(mo)
+        })  
+    }
 
-    function addSectors() {
-		mapobjects.sectors = []
-        sectors.forEach(function(s) {
-            if (!s.coords) return
-    		var place = new ymaps.Placemark(s.coords, {
-    			balloonContentHeader: s.name,
-			    balloonContentBody: s.raddr,
-			    balloonContentFooter: s.tel,
-			    hintContent: s.name
-    		}, {  preset: 'islands#circleDotIcon', iconColor: 'black'});
-
-            //console.log(s)
-            s.place = place;
-			s.select = function() {
-    	        Core.trigger('sector.select', {sector : s})
-            }
-            place.events.add('click', s.select) 
-            map.geoObjects.add(place);
-			mapobjects.sectors.push(place)
-    	})
-	}
    	function validateLayers() {
    		layers.forEach(function(l) {
    			var m = l.map();
@@ -169,18 +151,26 @@ $(function() {
 				m.forEach(function(o) { o.options.set('visible', false) }) 
 		})
    	}
+    Core.on('map.click', function(args) {resolvePoint(args.coords) })
 
     var $txtSearch = $('#txt-search')
     .on('focus', function() { this.select() })
     .on('change', function(e, args) {
-        if (args && args.item) {
-            searchPoint(args.item.coords);
-            //args.item.place.balloon.open()
+        if (args) {
+            var $row = args.$row,dsind = Number($row.attr('data-dsindex')),  ds = args.data[dsind] ;
+            var ind = $row.index(), o = ds.data[ind].item;
+            if (dsind == 0) { //streets
+                console.log('autocomplete street',  o)
+                o.sector.select()
+            } else if (dsind == 1) {//region
+                console.log('autocomplete region',  o)
+                o.select()
+            } else if (dsind == 2) {//sector
+                console.log('autocomplete sector',  o)
+                o.select()
+            }
+           // searchPoint(args.item.coords);
         } 
-        else if (lastResolved && lastResolved[0]){
-            searchPoint(lastResolved[0].coords)
-        }
-
     })
     function searchPoint(pos) {
         console.log('searchPoint', pos)
@@ -188,122 +178,96 @@ $(function() {
         for (var i=0; i < regions.length; i++) {
             var r = regions[i];
             if (r.pol.geometry.contains(pos)) {
-                r.select()
+                r.render()
                 return;
             }
         }
         map.setCenter(pos, 15)
     }
 
-    Core.on('map-init', function() {
-        navigator.geolocation.getCurrentPosition(function(location) {
-            searchPoint( [location.coords.latitude , location.coords.longitude ])
-        }, function() {   })
-    })
-
-    var lastResolved
-    $txtSearch.autocomplete($('#search-popup'), templates.autocomplete, function(q, success) {
-        var regs = regions.filter( function(r) {  return r.region.name && r.region.name.toLowerCase().indexOf(q) >= 0 });
-        var sects = sectors.filter( function(s) {  return s.name && s.name.toLowerCase().indexOf(q) >= 0 });
-
-        API.resolveAddr(city, q, function(addrs) {
-            lastResolved = addrs;
-            var res = [{ title : 'Адреса', data :addrs.slice(0, 5)}, { title : 'Отделения', data :regs}, { title : 'Участковые', data :sects} ]
-            console.log(res)
-            success(res)
-            //success({regions : regions, addrs : addrs })
-            
+    //Core.on('map-init', function() {
+        $('#btn-locate').on('click', function() {
+            loading(true)
+            navigator.geolocation.getCurrentPosition(function(location) {
+                var p = [location.coords.latitude , location.coords.longitude ];
+                searchPoint(p)
+                resolvePoint(p)          
+                loading(false)
+            }, function() {   
+                loading(false)
+            })
         })
-    })
-   
-  
+    //})
+    function resolvePoint(p) {
+        API.resolvePoint(city, p, function(addr) {
+            if (!addr[0]) return;
+            var pq = parseQuery(addr[0].name);
+            //console.log(pq)
+            var strres = search(streets,pq, function(o) { if (o) return o.name})
+            console.log(addr[0].name, strres[0])
+            if (strres[0])
+                strres[0].item.sector.render()
+        })
+    }
 
+    function search(arr, ws, fname) {
+        var res = []
+        arr.forEach(function(o) {
+            var matches = [], rate = 0;
+            var s = fname(o);
+            if (!s) return; 
+            ws.forEach(function(w) {
+                var ind = s.indexOf(w);
+                if (ind >= 0) matches.push({w : w,  ind : ind})
+                if (ind == 0) rate++;
+            })
+            if (matches.length > 0) {
+                rate+=matches.length;
+                res.push({ name : s, matches : matches, rate : rate, item : o }) 
+            }
+        })
+
+        res.sort(function(a, b) { return b.rate - a.rate})
+        return res.slice(0, 5);
+    }
+    $txtSearch.autocomplete($('#search-popup'), templates.autocomplete, function(q, success) {
+        var pq = parseQuery(q);
+        var regres = search(regions, pq, function(o) { return o.region.name.toLowerCase()})
+        var secres = search(sectors, pq, function(o) { return o.name})
+        var strres = search(streets, pq, function(o) { if (o) return o.name})
+     
+        success( [{ title : 'Адреса', dsindex : 0,  data :strres}, { title : 'Отделения', dsindex : 1, data :regres}, { title : 'Участковые', dsindex : 2, data :secres} ])
+    })
+    function parseQuery(q) {
+        var pq = q.toLowerCase().split(/[\s,]+/);
+        var numbers = pq.map(function(s) {return parseInt(s) })//.filter(function(s) { return !!s})
+        pq.forEach(function(p, i) { 
+            if (numbers[i]) pq[i]  = (numbers[i]);
+        }) 
+        //return pq.concat(numbers)
+        return pq;
+    }
+    function yresolve(q, success) {
+        API.resolveAddr(city, q, function(addrs) {
+            success(addrs)
+        })
+    }
+    
+    function loading(val) {
+        $('#map').toggleClass('loading', val)
+    }
+    var mtimeout, $mess = $('#mess');
+    Core.on('mess', function(args) {
+        $mess.html(args.mess).addClass('shown').toggleClass('warn', args.warn);
+        clearTimeout(mtimeout)
+        mtimeout = setTimeout(function() { $mess.removeClass('shown')}, 3000)
+    })
+    
     //console.log(getcolors())
 });
 
-(function() {
-    
-    window.createRegion = function(r, map) {
-        return new pregion(r)
-    }
-    var ank1, ank2, map;
-    Core.on('init', function(args) {
-        ank1 = args.ank1;
-        ank2 = args.ank2;
-    })
-    Core.on('map-init', function(args) {map = args.map; }) 
 
-    function pregion (r) {
-        this.region = r;
-    }
-    var selected;
-    function getRate(rate) {
-        if (rate) {
-            return  {val : rate, formatted : Math.round(rate*5) }
-        } else {
-            return {val : 0, formatted : '?' }
-        }
-    }
-    function calcRate(vals) {
-        if (vals) {
-            var count = 0;
-            vals.forEach(function(v) {
-                if (v) count++
-            })
-            var rate = (count/vals.length);
-        }
-        return getRate(rate)
-    }
-    function getRateColor(r) {
-        var h, s = 1, l = 0.5;
-        var tr = r.rate.val;
-        h = (100 * tr)/360;
-        //console.log(tr, h , s ,l)
-       if (isNaN(tr)) return '#fff'
-       var rgb = Common.hslToRgb(h,s,l);
-       return 'rgb({0},{1}, {2})'.format(rgb[0], rgb[1], rgb[2]) ;
 
-    }
-    function  getCenter(p) {
-       var pb = p.geometry.getPixelGeometry().getBounds();
-       var pixelCenter = [pb[0][0] + (pb[1][0] - pb[0][0]) / 2, (pb[1][1] - pb[0][1]) / 2 + pb[0][1]];
-       var geoCenter = map.options.get('projection').fromGlobalPixels(pixelCenter, map.getZoom());
-       return geoCenter;
-    }
-    pregion.prototype = {
-        calcRate : function() {
-            var r = this;
-            r.rate1 =  calcRate(ank1.values[r.region.number]);
-            r.rate2 = calcRate(ank2.values[r.region.number]);
-            r.rate = getRate(r.rate1.val*0.5 +  r.rate2.val*0.5)
-            r.color = getRateColor(r)
-        },
-        select : function(ank) {
-             Core.trigger('region.select', {region : this, ank : ank})
-             if (this.place)  this.place.balloon.open();
-             if (this.pol) this.pol.options.set('fillOpacity',  0.8);
-             if (map) map.setCenter(getCenter(this.pol))
-             if (selected && selected.pol)
-                selected.pol.options.set('fillOpacity',  0.3);
-             selected = this;
-        },
-        render : function(ank) {
-            Core.trigger('region.select', {region : this, ank : ank})
-        },
-        name : function() { return this.region.name}
-    }
 
-})()
 
-        // regions.forEach(function(r) {
-        //     sectors.forEach(function(s) {
-        //         if (!s.coords) return
-        //         var contains = r.pol.geometry.contains(s.coords)
-        //         if (contains) {
-        //             s.regionId = r.region.number;
-        //         }
-        //     })
-
-        // })
-        // console.log(JSON.stringify(sectors) )
-        //addSectors();
+   

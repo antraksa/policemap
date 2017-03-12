@@ -154,6 +154,7 @@
 				$this.trigger('change', [{ 
 					label : $row.text(),
 					$row : $row,
+					data : data
 					//item : data[$row.index()]
 				}] )
 				clearTimeout(ptimeout)

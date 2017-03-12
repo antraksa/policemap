@@ -1,0 +1,148 @@
+<!DOCTYPE html> 
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1">
+<meta charset="utf-8">
+
+<link href="css/reset.css" rel="stylesheet" media="screen">
+<link href="css/style.css" rel="stylesheet" media="screen">
+<link href="css/police.css" rel="stylesheet" media="screen">
+
+<script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
+<script src="js/libs/jquery-2.1.3.min.js"></script>
+<script src="js/libs/mustache.js"></script>
+
+<script src="js/common/controls.js"></script>
+<script src="js/common/common.js"></script>
+<script src="js/common/core.js"></script>
+<script src="js/api.js"></script>
+<script src="js/police.js?1"></script>
+<script src="js/details.js"></script>
+<script src="js/history.js"></script>
+
+
+<body class="bgc">
+	<div class="all ">
+
+		<div class="pane toolbar"> 	
+			<a class="pane-toggle"> 
+				<i class="toggle-btn icon-angle-left"></i> 
+				<i class="toggle-btn icon-search"> </i> 
+			</a> 
+			<div class="pane-cont">
+				<div class="search">
+					<input type="text" id="txt-search" class="txt-search" placeholder="Поиск" name="">
+					<i class="icon-search" id="btn-search"> </i>
+				</div>
+				<ul id="search-popup" class="popup  recent collapsed template">
+					{{#.}}
+					<li>{{{name}}}</li>
+					{{/.}}
+				</ul>
+				<script data-template="autocomplete" type="text/template">
+					{{#.}}
+					<li>{{{name}}}</li>
+					{{/.}}
+				</script>	
+				<h3 class="search-toggle"> Слои</h3>
+				<ul id="layers" class="checkbox-list">
+				
+				</ul>
+				<script data-template="layers" type="text/template">
+					{{#.}}
+					<li title="{{desc}}" class="{{#checked}} checked {{/checked}}"><i class="icon-check"></i> {{name}}</li>
+					{{/.}}
+				</script> 
+				<nav id="dash-toggle" class="dash-toggle">
+					<a class="selected">Отделения</a>
+					<a>История</a>
+				</nav>
+				<div  class="dash-content">
+					<ul id="regions-list" class="main-list dash-panel faded shown"></ul>
+					<ul id="history-list" class="history-list dash-panel faded"></ul>
+				</div>
+					<script data-template="history" type="text/template">
+					{{#.}}
+					<li class="item"> 
+						<a class="icon-undo undo">  </a>
+						<a class="icon-redo redo">  </a>
+						<h5 class="name overflow"> {{ name }}</h5> 
+						<h4 class="date"> <i class="icon-clock"></i> {{fdate}} </h4> 
+						<div class="title">{{title}}</div>
+					</li>
+					{{/.}}
+					</script>
+					<script data-template="regionsList" type="text/template">
+						{{#.}}
+						<li class="item " > 
+							<b class="rate rated{{rate.formatted}}" title="{{rate.val}}"> {{rate.formatted}}</b> 
+							<u title="{{region.name}}" class="overflow"> {{region.name}}</u> 
+						</li>
+						{{/.}}
+					</script>
+			</div>
+		</div>
+		<div class="pane details"> 
+			<a class="pane-toggle">  
+				<i class="toggle-btn icon-angle-left"></i> 
+				<i class="toggle-btn icon-th-list "> </i> 
+				<b id="lb-details">  </b>
+			</a> 
+
+			<div id="details" class="pane-cont template">
+
+			</div>
+			<script data-template="region" type="text/template">
+				<div class="details-tools tools">
+					<button class="btn edit"> <i class="icon-pencil"></i> </button>
+					<button class="btn save"> <i class="icon-check"></i> </button>
+					<button class="btn cancel"> <i class="icon-close"></i> </button>
+					<button class="btn ank rated{{rate.formatted}}"> {{rate.formatted}} </button>
+				</div>
+				<div class="details-wrap">
+					<h1 class="name"><u class="number">{{region.number}} </u> <span class="editable">{{region.name}}</span> </h1>
+					<h2  class="addr editable">{{region.addr}}</h2>
+					<h2 class="desc editable">{{region.desc}}</h2>
+					<ul class="sectors sub-details">
+						{{#sectors}}
+						<li class="sub-item">
+							<h6 class="s-title">{{name}}</h6>
+							<h4  class="s-addr">{{addr}}</h4>
+						</li>
+						{{/sectors}}
+					</ul>
+				</div>
+			</script>
+
+			<script data-template="sector" type="text/template">
+				<div class="img" style="background-image: url('{{photo}}') "></div>
+				<div class="details-wrap">
+					<h1 class="name">{{name}} </h1>
+					<h2  class="addr editable">{{addr}}</h2>
+					<h3  class="tel"> <i class="icon-phone"></i> {{tel}}</h3>
+					<a class="back"> <i class=" icon-angle-left"></i> {{region.region.name}}</a>
+				</div>
+
+			</script>
+		</div> 
+		<div class="pane results "  >
+			<div id="map" class="map"></div>
+			<div id="anketa" class="anketa faded edit-mode"> 
+				<div id="ank1" class="ank-temp"></div>
+				<div id="ank2" class="ank-temp"></div>
+				<div class="tools ">
+					<button class="btn cancel"> <i class="icon-close"></i> </button> 
+				</div>
+			</div>
+			<script data-template="anketa" type="text/template">
+				<ul>
+					{{#.}}
+					<li title="{{title}} " class="item overflow {{state}}"> <b > <i class=" icon-check"></i> </b>  {{title}} </li>
+					{{/.}}
+				</ul>
+				<button class="btn save"> <i class="icon-check"></i> Сохранить </button>
+			</script> 
+			
+
+		</div>
+	</div>
+
+</body>

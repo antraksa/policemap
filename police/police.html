@@ -14,7 +14,9 @@
 <script src="js/common/common.js"></script>
 <script src="js/common/core.js"></script>
 <script src="js/api.js"></script>
-<script src="js/police.js?1"></script>
+<script src="js/police.js"></script>
+<script src="js/wrappers.js"></script>
+<script src="js/anketa.js"></script>
 <script src="js/details.js"></script>
 <script src="js/history.js"></script>
 
@@ -29,7 +31,7 @@
 			</a> 
 			<div class="pane-cont">
 				<div class="search">
-					<input type="text" id="txt-search" class="txt-search" placeholder="Поиск" name="">
+					<input type="text" id="txt-search" class="txt-search" placeholder="Адрес, Номер отдела или ФИО " name="">
 					<i class="icon-search" id="btn-search"> </i>
 				</div>
 				<div id="search-popup" class="popup  autocomplete collapsed ">
@@ -41,60 +43,72 @@
 						<h3> {{title }}</h3>
 						<ul>
 							{{#data}}
-							<li class="">{{{name}}}</li>
+							<li class="capitalize " data-dsindex = "{{dsindex}}" title="{{name}}">{{name}}</li>
 							{{/data}}
 						</ul>
 						{{/data.length}}
 					{{/.}}
 				</script>	
 				<h3 class="search-toggle"> Слои</h3>
-				<ul id="layers" class="checkbox-list">
-				
-				</ul>
+				<nav id="dash-toggle" class="dash-toggle">
+					<a>Слои</a>
+					<a class="selected">Отделения</a>
+					<a>	Изменения </a>
+					<button id="btn-save-server" class="btn btn-save"> <i class="icon-cloud-upload"></i></button>
+					<!-- <button id="btn-switch-view" class="btn btn-switch"> </button> -->
+				</nav>
+				<div  class="dash-content">
+					<ul id="layers" class=" dash-panel checkbox-list"> </ul> 
+					<ul id="departments-list" class="dash-panel main-list shown"></ul>
+					<ul id="history-list" class="history-list dash-panel"></ul>
+				</div>
 				<script data-template="layers" type="text/template">
 					{{#.}}
 					<li title="{{desc}}" class="{{#checked}} checked {{/checked}}"><i class="icon-check"></i> {{name}}</li>
 					{{/.}}
 				</script> 
-				<nav id="dash-toggle" class="dash-toggle">
-					<a class="selected">Отделения</a>
-					<a>История</a>
-				</nav>
-				<div  class="dash-content">
-					<ul id="regions-list" class="main-list dash-panel faded shown"></ul>
-					<ul id="history-list" class="history-list dash-panel faded"></ul>
-				</div>
-					<script data-template="history" type="text/template">
+				<script data-template="history" type="text/template">
+				{{#.}}
+				<li class="item"> 
+					<a class="icon-undo undo">  </a>
+					<a class="icon-redo redo">  </a>
+					<h5 class="name overflow"> {{ name }}</h5> 
+					<h4 class="date"> <i class="icon-clock"></i> {{fdate}} </h4> 
+					<div class="title">{{title}}</div>
+				</li>
+				{{/.}}
+				</script>
+				<script data-template="departmensList" type="text/template">
 					{{#.}}
-					<li class="item"> 
-						<a class="icon-undo undo">  </a>
-						<a class="icon-redo redo">  </a>
-						<h5 class="name overflow"> {{ name }}</h5> 
-						<h4 class="date"> <i class="icon-clock"></i> {{fdate}} </h4> 
-						<div class="title">{{title}}</div>
-					</li>
-					{{/.}}
-					</script>
-					<script data-template="regionsList" type="text/template">
-						{{#.}}
-						<li class="item " > 
+						<li class="head-item"> {{department.name}}</li>
+						{{#regions}}
+						<li class="item " data-id = "{{region.number}}" > 
 							<b class="rate rated{{rate.formatted}}" title="{{rate.val}}"> {{rate.formatted}}</b> 
 							<u title="{{region.name}}" class="overflow"> {{region.name}}</u> 
 						</li>
-						{{/.}}
-					</script>
+						{{/regions}}
+					{{/.}}
+				</script>
 			</div>
 		</div>
 		<div class="pane details"> 
-			<a class="pane-toggle">  
+			<!-- <a class="pane-toggle">  
 				<i class="toggle-btn icon-angle-right"></i> 
 				<i class="toggle-btn icon-th-list "> </i> 
 				<b id="lb-details">  </b>
-			</a> 
-
+			</a> --> 
+			<nav id="details-toggle" class="details-toggle pane-toggle">
+				<a class="t-area">ОУМВД</a>
+				<a class="selected t-region">ОП</a>
+				<a class="t-sector">Участковый</a>
+			</nav>
+			
 			<div id="details" class="pane-cont template">
-
+				<div id="department-details" class="sub-panel faded"></div>
+				<div id="region-details" class="sub-panel faded shown"></div>
+				<div id="sector-details" class="sub-panel faded"></div>
 			</div>
+
 			<script data-template="region" type="text/template">
 				<div class="details-tools tools">
 					<button class="btn edit"> <i class="icon-pencil"></i> </button>
@@ -103,30 +117,78 @@
 					<button class="btn ank rated{{rate.formatted}}"> {{rate.formatted}} </button>
 				</div>
 				<div class="details-wrap">
-					<h1 class="name"><u class="number">{{region.number}} </u> <span class="editable">{{region.name}}</span> </h1>
-					<h3  class="area">{{area.name}}</h3>
-					<h2  class="addr editable">{{region.raddr}}</h2>
-					<h2 class="desc editable">{{region.desc}}</h2>
-					<ul class="sectors sub-details">
-						{{#sectors}}
-						<li class="sub-item">
-							<h6 class="s-title">{{name}}</h6>
-							<h4  class="s-val">{{addr}}</h4>
-						</li>
-						{{/sectors}}
-					</ul>
+					<h1 class="name">
+						<q  class="area">{{region.area}}</q> 
+						<u class="number">{{region.number}} </u> 
+						<span class="editable">{{region.name}}</span> 
+						<span  class="addr editable">{{region.addr}}</span>
+					</h1>
+					<div class="contacts">
+						<a class="hot-line" href="https://78.xn--b1aew.xn--p1ai/request_main" target="_blank"> Горячая Линия</a>
+						<div  class="tel "> <i class="icon-phone"></i> {{#region.tel}} <u>{{.}}</u> {{/region.tel}}</div>
+					</div>
+
+					{{#region.person}}
+					<h6 class="sub-header">Начальник </h6>
+					<div class="sub-details">
+						<h1 class="name"> {{name}} </h1>	
+						<h2 class="rank"> {{rank}} </h2>
+						<h3  class="tel"> <i class="icon-phone"></i> {{tel}}</h3>
+						<div class="desc">{{time}}</div>
+					</div>
+					{{/region.person}}
+
+					{{#region.press.length}}
+					<div class="sectors sub-list" >
+						<h6 class="sub-header">Новости </h6>
+						{{#region.press}}
+						<a class="sub-item" target="_blank" href="{{1}}" >
+							<span class="s-title">{{0}}</span>
+							<!-- <span  class="s-val">{{1}}</span> -->
+						</a>
+						{{/region.press}}
+					</div>
+					{{/region.press.length}}
+				</div>
+			</script>
+
+			<script data-template="department" type="text/template">
+				<div class="details-wrap">
+					{{#department}}
+					<h1 class="name">
+						<u class="number">{{number}} </u> 
+						<span class="editable">{{name}}</span> 
+						<span  class="addr editable">{{addr}}</span>
+					</h1>
+					<div class="contacts">
+						<div  class="tel"> <i class="icon-phone"></i> {{#tel}} <u>{{.}}</u> {{/tel}}</div>
+						<a href="mailto:{{email}}"  class="tel"> <i class="icon-email"></i> {{email}}</a>
+					</div>
+
+					{{#person}}
+					<h6 class="sub-header">Начальник </h6>
+					<div class="sub-details">
+						<h1 class="name"> {{name}} </h1>	
+						<h3  class="tel"> <i class="icon-phone"></i> {{tel}}</h3>
+					</div>
+					{{/person}}
+
+					{{/department}}
 				</div>
 			</script>
 
 			<script data-template="sector" type="text/template">
 				<div class="details-wrap">
+					{{#sector}}
 					<div class="img" style="background-image: url('{{photo}}') "></div>
-					<h1 class="name">{{name}} </h1>
+					<h1 class="name capitalize-all">{{name}} </h1>
 					<h2 class="rank"> {{rank}} </h2>
-					<h2  class="addr">{{raddr}}</h2>
-					<h3  class="tel"> <i class="icon-phone"></i> {{tel}}</h3>
+					<div  class="addr">{{raddr}}</div>
+					<div class="contacts">
+						<div  class="tel"> <i class="icon-phone"></i> {{tel}}</div>
+						
+					</div>
 					<div class="clear"></div>
-					<a class="back"> <i class=" icon-angle-left"></i> {{region.region.name}}</a>
 					<ul class="streets ">
 						{{#streets}}
 						<li class="street ">
@@ -139,12 +201,15 @@
 						</li>
 						{{/streets}}
 					</ul>
+					{{/sector}}
 				</div>
-
-			</script>
+		</script>
 		</div> 
-		<div class="pane results "  >
+		<div class="pane results "  id="pane-results" >
 			<div id="map" class="map"></div>
+			<div class="map-tools">
+				<a id="btn-locate" class="locate icon-location"></a>
+			</div>
 			<div id="anketa" class="anketa faded edit-mode"> 
 				<div class="ank-toggle">
 					<a class="selected">Анкета 1</a>
@@ -168,6 +233,7 @@
 			
 
 		</div>
+		<div id="mess" class="mess faded"></div>
 	</div>
 
 </body>

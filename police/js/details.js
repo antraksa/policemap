@@ -1,128 +1,77 @@
 $(function() {
 
-	var regions, sectors, templates, map, ank1, ank2, areas;
+	var regions, sectors, templates, map,  areas;
 	Core.on('init', function(args) {
 		templates = args.templates;
 		areas = args.areas;
 		sectors = args.sectors;
 		map = args.map;
-		ank1 = args.ank1;
-		ank2 = args.ank2;
 		console.log('init', args)
 	})
-	var $details = $('#details'), $anketa = $('#anketa');
+
+	var $details = $('#details');
+
+	var $ddetails = $('#department-details');
+	Core.on('department.select', function(args) {
+		renderDepartment(args.department)
+		$dtoggle.eq(0).trigger('click')
+	})
+	function renderDepartment(department) {
+		$ddetails.html(Mustache.render(templates.department, department))
+	}
+
+	var $rdetails = $('#region-details');
 	Core.on('region.select', function(args) {
-		$('#lb-details').text('Отделение милиции')
-		var region = args.region, rdata = region.region;
-
-		if (!region.area &&  region.pol && rdata.point) {
-			areas.forEach(function(a) {
-				if (a.pol && a.pol.geometry.contains(rdata.point.coords)) {
-					region.area = a;
-					console.log(rdata.point.coords)
-				}
-			})
-
-		}
-		if (!region.sectors && region.pol) {
-			region.sectors = []
-			sectors.forEach(function(s) {
-				if (!s.coords) return
-				var contains = region.pol.geometry.contains(s.coords)
-				if (contains) {
-				 	region.sectors.push(s);
-					s.region = region;
-				}
-			})
-		}
-		$details.html(Mustache.render(templates.region, region))
-		.find('.sub-item').on('click', dataHandler(region.sectors, function(e, sector) {
-			//console.log('navigate sector', sector)
-			sector.place.balloon.open();
-			sector.select()
-			
-		}))
-		$details.find('.edit').on('click', function() {
-			if (region.pol) {
-				region.pol.editor.startDrawing();
-			}
-			$details.addClass('edit-mode')
-			.find('.editable').attr('contentEditable', true)
+		 renderRegion(args.region);
+		 $dtoggle.eq(1).trigger('click')
+   	})
+   	function renderRegion(region) {
+   		var rdata = region.region;
+		$rdetails.html(Mustache.render(templates.region, region))
+		$rdetails.find('.edit').on('click', function() {
+			edit(region, true)
 		})
-		$details.find('.save').on('click', function() {
-			var pol = region.pol;
-			if (pol) {
-				var coords = pol.geometry.getBounds();
-				//console.log(coords, sector.coords)
-				pol.editor.stopDrawing();
-			}
-			$details.removeClass('edit-mode')
+		$rdetails.find('.save').on('click', function() {
+			edit(region, false)			
 			Core.trigger('mess', {mess : 'Отделение сохранено'})
 		})
-		$details.find('.cancel').on('click', function() {
-			if (region.pol) {
-				region.pol.editor.stopDrawing();
-			}
-			$details.removeClass('edit-mode')
+		$rdetails.find('.cancel').on('click', function() {
+			edit(region, false)
 		})
-		$details.find('.ank').on('click', function() {renderAnketa(region) }) 
-
-		console.log('select region', region, args.ank)
-		if (args.ank) {
-			renderAnketa(region)
-		} else {
-			$anketa.removeClass('shown')
-		}
-   	})
-
-   	function renderAnketa(r) {
-		$anketa.addClass('shown')
-		var render  = function(ankId, ank) {
-			var $ank = $('#' + ankId);
-			var num = r.region.number;
-   			var vals = ank.values[num];
-   			var ankData = ank.fields.map(function(fi, i) { 
-	   			var state = vals ? (vals[i] ? 'checked' : '') : 'empty';
-				return {title : fi.title, weight : fi.weight, state : state}
-			})
-			console.log(ank, ankData)
-			$ank.html(Mustache.render(templates.anketa, ankData)).find('b').on('click', function() {
-				var $item = $(this).parent();
-				$item.removeClass('empty').toggleClass('checked');
-				$ank.addClass('changed')
-			})
-			$ank.find('.save').on('click', function() {
-				var oldVals = (vals)? Common.clone(vals) : null;
-   				if (!vals) ank.values[num] = vals = []; 
-				//console.log(vals[0])
-				$ank.find('.item').each(function() {
-					vals[$(this).index()] = $(this).hasClass('checked')
-				})
-				Core.trigger('region.updated', {region : r})
-				Core.trigger('mess', {mess : 'Анкета сохранена'})
-				Core.trigger('history.push', {type : ankId, id : num, name : r.region.name,  old : oldVals, val :  vals, title : '{0} изменена'.format(ankId)})
-				$ank.removeClass('changed')
-				//$anketa.removeClass('shown')
-			})
-		}
-		render('ank1', ank1)
-		render('ank2', ank2)
-		console.log('render anketa', r)
+		$rdetails.find('.ank').on('click', function() {
+			Core.trigger('region-anketa.select', {region : region})
+		}) 
+		if (region.department)	Core.trigger('department.select', {department : region.department})
+     	console.log('select region', region)
    	}
-	$anketa.find('.cancel').on('click', function() {
-		$anketa.removeClass('shown')
-	})
+
+   	function edit(region, val) {
+   		var pol = region.pol;
+   		if (!pol) return;
+   		if (val) {
+   			pol.editor.startEditing();
+			$rdetails.find('.editable').attr('contentEditable', true)
+   		} else {
+   			var coords = pol.geometry.getBounds();
+			pol.editor.stopEditing();
+			region.draw();
+   		}
+			
+		$rdetails.toggleClass('edit-mode', val)
+   	}
+
+   	var $sdetails = $('#sector-details');
    	Core.on('sector.select', function(args) {
-		$('#lb-details').text('Участковый')
-    	var sector = args.sector;
-   		console.log('sector', sector)
-		$details.html(Mustache.render(templates.sector, sector))
-		$details.find('.back').on('click', function() {
-			console.log('sector back', sector)
-			sector.region.select();
-		})
+		var sector = args.sector;
+   		$sdetails.html(Mustache.render(templates.sector, sector))
+   		$dtoggle.eq(2).trigger('click')
 		console.log('select sector', sector)
    	})
+
+   	var $dtoggle = $('#details-toggle a').on('click', function() {
+        $(this).addClass('selected').siblings().removeClass('selected');
+        $details.children().eq($(this).index()).addClass('shown').siblings().removeClass('shown')
+    })
    	function dataHandler(data, handler) {
    		return function(e) {
    			console.log(this, $(this).index())
