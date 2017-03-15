@@ -8,9 +8,8 @@ var API = (function(){
 			 	$.getJSON("data/resolved/regions.json"), 
 			 	$.getJSON( "data/resolved/areas.json"), 
 			 	$.getJSON("data/resolved/sectors.json" ),
-			 	$.getJSON('data/resolved/ank1.json' ), 
-			 	$.getJSON('data/resolved/ank2.json' ) 
-			 ).done(function(deps, regions, areas, sectors, ank1, ank2) {
+			 	$.getJSON('data/resolved/anketa.json' )
+			 ).done(function(deps, regions, areas, sectors, anketa) {
 
 			 	regions[0].sort(function(a, b) { return a.number - b.number})
 			 	var _regs = {}
@@ -55,16 +54,17 @@ var API = (function(){
 		            })
 		        }
 
-				success({regions : regions, sectors : sectors, departments : deps, regionsDict: _regs, areas : areas[0], ank1 : ank1[0], ank2 : ank2[0], streets : strarr} )
+				success({regions : regions, sectors : sectors, departments : deps, regionsDict: _regs, areas : areas[0], anketa : anketa[0], streets : strarr} )
 	    	})
 		},
-		save : function(key, data, success) {
+		save : function(key, data, success, fail) {
 			$.post("php/put.php", { key : key, data : JSON.stringify(data)}, function(res) {
 				if (!res.trim()) {
 					success()
 					console.log('put success ', key, data, res)
 				} else {
 					console.warn('put fail ', key, data, res)
+					if (fail) fail()
 				}
 			})
 		},

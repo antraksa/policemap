@@ -6,7 +6,7 @@
 <link href="css/style.css" rel="stylesheet" media="screen">
 <link href="css/police.css" rel="stylesheet" media="screen">
 
-<script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
+<!-- <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script> -->
 <script src="js/libs/jquery-2.1.3.min.js"></script>
 <script src="js/libs/mustache.js"></script>
 
@@ -92,11 +92,7 @@
 			</div>
 		</div>
 		<div class="pane details"> 
-			<!-- <a class="pane-toggle">  
-				<i class="toggle-btn icon-angle-right"></i> 
-				<i class="toggle-btn icon-th-list "> </i> 
-				<b id="lb-details">  </b>
-			</a> --> 
+			
 			<nav id="details-toggle" class="details-toggle pane-toggle">
 				<a class="t-area">ОУМВД</a>
 				<a class="selected t-region">ОП</a>
@@ -104,16 +100,16 @@
 			</nav>
 			
 			<div id="details" class="pane-cont template">
-				<div id="department-details" class="sub-panel faded"></div>
-				<div id="region-details" class="sub-panel faded shown"></div>
-				<div id="sector-details" class="sub-panel faded"></div>
+				<div id="department-details" class="sub-panel "></div>
+				<div id="region-details" class="sub-panel  shown"></div>
+				<div id="sector-details" class="sub-panel "></div>
 			</div>
 
 			<script data-template="region" type="text/template">
 				<div class="details-tools tools">
-					<button class="btn edit"> <i class="icon-pencil"></i> </button>
-					<button class="btn save"> <i class="icon-check"></i> </button>
-					<button class="btn cancel"> <i class="icon-close"></i> </button>
+					<button class="btn btn-edit"> <i class="icon-pencil"></i> </button>
+					<button class="btn btn-save"> <i class="icon-check"></i> </button>
+					<button class="btn btn-cancel"> <i class="icon-close"></i> </button>
 					<button class="btn ank rated{{rate.formatted}}"> {{rate.formatted}} </button>
 				</div>
 				<div class="details-wrap">
@@ -209,29 +205,48 @@
 			<div id="map" class="map"></div>
 			<div class="map-tools">
 				<a id="btn-locate" class="locate icon-location"></a>
+				<a id="btn-city-toggle" class="city-toggle" > </a>
+				<ul id="city-popup" class="popup city-popup"> </ul> 
+				<script data-template="cities" type="text/template">
+					{{#.}} <li> {{name}} </li> {{/.}} 
+				</script>
 			</div>
-			<div id="anketa" class="anketa faded edit-mode"> 
-				<div class="ank-toggle">
-					<a class="selected">Анкета 1</a>
-					<a>Анкета 2</a>
+			<div id="anketa" class="anketa faded"> 
+				<div class="ank-tools ">
+					<button id="btn-anketa-save" class="btn btn-save"> <i class="icon-check"></i> Сохранить </button>
+					<button class="btn btn-edit" id="btn-anketa-edit"> Редактировать вопросы </button>		
+					<button class="btn btn-cancel" id="btn-anketa-cancel"> Отменить </button>		
+					<a class="btn-close" id="btn-anketa-close"> <i class="icon-close"></i> </a> 
 				</div>
-				<div id="ank1" class="ank-temp ank-panel faded shown"></div>
-				<div id="ank2" class="ank-temp ank-panel faded"></div>
-				
-				<div class="tools ">
-					<button class="btn cancel"> <i class="icon-close"></i> </button> 
+				<div class="new-template" id="new-question">
+					<button class="btn btn-add" id="btn-anketa-add"> <i class="icon-plus"></i> Добавить вопрос </button>
+					<input type="text" placeholder="Вес (1-5)" name="weight" class="weight">
+					<input type="text" placeholder="Категория"  name="category" class="cat">
+					<input type="text" placeholder="Текст вопроса" id="new-question-title" name="title" class="title"> 
 				</div>
+				<div id="ank-temp" class="ank-temp"></div>
+
 			</div>
 			<script data-template="anketa" type="text/template">
-				<ul>
-					{{#.}}
-					<li title="{{title}} " class="item overflow {{state}}"> <b > <i class=" icon-check"></i> </b> <u class="weight rated{{weight}}">{{weight}}</u> {{title}} </li>
-					{{/.}}
-				</ul>
-				<button class="btn save"> <i class="icon-check"></i> Сохранить </button>
+				<div>
+					<h1 class="subject-title">{{ subject.region.name }}  <b>Рейтинг: {{subject.rate.formatted}}</b>	</h1>
+					{{#categories}}
+					<h3 class="category"> {{category}} ({{data.length}})</h3>
+					<ul class="list">
+						{{#data}}
+						<li title="{{title}} " class="item  {{state}} {{#hidden}} hidden {{/hidden}}" data-index="{{index}}"> <b > <i class=" icon-check check"></i> </b> 
+							<a class=" btn-remove">
+								<i class="icon-close"></i>
+								<i class="icon-plus"></i>
+							</a>
+							<div class="editable weight rated{{weight}}">{{weight}}</div> 
+							<span class="overflow editable title">{{title}}</span> 
+						</li>
+						{{/data}}
+					</ul>
+					{{/categories}}
+				</div>
 			</script> 
-			
-
 		</div>
 		<div id="mess" class="mess faded"></div>
 	</div>

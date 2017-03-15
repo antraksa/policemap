@@ -1,12 +1,17 @@
 'use strict';
 $(function() {
-	var map, city = 'Санкт-Петербург';
+	var map, city = 'Санкт-Петербург'; 
+    var cities = [ 
+        {name : 'Санкт-Петербург', coords : [59.939440, 30.302135] }, 
+        {name : 'Москва', coords : [55.725045, 37.646961] }, 
+        {name : 'Воронеж', coords : [51.694273 , 39.335955] }, 
+    ];
     var regions, sectors, areas, templates = Common.getTemplates(), initArgs, streets, departments, regionsDict; 
     var mapobjects = {}
     var getMapObjects  = function() { return mapobjects[this.id]} 
 	var layers = [
         {id : 'areas',  name : 'Муниципальные округа',  map :  getMapObjects, checked : false}, 
-		{id : 'departments',  name : 'ОУМВД',  map :  getMapObjects, checked : false}, 
+		{id : 'departments',  name : 'ОУМВД',  map :  getMapObjects, checked : true}, 
         {id : 'regions',  name : 'ОП',  map :  getMapObjects, checked : true}, 
 		// {id : 'regionPoints',  name : 'Адреса отделений',  map :  getMapObjects, checked : true}, 
 		{id : 'sectors', name : 'Участковые ', map : getMapObjects, checked : false} 
@@ -20,13 +25,21 @@ $(function() {
 			m.forEach(function(o) { o.options.set('visible', layer.checked) }) 
 		}   	
 	})
-    $('.search-toggle .toggle-btn').on('click', function() {
-		$(this).parent().toggleClass('collapsed');
-	})
-	$('.pane-toggle .toggle-btn').on('click', function() {
-		$(this).parent().parent().toggleClass('collapsed');
-		setTimeout(function() { if (map) map.container.fitToViewport() }, 500) 
-	})
+ //    $('.search-toggle .toggle-btn').on('click', function() {
+	// 	$(this).parent().toggleClass('collapsed');
+	// })
+	// $('.pane-toggle .toggle-btn').on('click', function() {
+	// 	$(this).parent().parent().toggleClass('collapsed');
+	// 	setTimeout(function() { if (map) map.container.fitToViewport() }, 500) 
+	// })
+
+    $('#city-popup').html(Mustache.render(templates.cities, cities)).find('li').on('click', function() {
+        var c = cities[$(this).index()]
+        $('#btn-city-toggle').html(c.name)
+        if (map) map.setCenter(c.coords)
+    }).eq(0).trigger('click')
+    $('#btn-city-toggle').popup({hideOnClick : true})
+
     var $dashPanels = $('.dash-content').children();
     $('.dash-toggle a').on('click', function() {
         $(this).addClass('selected').siblings().removeClass('selected');
@@ -87,7 +100,10 @@ $(function() {
         })
         $deps.find('.item').on('click', function() {
             var r = regionsDict[$(this).attr('data-id')];
-            r.select(!!$rate)
+            r.select()
+            if ($rate) {
+                Core.trigger('region-anketa.select', {region : r})
+            }
             $rate = null;
         }).find('b').on('click', function() {$rate = $(this); }) 
     }
@@ -113,8 +129,13 @@ $(function() {
     var selected;
     Core.on('region.updated', function(args) {
         console.log('region.updated', args)
-        updateRegion(args.region, !!args.ank) 
+        updateRegion(args.region) 
+        renderRegions()
+    })
+    Core.on('history.changed', function(args) {
+        renderRegions()
     }) 
+
 
     function updateRegion(reg) {
         regions.forEach(function(r) {r.calcRate() })
@@ -137,10 +158,13 @@ $(function() {
     function addObjects(oname) {
         mapobjects[oname] = []
         initArgs[oname].forEach(function(o, i) {
-            var mo = o.draw();
-            if (!mo) return
-            map.geoObjects.add(mo);
-            mapobjects[oname].push(mo)
+            var mos = o.draw();
+            if (!mos) return
+            mos.forEach(function(mo) {
+                if (!mo) return
+                map.geoObjects.add(mo);
+                mapobjects[oname].push(mo)
+            })
         })  
     }
 
@@ -198,7 +222,15 @@ $(function() {
             })
         })
     //})
+    var cp;
     function resolvePoint(p) {
+        if (cp) {
+            map.geoObjects.remove(cp);
+        }
+        cp = new ymaps.Placemark(p, {  preset: 'islands#circleIcon', iconColor: 'black'});
+        map.geoObjects.add(cp);
+        console.log('cp', p)
+
         API.resolvePoint(city, p, function(addr) {
             if (!addr[0]) return;
             var pq = parseQuery(addr[0].name);
@@ -208,6 +240,7 @@ $(function() {
             if (strres[0])
                 strres[0].item.sector.render()
         })
+
     }
 
     function search(arr, ws, fname) {
@@ -258,7 +291,7 @@ $(function() {
     }
     var mtimeout, $mess = $('#mess');
     Core.on('mess', function(args) {
-        $mess.html(args.mess).addClass('shown').toggleClass('warn', args.warn);
+        $mess.html(args.mess).addClass('shown').toggleClass('warn', !!args.warn).toggleClass('error', !!args.error);
         clearTimeout(mtimeout)
         mtimeout = setTimeout(function() { $mess.removeClass('shown')}, 3000)
     })

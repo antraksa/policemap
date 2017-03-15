@@ -1,7 +1,7 @@
 'use strict';
 $(function() {
 	//Storage.set('police.history', null)
-	var regions, _regions = {}, ank1, ank2, templates, targets;
+	var regions, _regions = {}, anketa, templates, targets;
 
 	Core.on('init', function(args) {
 
@@ -9,10 +9,12 @@ $(function() {
 		regions.forEach(function(r) {
 			_regions[r.region.number] = r;
 		})
-		ank1 = args.ank1;
-		ank2 = args.ank2;
+		anketa = args.anketa;
 		templates = args.templates;
-		targets = {ank1 : {tar : ank1, vals :  ank1.values}, ank2 : {tar : ank2, vals : ank2.values } }
+		targets = {
+			anketa : {tar : anketa, setVal : function(id, val) { anketa.values[id] = val; }  }, 
+			anketaFields : {tar : anketa,  setVal : function(id, val) { anketa.fields = val; } }
+		}  
 		render()
 		restore();
 		//console.log(_regions)
@@ -44,9 +46,10 @@ $(function() {
 					$items.eq(i).addClass('undone')
 				}
 				if (changed) {
-					Core.trigger('region.updated', {})
+					Core.trigger('history.changed', {})
 					uindex = ind;
 				}
+				console.log('uindex', uindex)
 				
 			})
 			$item.find('.redo').on('click', function() {
@@ -54,14 +57,15 @@ $(function() {
 				for (var i = uindex; i <= ind; i++ ) {
 					changed =true;
 					var a = actions[i]
-					console.log('redo', i, a)
+					//console.log('redo', i, a)
 					setAction(a, a.val)
 					$items.eq(i).removeClass('undone')
 				}
 				if (changed) {
-					Core.trigger('region.updated', {})
+					Core.trigger('history.changed', {})
 					uindex = ind;
 				}
+				console.log('uindex', uindex)
 				
 			})
 			
@@ -72,34 +76,59 @@ $(function() {
 	}
 	function setAction(a, val) {
 		var tar = targets[a.type];
-		tar.vals[a.id] = val;
+		tar.setVal(a.id, val);
 		return { tar : tar, region : _regions[a.id], ank : a.type  };
+		
 	}
 	Core.on('history.push', function(action) {
+		if (uindex >=0) {
+			actions = actions.slice(0, uindex)	
+			uindex = null;
+		}
 		action.date = +new Date();
 		actions.push(action)
 		Storage.set('police.history', actions)
 		console.log('history', action)
 		render()
+		return
+		window.onbeforeunload = function(evt) { 
+			var message = 'Изменения не сохранены на сервере! Продолжить?' ;
+			if (typeof evt == "undefined") {
+				evt = window.event;
+			}
+			if (evt) {
+				evt.returnValue = message;
+			}
+			return message
+		}
 	})
 	$('#btn-save-server').on('click', function() {
+		console.log('upload changes', actions)
 		var calls = 0;
-		for (var key in targets) {
+		// for (var key in targets) {
 
-			var t = targets[key]
-			//if (t.changed) {
-				calls++;
-				API.save(key, t.tar ,function() {
-					calls--;
-					if (calls==0) {
-						actions = [] 
-						Storage.set('police.history', actions)
-						render() 
-						Core.trigger('mess', {mess : 'Анкета сохранена'})
-					}
-				})
-			//}
-		}
+		// 	var t = targets[key]
+		// 	//if (t.changed) {
+		// 		calls++;
+		// 		API.save(key, t.tar ,function() {
+		// 			calls--;
+		// 			if (calls==0) {
+		// 				actions = [] 
+		// 				Storage.set('police.history', actions)
+		// 				render() 
+		// 				Core.trigger('mess', {mess : 'Изменения сохранены на сервере'})
+		// 				window.onbeforeunload = null;
+		// 			}
+		// 		})
+		// 	//}
+		// }
+		API.save('anketa', anketa ,function() {
+			actions = [] 
+			Storage.set('police.history', actions)
+			render() 
+			Core.trigger('mess', {mess : 'Изменения сохранены на сервере'})
+			window.onbeforeunload = null;
+		}, function() { Core.trigger('mess', {mess : 'Что-то сломалось! Изменения не сохранены на сервере', error : true}) })
 	
 	})
 

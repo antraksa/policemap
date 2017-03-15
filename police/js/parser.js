@@ -2,7 +2,7 @@
 $(function() {
 	$('#btn-ank').on('click', function() { regions() })
 	
-	regions()
+	//regions()
 	function regions(success) {
 		$.when($.getJSON("data/poligoni_rayonov.geojson"), 
 			$.getJSON( "data/tochki_otdelov.geojson"), 
@@ -81,35 +81,32 @@ $(function() {
 	    		}
 	    		
 	    		//console.log(_regions)
-	    		function parseAnk(ank) {
+	    		var anketa = { fields : [], values : {}}
+	    		function parseAnk(ank, category) {
 
 	    			var ank = parseCSV(ank);
 	    			//console.log(ank)
-	    			var values =  {};
 	    			ank.slice(1).forEach(function(v) {
 	    				var name = v[0].trim().toLowerCase();
-	    				var number = parseInt(name);
+	    				var number = parseInt(name), vals = anketa.values[number];
+	    				if (!vals) vals = []
 	    				var r = _regions[number] //regions.filter(function(r) { return r.name.indexOf(number) == 0})[0]
 	    				if (!r)  
 	    					console.warn('нет соответствия в карто',  name, number) ;
 	    				else {
-	    					values[number] =  v.slice(2).map(function(o) { return o.toLowerCase()=='да'})
-	    					r.addr = v[1];
+	    					vals =  vals.concat(v.slice(2).map(function(o) { return o.toLowerCase()=='да'}))
+		    				anketa.values[number] = vals;
 	    				}
-	    				//v[0] = r.name 
+	    				//v[0] = r.name
 	    			})
-	    			return {
-	    				fields : ank[0].slice(2).map(function(f) { return {title : f, weight : Math.round(Math.random() * 5)}}),
-	    				values : values  
-	    			}
-
+	    			var fields = ank[0].slice(2).map(function(f) { return {title : f, category : category, weight : Math.round(Math.random() * 5)}});
+	    			anketa.fields = anketa.fields.concat(fields)
 	    		}
 	    		console.log('Парсим первую анкету')
-	    		var ank1 =  parseAnk(ank1)
-	    		console.log(ank1)
+	    		parseAnk(ank1, 'информация')
 	    		console.log('Парсим вторую анкету')
-	    		var ank2 =  parseAnk(ank2)
-	    		console.log(ank2)
+	    		parseAnk(ank2, 'доступность')
+	    		console.log(anketa)
 	
 	    		for (var i = 0; i < mo.length; i++) {
 	    			var o = mo[i];
@@ -161,17 +158,15 @@ $(function() {
 	    				tel : getv(d[7]).split(',')
 	    			}
 	    			departments.push(dep)
-	    			console.log(dep)
+	    			//console.log(dep)
 	    		}
-
+	    		//return;
 	    		save('regions', regions)
 	    		save('areas', areas)
-	    		save('ank1', ank1)
-	    		save('ank2', ank2);
-	    		save('departments', departments)
+	    		save('anketa', anketa)
+	    		//save('departments', departments)
 
 	    		//download('sectors.json', pots)
-	    		//download('ank1.json', ank1)
 	    		//download('ank2.json', ank2)
 	    		//download('areas.json', areas)
 	    		//download('regions.json', regions)
@@ -179,6 +174,15 @@ $(function() {
 
 	    	})
 	}
+	$('#btn-resolve-dep').on('click', function() {
+		$.getJSON("data/resolved/departments.json".format(), function(data) {
+			resolveSectors(data, function() {
+				save('departments', data)
+			}) 
+		})
+
+	})
+
 	function save(key, data) {
 		API.save( key, data, function(res) {
 			console.info('Cохранилось', key, data)

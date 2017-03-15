@@ -1,8 +1,7 @@
 var ObjectWrapper = (function() {
-    var ank1, ank2, map, mapobjects;
+    var anketa, map, mapobjects;
     Core.on('init', function(args) {
-        ank1 = args.ank1;
-        ank2 = args.ank2;
+        anketa = args.anketa;
     })
     Core.on('map-init', function(args) {map = args.map; mapobjects = args.mapobjects }) 
 
@@ -13,11 +12,13 @@ var ObjectWrapper = (function() {
     }
     function calcRate(vals) {
         if (vals) {
-            var count = 0;
-            vals.forEach(function(v) {
-                if (v) count++
-            })
-            var rate = (count/vals.length);
+            var count = 0, all = 0;
+            anketa.fields.forEach(function(fi, i) {
+                if (fi.hidden) return;
+                if (vals[i]) count++;
+                all++;
+            }) 
+            var rate = (count/all);
         }
         return getRate(rate)
     }
@@ -72,32 +73,32 @@ var ObjectWrapper = (function() {
                     hintContent: reg.name,
                     iconContent: reg.number
                 },{//preset: 'islands#circleIcon',
-                    preset: 'islands#blackStretchyIcon',
-                    iconColor: '#f00'
+                    preset: 'islands#circleIcon',
+                    iconColor: '#00f'
                 });
                 r.place = place;
                 place.events.add('click', function() {r.select(); selected = r; }) 
             }
-            return pol
+            return [pol, place]
         },
         calcRate : function() {
             var r = this;
-            r.rate1 =  calcRate(ank1.values[r.region.number]);
-            r.rate2 = calcRate(ank2.values[r.region.number]);
-            r.rate = getRate(r.rate1.val*0.5 +  r.rate2.val*0.5)
+            r.rate =  calcRate(anketa.values[r.region.number]);
             r.color = getRateColor(r)
         },
         select : function(ank) {
              Core.trigger('region.select', {region : this, ank : ank})
              //if (this.place)  this.place.balloon.open();
              if (map) map.setCenter(getCenter(this.pol))
-             if (this.pol) {
-                this.pol.options.set('strokeWidth',  4).set('zIndex',  11).set('strokeColor',  '#444'); 
-             } 
-             if (selected && selected.pol) {
-                selected.pol.options.set('zIndex',  10).set('strokeWidth',  1).set('strokeColor',  '#777');
+             if (selected) {
+                selected.markSelected(false)
              }
-             selected = this;
+             selected = this.markSelected(true);
+        },
+        markSelected : function(val) {
+            if (this.pol)
+                this.pol.options.set('strokeWidth', val ? 4 : 1).set('zIndex', val ? 11 : 10).set('strokeColor',  val ? '#444' : '#777'); 
+            return this
         },
         render : function(ank) {
             Core.trigger('region.select', {region : this, ank : ank})
@@ -109,23 +110,27 @@ var ObjectWrapper = (function() {
         draw : function() {
             var d  = this;
             var dep = this.department;
-            if (!dep.point) return;
-            var place = new ymaps.Placemark(dep.point.coords, {
+            if (!dep.coords) return;
+            var place = new ymaps.Placemark(dep.coords, {
                 balloonContentHeader: dep.name,
                 balloonContentBody: dep.addr,
                 balloonContentFooter: dep.tel,
                 hintContent: dep.name,
             },{//preset: 'islands#circleIcon',
-                preset: 'islands#blackStretchyIcon',
-                iconColor: '#f00'
+                preset:'islands#blueHomeCircleIcon',
+                iconColor: '#00f'
             });
             d.place = place;
-            place.events.add('click', function() {d.select(); selected = r; }) 
-            return place;
+            place.events.add('click', function() {d.select(); }) 
+            return [place];
         }, select : function() {
              Core.trigger('department.select', {department : this})
              //if (this.place)  this.place.balloon.open();
              if (map) map.setCenter(getCenter(this.place))
+            this.regions.forEach(function(r) {
+                r.markSelected(true)
+            })  
+
         },
         render : function() {
             Core.trigger('department.select', {department : this})
@@ -141,16 +146,16 @@ var ObjectWrapper = (function() {
                 balloonContentBody: s.raddr,
                 balloonContentFooter: s.tel,
                 hintContent: s.name
-            }, {  preset: 'islands#circleDotIcon', iconColor: 'black'});
+            }, {  preset: 'islands#circleIcon', iconColor: 'black'});
 
             //console.log(s)
-            s.place = place;
+            this.place = place;
             place.events.add('click', s.select) 
-            return place
+            return [place]
         }, select : function() {
             var s = this;
             if (s.place)  s.place.balloon.open();
-            if (map) map.setCenter(s.coords)
+            if (map) map.setCenter(s.sector.coords)
             Core.trigger('sector.select', {sector : s})
         },
         render : function() {

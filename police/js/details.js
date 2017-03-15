@@ -28,24 +28,26 @@ $(function() {
    	function renderRegion(region) {
    		var rdata = region.region;
 		$rdetails.html(Mustache.render(templates.region, region))
-		$rdetails.find('.edit').on('click', function() {
+		$rdetails.find('.btn-edit').on('click', function() {
 			edit(region, true)
 		})
-		$rdetails.find('.save').on('click', function() {
+		$rdetails.find('.btn-save').on('click', function() {
 			edit(region, false)			
 			Core.trigger('mess', {mess : 'Отделение сохранено'})
 		})
-		$rdetails.find('.cancel').on('click', function() {
+		$rdetails.find('.btn-cancel').on('click', function() {
 			edit(region, false)
 		})
 		$rdetails.find('.ank').on('click', function() {
 			Core.trigger('region-anketa.select', {region : region})
 		}) 
+
 		if (region.department)	Core.trigger('department.select', {department : region.department})
      	console.log('select region', region)
    	}
 
    	function edit(region, val) {
+		$rdetails.toggleClass('edit-mode', val)
    		var pol = region.pol;
    		if (!pol) return;
    		if (val) {
@@ -56,8 +58,6 @@ $(function() {
 			pol.editor.stopEditing();
 			region.draw();
    		}
-			
-		$rdetails.toggleClass('edit-mode', val)
    	}
 
    	var $sdetails = $('#sector-details');
