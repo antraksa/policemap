@@ -81,32 +81,33 @@ $(function() {
 	    		}
 	    		
 	    		//console.log(_regions)
-	    		var anketa = { fields : [], values : {}}
+	    		var anfields = [],  anvalues = {};
 	    		function parseAnk(ank, category) {
 
 	    			var ank = parseCSV(ank);
 	    			//console.log(ank)
 	    			ank.slice(1).forEach(function(v) {
 	    				var name = v[0].trim().toLowerCase();
-	    				var number = parseInt(name), vals = anketa.values[number];
+	    				var number = parseInt(name), vals = anvalues[number];
 	    				if (!vals) vals = []
 	    				var r = _regions[number] //regions.filter(function(r) { return r.name.indexOf(number) == 0})[0]
 	    				if (!r)  
 	    					console.warn('нет соответствия в карто',  name, number) ;
 	    				else {
 	    					vals =  vals.concat(v.slice(2).map(function(o) { return o.toLowerCase()=='да'}))
-		    				anketa.values[number] = vals;
+		    				anvalues[number] = vals;
 	    				}
 	    				//v[0] = r.name
 	    			})
 	    			var fields = ank[0].slice(2).map(function(f) { return {title : f, category : category, weight : Math.round(Math.random() * 5)}});
-	    			anketa.fields = anketa.fields.concat(fields)
+	    			anfields = anfields.concat(fields)
 	    		}
 	    		console.log('Парсим первую анкету')
 	    		parseAnk(ank1, 'информация')
 	    		console.log('Парсим вторую анкету')
 	    		parseAnk(ank2, 'доступность')
-	    		console.log(anketa)
+	    		console.log('Вопросы', anfields)
+	    		console.log('Ответы', anvalues)
 	
 	    		for (var i = 0; i < mo.length; i++) {
 	    			var o = mo[i];
@@ -161,17 +162,11 @@ $(function() {
 	    			//console.log(dep)
 	    		}
 	    		//return;
-	    		save('regions', regions)
-	    		save('areas', areas)
-	    		save('anketa', anketa)
+	    		//save('regions', regions)
+	    		//save('areas', areas)
+	    		save('anfields', anfields)
+	    		save('anvalues', anvalues)
 	    		//save('departments', departments)
-
-	    		//download('sectors.json', pots)
-	    		//download('ank2.json', ank2)
-	    		//download('areas.json', areas)
-	    		//download('regions.json', regions)
-
-
 	    	})
 	}
 	$('#btn-resolve-dep').on('click', function() {

@@ -1,7 +1,8 @@
 var ObjectWrapper = (function() {
-    var anketa, map, mapobjects;
+    var anfields, anvalues, map, mapobjects;
     Core.on('init', function(args) {
-        anketa = args.anketa;
+        anfields = args.anfields;
+        anvalues = args.anvalues;
     })
     Core.on('map-init', function(args) {map = args.map; mapobjects = args.mapobjects }) 
 
@@ -13,7 +14,7 @@ var ObjectWrapper = (function() {
     function calcRate(vals) {
         if (vals) {
             var count = 0, all = 0;
-            anketa.fields.forEach(function(fi, i) {
+            anfields.forEach(function(fi, i) {
                 if (fi.hidden) return;
                 if (vals[i]) count++;
                 all++;
@@ -83,7 +84,7 @@ var ObjectWrapper = (function() {
         },
         calcRate : function() {
             var r = this;
-            r.rate =  calcRate(anketa.values[r.region.number]);
+            r.rate =  calcRate(anvalues[r.region.number]);
             r.color = getRateColor(r)
         },
         select : function(ank) {

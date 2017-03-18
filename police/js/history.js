@@ -1,7 +1,7 @@
 'use strict';
 $(function() {
 	//Storage.set('police.history', null)
-	var regions, _regions = {}, anketa, templates, targets;
+	var regions, _regions = {}, templates, anvalues, anfields, targets;
 
 	Core.on('init', function(args) {
 
@@ -9,11 +9,12 @@ $(function() {
 		regions.forEach(function(r) {
 			_regions[r.region.number] = r;
 		})
-		anketa = args.anketa;
+		anvalues = args.anvalues;
+		anfields = args.anfields;
 		templates = args.templates;
 		targets = {
-			anketa : {tar : anketa, setVal : function(id, val) { anketa.values[id] = val; }  }, 
-			anketaFields : {tar : anketa,  setVal : function(id, val) { anketa.fields = val; } }
+			anvalues : {tar : anvalues, setVal : function(id, val) { anvalues[id] = val; }  }, 
+			anfields : {tar : anfields,  setVal : function(id, val) { anfields = val; } }
 		}  
 		render()
 		restore();
@@ -25,14 +26,14 @@ $(function() {
 	// }
 	var $history = $('#history-list'), uindex;
 	function render() {
-		var ractios = actions.map(function(a) {return {
+		var ractions = actions.map(function(a) {return {
 			name : a.name,
 			fdate : (new Date(a.date)).fineFormat(),
 			title : a.title
 		}})
 		console.log(actions)
 		
-		var $items = $history.html(Mustache.render(templates.history, ractios)).find('.item'), len = $items.length;
+		var $items = $history.html(Mustache.render(templates.history, ractions)).find('.item'), len = $items.length;
 		$items.each(function(ind) {
 			var $item = $(this);
 
@@ -105,30 +106,30 @@ $(function() {
 	$('#btn-save-server').on('click', function() {
 		console.log('upload changes', actions)
 		var calls = 0;
-		// for (var key in targets) {
+		for (var key in targets) {
 
-		// 	var t = targets[key]
-		// 	//if (t.changed) {
-		// 		calls++;
-		// 		API.save(key, t.tar ,function() {
-		// 			calls--;
-		// 			if (calls==0) {
-		// 				actions = [] 
-		// 				Storage.set('police.history', actions)
-		// 				render() 
-		// 				Core.trigger('mess', {mess : 'Изменения сохранены на сервере'})
-		// 				window.onbeforeunload = null;
-		// 			}
-		// 		})
-		// 	//}
-		// }
-		API.save('anketa', anketa ,function() {
-			actions = [] 
-			Storage.set('police.history', actions)
-			render() 
-			Core.trigger('mess', {mess : 'Изменения сохранены на сервере'})
-			window.onbeforeunload = null;
-		}, function() { Core.trigger('mess', {mess : 'Что-то сломалось! Изменения не сохранены на сервере', error : true}) })
+			var t = targets[key]
+			//if (t.changed) {
+				calls++;
+				API.save(key, t.tar ,function() {
+					calls--;
+					if (calls==0) {
+						actions = [] 
+						Storage.set('police.history', actions)
+						render() 
+						Core.trigger('mess', {mess : 'Изменения сохранены на сервере'})
+						window.onbeforeunload = null;
+					}
+				}, function() { Core.trigger('mess', {mess : 'Что-то сломалось! Изменения не сохранены на сервере', error : true}) })
+			//}
+		}
+		// API.save('anketa', anketa ,function() {
+		// 	actions = [] 
+		// 	Storage.set('police.history', actions)
+		// 	render() 
+		// 	Core.trigger('mess', {mess : 'Изменения сохранены на сервере'})
+		// 	window.onbeforeunload = null;
+		// }, function() { Core.trigger('mess', {mess : 'Что-то сломалось! Изменения не сохранены на сервере', error : true}) })
 	
 	})
 

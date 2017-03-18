@@ -80,8 +80,8 @@
 		
 		function check(onfocus) {
 			//console.log('check')
-			var q = $.trim(this.value).toLowerCase();
-			if (q  && (!options.test || options.test(q))) {
+			var q = $.trim(this.value).toLowerCase() || '';
+			if (/*q  && */(!options.test || options.test(q))) {
 				var dopos = function() {
 					clearTimeout(ptimeout)
 					$qpopup.removeClass('collapsed')	
@@ -103,6 +103,7 @@
 				if (q!=prevQ) {
 					qtimeout = setTimeout(function() {
 						apicall(q, function(_data) {
+							console.log('_data', _data)
 							data = _data//.slice(0, 10);
 							dopos()
 							render()
@@ -145,14 +146,14 @@
 			} 
 		}).on('focus', function() {  
 			setTimeout(function() { $this.select(); }, 50)  
-			check.call(this);
+			check.call(this, true);
 		})
 		
 		function triggerChange($row) {
 			if (data) { 
 				$this.val($row.text());
 				$this.trigger('change', [{ 
-					label : $row.text(),
+					label : $row.text().trim(),
 					$row : $row,
 					data : data
 					//item : data[$row.index()]

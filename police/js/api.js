@@ -8,8 +8,9 @@ var API = (function(){
 			 	$.getJSON("data/resolved/regions.json"), 
 			 	$.getJSON( "data/resolved/areas.json"), 
 			 	$.getJSON("data/resolved/sectors.json" ),
-			 	$.getJSON('data/resolved/anketa.json' )
-			 ).done(function(deps, regions, areas, sectors, anketa) {
+			 	$.getJSON("data/resolved/anfields.json" ),
+			 	$.getJSON('data/resolved/anvalues.json' )
+			 ).done(function(deps, regions, areas, sectors, anfields, anvalues) {
 
 			 	regions[0].sort(function(a, b) { return a.number - b.number})
 			 	var _regs = {}
@@ -54,7 +55,16 @@ var API = (function(){
 		            })
 		        }
 
-				success({regions : regions, sectors : sectors, departments : deps, regionsDict: _regs, areas : areas[0], anketa : anketa[0], streets : strarr} )
+				success({
+					regions : regions, 
+					sectors : sectors, 
+					departments : deps, 
+					regionsDict: _regs, 
+					areas : areas[0], 
+					anfields : anfields[0], 
+					anvalues : anvalues[0], 
+					streets : strarr
+				})
 	    	})
 		},
 		save : function(key, data, success, fail) {

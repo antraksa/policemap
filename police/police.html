@@ -80,7 +80,7 @@
 				</script>
 				<script data-template="departmensList" type="text/template">
 					{{#.}}
-						<li class="head-item"> {{department.name}}</li>
+						<li class="head-item overflow"> {{department.name}}</li>
 						{{#regions}}
 						<li class="item " data-id = "{{region.number}}" > 
 							<b class="rate rated{{rate.formatted}}" title="{{rate.val}}"> {{rate.formatted}}</b> 
@@ -172,7 +172,7 @@
 					{{/department}}
 				</div>
 			</script>
-
+ 
 			<script data-template="sector" type="text/template">
 				<div class="details-wrap">
 					{{#sector}}
@@ -221,7 +221,13 @@
 				<div class="new-template" id="new-question">
 					<button class="btn btn-add" id="btn-anketa-add"> <i class="icon-plus"></i> Добавить вопрос </button>
 					<input type="text" placeholder="Вес (1-5)" name="weight" class="weight">
-					<input type="text" placeholder="Категория"  name="category" class="cat">
+					<input type="text" id="new-question-cat" placeholder="Категория"  name="category" class="cat">
+					<div id="cat-autocomplete" class="popup cat-autocomplete"></div>
+					<script data-template="anketaCategories" type="text/template">
+						{{#.}}
+						<li class="">{{.}}</li>
+						{{/.}}
+					</script>
 					<input type="text" placeholder="Текст вопроса" id="new-question-title" name="title" class="title"> 
 				</div>
 				<div id="ank-temp" class="ank-temp"></div>
@@ -229,9 +235,9 @@
 			</div>
 			<script data-template="anketa" type="text/template">
 				<div>
-					<h1 class="subject-title">{{ subject.region.name }}  <b>Рейтинг: {{subject.rate.formatted}}</b>	</h1>
+					<h1 class="subject-title fgc">{{ subject.region.name }}  <b>Рейтинг: {{subject.rate.formatted}}</b>	</h1>
 					{{#categories}}
-					<h3 class="category"> {{category}} ({{data.length}})</h3>
+					<h3 class="category"> <i class="icon-angle-down"></i> <i class="icon-angle-up"></i>  {{category}}  <span class="stat bgc"> <u>{{checked.length}}</u> <q>{{data.length}}</q> </span></h3>
 					<ul class="list">
 						{{#data}}
 						<li title="{{title}} " class="item  {{state}} {{#hidden}} hidden {{/hidden}}" data-index="{{index}}"> <b > <i class=" icon-check check"></i> </b> 

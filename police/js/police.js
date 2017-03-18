@@ -264,6 +264,7 @@ $(function() {
         return res.slice(0, 5);
     }
     $txtSearch.autocomplete($('#search-popup'), templates.autocomplete, function(q, success) {
+        if (!q) return;
         var pq = parseQuery(q);
         var regres = search(regions, pq, function(o) { return o.region.name.toLowerCase()})
         var secres = search(sectors, pq, function(o) { return o.name})
@@ -295,6 +296,9 @@ $(function() {
         clearTimeout(mtimeout)
         mtimeout = setTimeout(function() { $mess.removeClass('shown')}, 3000)
     })
+    window.onerror = function() {
+        Core.trigger('mess', {mess : 'Все совсем плохо. Ошибка в скриптах', error : true})    
+    }
     
     //console.log(getcolors())
 });

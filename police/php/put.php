@@ -1,9 +1,11 @@
 <?php 
 
 $key = $_POST['key'];
-if ($key == 'anketa') {
-	$datafile = '../data/resolved/anketa.json';
-}  else if ($key == 'areas') {
+if ($key == 'anfields') {
+	$datafile = '../data/resolved/anfields.json';
+} else if ($key == 'anvalues') {
+	$datafile = '../data/resolved/anvalues.json';
+} else if ($key == 'areas') {
 	$datafile = '../data/resolved/areas.json';
 } else if ($key == 'regions') {
 	$datafile = '../data/resolved/regions.json';
