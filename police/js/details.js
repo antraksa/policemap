@@ -1,5 +1,4 @@
-$(function() {
-
+Core.on('ready', function() {
 	var regions, sectors, templates, map,  areas;
 	Core.on('init', function(args) {
 		templates = args.templates;
@@ -38,7 +37,7 @@ $(function() {
 		$rdetails.find('.btn-cancel').on('click', function() {
 			edit(region, false)
 		})
-		$rdetails.find('.ank').on('click', function() {
+		$rdetails.find('.btn-ank').on('click', function() {
 			Core.trigger('region-anketa.select', {region : region})
 		}) 
 

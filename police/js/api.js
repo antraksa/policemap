@@ -19,15 +19,17 @@ var API = (function(){
 			 		_regs[r.number] = reg;  
 			 		return  reg;
 			 	})
-			 	var deps = deps[0].map(function(d) {
+			 	var deps = deps[0].map(function(d, i) {
 			 		var dep = ObjectWrapper.wrapDepartment(d);
 			 		dep.regions = d.regions.map(function(rnum) { return _regs[rnum]}).filter(function(o) { return !!o})
 			 		dep.regions.forEach(function(r) { r.department = dep})
 			 		dep.regions.sort(function(a, b) { return a.number - b.number})
+			 		dep.department.number = i;
 			 		return dep;
 			 		//console.log(d)
 			 	})
 
+			 	var areas = areas[0].map(function(a, i) { return  ObjectWrapper.wrapArea(a)})
 
 		        var streets  = {};
 		        var sectors = sectors[0].map(function(sec) {
@@ -60,7 +62,7 @@ var API = (function(){
 					sectors : sectors, 
 					departments : deps, 
 					regionsDict: _regs, 
-					areas : areas[0], 
+					areas : areas, 
 					anfields : anfields[0], 
 					anvalues : anvalues[0], 
 					streets : strarr

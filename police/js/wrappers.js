@@ -1,3 +1,4 @@
+'use strict'
 var ObjectWrapper = (function() {
     var anfields, anvalues, map, mapobjects;
     Core.on('init', function(args) {
@@ -6,29 +7,29 @@ var ObjectWrapper = (function() {
     })
     Core.on('map-init', function(args) {map = args.map; mapobjects = args.mapobjects }) 
 
-    var selected;
     function pregion (r) {this.region = r; } 
     function getRate(rate) {
         return (rate) ? {val : rate, formatted : Math.round(rate*5) } : {val : 0, formatted : '?' }
     }
     function calcRate(vals) {
-        if (vals) {
+        if (vals && vals.length > 0) {
             var count = 0, all = 0;
             anfields.forEach(function(fi, i) {
-                if (fi.hidden) return;
+                if (fi.hidden || vals[i]==undefined) return;
                 if (vals[i]) count++;
                 all++;
             }) 
-            var rate = (count/all);
+            return getRate(count/all);
         }
-        return getRate(rate)
+         
     }
     function getRateColor(r) {
         var h, s = 1, l = 0.5;
+        if (!r.rate) return '#fff'
         var tr = r.rate.val;
+
         h = (100 * tr)/360;
         //console.log(tr, h , s ,l)
-       if (isNaN(tr)) return '#fff'
        var rgb = Common.hslToRgb(h,s,l);
        return 'rgb({0},{1}, {2})'.format(rgb[0], rgb[1], rgb[2]) ;
 
@@ -39,33 +40,40 @@ var ObjectWrapper = (function() {
        var geoCenter = map.options.get('projection').fromGlobalPixels(pixelCenter, map.getZoom());
        return geoCenter;
     }
-    function hover(r, val) {
-        if (selected != r) {
-            r.pol.options.set('strokeWidth',  val ? 2 : 1); 
-            r.pol.options.set('zIndex',  val ? 11 : 10); 
-        }
-    }
+    var rselected, dselected;
+    Core.on('map.click', function() { 
+        console.log(dselected, rselected)
+        if (dselected) dselected.markSelected(false)
+        if (rselected) rselected.markSelected(false)
+    })
+    
     pregion.prototype = {
+        hover : function(val) {
+            if (rselected != this) {
+                this.pol.options.set('fillOpacity',  val ? 0.5 : 0.3); 
+                this.pol.options.set('zIndex',  val ? 11 : 10); 
+            }
+        },
         draw : function() {
             var r = this;
+            if (r.pol) map.geoObjects.remove(r.pol);
+            if (r.place) map.geoObjects.remove(r.place);
+
             var reg = r.region;
-            // if (r.pol) {
-            //     mapobjects.regions.splice(mapobjects.regions.indexOf(r.pol), 1)
-            //     map.geoObjects.remove(r.pol);
-            // }
-            // if (r.place) {
-            //     mapobjects.regionPoints.splice(mapobjects.regionPoints.indexOf(r.pol), 1)
-            //     map.geoObjects.remove(r.place);
-            // }
-            var pol = new ymaps.Polygon([reg.coords, []], { hintContent : reg.name}, {   zIndex: 10,  fillOpacity:0.3, strokeWidth:1, strokeColor :  '#777', fillColor : r.color });
+          
+            var pol = new ymaps.Polygon([reg.coords, []], { hintContent : reg.name}, {   zIndex: 10,  fillOpacity:0.3, fillColor : r.color });
             map.geoObjects.add(pol);
-            pol.events.add('mouseenter', function (e) {hover(r, true)}) 
-            pol.events.add('mouseleave', function (e) {hover(r, false)}) 
-            pol.events.add('click', function(e) { r.select();  
-                selected = r; 
+            pol.events.add('mouseenter', function (e) {r.hover(true)}) 
+            pol.events.add('mouseleave', function (e) {r.hover(false)}) 
+            pol.events.add('click', function(e) { 
+                //if (dselected) 
                 Core.trigger('map.click', {coords : e.get('coords')})
-            }) 
+                setTimeout(function() {r.select(); }, 1) 
+            })
+            map.geoObjects.add(pol);
+          
             r.pol = pol;
+            r.clearStyle()
             if (reg.point) {
                 var place = new ymaps.Placemark(reg.point.coords, {
                     balloonContentHeader: reg.name,
@@ -78,39 +86,57 @@ var ObjectWrapper = (function() {
                     iconColor: '#00f'
                 });
                 r.place = place;
-                place.events.add('click', function() {r.select(); selected = r; }) 
+                map.geoObjects.add(place);
+                place.events.add('click', function() {r.select(); }) 
             }
-            return [pol, place]
+        },
+        clearStyle : function() {
+            if (this.pol)
+                this.pol.options.set('strokeWidth', 1).set('zIndex', 10).set('strokeColor',  '#777'); 
         },
         calcRate : function() {
             var r = this;
             r.rate =  calcRate(anvalues[r.region.number]);
+            r.av = anvalues[r.region.number];
             r.color = getRateColor(r)
         },
         select : function(ank) {
              Core.trigger('region.select', {region : this, ank : ank})
              //if (this.place)  this.place.balloon.open();
              if (map) map.setCenter(getCenter(this.pol))
-             if (selected) {
-                selected.markSelected(false)
-             }
-             selected = this.markSelected(true);
+             rselected = this.markSelected(true);
+        },number : function() {
+            return this.region.number
         },
+
         markSelected : function(val) {
-            if (this.pol)
-                this.pol.options.set('strokeWidth', val ? 4 : 1).set('zIndex', val ? 11 : 10).set('strokeColor',  val ? '#444' : '#777'); 
+            if (val &&  this.pol) {
+                this.pol.options.set('strokeWidth', 4).set('zIndex',11).set('strokeColor', '#444'); 
+            } else {
+                this.clearStyle()
+            }
+            return this
+        },markGroouped : function(val) {
+            if (val &&  this.pol) {
+                this.pol.options.set('strokeWidth', 4).set('zIndex',11).set('strokeColor', '#444'); 
+            } else {
+                this.clearStyle()
+            }
             return this
         },
+        show : function(val) { 
+            this.pol.options.set('visible', val) 
+        } ,
         render : function(ank) {
             Core.trigger('region.select', {region : this, ank : ank})
         }   
     }
-
     function pdepartment (d) {this.department = d; } 
     pdepartment.prototype = {
         draw : function() {
             var d  = this;
             var dep = this.department;
+            if (d.place) map.geoObjects.remove(d.place);
             if (!dep.coords) return;
             var place = new ymaps.Placemark(dep.coords, {
                 balloonContentHeader: dep.name,
@@ -122,25 +148,34 @@ var ObjectWrapper = (function() {
                 iconColor: '#00f'
             });
             d.place = place;
+            map.geoObjects.add(place);
             place.events.add('click', function() {d.select(); }) 
-            return [place];
-        }, select : function() {
-             Core.trigger('department.select', {department : this})
+        }, select : function(val) {
+            Core.trigger('department.select', {department : this})
              //if (this.place)  this.place.balloon.open();
-             if (map) map.setCenter(getCenter(this.place))
+            if (map) map.setCenter(getCenter(this.place))
+            if (dselected)  dselected.markSelected(false)  
+            dselected = this.markSelected(true);
+            //console.warn(this)
+        }, markSelected : function(val) {
             this.regions.forEach(function(r) {
-                r.markSelected(true)
-            })  
-
+                r.markSelected(val)
+            }) 
+            rselected = false;
+            return this;
         },
         render : function() {
             Core.trigger('department.select', {department : this})
+        } ,
+        show : function(val) { 
+            this.place.options.set('visible', val) 
         }   
     }
     function psector (s) {this.sector = s; } 
     psector.prototype = {
         draw : function() {
             var s = this.sector;
+            if (s.place) map.geoObjects.remove(s.place);
             if (!s.coords) return
             var place = new ymaps.Placemark(s.coords, {
                 balloonContentHeader: s.name,
@@ -152,6 +187,7 @@ var ObjectWrapper = (function() {
             //console.log(s)
             this.place = place;
             place.events.add('click', s.select) 
+            map.geoObjects.add(place);
             return [place]
         }, select : function() {
             var s = this;
@@ -161,11 +197,29 @@ var ObjectWrapper = (function() {
         },
         render : function() {
             Core.trigger('sector.select', {sector : this})
+        },
+        show : function(val) { 
+            if (this.place)    this.place.options.set('visible', val) 
+        }    
+    }
+
+    function parea (a) { this.area = a}
+    parea.prototype = {
+        draw : function() {
+            var a = this.area;
+            if (a.pol) map.geoObjects.remove(a.pol);
+            var pol = new ymaps.Polygon([a.coords, []], { hintContent : a.name}, { zIndex: 0,  strokeOpacity:0.7, fillOpacity:0, strokeColor : '#592167', strokeWidth : 2});
+            this.pol = pol;
+            map.geoObjects.add(pol);
+        },
+        show : function(val) { 
+            this.pol.options.set('visible', val) 
         }   
     }
 
     return {
         wrapRegion : function(r) {  return new pregion(r)  },
+        wrapArea : function(r) {  return new parea(r)  },
         wrapSector : function(r) {  return new psector(r)  },
         wrapDepartment : function(r) {  return new pdepartment(r)  }
     }

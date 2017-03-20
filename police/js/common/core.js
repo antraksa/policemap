@@ -13,19 +13,21 @@ var Core = (function() {
 				constructors[key].call(sections[key]); 
 			}
 			if (args && args.completed) args.completed( { sections : sections  })
+			Core.trigger('ready', {})
 		});
 	}
+	var incAttr= 'data-include'
 	function loadStatics($target, loaded, completed) {
-		var $statics = $target.find('[data-html-src]').each(function() {
+		var $statics = $target.find('[{0}]'.format(incAttr)).each(function() {
 			var $tar = $(this);
-			var url = $tar.attr('data-html-src');
+			var url = $tar.attr(incAttr);
 			xhrs.push(this);
 			//console.log('start', url);
 			$tar.load(url, function(res, status, _xhr) {
 				loadStatics($(this), loaded, completed);
 				loaded.call(this);
 				xhrs.splice(xhrs.indexOf(this), 1);
-				$tar.removeAttr('data-html-src');
+				$tar.removeAttr(incAttr);
 				if (xhrs.length==0) { //all static completed 
 					if (completed) completed();
 				}
@@ -54,15 +56,9 @@ var Core = (function() {
 			})
 		}
 	}
+
 	
-	function addApp(appIndex, initf) {
-		apps[appIndex] = initf;
-	}
-	function addLoader(appIndex, initf) {
-		loaders[appIndex] = initf;
-	}
-	
-	return {init : init, register : register, on : on, trigger : trigger, apps : apps, loaders : loaders, addApp : addApp, addLoader : addLoader}
+	return {init : init, register : register, on : on, trigger : trigger}
 })();	
 
 

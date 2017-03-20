@@ -1,9 +1,9 @@
 'use strict'
-$(function() {
+Core.on('ready', function() {
 	Core.on('init', function(args) {
 		var templates, curRegion, oldFields;
 		templates = args.templates;
-		var anvalues = args.anvalues,		anfields = args.anfields;
+		var anvalues = args.anvalues, anfields = args.anfields;
 		console.log('init', args)
     // $('.ank-toggle a').on('click', function() {
     //     $(this).addClass('selected').siblings().removeClass('selected');
@@ -13,7 +13,7 @@ $(function() {
 		Core.on('region-anketa.select', function(args) {
 			renderAnketa(args.region)
 		})
-		var  $anketa = $('#anketa'), $anktempl = $('#ank-temp');
+		var  $anketa = $('#anketa').appendTo('#pane-results'), $anktempl = $('#ank-temp');
 		$('#btn-anketa-edit').on('click', function() {
 			$anketa.addClass('edit-mode')
 			$anktempl.find('.editable').attr('contentEditable', true)
@@ -79,11 +79,11 @@ $(function() {
 			//$anketa.removeClass('shown')
 		})
 		Core.on('history.changed', function(args) {
-	        renderAnketa()
+			if ($anketa.hasClass('shown'))    renderAnketa()
 	    }) 
 		$('#new-question-cat').autocomplete($('#cat-autocomplete'), templates.anketaCategories, function(q, success) {
 			success(categories);
-		}, {position : true}).on('change', function(e, args) {
+		}).on('change', function(e, args) {
 			console.log(e, args)
 		})
 		function renderAnketa(r) {
@@ -95,6 +95,7 @@ $(function() {
 			$anketa.addClass('shown')
 			var num = r.region.number;
 			var vals = anvalues[num];
+			if (!vals) anvalues[num] = vals = []
 		
 
 			var ankData = {};

@@ -19,6 +19,13 @@
 			})
 		})
 	}
+	$.fn.scrollTo = function($cont) {
+		var $this = $(this)
+		if (!$cont) $cont = $this.offsetParent(); //$('html, body');
+		var top = $this.position().top - 2*$cont.height()/3
+        $cont.animate({scrollTop: top}, 300); 
+        return top
+    }
 	$.fn.serializeJson = function() {
 		var o = {}
 		$(this).find('[value]').each(function() {
@@ -125,7 +132,7 @@
 		
 		
 		var $this = $(this);
-		$qpopup.appendTo('body')
+		//$qpopup.appendTo('body')
 		$this.on('change keyup', function(e, args) {
 			clearTimeout(qtimeout)
 			if (args) return;

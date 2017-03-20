@@ -1,5 +1,5 @@
 'use strict';
-$(function() {
+Core.on('ready', function() {
 	//Storage.set('police.history', null)
 	var regions, _regions = {}, templates, anvalues, anfields, targets;
 
