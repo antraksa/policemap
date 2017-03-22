@@ -17,6 +17,10 @@ Core.on('ready', function() {
 	})
 	function renderDepartment(department) {
 		$ddetails.html(Mustache.render(templates.department, department))
+		.find('.sub-item').on('click',function() {
+			var r = department.regions[$(this).index()]
+			r.select(true)
+		})
 	}
 
 	var $rdetails = $('#region-details');
@@ -63,7 +67,8 @@ Core.on('ready', function() {
    	Core.on('sector.select', function(args) {
 		var sector = args.sector;
    		$sdetails.html(Mustache.render(templates.sector, sector))
-   		$dtoggle.eq(2).trigger('click')
+   		if (args.focus)
+   			$dtoggle.eq(2).trigger('click')
 		console.log('select sector', sector)
    	})
 

@@ -1,7 +1,7 @@
 'use strict'
 Core.on('ready', function() {
 	Core.on('init', function(args) {
-		var templates, curRegion, oldFields;
+		var templates, curRegion, oldFields, oldVals, vals;
 		templates = args.templates;
 		var anvalues = args.anvalues, anfields = args.anfields;
 		console.log('init', args)
@@ -53,17 +53,10 @@ Core.on('ready', function() {
 		$('#btn-anketa-save').on('click', function() {
 			if (!$anketa.hasClass('edit-mode')) {
 				var num = curRegion.region.number;
-
-				var vals = anvalues[num];
-				if (!vals) anvalues[num] = vals = []; 
-				var oldVals = (vals)? Common.clone(vals) : null;
-				//console.log(vals[0])
-				$anktempl.find('.item').each(function() {
-					vals[$(this).attr('data-index')] = $(this).hasClass('checked')
-				})
-				console.log('vals', vals)
-				Core.trigger('mess', {mess : 'Данные для  <b>{0}</b> сохранены'.format(num)})
+				console.warn(vals)
 				Core.trigger('history.push', {type : 'anvalues', id : num, name : curRegion.region.name,  old : oldVals, val :  Common.clone(vals), title : 'Анкета изменена'.format(num)})
+				Core.trigger('mess', {mess : 'Данные для  <b>{0}</b> сохранены'.format(num)})
+				oldVals = Common.clone(vals);
 			} else {
 				$anktempl.find('.item').each(function() {
 					var $this = $(this), dindex = $this.attr('data-index'), q = anfields[dindex];
@@ -87,15 +80,16 @@ Core.on('ready', function() {
 			console.log(e, args)
 		})
 		function renderAnketa(r) {
-			if (!r) 
-				r = curRegion;
-			else 
-				curRegion = r;
+			if (!r) r = curRegion 
+			else curRegion = r; 
+
 			if (!r) return;
 			$anketa.addClass('shown')
 			var num = r.region.number;
-			var vals = anvalues[num];
+			vals = anvalues[num];
 			if (!vals) anvalues[num] = vals = []
+			r.ank = vals;
+			oldVals = (vals)? Common.clone(vals) : null;
 		
 
 			var ankData = {};
@@ -122,6 +116,9 @@ Core.on('ready', function() {
 			$anktempl.html(Mustache.render(templates.anketa, { subject : r, categories : catData})).find('b').on('click', function() {
 				var $item = $(this).parent();
 				$item.removeClass('empty').toggleClass('checked');
+				vals[$item.attr('data-index')] = $item.hasClass('checked')
+				curRegion.calcRate();
+				renderAnketa() 
 				$anketa.addClass('changed')
 			})
 			$anktempl.find('.btn-remove').on('click', function() {

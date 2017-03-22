@@ -2,6 +2,7 @@
 Core.on('ready', function() {
 	//Storage.set('police.history', null)
 	var regions, _regions = {}, templates, anvalues, anfields, targets;
+	var actions = Storage.get('police.history') || [];
 
 	Core.on('init', function(args) {
 
@@ -17,10 +18,13 @@ Core.on('ready', function() {
 			anfields : {tar : anfields,  setVal : function(id, val) { anfields = val; } }
 		}  
 		render()
-		restore();
 		//console.log(_regions)
 	})
-	var actions = Storage.get('police.history') || [];
+
+	Core.on('map-ready', function() { 
+		console.log('restore history', actions)
+		restore();
+	})
 	// if (!actions) {
 	// 	actions = [{default : true, title : 'Исходные данные', date : +new Date()}]
 	// }
@@ -31,7 +35,7 @@ Core.on('ready', function() {
 			fdate : (new Date(a.date)).fineFormat(),
 			title : a.title
 		}})
-		console.log(actions)
+		//console.log(actions)
 		
 		var $items = $history.html(Mustache.render(templates.history, ractions)).find('.item'), len = $items.length;
 		$items.each(function(ind) {

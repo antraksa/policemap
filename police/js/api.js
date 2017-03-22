@@ -11,11 +11,12 @@ var API = (function(){
 			 	$.getJSON("data/resolved/anfields.json" ),
 			 	$.getJSON('data/resolved/anvalues.json' )
 			 ).done(function(deps, regions, areas, sectors, anfields, anvalues) {
-
+			 	var anvals = anvalues[0];
 			 	regions[0].sort(function(a, b) { return a.number - b.number})
 			 	var _regs = {}
 			 	var regions = regions[0].map(function(r) {
 			 		var reg = ObjectWrapper.wrapRegion(r);
+			 		//reg.ank = anvals[r.number]
 			 		_regs[r.number] = reg;  
 			 		return  reg;
 			 	})

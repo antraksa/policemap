@@ -22,8 +22,9 @@
 	$.fn.scrollTo = function($cont) {
 		var $this = $(this)
 		if (!$cont) $cont = $this.offsetParent(); //$('html, body');
-		var top = $this.position().top - 2*$cont.height()/3
-        $cont.animate({scrollTop: top}, 300); 
+		var top = $this.position().top - $cont.height()/3
+        $cont.animate({scrollTop: top}, 500); 
+        //console.log(top, $cont, $cont.scrollTop())
         return top
     }
 	$.fn.serializeJson = function() {

@@ -54,12 +54,12 @@
             departments = args.departments;
             regionsDict = args.regionsDict;
 
-            regions.forEach(function(r) {r.calcRate() })
-            
-            if (window.ymaps) 
+            if (window.ymaps) { 
                 ymaps.ready(createMap);
+            }
             else {
                 console.warn('Yandex !!')
+                Core.trigger('map-ready', {})
                 renderRegions();
                 loading(false)
             }
@@ -68,41 +68,40 @@
         })
         function createMap (state) {
             map = new ymaps.Map('map', { controls :  ["zoomControl"], zoom : 12, center : [59.948814, 30.309640] });
-            Core.trigger('map-init', {map : map, mapobjects : mapobjects})
+            Core.trigger('map-init', {map : map})
+            renderRegions();
             
             addObjects('areas');
             addObjects('regions');
             addObjects('sectors');
             addObjects('departments');
             
-            console.log(mapobjects)
             prepare()
-            renderRegions();
 
             validateLayers()
             loading(false)
+            Core.trigger('map-ready', {map : map})
         }
         var $deps = $('#departments-list');
         function renderRegions() {
+            regions.forEach(function(r) {r.calcRate() }) 
             var $rate;
             $deps.html(Mustache.render(templates.departmensList, departments));
             $deps.find('.head-item').on('click', function() {
                 var d = departments[$(this).attr('data-id')];
-                d.select()
-                console.log('dep', d)
+                d.select(true)
             })
             $deps.find('.item').on('click', function() {
                 var r = regionsDict[$(this).attr('data-id')];
-                r.select()
-                if ($rate) {
-                    Core.trigger('region-anketa.select', {region : r})
-                }
+                r.select(true)
+                if ($rate) {Core.trigger('region-anketa.select', {region : r}) } 
                 $rate = null;
             }).find('b').on('click', function() {$rate = $(this); }) 
         }
         Core.on('region.select', function(args) {
             var $sel = $deps.find('[data-id="{0}"]'.format(args.region.number()))
             $sel.addClass('selected').siblings().removeClass('selected')
+            $sel.scrollTo()
         })
 
         function prepare() {
@@ -132,23 +131,17 @@
         })
         Core.on('history.changed', function(args) {
             console.log('history changed', args)
-            regions.forEach(function(r) {
-                r.calcRate() 
-                r.draw()
-            })
             renderRegions() 
+            regions.forEach(function(r) {r.draw() }) 
         })
         function updateRegion(reg) {
+            renderRegions() 
             if (!reg) reg = selected;
             if (reg) {
-                reg.calcRate()
                 reg.render()
                 reg.draw()
-                console.log('draw reg', reg)
             }
-            renderRegions() 
         }
-        setTimeout(function() { regions[0].draw() },3000)
         function addObjects(oname) {
             mapobjects[oname] = []
             initArgs[oname].forEach(function(o, i) {
@@ -173,17 +166,16 @@
             if (args) {
                 var $row = args.$row,dsind = Number($row.attr('data-dsindex')),  ds = args.data[dsind] ;
                 var ind = $row.index(), o = ds.data[ind].item;
-                if (dsind == 0) { //streets
-                    console.log('autocomplete street',  o)
-                    o.sector.select()
+                console.log('autocomplete', dsind,  o)
+                if (dsind == 0) { //yandex addr
+                    map.setCenter(o.coords) 
+                }else if (dsind == 2) { //sector streets
+                    o.sector.select(true)
                 } else if (dsind == 1) {//region
-                    console.log('autocomplete region',  o)
-                    o.select()
-                } else if (dsind == 2) {//sector
-                    console.log('autocomplete sector',  o)
-                    o.select()
+                    o.select(true)
+                } else if (dsind == 3) {//sector
+                    o.select(true)
                 }
-               // searchPoint(args.item.coords);
             } 
         })
         function searchPoint(pos) {
@@ -196,7 +188,7 @@
                     return;
                 }
             }
-            map.setCenter(pos, 15)
+            
         }
 
         //Core.on('map-init', function() {
@@ -214,16 +206,16 @@
         //})
         var cp;
         function resolvePoint(p) {
-            //console.log('cp', cp)
-            if (cp) map.geoObjects.remove(cp);
-            cp = new ymaps.GeoObject({
-                geometry: {
-                    type: "Circle",
-                    coordinates: p,
-                    radius: 70
-                }
-            },{fillColor :'#fff', strokeColor : '#f00'});
-            map.geoObjects.add(cp);
+            map.setCenter(p)
+            // if (cp) map.geoObjects.remove(cp);
+            // cp = new ymaps.GeoObject({
+            //     geometry: {
+            //         type: "Circle",
+            //         coordinates: p,
+            //         radius: 70
+            //     }
+            // },{fillColor :'#fff', strokeColor : '#f00'});
+            // map.geoObjects.add(cp);
 
             API.resolvePoint(city, p, function(addr) {
                 if (!addr[0]) return;
@@ -232,9 +224,8 @@
                 var strres = search(streets,pq, function(o) { if (o) return o.name})
                // console.log(addr[0].name, strres[0])
                 if (strres[0])
-                    strres[0].item.sector.render()
+                    strres[0].item.sector.select()
             })
-
         }
 
         function search(arr, ws, fname) {
@@ -253,18 +244,29 @@
                     res.push({ name : s, matches : matches, rate : rate, item : o }) 
                 }
             })
-
             res.sort(function(a, b) { return b.rate - a.rate})
             return res.slice(0, 5);
         }
+
         $txtSearch.autocomplete($('#search-popup'), templates.autocomplete, function(q, success) {
             if (!q) return;
             var pq = parseQuery(q);
             var regres = search(regions, pq, function(o) { return o.region.name.toLowerCase()})
             var secres = search(sectors, pq, function(o) { return o.name})
             var strres = search(streets, pq, function(o) { if (o) return o.name})
-         
-            success( [{ title : 'Адреса', dsindex : 0,  data :strres}, { title : 'Отделения', dsindex : 1, data :regres}, { title : 'Участковые', dsindex : 2, data :secres} ])
+            var yres = []
+            API.resolveAddr(city, q, function(data) {
+                data.forEach(function(d) { yres.push( { name : d.name, item : d} ) })
+                console.log('data', data, yres) 
+                success(res) 
+            })
+            var res = [
+                { title : 'Адрес', dsindex : 0, data : yres },
+                { title : 'Отделения', dsindex : 1, data :regres}, 
+                { title : 'Дома участковых', dsindex : 2,  data :strres}, 
+                { title : 'Участковые', dsindex : 3, data :secres},  
+            ]
+            success(res)
         })
         function parseQuery(q) {
             var pq = q.toLowerCase().split(/[\s,]+/);

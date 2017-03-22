@@ -15,7 +15,7 @@ var ObjectWrapper = (function() {
         if (vals && vals.length > 0) {
             var count = 0, all = 0;
             anfields.forEach(function(fi, i) {
-                if (fi.hidden || vals[i]==undefined) return;
+                if (fi.hidden) return;
                 if (vals[i]) count++;
                 all++;
             }) 
@@ -40,12 +40,13 @@ var ObjectWrapper = (function() {
        var geoCenter = map.options.get('projection').fromGlobalPixels(pixelCenter, map.getZoom());
        return geoCenter;
     }
-    var rselected, dselected;
-    Core.on('map.click', function() { 
-        console.log(dselected, rselected)
+    var rselected, dselected, sselected;
+    function clearSelections() {
         if (dselected) dselected.markSelected(false)
         if (rselected) rselected.markSelected(false)
-    })
+        if (sselected) sselected.markSelected(false)
+    }
+    Core.on('map.click', function() { clearSelections() })
     
     pregion.prototype = {
         hover : function(val) {
@@ -55,18 +56,16 @@ var ObjectWrapper = (function() {
             }
         },
         draw : function() {
+            if (!map) return;
             var r = this;
             if (r.pol) map.geoObjects.remove(r.pol);
-            if (r.place) map.geoObjects.remove(r.place);
 
             var reg = r.region;
-          
             var pol = new ymaps.Polygon([reg.coords, []], { hintContent : reg.name}, {   zIndex: 10,  fillOpacity:0.3, fillColor : r.color });
             map.geoObjects.add(pol);
             pol.events.add('mouseenter', function (e) {r.hover(true)}) 
             pol.events.add('mouseleave', function (e) {r.hover(false)}) 
             pol.events.add('click', function(e) { 
-                //if (dselected) 
                 Core.trigger('map.click', {coords : e.get('coords')})
                 setTimeout(function() {r.select(); }, 1) 
             })
@@ -75,6 +74,7 @@ var ObjectWrapper = (function() {
             r.pol = pol;
             r.clearStyle()
             if (reg.point) {
+                if (r.place) map.geoObjects.remove(r.place);
                 var place = new ymaps.Placemark(reg.point.coords, {
                     balloonContentHeader: reg.name,
                     balloonContentBody: reg.addr,
@@ -87,7 +87,7 @@ var ObjectWrapper = (function() {
                 });
                 r.place = place;
                 map.geoObjects.add(place);
-                place.events.add('click', function() {r.select(); }) 
+                place.events.add('click', function() {r.select(true); }) 
             }
         },
         clearStyle : function() {
@@ -97,19 +97,23 @@ var ObjectWrapper = (function() {
         calcRate : function() {
             var r = this;
             r.rate =  calcRate(anvalues[r.region.number]);
-            r.av = anvalues[r.region.number];
             r.color = getRateColor(r)
         },
-        select : function(ank) {
-             Core.trigger('region.select', {region : this, ank : ank})
-             //if (this.place)  this.place.balloon.open();
-             if (map) map.setCenter(getCenter(this.pol))
+        select : function(focus) {
+            if (dselected) dselected.markSelected(false)
+             Core.trigger('region.select', {region : this})
+             if (focus && this.place) {
+                this.place.balloon.open();
+                clearSelections()
+                if (map) map.setCenter(getCenter(this.pol))
+             } 
              rselected = this.markSelected(true);
         },number : function() {
             return this.region.number
         },
 
         markSelected : function(val) {
+            if (this.place && !val) this.place.balloon.close();
             if (val &&  this.pol) {
                 this.pol.options.set('strokeWidth', 4).set('zIndex',11).set('strokeColor', '#444'); 
             } else {
@@ -150,20 +154,33 @@ var ObjectWrapper = (function() {
             d.place = place;
             map.geoObjects.add(place);
             place.events.add('click', function() {d.select(); }) 
-        }, select : function(val) {
+        }, select : function(focus) {
             Core.trigger('department.select', {department : this})
-             //if (this.place)  this.place.balloon.open();
-            if (map) map.setCenter(getCenter(this.place))
+            if (focus) {
+                if (map) map.setCenter(getCenter(this.place))
+                clearSelections()
+            }
             if (dselected)  dselected.markSelected(false)  
             dselected = this.markSelected(true);
-            //console.warn(this)
         }, markSelected : function(val) {
-            this.regions.forEach(function(r) {
-                r.markSelected(val)
-            }) 
-            rselected = false;
+            this.regions.forEach(function(r) {r.markSelected(val) }) 
+            if (this.place) {
+                this.place.options.set('visible', val) 
+                if (!val) this.place.balloon.close();
+            }
             return this;
-        },
+        }, /*calcRate : function() {
+            r.rate =  calcRate(anvalues[r.region.number]);
+            r.color = getRateColor(r)
+            var rate = 0, all = 0;
+            this.regions.forEach(function(r) {
+                if (rate) {
+                    rate+=
+                }
+                rate+= 
+                r.markSelected(val)
+            })
+        }*/
         render : function() {
             Core.trigger('department.select', {department : this})
         } ,
@@ -174,6 +191,7 @@ var ObjectWrapper = (function() {
     function psector (s) {this.sector = s; } 
     psector.prototype = {
         draw : function() {
+            var that = this;
             var s = this.sector;
             if (s.place) map.geoObjects.remove(s.place);
             if (!s.coords) return
@@ -181,26 +199,36 @@ var ObjectWrapper = (function() {
                 balloonContentHeader: s.name,
                 balloonContentBody: s.raddr,
                 balloonContentFooter: s.tel,
-                hintContent: s.name
+                hintContent: s.name,
+                iconContent: 'У'
             }, {  preset: 'islands#circleIcon', iconColor: 'black'});
-
-            //console.log(s)
             this.place = place;
-            place.events.add('click', s.select) 
+            place.events.add('click', function() {that.select(true) }) 
             map.geoObjects.add(place);
-            return [place]
-        }, select : function() {
+        }, 
+        select : function(focus) {
             var s = this;
-            if (s.place)  s.place.balloon.open();
-            if (map) map.setCenter(s.sector.coords)
-            Core.trigger('sector.select', {sector : s})
+            if (focus) {
+                if (map) map.setCenter(s.sector.coords)
+                if (s.place)  s.place.balloon.open();
+            }
+            if (sselected) sselected.markSelected(false);
+            sselected = this.markSelected(true);
+            s.render(focus)
         },
-        render : function() {
-            Core.trigger('sector.select', {sector : this})
+        render : function(focus) {
+            Core.trigger('sector.select', {sector : this, focus : focus})
         },
         show : function(val) { 
             if (this.place)    this.place.options.set('visible', val) 
-        }    
+        }, 
+        markSelected : function(val) {
+             if (this.place )  {
+                if (!val) this.place.balloon.close();
+                this.place.options.set('visible', val) 
+            } 
+            return this;
+        }
     }
 
     function parea (a) { this.area = a}

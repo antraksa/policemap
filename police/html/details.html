@@ -76,6 +76,21 @@
 		{{/person}}
 
 		{{/department}}
+
+		{{#regions.length}}
+		<div class="sectors sub-list" >
+			<h6 class="sub-header">Районные отделения </h6>
+			<ul>
+			{{#regions}}
+			<li class="sub-item" >
+				<span class="s-title">{{region.name}}</span>
+				<span  class="s-val">{{region.addr}}</span>
+			</li>
+			{{/regions}}
+			</ul>
+		</div>
+		{{/regions.length}}
+
 	</div>
 </script>
 
