@@ -15,8 +15,8 @@ Core.on('ready', function() {
 		templates = args.templates;
 		targets = {
 			anvalues : {tar : anvalues, setVal : function(id, val) { anvalues[id] = val; }  }, 
-			anfields : {tar : anfields,  setVal : function(id, val) { anfields = val; } }
-		}  
+			anfields : {tar : anfields,  setVal : function(id, val) {anfields.fields =  val.fields }} 
+		}
 		render()
 		//console.log(_regions)
 	})
@@ -75,6 +75,7 @@ Core.on('ready', function() {
 			})
 			
 		})
+		$('#history-btns').toggleClass('shown', actions.length > 0)
 	}
 	function restore() {
 		actions.forEach(function(a) {setAction(a, a.val) }) 
@@ -82,6 +83,7 @@ Core.on('ready', function() {
 	function setAction(a, val) {
 		var tar = targets[a.type];
 		tar.setVal(a.id, val);
+		console.log('setAction', a)
 		return { tar : tar, region : _regions[a.id], ank : a.type  };
 		
 	}
@@ -107,7 +109,12 @@ Core.on('ready', function() {
 			return message
 		}
 	})
-	$('#btn-save-server').on('click', function() {
+	$('#btn-clear-changes').on('click', function() {
+		actions = [];
+		Storage.set('police.history', actions)
+		render() 
+	})
+	var $btnsave = $('#btn-save-server').on('click', function() {
 		console.log('upload changes', actions)
 		var calls = 0;
 		for (var key in targets) {
@@ -127,14 +134,6 @@ Core.on('ready', function() {
 				}, function() { Core.trigger('mess', {mess : 'Что-то сломалось! Изменения не сохранены на сервере', error : true}) })
 			//}
 		}
-		// API.save('anketa', anketa ,function() {
-		// 	actions = [] 
-		// 	Storage.set('police.history', actions)
-		// 	render() 
-		// 	Core.trigger('mess', {mess : 'Изменения сохранены на сервере'})
-		// 	window.onbeforeunload = null;
-		// }, function() { Core.trigger('mess', {mess : 'Что-то сломалось! Изменения не сохранены на сервере', error : true}) })
-	
 	})
 
 })

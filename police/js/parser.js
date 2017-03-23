@@ -164,7 +164,7 @@ $(function() {
 	    		//return;
 	    		//save('regions', regions)
 	    		//save('areas', areas)
-	    		save('anfields', anfields)
+	    		save('anfields', { fields : anfields})
 	    		save('anvalues', anvalues)
 	    		//save('departments', departments)
 	    	})

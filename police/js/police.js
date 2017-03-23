@@ -101,7 +101,7 @@
         Core.on('region.select', function(args) {
             var $sel = $deps.find('[data-id="{0}"]'.format(args.region.number()))
             $sel.addClass('selected').siblings().removeClass('selected')
-            $sel.scrollTo()
+            if ($sel[0]) $sel.scrollTo()
         })
 
         function prepare() {

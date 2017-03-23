@@ -1,5 +1,5 @@
-body, html {margin: 0;height: 100%;/* overflow: hidden; */font-family: Arial;font-size: 13px;}
-.bgc {background: #1d3954;}
+body, html {margin: 0;height: 100%;/* overflow: hidden; */font-family: tahoma;font-size: 13px;}
+.bgc {background: #1d3854;}
 .fgc {color: #b7250c; border-color: #b7250c}
 .fbgc {background: #b7250c;}
 .clear {clear: both}
@@ -11,7 +11,11 @@ body, html {margin: 0;height: 100%;/* overflow: hidden; */font-family: Arial;fon
 
 a { cursor: pointer;  }
 b {font-weight: bold}
-
+nav {background: rgba(255, 255, 255, 0.11);overflow: hidden;}
+nav a {float: left;line-height: 38px;padding: 0 20px;color: rgba(255, 255, 255, 0.69);transition: background-color 0.3s ease-out;border-right: 1px solid rgba(255, 255, 255, 0.16);text-transform: uppercase;font-size: 11px;}
+nav a{}
+nav a:hover {color: #fff}
+nav a.selected {background: rgba(255, 255, 255, 0.8);color: #000;}
 
 .btn {border-radius: 2px;line-height: 30px;padding: 0 20px;/* color: #fff; */border-width: 1px;cursor: pointer;border-style: none;box-sizing: border-box;height: 30px;background: rgba(255, 255, 255, 0.59);}
 .btn:active {opacity: 0.8  } 
@@ -28,7 +32,7 @@ input[type="text"] {width: 100%;line-height: 30px;height: 30px;padding: 0 10px;b
 input[type="text"]:focus {/* background: #fff; */}
 ::-webkit-input-placeholder { font-style: italic;}
 ::-moz-placeholder       {font-style: italic;}
-:-ms-input-placeholder   {line-height: 30px; color:rgba(255, 255, 255, 0.6);font-style: italic;}
+:-ms-input-placeholder   {line-height: 30px; font-style: italic;}
 
 .dblbuttons {overflow: hidden;white-space: nowrap;line-height: 20px;}
 .dblbuttons button {padding: 0 10px;font-size: 12px; cursor: pointer;border-radius: 2px;background: transparent;color: rgba(255, 255, 255, 0.72);}
@@ -147,10 +151,8 @@ input[type="text"]:focus {/* background: #fff; */}
 .sub-panel.edit-mode .editable {border: 1px solid #ccc;padding: 4px;color: #fff !important;}
 
 .details-tools {}
-.details-toggle {overflow: hidden;line-height: 38px;height: 38px;} 
-.details-toggle a{float: left;line-height: 38px;padding: 0 20px;/* margin-top: 5px; */color: rgba(255, 255, 255, 0.69);transition: background-color 0.3s ease-out;border-right: 1px solid rgba(255, 255, 255, 0.16);}
-.details-toggle a:hover {color: #fff}
-.details-toggle a.selected {background: rgba(255, 255, 255, 0.8);color: #000;}
+.details-toggle {overflow: hidden;position: absolute;top: 0;left: 0;right: 0;/* background: rgba(255, 255, 255, 0.11); */} 
+
 
 .details .name {font-size: 14px;color: #fff;line-height: 16px;/* margin-bottom: 10px; */overflow:hidden;}
 .details .name span {display: block;margin-left: 40px;}
@@ -186,14 +188,12 @@ input[type="text"]:focus {/* background: #fff; */}
 .details .hot-line {color: rgb(255, 153, 153);float: right;}
 .details .sub-panel { display: none }
 .details .sub-panel.shown { display: block; }
-.dash-toggle  {overflow:hidden;/* margin-top: 10px; */background: rgba(255, 255, 255, 0.11);}
-.dash-toggle  a{float: left;line-height: 38px;padding: 0 10px;color: rgba(255, 255, 255, 0.8);font-size: 12px;transition: background-color 0.3s ease-out;border-right: 1px solid rgba(255, 255, 255, 0.16);}
-.dash-toggle  a:hover {color: #fff}
-.dash-toggle a.selected {background: rgba(255, 255, 255, 0.77);color: #000 !important;}
-.dash-toggle a + .btn { display: none }
-.dash-toggle a.selected + .btn {display: block;float: right;margin-right: 4px;line-height: 26px;height: 30px;font-size: 14px;margin-top: 4px;padding: 0;width: 30px;}
-.dash-toggle .btn-save {background: rgba(255, 0, 0, 0.46);color: #fff;}
+.dash-toggle a + .btns { display: none }
 
+.dash-toggle a.selected + .btns.shown {display: block;overflow: hidden; float: right;}
+.dash-toggle .btn {margin-right: 4px;line-height: 26px;height: 30px;font-size: 14px;margin-top: 4px;padding: 0;width: 30px;float: left;display: block;}
+.dash-toggle .btn-save {background: rgba(255, 0, 0, 0.46);color: #fff;}
+.dash-toggle a {padding: 0 10px}
 
 .dash-content {height: calc(100% - 20px);overflow: auto;/* margin-top: 10px; */position: relative;}
 .dash-panel {display: none;}
@@ -231,7 +231,7 @@ input[type="text"]:focus {/* background: #fff; */}
 .anketa .item.checked .check { display: block } 
 .anketa .item.empty b {background: rgba(255, 255, 255, 0.4); background: #dfdfdf;}
 .anketa .ank-temp {}
-.anketa .ank-content {overflow-y: auto;padding: 20px;margin-top: 70px;height: calc(100% - 110px);}
+.anketa .ank-content {overflow-y: auto;padding: 20px;top: 100px;left: 0;position: absolute;bottom: 0;right: 0;}
 .anketa.changed .btn-save, .anketa.changed .btn-cancel  {  display: block}
 .anketa.changed .btn-edit {  display: none }
 .anketa .btn-close {  display: block; position:  absolute; }
@@ -245,10 +245,11 @@ input[type="text"]:focus {/* background: #fff; */}
 .anketa .btn {background: #7a8794;color: #fff;}
 .anketa .btn-add { display: none }
 .anketa.edit-mode .btn-add {display: block;float: right;}
-.anketa .ank-tools{overflow: hidden;margin-bottom: 20px;position: absolute;top: 0;left: 0;padding: 20px;right: 0;/* background: rgba(255, 255, 255, 0.78); */z-index: 2;}
+.anketa .ank-header{/* overflow: hidden; */position: absolute;top: 0;left: 0;padding: 20px;right: 0;/* background: rgba(255, 255, 255, 0.78); */z-index: 2;}
+.anketa .ank-tools {overflow: hidden;margin-bottom: 10px;}
 .anketa .ank-tools .btn {float: left;margin-right: 4px;}
-.anketa .ank-tools .btn-close {float: right;width: 40px;height: 40px;top: 0;right: 0;line-height: 40px;text-align: center;font-size: 20px;color: #7a8794;/* background: rgba(122, 135, 148, 0.07); */}
-.anketa .btn-remove {float: right;display: none;line-height: 28px;padding: 0 10px;}
+.anketa .ank-header .btn-close {float: right;width: 40px;height: 40px;top: 0;right: 0;line-height: 40px;text-align: center;font-size: 20px;color: #7a8794;/* background: rgba(122, 135, 148, 0.07); */}
+.anketa .btn-remove {float: right;display: none;line-height: 28px;padding: 0 10px;/* width: 30px; *//* height: 30px; */}
 .anketa .btn-remove i { line-height: 30px }
 .anketa .icon-plus { display: none }
 .anketa .hidden .icon-plus { display: block  }
@@ -266,9 +267,9 @@ input[type="text"]:focus {/* background: #fff; */}
 .new-template .cat {width: 100px;float: left;margin-right: 6px;}
 .anketa  .list {max-height: 1000px;transition: ease-in-out 0.5s max-height;overflow: hidden;margin-bottom: 4px;}
 .anketa .category {line-height: 20px;font-size: 13px;text-transform: capitalize;font-weight: bold;margin-bottom: 6px; padding-bottom: 6px; color: #555;cursor: pointer;}
-.anketa .category .stat {overflow: hidden;/* margin-right: 10px; */float: right;font-size: 11px;}
+.anketa .category .stat {overflow: hidden;margin-right: 10px;float: left;font-size: 11px;}
 .anketa .category .stat q, .anketa .category .stat u {float: left;line-height: 20px;/* padding: 0 6px; *//* color: #fff; */background: rgba(255, 255, 255, 0.9);width: 20px;text-align: center;}
-.anketa .category .stat q {background: rgba(255, 255, 255, 0.7);}
+.anketa .category .stat q {background: rgba(255, 255, 255, 0.89);}
 .anketa .category.collapsed +.list {max-height: 0;}
 .anketa .category.collapsed {border-bottom: 1px solid #ddd;}
 .anketa .category .icon-angle-down, .anketa .category.collapsed .icon-angle-up { display: none }

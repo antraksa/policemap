@@ -57,14 +57,13 @@ var API = (function(){
 		            	strarr.push({name : str.name.toLowerCase() + ' ' + n.number, sector : n.sector })
 		            })
 		        }
-
-				success({
+		        success({
 					regions : regions, 
 					sectors : sectors, 
 					departments : deps, 
 					regionsDict: _regs, 
 					areas : areas, 
-					anfields : anfields[0], 
+					anfields :  anfields[0], 
 					anvalues : anvalues[0], 
 					streets : strarr
 				})

@@ -14,7 +14,7 @@ var ObjectWrapper = (function() {
     function calcRate(vals) {
         if (vals && vals.length > 0) {
             var count = 0, all = 0;
-            anfields.forEach(function(fi, i) {
+            anfields.fields.forEach(function(fi, i) {
                 if (fi.hidden) return;
                 if (vals[i]) count++;
                 all++;

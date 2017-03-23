@@ -21,7 +21,10 @@ Core.on('ready', function() {
 		})
 		$('#btn-anketa-cancel').on('click', function() {
 			$anketa.removeClass('edit-mode').removeClass('changed')
-			anfields = oldFields;
+			if (oldFields) anfields.fields = oldFields.fields;
+			console.log('oldVals', oldVals)
+			var num = curRegion.region.number;
+			anvalues[num] = vals = oldVals
 			renderAnketa(curRegion)
 		})
 		var categories;
@@ -45,7 +48,7 @@ Core.on('ready', function() {
 			q.date = +new Date();
 			console.log('add', q)
 			//anketa.fields.splice(0, 0, q)
-			anfields.push(q)
+			anfields.fields.push(q)
 			renderAnketa(curRegion)
 			$anktempl.find('.editable').attr('contentEditable', true)
 		})
@@ -59,7 +62,7 @@ Core.on('ready', function() {
 				oldVals = Common.clone(vals);
 			} else {
 				$anktempl.find('.item').each(function() {
-					var $this = $(this), dindex = $this.attr('data-index'), q = anfields[dindex];
+					var $this = $(this), dindex = $this.attr('data-index'), q = anfields.fields[dindex];
 					q.weight = $this.find('.weight').html();
 					q.title = $this.find('.title').html();
 				})
@@ -79,21 +82,28 @@ Core.on('ready', function() {
 		}).on('change', function(e, args) {
 			console.log(e, args)
 		})
+		function renderHeader() {
+			$('#ank-header').html(Mustache.render(templates.ankHeader, curRegion))
+		}
 		function renderAnketa(r) {
-			if (!r) r = curRegion 
-			else curRegion = r; 
+
+			if (!r) 
+				r = curRegion 
+			else {
+				var num = r.region.number;
+				vals = anvalues[num];
+				if (!vals) anvalues[num] = vals = []
+				$anketa.addClass('shown')
+				curRegion = r;
+				oldVals = (vals)? Common.clone(vals) : null;
+				renderHeader(r)
+			}
 
 			if (!r) return;
-			$anketa.addClass('shown')
-			var num = r.region.number;
-			vals = anvalues[num];
-			if (!vals) anvalues[num] = vals = []
 			r.ank = vals;
-			oldVals = (vals)? Common.clone(vals) : null;
-		
-
+	
 			var ankData = {};
-			anfields.forEach(function(fi, i) { 
+			anfields.fields.forEach(function(fi, i) { 
 				//if (fi.hidden) return;
 				var cat = ankData[fi.category] || [];
 				ankData[fi.category] = cat;
@@ -118,12 +128,12 @@ Core.on('ready', function() {
 				$item.removeClass('empty').toggleClass('checked');
 				vals[$item.attr('data-index')] = $item.hasClass('checked')
 				curRegion.calcRate();
-				renderAnketa() 
+				renderHeader()
 				$anketa.addClass('changed')
 			})
 			$anktempl.find('.btn-remove').on('click', function() {
 				var $item = $(this).parent(), ind = $item.index(), dindex = $item.attr('data-index');
-				var q = anfields[dindex] 
+				var q = anfields.fields[dindex] 
 				q.hidden = !q.hidden;
 				//console.log('mark hidden', q)
 				$item.toggleClass('hidden')
@@ -139,7 +149,7 @@ Core.on('ready', function() {
 	   	function initWeightControl($w) {
 	   		$w.on('blur', function() {
 				var $this = $(this);
-				var val = Number($this.html().trim()[0]);
+				var val = parseInt($this.val().trim()[0] || $this.text().trim()[0]);
 				val = val ? (val > 5) ? 5 : (val < 1) ? 1  : val : 1
 				$this.removeClass('rated1 rated2 rated3 rated4 rated5')
 				.html(val).val(val).addClass('rated' + val)
