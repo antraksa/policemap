@@ -35,13 +35,13 @@
 		<h3 class="category"> <i class="icon-angle-down"></i> <i class="icon-angle-up"></i>  {{category}}  <!-- <span class="stat bgc"> <q>{{data.length}}</q> </span> --></h3>
 		<ul class="list">
 			{{#data}}
-			<li title="{{title}} " class="item  {{state}} {{#hidden}} hidden {{/hidden}}" data-index="{{index}}"> <b > <i class=" icon-check check"></i> </b> 
+			<li title="{{field.title}}. Отмечен у {{checkes.length}} отделений" class="item  {{state}} {{#field.hidden}} hidden {{/field.hidden}}" data-index="{{index}}"> <b > <i class=" icon-check check"></i> </b> 
 				<a class=" btn-remove">
 					<i class="icon-close"></i>
 					<i class="icon-plus"></i>
 				</a>
-				<div class="editable weight rated{{weight}}">{{weight}}</div> 
-				<span class="overflow editable title">{{title}}</span> 
+				<div class="editable weight weight{{field.weight}}">{{field.weight}}</div> 
+				<span class="overflow editable title">{{field.title}}</span> 
 			</li>
 			{{/data}}
 		</ul>

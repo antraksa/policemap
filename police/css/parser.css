@@ -1,0 +1,12 @@
+.bgc {background: #d6f0c2;}
+.parser .common { position: absolute; z-index: 1; display: none  }
+.values {   }
+.flex {flex-direction: row; display: flex;}
+.cell { border:1px solid #ccc; }
+.values .cell{padding: 4px 8px;overflow: hidden;box-sizing: border-box;max-height: 100px;/* position: absolute; */flex-shrink: 0;overflow-y: auto;}
+.values .cell.edited {background: #fff;box-shadow: 0 0 5px rgba(0, 0, 0, 0.31);}
+.table-header {position: absolute;background: rgba(255, 255, 255, 0.63);/* right: 0; */left: 0;top: 0;}
+.cell div { margin: 4px 0 }
+.cell i { color: #777 }
+.table-header .cell{ padding: 8px  }
+.table-body {padding-top:50px;/* position: absolute; *//* overflow: auto; */}

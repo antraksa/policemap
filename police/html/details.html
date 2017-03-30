@@ -26,31 +26,36 @@
 			<span  class="addr editable">{{region.addr}}</span>
 		</h1>
 		<div class="contacts">
-			<a class="hot-line" href="https://78.xn--b1aew.xn--p1ai/request_main" target="_blank"> Горячая Линия</a>
+			<a class="hot-line" href="https://78.xn--b1aew.xn--p1ai/request_main" target="_blank"> Электронная Приемная</a>
 			<div  class="tel "> <i class="icon-phone"></i> {{#region.tel}} <u>{{.}}</u> {{/region.tel}}</div>
 		</div>
 
-		{{#region.person}}
+		{{#region}}
+		{{#personName}}
 		<h6 class="sub-header">Начальник </h6>
 		<div class="sub-details">
-			<h1 class="name"> {{name}} </h1>	
-			<h2 class="rank"> {{rank}} </h2>
-			<h3  class="tel"> <i class="icon-phone"></i> {{tel}}</h3>
-			<div class="desc">{{time}}</div>
+			<h1 class="name"> {{personName}} </h1>	
+			<h2 class="rank"> {{personRank}} </h2>
+			<h3  class="tel"> <i class="icon-phone"></i> {{personTel}}</h3>
+			{{#personTime}}
+			<div class="desc">{{personTime}}</div>
+			<p class="tip"> Актуальное время приёма может отличаться от указанного, для записи уточняйте график по телефону</p>
+			{{/personTime}}
 		</div>
-		{{/region.person}}
+		{{/personName}}
 
-		{{#region.press.length}}
+		{{#press.length}}
 		<div class="sectors sub-list" >
 			<h6 class="sub-header">Новости </h6>
-			{{#region.press}}
+			{{#press}}
 			<a class="sub-item" target="_blank" href="{{1}}" >
 				<span class="s-title">{{0}}</span>
 				<!-- <span  class="s-val">{{1}}</span> -->
 			</a>
-			{{/region.press}}
+			{{/press}}
 		</div>
-		{{/region.press.length}}
+		{{/press.length}}
+		{{/region}}
 	</div>
 </script>
 
@@ -67,13 +72,13 @@
 			<a href="mailto:{{email}}"  class="tel"> <i class="icon-email"></i> {{email}}</a>
 		</div>
 
-		{{#person}}
+		{{#personName}}
 		<h6 class="sub-header">Начальник </h6>
 		<div class="sub-details">
-			<h1 class="name"> {{name}} </h1>	
-			<h3  class="tel"> <i class="icon-phone"></i> {{tel}}</h3>
+			<h1 class="name"> {{personName}} </h1>	
+			<h3  class="tel"> <i class="icon-phone"></i> {{personTel}}</h3>
 		</div>
-		{{/person}}
+		{{/personName}}
 
 		{{/department}}
 

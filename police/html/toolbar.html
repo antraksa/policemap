@@ -1,48 +1,45 @@
-
 <div class="pane-cont">
-
-	<h3 class="search-toggle"> Слои</h3>
-	<nav id="dash-toggle" class="dash-toggle">
-		<a>Слои</a>
-		<a class="selected">Отделения</a>
-
-		<a>	Изменения </a>
-		<div id="history-btns" class="btns">
-			<button id="btn-save-server" class="btn btn-save"> <i class="icon-cloud-upload"></i></button>
-			<button id="btn-clear-changes" class="btn btn-clear"> <i class="icon-close"></i></button>
-		</div>
-		<!-- <button id="btn-switch-view" class="btn btn-switch"> </button> -->
-	</nav>
-	<div id="dash-content"  class="dash-content">
-		<ul id="layers" class=" dash-panel checkbox-list"> </ul> 
-		<ul id="departments-list" class="dash-panel main-list shown"></ul>
-		<ul id="history-list" class="history-list dash-panel"></ul>
-	</div>
-	<script data-template="layers" type="text/template">
-		{{#.}}
-		<li title="{{desc}}" class="{{#checked}} checked {{/checked}}"><i class="icon-check"></i> {{name}}</li>
-		{{/.}}
-	</script> 
-	<script data-template="history" type="text/template">
-	{{#.}}
-	<li class="item"> 
-		<a class="icon-undo undo">  </a>
-		<a class="icon-redo redo">  </a>
-		<h5 class="name overflow"> {{ name }}</h5> 
-		<h4 class="date"> <i class="icon-clock"></i> {{fdate}} </h4> 
-		<div class="title">{{title}}</div>
-	</li>
-	{{/.}}
-	</script>
-	<script data-template="departmensList" type="text/template">
-		{{#.}}
-			<li class="head-item overflow" data-id = "{{department.number}}"> {{department.name}}</li>
-			{{#regions}}
-			<li class="item " data-id = "{{region.number}}" > 
-				<b class="rate rated{{rate.formatted}}" title="{{rate.val}}"> {{rate.formatted}}</b> 
-				<u title="{{region.name}}" class="overflow"> {{region.name}}</u> 
-			</li>
-			{{/regions}}
-		{{/.}}
-	</script>
+    <h3 class="search-toggle"> Слои</h3>
+    <nav id="dash-toggle" class="dash-toggle">
+        <a>Слои</a>
+        <a class="selected">Отделения</a>
+        <a>	Изменения </a>
+        <div id="history-btns" class="btns">
+            <button id="btn-save-server" title="Загрузить на сервер" class="btn btn-save"> <i class="icon-cloud-upload"></i></button>
+            <button id="btn-clear-changes" title="Отменить все Изменения" class="btn btn-clear"> <i class="icon-close"></i></button>
+        </div>
+        <!-- <button id="btn-switch-view" class="btn btn-switch"> </button> -->
+    </nav>
+    <div id="dash-content" class="dash-content">
+        <ul id="layers" class=" dash-panel checkbox-list"> </ul>
+        <ul id="departments-list" class="dash-panel main-list shown"></ul>
+        <ul id="history-list" class="history-list dash-panel"></ul>
+    </div>
+    <script data-template="layers" type="text/template">
+        {{#.}}
+        <li title="{{desc}}" class="{{#checked}} checked {{/checked}}"><i class="icon-check"></i> {{name}}</li>
+        {{/.}}
+    </script>
+    <script data-template="history" type="text/template">
+        {{#.}}
+        <li class="item">
+            <a class="icon-undo undo" title="Отменить действие"> </a>
+            <a class="icon-redo redo" title="Приименить действие"> </a>
+            <h5 class="name overflow"> {{ name }}</h5>
+            <h4 class="date"> <i class="icon-clock"></i> {{fdate}} </h4>
+            <div class="title">{{title}}</div>
+        </li>
+        {{/.}}
+    </script>
+    <script data-template="departmensList" type="text/template">
+        {{#.}}
+        <li class="head-item overflow" data-dep-id="{{department.number}}"> {{department.name}}</li>
+        {{#regions}}
+        <li class="item " data-reg-id="{{region.number}}">
+            {{#oldVals.length}} <i title="Не сохранено" class="icon-pencil">  </i> {{/oldVals.length}}
+            <b class="rate rated{{rate.formatted}}" title="{{rate.val}}"> {{rate.formatted}}</b>
+            <u title="{{region.name}}" class="overflow"> {{region.name}}</u>
+        </li>
+        {{/regions}} {{/.}}
+    </script>
 </div>

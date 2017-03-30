@@ -78,12 +78,15 @@ Core.on('ready', function() {
 		$('#history-btns').toggleClass('shown', actions.length > 0)
 	}
 	function restore() {
-		actions.forEach(function(a) {setAction(a, a.val) }) 
+		if (actions.length) {
+			actions.forEach(function(a) {setAction(a, a.val) }) 
+			Core.trigger('history.changed', {})
+		}
 	}
 	function setAction(a, val) {
 		var tar = targets[a.type];
 		tar.setVal(a.id, val);
-		console.log('setAction', a)
+		//console.log('setAction', a)
 		return { tar : tar, region : _regions[a.id], ank : a.type  };
 		
 	}
