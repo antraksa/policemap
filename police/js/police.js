@@ -53,20 +53,20 @@
             streets = args.streets;
             departments = args.departments;
             regionsDict = args.regionsDict;
-            var r = { region: { title: 'ОП', fields: [] }, department: { title: 'ОУМВД', fields: [] }, sector: { title: 'Участковый', fields: [] } }
-            for (var key in regions[0].region) {
-                console.log(key)
-                r.region.fields.push({ name: key, edit: true })
-            }
-            for (var key in departments[0].department) {
-                console.log(key)
-                r.department.fields.push({ name: key, edit: true })
-            }
-            for (var key in sectors[0].sector) {
-                console.log(key)
-                r.sector.fields.push({ name: key, edit: true })
-            }
-            console.log(JSON.stringify(r))
+            //var r = { region: { title: 'ОП', fields: [] }, department: { title: 'ОУМВД', fields: [] }, sector: { title: 'Участковый', fields: [] } }
+            // for (var key in regions[0].region) {
+            //     console.log(key)
+            //     r.region.fields.push({ name: key, edit: true })
+            // }
+            // for (var key in departments[0].department) {
+            //     console.log(key)
+            //     r.department.fields.push({ name: key, edit: true })
+            // }
+            // for (var key in sectors[0].sector) {
+            //     console.log(key)
+            //     r.sector.fields.push({ name: key, edit: true })
+            // }
+            // console.log(JSON.stringify(r))
             if (window.ymaps) {
                 ymaps.ready(createMap);
             } else {

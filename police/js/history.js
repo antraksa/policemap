@@ -1,142 +1,77 @@
 'use strict';
 Core.on('ready', function() {
-	//Storage.set('police.history', null)
-	var regions, _regions = {}, templates, anvalues, anfields, targets;
-	var actions = Storage.get('police.history') || [];
+    //Storage.set('police.history', null)
+    var regions, _regions = {},
+        templates, anvalues, anfields, targets;
+    var actions = Storage.get('police.history') || [];
+    Core.on('init', function(args) {
+        regions = args.regions;
+        regions.forEach(function(r) {
+            _regions[r.region.number] = r;
+        })
+        anvalues = args.anvalues;
+        anfields = args.anfields;
+        templates = args.templates;
+        targets = {
+            anvalues: { tar: anvalues, setVal: function(id, val) { anvalues[id] = val; } },
+            anfields: { tar: anfields, setVal: function(id, val) { anfields.fields = val.fields } }
+        }
+        render()
+            //console.log(_regions)
+    })
+    Core.on('map-ready', function() {
+        Core.trigger('history.restore', { actions: actions })
+    })
+    var $history = $('#history-list');
 
-	Core.on('init', function(args) {
+    function render() {
+        Core.trigger('history.render', { actions: actions, $history: $history, templates: templates })
+    }
+    Core.on('history.setAction', function(args) {
+        var tar = targets[args.action.type];
+        tar.setVal(args.action.id, args.val);
+    })
+    Core.on('history.actionAdded', function(args) {
+    	Storage.set('police.history', actions)
+    	console.log('sets', actions)
+    	// window.onbeforeunload = function(evt) {
+     //        var message = 'Изменения не сохранены на сервере! Продолжить?';
+     //        if (typeof evt == "undefined") {
+     //            evt = window.event;
+     //        }
+     //        if (evt) {
+     //            evt.returnValue = message;
+     //        }
+     //        return message
+     //    }
+    })
 
-		regions = args.regions;
-		regions.forEach(function(r) {
-			_regions[r.region.number] = r;
-		})
-		anvalues = args.anvalues;
-		anfields = args.anfields;
-		templates = args.templates;
-		targets = {
-			anvalues : {tar : anvalues, setVal : function(id, val) { anvalues[id] = val; }  }, 
-			anfields : {tar : anfields,  setVal : function(id, val) {anfields.fields =  val.fields }} 
-		}
-		render()
-		//console.log(_regions)
-	})
+    $('#btn-clear-changes').on('click', function() {
+        actions = [];
+        Storage.set('police.history', actions)
+        render()
+        Core.trigger('history.changed', {})
+    })
 
-	Core.on('map-ready', function() { 
-		console.log('restore history', actions)
-		restore();
-	})
-	// if (!actions) {
-	// 	actions = [{default : true, title : 'Исходные данные', date : +new Date()}]
-	// }
-	var $history = $('#history-list'), uindex;
-	function render() {
-		var ractions = actions.map(function(a) {return {
-			name : a.name,
-			fdate : (new Date(a.date)).fineFormat(),
-			title : a.title
-		}})
-		//console.log(actions)
-		
-		var $items = $history.html(Mustache.render(templates.history, ractions)).find('.item'), len = $items.length;
-		$items.each(function(ind) {
-			var $item = $(this);
 
-			$item.find('.undo').on('click', function() {
-				var changed;
-				for (var i = len - 1; i >= ind; i-- ) {
-					changed =true;
-					var a = actions[i]
-					console.log('undo', i, a)
-					setAction(a, a.old)
-					$items.eq(i).addClass('undone')
-				}
-				if (changed) {
-					Core.trigger('history.changed', {})
-					uindex = ind;
-				}
-				console.log('uindex', uindex)
-				
-			})
-			$item.find('.redo').on('click', function() {
-				var changed;
-				for (var i = uindex; i <= ind; i++ ) {
-					changed =true;
-					var a = actions[i]
-					//console.log('redo', i, a)
-					setAction(a, a.val)
-					$items.eq(i).removeClass('undone')
-				}
-				if (changed) {
-					Core.trigger('history.changed', {})
-					uindex = ind;
-				}
-				console.log('uindex', uindex)
-				
-			})
-			
-		})
-		$('#history-btns').toggleClass('shown', actions.length > 0)
-	}
-	function restore() {
-		if (actions.length) {
-			actions.forEach(function(a) {setAction(a, a.val) }) 
-			Core.trigger('history.changed', {})
-		}
-	}
-	function setAction(a, val) {
-		var tar = targets[a.type];
-		tar.setVal(a.id, val);
-		//console.log('setAction', a)
-		return { tar : tar, region : _regions[a.id], ank : a.type  };
-		
-	}
-	Core.on('history.push', function(action) {
-		if (uindex >=0) {
-			actions = actions.slice(0, uindex)	
-			uindex = null;
-		}
-		action.date = +new Date();
-		actions.push(action)
-		Storage.set('police.history', actions)
-		console.log('history', action)
-		render()
-		return
-		window.onbeforeunload = function(evt) { 
-			var message = 'Изменения не сохранены на сервере! Продолжить?' ;
-			if (typeof evt == "undefined") {
-				evt = window.event;
-			}
-			if (evt) {
-				evt.returnValue = message;
-			}
-			return message
-		}
-	})
-	$('#btn-clear-changes').on('click', function() {
-		actions = [];
-		Storage.set('police.history', actions)
-		render() 
-	})
-	var $btnsave = $('#btn-save-server').on('click', function() {
-		console.log('upload changes', actions)
-		var calls = 0;
-		for (var key in targets) {
-
-			var t = targets[key]
-			//if (t.changed) {
-				calls++;
-				API.save(key, t.tar ,function() {
-					calls--;
-					if (calls==0) {
-						actions = [] 
-						Storage.set('police.history', actions)
-						render() 
-						Core.trigger('mess', {mess : 'Изменения сохранены на сервере'})
-						window.onbeforeunload = null;
-					}
-				}, function() { Core.trigger('mess', {mess : 'Что-то сломалось! Изменения не сохранены на сервере', error : true}) })
-			//}
-		}
-	})
-
+    var $btnsave = $('#btn-save-server').on('click', function() {
+        console.log('upload changes', actions)
+        var calls = 0;
+        for (var key in targets) {
+            var t = targets[key]
+                //if (t.changed) {
+            calls++;
+            API.save(key, t.tar, function() {
+                    calls--;
+                    if (calls == 0) {
+                        actions = []
+                        Storage.set('police.history', actions)
+                        render()
+                        Core.trigger('mess', { mess: 'Изменения сохранены на сервере' })
+                        window.onbeforeunload = null;
+                    }
+                }, function() { Core.trigger('mess', { mess: 'Что-то сломалось! Изменения не сохранены на сервере', error: true }) })
+                //}
+        }
+    })
 })

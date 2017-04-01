@@ -1,23 +1,19 @@
 (function() {
     API.types = {
         "region": {
-            'name' : 'region',
-            'ds' : 'regions',
+            'name': 'region',
+            'ds': 'regions',
             "title": "ОП",
             "fields": [{
-                name: 'id',
-                key: true,
-                edit: true,
-            }, {
                 "name": "number",
                 "edit": true,
                 "key": true,
-                "ewidth": "60px"
+                "width": "60px"
             }, {
                 'title': 'Название',
                 "name": "name",
                 "edit": true,
-                "ewidth": "150px"
+                "width": "150px"
             }, {
                 "name": "coords",
                 "edit": false
@@ -25,47 +21,47 @@
                 'title': 'Регион',
                 "name": "area",
                 "edit": true,
-                "ewidth": "100px"
+                "width": "150px"
             }, {
                 'title': 'Адрес',
                 "name": "addr",
                 "edit": true,
-                "ewidth": "200px"
+                "width": "200px"
             }, {
                 'title': 'Телефон',
                 "name": "tel",
                 "edit": true,
-                "ewidth": "150px"
+                "width": "150px"
             }, {
                 'title': 'Имя начальника',
                 "name": "personName",
                 "edit": true,
-                "ewidth": "200px"
+                "width": "200px"
             }, {
                 'title': 'Должность начальника',
                 "name": "personRank",
                 "edit": true,
-                "ewidth": "150px"
+                "width": "200px"
             }, {
                 'title': 'Телефон начальника',
                 "name": "personTel",
                 "edit": true,
-                "ewidth": "200px"
+                "width": "200px"
             }, {
                 'title': 'Время приема нач. ',
                 "name": "personTime",
                 "edit": true,
-                "ewidth": "200px"
+                "width": "200px"
             }, {
                 'title': 'Последняя инспекция ',
                 "name": "lastInspect",
                 "edit": true,
-                "ewidth": "100px"
+                "width": "100px"
             }, {
                 'title': 'Новости ',
                 "name": "press",
                 "edit": true,
-                "ewidth": "400px",
+                "width": "400px",
                 "template": "{{#.}} <div>{{0}}, <i>{{1}}</i>;</div>{{/.}}",
                 'convert': function(o) {
                     return trim(o.split(';')).map(function(a) {
@@ -79,67 +75,85 @@
         },
         "department": {
             "title": "ОУМВД",
+            'ds': 'departments',
+            'name': 'department',
             "fields": [{
-                "name": "addr",
-                "edit": true
-            }, {
                 "name": "number",
-                "edit": true
+                "edit": true,
+                "width": "150px"
             }, {
                 "name": "name",
-                "edit": true
+                "edit": true,
+                "width": "150px"
+            }, {
+                "name": "addr",
+                "edit": true,
+                "width": "200px"
             }, {
                 "name": "regions",
-                "edit": true
+                "edit": false,
             }, {
                 "name": "email",
-                "edit": true
+                "edit": true,
+                "width": "150px"
             }, {
                 "name": "personName",
-                "edit": true
+                "edit": true,
+                "width": "150px"
             }, {
                 "name": "personTel",
-                "edit": true
+                "edit": true,
+                "width": "150px"
             }, {
                 "name": "tel",
-                "edit": true
+                "edit": true,
+                "width": "150px"
             }, {
                 "name": "raddr",
-                "edit": true
+                "edit": false
             }, {
                 "name": "coords",
-                "edit": true
+                "edit": false
             }]
         },
         "sector": {
             "title": "Участковый",
+            'ds': 'sectors',
+            'name': 'sector',
             "fields": [{
                 "name": "photo",
-                "edit": true
+                "edit": true,
+                "width": "150px"
             }, {
                 "name": "name",
-                "edit": true
+                "edit": true,
+                "width": "150px"
             }, {
                 "name": "rank",
-                "edit": true
+                "edit": true,
+                "width": "150px"
             }, {
                 "name": "tel",
-                "edit": true
+                "edit": true,
+                "width": "200px"
             }, {
                 "name": "addr",
-                "edit": true
+                "edit": true,
+                "width": "200px"
             }, {
                 "name": "streets",
-                "edit": true
+                "edit": true,
+                "width": "150px"
             }, {
                 "name": "time",
-                "edit": true
+                "edit": true,
+                "width": "200px"
             }, {
                 "name": "raddr",
-                "edit": true
+                "edit": false
             }, {
                 "name": "coords",
-                "edit": true
+                "edit": false
             }]
         }
     }

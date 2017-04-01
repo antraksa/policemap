@@ -1,62 +1,75 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1">
 <meta charset="utf-8">
-
 <link href="css/reset.css" rel="stylesheet" media="screen">
 <link href="css/style.css" rel="stylesheet" media="screen">
 <link href="css/police.css" rel="stylesheet" media="screen">
 <link href="css/parser.css" rel="stylesheet" media="screen">
-
 <!-- <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script> -->
 <script src="js/libs/jquery-2.1.3.min.js"></script>
 <script src="js/libs/mustache.js"></script>
-
 <script src="js/common/common.js"></script>
+<script src="js/common/core.js"></script>
 <script src="js/parser.js"></script>
 <script src="js/api.js"></script>
 <script src="js/api-types.js"></script>
-
+<script src="js/history-common.js"></script>
 <style type="text/css">
-	
 </style>
 
 <body class="bgc parser">
-
-<div class="common">
-	<button class="btn" id="btn-ank"> Анкеты и отделения</button>
-
-	<button class="btn" id="btn-sectors-spb">Ддосить Сектора  СПБ </button>
-	<button class="btn" id="btn-sectors-msc">Ддосить Сектора  Москвы </button>
-	<button class="btn" id="btn-sectors-vo">Ддосить Сектора  ВО </button>
-
-	<button class="btn" id="btn-resolve-dep"> Ресолвить Деп </button>
-	<button class="btn" id="btn-resolve-spb"> Ресолвить Сектора СПБ </button>
-	<button class="btn" id="btn-resolve-msc"> Ресолвить Сектора Москвы </button>
-	<button class="btn" id="btn-resolve-vo"> Ресолвить Сектора  ВО </button>
-</div>
-
-
-
-<div id="values-editor" class="values"></div>
-<script data-template="values" type="text/template">
-	<div class="table-header flex">
-		{{#fields}}
-	    	<div class="cell" style="width: {{ewidth}}">{{title}}</div>
-	    {{/fields}}
-		  
-	</div>
-
-	<div class="table-body">
-	    {{#values}}
-	    <div class="item flex">
-	    	{{#.}}
-    		<div data-field-ind="{{ind}}" contenteditable class="cell" style="width: {{width}}">
-    			{{{text}}}
-    		</div>
-	    	{{/.}} 	
-	    </div>
-	    {{/values}}
+    <div class="all">
+        <div class="pane toolbar bgc">
+        	<a id="btn-operations" class="btn mt-toggle">  Операции </a>
+            <div class="mt">
+                <a class="btn" id="btn-ank"> Анкеты и отделения</a>
+                <a class="btn" id="btn-sectors-spb">Ддосить Сектора СПБ </a>
+                <a class="btn" id="btn-sectors-msc">Ддосить Сектора Москвы </a>
+                <a class="btn" id="btn-sectors-vo">Ддосить Сектора ВО </a>
+                <a class="btn" id="btn-resolve-dep"> Ресолвить Деп </a>
+                <a class="btn" id="btn-resolve-spb"> Ресолвить Сектора СПБ </a>
+                <a class="btn" id="btn-resolve-msc"> Ресолвить Сектора Москвы </a>
+                <a class="btn" id="btn-resolve-vo"> Ресолвить Сектора ВО </a>
+            </div>
+            <nav id="types-toggle" class="dash-toggle">
+            </nav>
+            <script data-template="types" type="text/template">
+            	{{#.}}
+            	<a>{{title}}</a>
+            	{{/.}}
+            </script>
+            <div id="history-list" class="history-list"></div>
+            <script data-template="history" type="text/template">
+                {{#.}}
+                <li class="item">
+                    <a class="icon-undo undo" title="Отменить действие"> </a>
+                    <a class="icon-redo redo" title="Приименить действие"> </a>
+                    <h5 class="name overflow"> {{ name }}</h5>
+                    <h4 class="date"> <i class="icon-clock"></i> {{fdate}} </h4>
+                    <div class="title">{{title}}</div>
+                </li>
+                {{/.}}
+            </script>
+        </div>
+        <div id="values-editor" class="pane values">
+        </div>
+        <script data-template="values" type="text/template">
+            <div class="table-header flex">
+                {{#fields}}
+                <a class="cell header-cell overflow" style="width: {{width}}">{{title}}</a>
+                {{/fields}}
+            </div>
+            <div class="table-body">
+                {{#values}}
+                <div class="item flex">
+                    {{#cells}}
+                    <div data-field-ind="{{ind}}" contenteditable class="cell table-cell" style="width: {{width}}">
+                        {{{text}}}
+                    </div>
+                    {{/cells}}
+                </div>
+                {{/values}}
+            </div>
+        </script>
     </div>
-</script>
-	
 </body>

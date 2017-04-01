@@ -1,128 +1,109 @@
 <nav id="details-toggle" class="details-toggle">
-	<a class="t-area">ОУМВД</a>
-	<a class="selected t-region">ОП</a>
-	<a class="t-sector">Участковый</a>
+    <a class="t-area">ОУМВД</a>
+    <a class="selected t-region">ОП</a>
+    <a class="t-sector">Участковый</a>
 </nav>
-
 <div id="details" class="pane-cont template">
-	<div id="department-details" class="sub-panel "></div>
-	<div id="region-details" class="sub-panel  shown"></div>
-	<div id="sector-details" class="sub-panel "></div>
+    <div id="department-details" class="sub-panel "></div>
+    <div id="region-details" class="sub-panel  shown"></div>
+    <div id="sector-details" class="sub-panel "></div>
 </div>
-
 <script data-template="region" type="text/template">
-	<div class="details-tools tools">
-		<button class="btn btn-edit"> <i class="icon-pencil"></i> </button>
-		<button class="btn btn-save"> <i class="icon-check"></i> </button>
-		<button class="btn btn-cancel"> <i class="icon-close"></i> </button>
-		
-	</div>
-	<div class="details-wrap">
-		<h1 class="name">
+    <div class="details-tools tools">
+        <button class="btn btn-edit"> <i class="icon-pencil"></i> </button>
+        <button class="btn btn-save"> <i class="icon-check"></i> </button>
+        <button class="btn btn-cancel"> <i class="icon-close"></i> </button>
+    </div>
+    <div class="details-wrap">
+        <h1 class="name">
 			<q  class="area">{{region.area}}</q> 
 			<!-- <u class="number">{{region.number}} </u>  -->
 			<u  class="number btn-ank rated{{rate.formatted}}"> <em class="lb">Рейтинг</em> {{rate.formatted}} </u>
 			<span class="editable">{{region.name}}</span> 
 			<span  class="addr editable">{{region.addr}}</span>
 		</h1>
-		<div class="contacts">
-			<a class="hot-line" href="https://78.xn--b1aew.xn--p1ai/request_main" target="_blank"> Электронная Приемная</a>
-			<div  class="tel "> <i class="icon-phone"></i> {{#region.tel}} <u>{{.}}</u> {{/region.tel}}</div>
-		</div>
-
-		{{#region}}
-		{{#personName}}
-		<h6 class="sub-header">Начальник </h6>
-		<div class="sub-details">
-			<h1 class="name"> {{personName}} </h1>	
-			<h2 class="rank"> {{personRank}} </h2>
-			<h3  class="tel"> <i class="icon-phone"></i> {{personTel}}</h3>
-			{{#personTime}}
-			<div class="desc">{{personTime}}</div>
-			<p class="tip"> Актуальное время приёма может отличаться от указанного, для записи уточняйте график по телефону</p>
-			{{/personTime}}
-		</div>
-		{{/personName}}
-
-		{{#press.length}}
-		<div class="sectors sub-list" >
-			<h6 class="sub-header">Новости </h6>
-			{{#press}}
-			<a class="sub-item" target="_blank" href="{{1}}" >
-				<span class="s-title">{{0}}</span>
-				<!-- <span  class="s-val">{{1}}</span> -->
-			</a>
-			{{/press}}
-		</div>
-		{{/press.length}}
-		{{/region}}
-	</div>
+        <div class="contacts">
+            <a class="hot-line" href="https://78.xn--b1aew.xn--p1ai/request_main" target="_blank"> Электронная Приемная</a>
+            <div class="tel "> <i class="icon-phone"></i> {{#region.tel}} <u>{{.}}</u> {{/region.tel}}</div>
+        </div>
+        {{#region}} 
+        {{#personName}}
+        <h6 class="sub-header">Начальник </h6>
+        <div class="sub-details">
+            <h1 class="name"> {{personName}} </h1>
+            <h2 class="rank"> {{personRank}} </h2>
+            <h3 class="tel"> <i class="icon-phone"></i> {{personTel}}</h3> {{#personTime}}
+            <div class="desc">{{personTime}}</div>
+            <p class="tip"> Актуальное время приёма может отличаться от указанного, для записи уточняйте график по телефону</p>
+            {{/personTime}}
+        </div>
+        {{/personName}} {{#press.length}}
+        <div class="sectors sub-list">
+            <h6 class="sub-header">Новости </h6> {{#press}}
+            <a class="sub-item" target="_blank" href="{{1}}">
+                <span class="s-title">{{0}}</span>
+                <!-- <span  class="s-val">{{1}}</span> -->
+            </a>
+            {{/press}}
+        </div>
+        {{/press.length}} {{/region}}
+    </div>
 </script>
-
 <script data-template="department" type="text/template">
-	<div class="details-wrap">
-		{{#department}}
-		<h1 class="name">
+    <div class="details-wrap">
+        {{#department}}
+        <h1 class="name">
 			<u class="number">  </u> 
 			<span class="editable">{{name}}</span> 
 			<span  class="addr editable">{{addr}}</span>
 		</h1>
-		<div class="contacts">
-			<div  class="tel"> <i class="icon-phone"></i> {{#tel}} <u>{{.}}</u> {{/tel}}</div>
-			<a href="mailto:{{email}}"  class="tel"> <i class="icon-email"></i> {{email}}</a>
-		</div>
-
-		{{#personName}}
-		<h6 class="sub-header">Начальник </h6>
-		<div class="sub-details">
-			<h1 class="name"> {{personName}} </h1>	
-			<h3  class="tel"> <i class="icon-phone"></i> {{personTel}}</h3>
-		</div>
-		{{/personName}}
-
-		{{/department}}
-
-		{{#regions.length}}
-		<div class="sectors sub-list" >
-			<h6 class="sub-header">Районные отделения </h6>
-			<ul>
-			{{#regions}}
-			<li class="sub-item" >
-				<span class="s-title">{{region.name}}</span>
-				<span  class="s-val">{{region.addr}}</span>
-			</li>
-			{{/regions}}
-			</ul>
-		</div>
-		{{/regions.length}}
-
-	</div>
+        <div class="contacts">
+            <div class="tel"> <i class="icon-phone"></i> {{#tel}} <u>{{.}}</u> {{/tel}}</div>
+            <a href="mailto:{{email}}" class="tel"> <i class="icon-email"></i> {{email}}</a>
+        </div>
+        {{#personName}}
+        <h6 class="sub-header">Начальник </h6>
+        <div class="sub-details">
+            <h1 class="name"> {{personName}} </h1>
+            <h3 class="tel"> <i class="icon-phone"></i> {{personTel}}</h3>
+        </div>
+        {{/personName}} {{/department}} {{#regions.length}}
+        <div class="sectors sub-list">
+            <h6 class="sub-header">Районные отделения </h6>
+            <ul>
+                {{#regions}}
+                <li class="sub-item">
+                    <span class="s-title">{{region.name}}</span>
+                    <span class="s-val">{{region.addr}}</span>
+                </li>
+                {{/regions}}
+            </ul>
+        </div>
+        {{/regions.length}}
+    </div>
 </script>
-
 <script data-template="sector" type="text/template">
-	<div class="details-wrap">
-		{{#sector}}
-		<div class="img" style="background-image: url('{{photo}}') "></div>
-		<h1 class="name capitalize-all">{{name}} </h1>
-		<h2 class="rank"> {{rank}} </h2>
-		<div  class="addr">{{raddr}}</div>
-		<div class="contacts">
-			<div  class="tel"> <i class="icon-phone"></i> {{tel}}</div>
-			
-		</div>
-		<div class="clear"></div>
-		<ul class="streets ">
-			{{#streets}}
-			<li class="street ">
-				<h4 class="title">{{name}}</h4>
-				<div class="numbers "> 
-				{{#numbers}}
-					<span>{{.}}</span>
-				{{/numbers}}
-				</div>
-			</li>
-			{{/streets}}
-		</ul>
-		{{/sector}}
-	</div>
+    <div class="details-wrap">
+        {{#sector}}
+        <div class="img" style="background-image: url('{{photo}}') "></div>
+        <h1 class="name capitalize-all">{{name}} </h1>
+        <h2 class="rank"> {{rank}} </h2>
+        <div class="addr">{{raddr}}</div>
+        <div class="contacts">
+            <div class="tel"> <i class="icon-phone"></i> {{tel}}</div>
+        </div>
+        <div class="clear"></div>
+        <ul class="streets ">
+            {{#streets}}
+            <li class="street ">
+                <h4 class="title">{{name}}</h4>
+                <div class="numbers ">
+                    {{#numbers}}
+                    <span>{{.}}</span> {{/numbers}}
+                </div>
+            </li>
+            {{/streets}}
+        </ul>
+        {{/sector}}
+    </div>
 </script>

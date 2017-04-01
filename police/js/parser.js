@@ -1,72 +1,108 @@
 'use strict'
 $(function() {
-    var historyKey = 'editor.history',
-        history = [];
     API.all(function(args) {
         console.warn(args)
         var regions = args.regions,
             types = API.types,
             departments = args.departments,
             sectors = args.sectors,
-            datas = args;
+            datas = args,
+            $history = $('#history-list');
         var typearr = [];
         var templates = Common.getTemplates();
         for (var key in types) {
             typearr.push(types[key])
         }
-        renderValues(typearr[0], regions)
-            //renderValues(typearr[2], sectors)
+        $('#types-toggle').html(Mustache.render(templates.types, typearr))
+            .find('a').on('click', function() {
+                renderValues(typearr[$(this).index()]);
+                $(this).addClass('selected').siblings().removeClass('selected')
+            }).eq(0).trigger('click')
+
         function renderValues(type) {
+            actions = [];
+            var actions = history[type.name];
+            if (!actions) actions = history[type.name] = [];
             var fields = type.fields.filter(function(f) {
                 return f.edit;
             })
             var target = datas[type.ds];
             var values = target.map(function(o) {
-                return fields.map(function(f, j) {
+                var cells = fields.map(function(f, j) {
                     var setVal = function(val) {
                         if (val && val.trim) val = val.trim()
-                        this.val = val; 
-                        this.item[this.field.name] = val; 
-                        if (val) {
-                            this.text = (f.template) ? Mustache.render(f.template, val) : val;
-                        }
+                        this.val = val;
+                        this.item[this.field.name] = val;
+                        this.text = (val) ? (f.template) ? Mustache.render(f.template, val) : val : '';
                     }
-                    var cell = { ind: j, field : f, width: f.ewidth, setVal : setVal, item : o }
+                    var cell = { ind: j, field: f, width: f.width, setVal: setVal, item: o }
                     cell.setVal(o[f.name]);
                     return cell;
                 })
+                return { item: o, cells: cells }
             })
-            var res = { fields: fields, values: values };
-            var $res = $('#values-editor').html(Mustache.render(templates.values, res));
-            $res.find('.cell').on('click', function() {
-                    var $this = $(this).addClass('edited')
-                })
-                .on('blur', function() {
-                    var $this = $(this).removeClass('edited'),
-                        ind = $this.index(),
-                        itemind = $this.parent().index(),
-                        item = values[itemind],
-                        cell = item[ind],
-                        field = fields[ind],
-                        old = cell.value,
-                        text = $(this).text().trim(),
-                        oldtext = cell.text,
-                        val = (field.convert) ? field.convert(text) :  text;
-                    if (text != oldtext) {
-                        var action = { type: type.name, id: item[0].value, old: old, val: val };
-                        cell.setVal(val);
-                        history.push(action)
-                        console.log('changed', cell)
-                    }
-                    $this.html(cell.text)
-                })
-        }
+            var res = { fields: fields, values: values },
+                sortField = { name: fields[0].name, desc: false };
+            render()
 
-        function setAction(a) {
-            console.log('set action', a)
-            var type = types[a.type];
-            // datas[type.ds][id]
+            function render() {
+                console.log('render', sortField.name, values)
+                values.sort(function(_a, _b) {
+                    var a = (sortField.desc ? _a : _b).item[sortField.name] || '',
+                        b = (sortField.desc ? _b : _a).item[sortField.name] || '';
+                    return a < b ? -1 : a > b ? 1 : 0;
+                })
+                var $res = $('#values-editor').html(Mustache.render(templates.values, res));
+                $res.find('.table-cell').on('click', function() {
+                        var $this = $(this).addClass('edited')
+                        $this.parent().addClass('current').siblings().removeClass('current');
+                    })
+                    .on('blur', function() {
+                        var $this = $(this).removeClass('edited'),
+                            ind = Number($this.attr('data-field-ind')),
+                            itemind = $this.parent().index(),
+                            item = values[itemind],
+                            cell = item.cells[ind],
+                            field = fields[ind],
+                            text = $(this).text().trim(),
+                            oldtext = cell.text,
+                            val = (field.convert) ? field.convert(text) : text;
+                        console.warn(text, oldtext)
+                        if (text != oldtext) {
+                            var action = { type: type.name, cell: cell, $cell: $this, old: cell.val, name: cell.item.name, val: val, title: '"{0}" изменено'.format(field.title) };
+                            cell.setVal(val);
+                            Core.trigger('history.push', action)
+                                //console.log('changed', cell)
+                                //console.log(actions)
+                        }
+                        $this.html(cell.text)
+                    })
+                $res.find('.header-cell').on('click', function() {
+                    var fname = fields[$(this).index()].name;
+                    if (sortField.name == fname)
+                        sortField.desc = !sortField.desc;
+                    else {
+                        sortField.name = fname;
+                        sortField.desc = false;
+                    }
+                    render()
+                })
+            }
+
+            function renderHistory() {
+                Core.trigger('history.render', { actions: actions, $history: $history, templates: templates })
+            }
+            renderHistory()
         }
+        Core.on('history.setAction', function(args) {
+            console.log('set action', args);
+            var a = args.action;
+            a.cell.setVal(args.val)
+            a.$cell.html(a.cell.text)
+        })
+        $('#btn-operations').on('click', function() {
+            $(this).toggleClass('selected');
+        })
     })
 })
 $(function() {
