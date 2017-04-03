@@ -1,22 +1,30 @@
-.bgc {background: #6f4b86;}
-.parser .toolbar {}
-.parser .toolbar .btn{display: block;margin-bottom: 1px;/* background: rgba(255, 255, 255, 0.77); */font-size: 11px;border-radius: 0;}
-.mt-toggle {
+.bgc {background: #206252;}
+
+.parser .toolbar {width: 250px;}
+.mt .btn, .mt-toggle{display: block;margin-bottom: 1px;background: rgba(255, 243, 119, 0.68);font-size: 11px;border-radius: 0;}
+.mt-toggle, .mt {
     text-transform: uppercase;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
 }
-.mt-toggle.selected {background: rgba(255, 255, 255, 0.77);}
+.mt .btn {font-size: 11px;text-transform: initial;}
+.history-list .btn{display: block;float: left;margin: 4px;margin-right: 0;width: 48%;}
+.mt-toggle.selected {/* background: rgba(255, 255, 255, 0.77); */}
 .mt-toggle.selected + .mt {max-height: 500px}
-.mt {/* padding: 10px; */box-sizing: border-box;transition: max-height 0.3s;max-height: 0;overflow: hidden;}
-.values {position: relative;margin-left: 300px;/* background: rgba(255, 255, 255, 0.46); */}
+.mt {/* padding: 10px; */box-sizing: border-box;transition: max-height 0.3s;max-height: 0;overflow: hidden;margin-bottom: 31px;position: absolute;z-index: 2;}
+.values {position: relative;margin-left: 250px;/* background: rgba(255, 255, 255, 0.46); */overflow: auto;}
 .flex {flex-direction: row; display: flex;}
 .item {}
 .cell {border: 1px solid rgba(255, 255, 255, 0.28); display: block}
-.values .cell{padding: 4px 8px;overflow: hidden;box-sizing: border-box;max-height: 100px; flex-shrink: 0;overflow-y: auto;}
-.table-header {position: absolute;/* background: rgba(255, 255, 255, 0.63); *//* right: 0; */left: 0;top: 0;}
-.table-body .cell {background: rgba(255, 255, 255, 0.6); transition: background 0.3s}
-.item.current .cell{    background: rgba(255, 255, 255, 0.7);}
+.values .cell{padding: 4px 8px;overflow: hidden;box-sizing: border-box;max-height: 38px;flex-shrink: 0;/* overflow-y: auto; *//* white-space: nowrap; */font-size: 12px;line-height: 16px;}
+.table-header {position: absolute;/* background: rgba(255, 255, 255, 0.63); *//* right: 0; */left: 0;top: 0;transition: top 0.3s 0.3s;}
+.table-body .cell {background: rgba(255, 255, 255, 0.6);transition: background 0.3s, max-height 0.3s;}
+.item.current .cell{background: rgba(255, 255, 255, 0.7);overflow-y: auto;max-height: 100px;}
 .item.current .cell.edited {background: #fff;box-shadow: 0 0 5px rgba(0, 0, 0, 0.31);}
+.history-list ul {overflow-y:auto;bottom: 31px;position: absolute;right: 0;left: 0;top: 76px;}
 .cell div { margin: 4px 0 }
 .cell i { color: #777 }
 .table-header .cell{padding: 8px;color: rgba(255, 255, 255, 0.75);text-transform: uppercase;font-size: 11px;}
-.table-body {padding-top: 29px;/* position: absolute; *//* overflow: auto; *//* background: rgba(255, 255, 255, 0.46); */}
+.table-body {padding-top: 30px;/* position: absolute; *//* overflow: auto; *//* background: rgba(255, 255, 255, 0.46); */}

@@ -343,8 +343,8 @@
             mtimeout = setTimeout(function() { $mess.removeClass('shown') }, 3000)
         })
         window.onerror = function() {
-                Core.trigger('mess', { mess: 'Все совсем плохо. Ошибка в скриптах', error: true })
-            }
+            Core.trigger('mess', { mess: 'Все совсем плохо. Ошибка в скриптах', error: true })
+        }
             //console.log(getcolors())
     };
 })()

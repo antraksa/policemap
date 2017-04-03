@@ -1,16 +1,26 @@
 'use strict';
 var API = (function() {
+    var requests = {
+        departments : function() { return $.getJSON("data/resolved/departments.json") },
+        regions : function() { return $.getJSON("data/resolved/regions.json") },
+        areas : function() { return $.getJSON("data/resolved/areas.json") },
+        sectors : function() { return $.getJSON("data/resolved/sectors.json") },
+        anfields : function() { return $.getJSON("data/resolved/anfields.json") },
+        anvalues : function() { return $.getJSON("data/resolved/anvalues.json") }
+    }
     function getAll() {
         return $.when(
-            $.getJSON("data/resolved/departments.json"),
-            $.getJSON("data/resolved/regions.json"),
-            $.getJSON("data/resolved/areas.json"),
-            $.getJSON("data/resolved/sectors.json"),
-            $.getJSON("data/resolved/anfields.json"),
-            $.getJSON('data/resolved/anvalues.json')
+            requests.departments(),
+            requests.regions(),
+            requests.areas(),
+            requests.sectors(),
+            requests.departments(),
+            requests.anfields(),
+            requests.anvalues()
         )
     }
     return {
+        requests : requests,
     	all : function(success) {
     		getAll().done(function(deps, regions, areas, sectors, anfields, anvalues, types) {
     			 success({

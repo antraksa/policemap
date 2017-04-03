@@ -1,13 +1,16 @@
-body, html {margin: 0;height: 100%;/* overflow: hidden; */font-family: tahoma;font-size: 13px;}
+body, html {margin: 0;height: 100%;overflow: hidden;font-family: tahoma;font-size: 13px;}
 .bgc {background: #1d3854;}
 .fgc {color: #b7250c; border-color: #b7250c}
 .fbgc {background: #b7250c;}
-.clear {clear: both}
+.clear {clear: both; overflow: hidden;}
 .none {display: none}
 .overflow { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; display: block;  } 
 .capitalize:first-letter { text-transform: uppercase; }
 .capitalize-all {text-transform: capitalize;}
-.loading:before {content:'';display:block;position: absolute;z-index:1000;/* opacity:0.8; */top:0;left:0;right:0;bottom:0;background: rgba(255, 255, 255, 0.22) url(img/spin.svg) no-repeat center;}
+.loading:before, .locked:before {content:'';display:block;position: absolute;z-index:1000;/* opacity:0.8; */top:0;left:0;right:0;bottom:0;}
+.locked {position: relative;}
+.locked:before {content: '';background: rgba(255, 212, 136, 0.32);text-align: center;padding-top: 10px;color: #777;font-style: italic;}
+.loading:before {background: rgba(255, 255, 255, 0.22) url(img/spin.svg) no-repeat center;}
 
 a { cursor: pointer;  }
 b {font-weight: bold}
@@ -38,7 +41,7 @@ input[type="text"]:focus {/* background: #fff; */}
 .dblbuttons button {padding: 0 10px;font-size: 12px; cursor: pointer;border-radius: 2px;background: transparent;color: rgba(255, 255, 255, 0.72);}
 .dblbuttons button.selected {background: rgba(255, 255, 255, 0.3);color: #fff;cursor: default;}
 
-.all {height: 100%;/* position: relative; */min-height: 100%;}
+.all {height: 100%;position: relative;min-height: 100%;}
 .pane {transition: width 0.5s ease-out;box-sizing: border-box;height: 100%;}
 .pane.details {width: 400px;/* background: rgba(255, 255, 255, 0.2); */position: fixed;right: 0;z-index: 1;padding-top: 38px;overflow-y: auto;}
 .pane.results {transition: margin 0.5s ease-out;padding: 0;margin-left: 300px;margin-right: 400px;background: rgba(255, 255, 255, 0.8);overflow: visible;min-height: 100%;height: auto;position: relative;overflow: hidden;}
@@ -196,7 +199,7 @@ input[type="text"]:focus {/* background: #fff; */}
 .dash-toggle .btn-save {background: rgba(255, 0, 0, 0.46);color: #fff;}
 .dash-toggle a {padding: 0 10px}
 
-.dash-content {height: calc(100% - 20px);overflow: auto;/* margin-top: 10px; */position: relative;}
+.dash-content {height: calc(100% - 38px);overflow: auto;/* margin-top: 10px; */position: relative;}
 .dash-panel {display: none;}
 .dash-panel.shown { display: block }
 .main-list {}
@@ -209,7 +212,10 @@ input[type="text"]:focus {/* background: #fff; */}
 .main-list .item u {margin-right: 40px;}
 .main-list .item b {float: right;width: 20px;height: 20px;line-height: 20px;text-align: center;margin-left: 1px;/* background: rgba(255, 255, 255, 0.06); *//* font-family: monospace; */border-radius: 20px;margin: 5px;font-weight: normal;font-size: 9px;}
 
-.history-list {}
+.history-list {
+    overflow: hidden;
+    /* position: relative; */
+}
 .history-list .item{padding: 4px;background: rgba(255, 255, 255, 0.05);font-size: 11px;border-bottom: 1px solid rgba(255, 255, 255, 0.16);padding-right: 44px;overflow: hidden;position: relative;}
 .history-list .name {color: #fff;margin-bottom: 6px;height: 11px;}
 .history-list .date {float: right;color: rgba(255, 255, 255, 0.66);}

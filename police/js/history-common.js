@@ -7,6 +7,7 @@ $(function() {
         templates = args.templates;
         render()
     })
+    var $items;
 
     function render() {
         var ractions = actions.map(function(a) {
@@ -17,8 +18,8 @@ $(function() {
                 }
             })
             //console.warn(actions)
-        var $items = $history.html(Mustache.render(templates.history, ractions)).find('.item'),
-            len = $items.length;
+        $items = $history.html(Mustache.render(templates.history, ractions)).find('.item');
+        var len = $items.length;
         $items.each(function(ind) {
             var $item = $(this);
             $item.find('.undo').on('click', function() {
@@ -53,7 +54,11 @@ $(function() {
             })
         })
         $('#history-btns').toggleClass('shown', actions.length > 0)
+        Core.trigger('history.rendered', {})
     }
+    Core.on('history.revert', function(args) {
+        $item.eq(0).find('.undo').trigger('click')
+    })
     Core.on('history.push', function(action) {
         if (uindex >= 0) {
             actions = actions.slice(0, uindex)

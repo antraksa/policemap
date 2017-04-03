@@ -1,28 +1,30 @@
 'use strict'
 $(function() {
+    loading(true)
     API.all(function(args) {
         console.warn(args)
-        var regions = args.regions,
-            types = API.types,
-            departments = args.departments,
-            sectors = args.sectors,
+        var types = API.types,
             datas = args,
-            $history = $('#history-list');
+            $history = $('#history-list'),
+            $th, renderSaveButtons;
         var typearr = [];
         var templates = Common.getTemplates();
         for (var key in types) {
             typearr.push(types[key])
         }
-        $('#types-toggle').html(Mustache.render(templates.types, typearr))
-            .find('a').on('click', function() {
-                renderValues(typearr[$(this).index()]);
-                $(this).addClass('selected').siblings().removeClass('selected')
-            }).eq(0).trigger('click')
+        var $ttoggles = $('#types-toggle').html(Mustache.render(templates.types, typearr))
+        $ttoggles.find('a').on('click', function() {
+            renderValues(typearr[$(this).index()]);
+            $(this).addClass('selected').siblings().removeClass('selected')
+        }).eq(0).trigger('click');
+        $('#values-editor').on('scroll', function() {
+            var top = $(this).scrollTop()
+            $th.css('top', top + 'px')
+            console.log(top)
+        })
 
         function renderValues(type) {
-            actions = [];
-            var actions = history[type.name];
-            if (!actions) actions = history[type.name] = [];
+            var actions = [];
             var fields = type.fields.filter(function(f) {
                 return f.edit;
             })
@@ -46,6 +48,7 @@ $(function() {
             render()
 
             function render() {
+                $ttoggles.removeClass('locked');
                 console.log('render', sortField.name, values)
                 values.sort(function(_a, _b) {
                     var a = (sortField.desc ? _a : _b).item[sortField.name] || '',
@@ -53,8 +56,18 @@ $(function() {
                     return a < b ? -1 : a > b ? 1 : 0;
                 })
                 var $res = $('#values-editor').html(Mustache.render(templates.values, res));
+                $th = $res.find('.table-header');
                 $res.find('.table-cell').on('click', function() {
+                        var $this = $(this),
+                            ind = Number($this.attr('data-field-ind')),
+                            field = fields[ind];
+                        if (field.ds) {
+                            var $ds = $(Mustache.render(templates.ds, datas[field.ds])).appendTo($this)
+                        }
+                    })
+                    .on('focus', function() {
                         var $this = $(this).addClass('edited')
+                        $this.data('oldtext', $this.text().trim())
                         $this.parent().addClass('current').siblings().removeClass('current');
                     })
                     .on('blur', function() {
@@ -65,15 +78,16 @@ $(function() {
                             cell = item.cells[ind],
                             field = fields[ind],
                             text = $(this).text().trim(),
-                            oldtext = cell.text,
+                            oldtext = $this.data('oldtext'),
                             val = (field.convert) ? field.convert(text) : text;
-                        console.warn(text, oldtext)
+                        //console.warn(text, oldtext)
                         if (text != oldtext) {
                             var action = { type: type.name, cell: cell, $cell: $this, old: cell.val, name: cell.item.name, val: val, title: '"{0}" изменено'.format(field.title) };
                             cell.setVal(val);
                             Core.trigger('history.push', action)
-                                //console.log('changed', cell)
-                                //console.log(actions)
+                            $ttoggles.addClass('locked');
+                            //console.log('changed', cell)
+                            //console.log(actions)
                         }
                         $this.html(cell.text)
                     })
@@ -87,23 +101,62 @@ $(function() {
                     }
                     render()
                 })
-            }
+                renderHistory()
+                renderSaveButtons = function() {
+                    $('#btn-cancel').on('click', update)
+                    $('#btn-save').on('click', function() {
+                        API.save(type.ds, datas[type.ds], function() {
+                            Core.trigger('mess', { mess: '"{0}" сохранены'.format(type.title) })
+                            update()
+                        }, function() {
+                            Core.trigger('mess', { error: true, mess: 'Ошибка! "{0}" НЕ сохранены'.format(type.title) })
+                        })
+                    })
+                }
 
-            function renderHistory() {
-                Core.trigger('history.render', { actions: actions, $history: $history, templates: templates })
+                function update() {
+                    loading(true)
+                    API.requests[type.ds]().success(function(data) {
+                        datas[type.ds] = data;
+                        console.log('update ', type.name, data)
+                        actions = []
+                        renderHistory()
+                        renderValues(type)
+                    })
+                }
+
+                function renderHistory() {
+                    Core.trigger('history.render', { actions: actions, $history: $history, templates: templates })
+                }
+                loading(false)
             }
-            renderHistory()
         }
+        Core.on('history.rendered', function() {
+            if (renderSaveButtons) renderSaveButtons()
+        })
         Core.on('history.setAction', function(args) {
             console.log('set action', args);
             var a = args.action;
             a.cell.setVal(args.val)
             a.$cell.html(a.cell.text)
         })
-        $('#btn-operations').on('click', function() {
-            $(this).toggleClass('selected');
-        })
     })
+    $('#btn-operations').on('click', function() {
+        $(this).toggleClass('selected');
+    })
+
+    function loading(val) {
+        $('.all').toggleClass('loading', val)
+    }
+    var mtimeout, $mess = $('#mess');
+    Core.on('mess', function(args) {
+        $mess.html(args.mess).addClass('shown').toggleClass('warn', !!args.warn).toggleClass('error', !!args.error);
+        clearTimeout(mtimeout)
+        mtimeout = setTimeout(function() { $mess.removeClass('shown') }, 3000)
+    })
+    window.onerror = function() {
+        Core.trigger('mess', { mess: 'Все совсем плохо. Ошибка в скриптах', error: true })
+    }
 })
 $(function() {
     $('#btn-ank').on('click', function() { regions() })

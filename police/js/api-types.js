@@ -15,6 +15,12 @@
                 "edit": true,
                 "width": "150px"
             }, {
+                'title': 'ОУФМС',
+                "name": "departmentID",
+                "edit": true,
+                "width": "100px",
+                'ds' : 'departments'
+            },{
                 "name": "coords",
                 "edit": false
             }, {
@@ -62,7 +68,7 @@
                 "name": "press",
                 "edit": true,
                 "width": "400px",
-                "template": "{{#.}} <div>{{0}}, <i>{{1}}</i>;</div>{{/.}}",
+                "template": "{{#.}} <div>{{0}},<i>{{1}}</i>;</div>{{/.}}",
                 'convert': function(o) {
                     return trim(o.split(';')).map(function(a) {
                         return trim(a.split(','))
@@ -80,40 +86,49 @@
             "fields": [{
                 "name": "number",
                 "edit": true,
-                "width": "150px"
+                "width": "80px",
+                'locked' : true,
+                'title': 'Номер'
             }, {
                 "name": "name",
                 "edit": true,
-                "width": "150px"
+                "width": "200px",
+                'title': 'Название'
             }, {
                 "name": "addr",
                 "edit": true,
-                "width": "200px"
+                "width": "200px",
+                'title': 'Адрес'
             }, {
                 "name": "regions",
                 "edit": false,
+
             }, {
                 "name": "email",
                 "edit": true,
-                "width": "150px"
+                "width": "150px",
+                'title': 'email'
             }, {
                 "name": "personName",
                 "edit": true,
-                "width": "150px"
+                "width": "200px",
+                'title': 'Начальник'
             }, {
                 "name": "personTel",
                 "edit": true,
-                "width": "150px"
+                "width": "150px",
+                'title': 'Телефон начальника'
             }, {
                 "name": "tel",
                 "edit": true,
-                "width": "150px"
+                "width": "150px",
+                'title': 'Телефон'
             }, {
                 "name": "raddr",
-                "edit": false
+                "edit": false,
             }, {
                 "name": "coords",
-                "edit": false
+                "edit": false,
             }]
         },
         "sector": {
