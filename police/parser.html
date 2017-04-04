@@ -34,17 +34,15 @@
             <nav id="types-toggle" class="dash-toggle">
             </nav>
             <script data-template="types" type="text/template">
+                <div class="types-btns clear">
+                    <button id="btn-add" class="btn btn-edit"><i class="icon-plus"></i></button>
+                </div>
                 {{#.}}
-                <a>{{title}}</a> {{/.}}
+                <a data-type="{{name}}">{{title}}</a> {{/.}}
             </script>
-
             <div id="history-list" class="history-list"></div>
             <script data-template="history" type="text/template">
                 {{#length}}
-                <div class="clear">
-                	<button id="btn-save" class="btn btn-save">Сохранить</button>
-                	<button id="btn-cancel" class="btn btn-cancel">Отменить</button>
-                </div>
                 <ul>
                     {{#.}}
                     <li class="item">
@@ -56,35 +54,44 @@
                     </li>
                     {{/.}}
                 </ul>
+                <div class="save-btns bgc">
+                    <button id="btn-save" class="btn btn-save">Сохранить</button>
+                    <button id="btn-cancel" class="btn btn-cancel">Отменить</button>
+                </div>
                 {{/length}}
             </script>
         </div>
         <div id="values-editor" class="pane values">
         </div>
-        <script data-template="ds" type="text/template">
-        	<ul class="popup ds-popup">
-        	{{#.}}
-        	<li><b>{{id}}</b> {{name}}</li>
-        	{{/.}}
-        	</ul>
+        <script data-template="popup" type="text/template">
+            <ul class="popup cell-popup">
+                {{#.}}
+                <li class="popup-item"><b>{{number }}</b> {{name}}</li>
+                {{/.}}
+            </ul>
         </script>
         <script data-template="values" type="text/template">
-            <div class="bgc table-header flex">
-                {{#fields}}
-                <a class="cell header-cell overflow" style="width: {{width}}">{{title}}</a> {{/fields}}
+            <div class="bgc table-header">
+                <div class="flex">
+                    {{#fields}}
+                    <a class="cell header-cell overflow" style="width: {{width}}">{{title}}</a> 
+                    {{/fields}}
+                </div>
             </div>
             <div class="table-body">
-                {{#values}}
-                <div class="item flex">
+                {{#items}}
+                <div class="item flex" data-item-ind="{{itemInd}}">
+                    <div class="row-btns clear">
+                        <a class="btn-delete icon-close fgc"></a>
+                    </div>
+             
                     {{#cells}}
-                    <div data-field-ind="{{ind}}" {{^field.ds}} contenteditable {{/field.ds }} class="cell table-cell" style="width: {{width}}">{{{text}}}</div>
+                    <div data-field-ind="{{ind}}" id ="tb-cell-{{itemInd}}-{{ind}}" {{^field.popup}} contenteditable {{/field.popup }} class="cell table-cell {{#field.key}}cell-key{{/field.key}}" style="width: {{width}}">{{{text}}}</div>
                     {{/cells}}
                 </div>
-                {{/values}}
+                {{/items}}
             </div>
         </script>
-
     </div>
     <div id="mess" class="mess faded"></div>
-
 </body>

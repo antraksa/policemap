@@ -27,7 +27,7 @@ $(function() {
                 for (var i = len - 1; i >= ind; i--) {
                     changed = true;
                     var a = actions[i]
-                    console.log('undo', i, a)
+                    console.log('undo', i, a, actions)
                     setAction(a, a.old)
                     $items.eq(i).addClass('undone')
                 }
@@ -66,7 +66,7 @@ $(function() {
         }
         action.date = +new Date();
         actions.push(action)
-        console.log('add history', action)
+        console.log('add history', uindex, action, actions)
         render()
         Core.trigger('history.actionAdded', { action: action })
     })

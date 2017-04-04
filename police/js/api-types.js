@@ -16,10 +16,10 @@
                 "width": "150px"
             }, {
                 'title': 'ОУФМС',
-                "name": "departmentID",
+                "name": "departmentNumber",
                 "edit": true,
-                "width": "100px",
-                'ds' : 'departments'
+                "width": "60px",
+                'popup' : 'departments'
             },{
                 "name": "coords",
                 "edit": false
@@ -87,7 +87,7 @@
                 "name": "number",
                 "edit": true,
                 "width": "80px",
-                'locked' : true,
+                "key": true,
                 'title': 'Номер'
             }, {
                 "name": "name",
