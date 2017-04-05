@@ -2,6 +2,8 @@ $(function() {
     var $history = $('#history-list'),
         uindex, actions;
     Core.on('history.render', function(args) {
+    	console.log('history.render', args.actions)	
+    	uindex = -1;
         actions = args.actions;
         $history = args.$history;
         templates = args.templates;
@@ -24,7 +26,8 @@ $(function() {
             var $item = $(this);
             $item.find('.undo').on('click', function() {
                 var changed;
-                for (var i = len - 1; i >= ind; i--) {
+                var start = uindex < 0 ? len :  uindex ;
+                for (var i = start - 1 ; i >= ind; i--) {
                     changed = true;
                     var a = actions[i]
                     console.log('undo', i, a, actions)
@@ -35,7 +38,7 @@ $(function() {
                     Core.trigger('history.changed', {})
                     uindex = ind;
                 }
-                console.log('uindex', uindex)
+                console.log('uindex', uindex, 'start' , start)
             })
             $item.find('.redo').on('click', function() {
                 var changed;
@@ -48,7 +51,7 @@ $(function() {
                 }
                 if (changed) {
                     Core.trigger('history.changed', {})
-                    uindex = ind;
+                    uindex = ind + 1;
                 }
                 console.log('uindex', uindex)
             })
@@ -60,13 +63,13 @@ $(function() {
         $item.eq(0).find('.undo').trigger('click')
     })
     Core.on('history.push', function(action) {
+        console.log('add history', uindex, action, actions)
         if (uindex >= 0) {
             actions = actions.slice(0, uindex)
-            uindex = null;
+            uindex = -1;
         }
         action.date = +new Date();
         actions.push(action)
-        console.log('add history', uindex, action, actions)
         render()
         Core.trigger('history.actionAdded', { action: action })
     })

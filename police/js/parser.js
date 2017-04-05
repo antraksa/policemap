@@ -21,22 +21,21 @@ $(function() {
             var top = $(this).scrollTop()
             $th.css('top', top + 'px')
         })
-        var type, sortField, target, items, fields, actions;
+        var type, sortField, target, items, fields;
 
         function render(_type) {
             if (_type) {
                 type = _type;
-                actions = [];
                 fields = type.fields.filter(function(f) {
                     return f.edit;
                 })
+                Core.trigger('history.render', { actions: [], $history: $history, templates: templates })
                 sortField = { name: fields[0].name, desc: false };
                 target = datas[type.ds];
-                renderHistory()
-            } 
+            }
             items = mapTarget(target, fields);
             $ttoggles.removeClass('locked');
-            console.log('render', sortField.name, items)
+            //console.log('render', sortField.name, items)
             items.sort(function(_a, _b) {
                 var a = (sortField.desc ? _a : _b).item[sortField.name] || '',
                     b = (sortField.desc ? _b : _a).item[sortField.name] || '';
@@ -93,8 +92,8 @@ $(function() {
                     itemind = Number($row.attr('data-item-ind')),
                     item = target[itemind];
                 target.splice(itemind, 1)
-                console.log('delete', item, itemind)
-                $row.slideUp(300);
+                console.log('delete', item)
+                $row.slideUp(300, function() { render() });
                 var action = { type: type.name, old: item, ds: target, name: item.name, val: null, title: 'Удален' };
                 Core.trigger('history.push', action)
             })
@@ -136,10 +135,6 @@ $(function() {
                 })
             }
             loading(false)
-
-            function renderHistory() {
-                Core.trigger('history.render', { actions: actions, $history: $history, templates: templates })
-            }
         }
 
         function mapTarget(target, fields) {
@@ -182,7 +177,7 @@ $(function() {
                 if (val) {
                     a.ds.push(val);
                 } else {
-                    a.ds.splice(a.ds.indexOf(val), 1);
+                    a.ds.splice(a.ds.indexOf(a.old), 1);
                 }
                 render()
             }
