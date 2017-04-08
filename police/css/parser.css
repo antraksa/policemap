@@ -27,16 +27,16 @@
 .values {position: relative;margin-left: 250px;/* background: rgba(255, 255, 255, 0.46); */overflow: auto;}
 .flex {flex-direction: row; display: flex;}
 .item {}
-.cell {border: 1px solid rgba(255, 255, 255, 0.28); display: block}
+.cell {border-right: 1px solid rgba(255, 255, 255, 0.39);display: block;}
 .values .cell{padding: 4px 8px;overflow: hidden;box-sizing: border-box;max-height: 38px;flex-shrink: 0;/* overflow-y: auto; *//* white-space: nowrap; */font-size: 12px;line-height: 16px;/* min-height: 30px; */}
 .table-header {position: absolute;/* background: rgba(255, 255, 255, 0.63); *//* right: 0; */left: 0;top: 0;transition: top 0.3s 0.3s;}
-.table-body .cell {background: rgba(255, 255, 255, 0.6);transition: background 0.3s;}
-.item.current .cell{background: rgba(255, 255, 255, 0.7);overflow-y: auto;max-height: 100px;}
+.table-body .cell {background: rgba(255, 255, 255, 0.8);transition: background 0.3s;}
+.item.current .cell{background: rgba(255, 255, 255, 0.9);overflow-y: auto;max-height: 100px;}
 .item.current .cell.edited {background: #fff;box-shadow: 0 0 5px rgba(0, 0, 0, 0.31);}
 .history-list ul {overflow-y:auto;bottom: 40px;position: absolute;right: 0;left: 0;top: 38px;}
 .cell div { margin: 4px 0 }
 .cell i { color: #777 }
-.table-header .header-cell{padding: 10px;color: rgba(255, 255, 255, 0.75);text-transform: uppercase;font-size: 11px;}
+.table-header .header-cell{padding: 10px;color: rgba(255, 255, 255, 0.9);text-transform: uppercase;font-size: 11px;}
 .table-body {padding-top: 36px;/* position: absolute; *//* overflow: auto; *//* background: rgba(255, 255, 255, 0.46); */}
 .table-body .current .cell-key {padding-left: 30px;}
 

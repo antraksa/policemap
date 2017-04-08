@@ -10,10 +10,12 @@
 <script src="js/libs/mustache.js"></script>
 <script src="js/common/common.js"></script>
 <script src="js/common/core.js"></script>
+<script src="js/common/controls.js"></script>
 <script src="js/parser.js"></script>
 <script src="js/api.js"></script>
 <script src="js/api-types.js"></script>
 <script src="js/history-common.js"></script>
+<script src="js/parser-ops.js"></script>
 <style type="text/css">
 </style>
 
@@ -34,9 +36,9 @@
             <nav id="types-toggle" class="dash-toggle">
             </nav>
             <script data-template="types" type="text/template">
-                <div class="types-btns clear">
+               <!--  <div class="types-btns clear">
                     <button id="btn-add" class="btn btn-edit"><i class="icon-plus"></i></button>
-                </div>
+                </div> -->
                 {{#.}}
                 <a data-type="{{name}}">{{title}}</a> {{/.}}
             </script>

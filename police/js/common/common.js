@@ -1,5 +1,45 @@
 'use strict';
 
+var State = (function(){
+	var state;
+	var getState = function() {
+		//console.log(location.hash, location.hash.substr(1))
+		if (!state && location.hash) {
+			state = Common.uriDecode(location.hash.substr(1))
+		} 
+		if (!state) state = {};
+		return state; 
+	}
+	var addState = function(args) {
+		if (!state) getState()
+		var changed = false;
+		for (var key in args) {
+			var sv = state[key], tv = args[key];
+			if (sv!= tv)   changed = true;
+			state[key] = tv;
+		}
+		if (changed) {
+			pushState(state)
+		}
+	}
+	function pushState(_state) {
+		state = _state;
+		var url= '#' + Common.uriEncode(state);
+		//console.log('push', state)
+		history.pushState(state, '', url);
+		
+	}
+	$(window).on('popstate', function(e){
+		var state = e.originalEvent.state;
+		if (state) {
+			console.log('popstate', state)
+			Core.trigger('popstate', { state : state} )
+		}
+	});
+	return { addState : addState, pushState : pushState, getState : getState }
+	
+})();
+
 Date.prototype.format = function(format) {
 	if (!format)
 		format = 'dd-mm-yyyy';
@@ -135,6 +175,25 @@ var Common = (function () {
 
 		    return [Math.round(r * 255), Math.round(g * 255), Math.round(b * 255)];
 		}, 
+		uriEncode : function(obj) {
+			var str = [];
+			for(var p in obj)
+			if (obj.hasOwnProperty(p)) {
+			  str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+			}
+			return str.join("&");
+	   },
+		uriDecode : function(queryString) {
+			var obj = {};
+			var pairs = queryString.split('&');
+			pairs.forEach(function(o) {
+				var split = o.split('=');
+				var key = decodeURIComponent(split[0]);
+				if (key)
+					obj[key] = decodeURIComponent(split[1]);
+			});
+			return obj;
+	   },
 	
 	}	
 })();
