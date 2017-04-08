@@ -14,7 +14,6 @@ var API = (function() {
             requests.regions(),
             requests.areas(),
             requests.sectors(),
-            requests.departments(),
             requests.anfields(),
             requests.anvalues()
         )
@@ -39,8 +38,9 @@ var API = (function() {
                 regions[0].sort(function(a, b) {
                     return a.number - b.number })
                 var _regs = {}
-                var regions = regions[0].map(function(r) {
+                var regions = regions[0].map(function(r, i) {
                     var reg = ObjectWrapper.wrapRegion(r);
+                    reg.ind = i;
                     //reg.ank = anvals[r.number]
                     _regs[r.number] = reg;
                     return reg;
@@ -53,7 +53,7 @@ var API = (function() {
                     dep.regions.forEach(function(r) { r.department = dep })
                     dep.regions.sort(function(a, b) {
                         return a.number - b.number })
-                    dep.department.number = i;
+                    dep.department.number = dep.ind = i;
                     return dep;
                     //console.log(d)
                 })

@@ -159,6 +159,7 @@ input[type="text"]:focus {/* background: #fff; */}
 
 .details .name {font-size: 14px;color: #fff;line-height: 16px;/* margin-bottom: 10px; */overflow:hidden;}
 .details .name span {display: block;margin-left: 40px;}
+.details .name .name-link {text-decoration: none;color: #fff;}
 .details .addr {font-size: 13px;color: rgba(255, 255, 255, 0.75);line-height: 16px;margin-top: 6px;}
 .details .tel i{padding-right: 10px;line-height: 20px;font-size: 16px;color: rgba(255, 255, 255, 0.35);float: left;} 
 .details .desc {font-size: 11px;margin-top: 10px;color: rgba(255, 255, 255, 0.8);}

@@ -30,7 +30,7 @@ $(function() {
                     $item.scrollTo()
                 }
             }
-        }).eq( state ? types[state.type].index :  0).trigger('click', {});
+        }).eq( state && state.type ? types[state.type].index :  0).trigger('click', {});
 
         $('#values-editor').on('scroll', function() {
             var top = $(this).scrollTop()

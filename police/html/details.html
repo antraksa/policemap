@@ -19,7 +19,7 @@
 			<q  class="area">{{region.area}}</q> 
 			<!-- <u class="number">{{region.number}} </u>  -->
 			<u  class="number btn-ank rated{{rate.formatted}}"> <em class="lb">Рейтинг</em> {{rate.formatted}} </u>
-			<span class="editable">{{region.name}}</span> 
+			<a class="name-link editable" target="_blank" href="http://localhost/policemap/police/parser.html#rowId={{ind}}&type=region">{{region.name}}</a> 
 			<span  class="addr editable">{{region.addr}}</span>
 		</h1>
         <div class="contacts">
@@ -54,7 +54,7 @@
         {{#department}}
         <h1 class="name">
 			<u class="number">  </u> 
-			<span class="editable">{{name}}</span> 
+			<a class="editable name-link" target="_blank" href="http://localhost/policemap/police/parser.html#rowId={{ind}}&type=department">{{name}}</a> 
 			<span  class="addr editable">{{addr}}</span>
 		</h1>
         <div class="contacts">
