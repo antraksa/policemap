@@ -194,6 +194,16 @@ var Common = (function () {
 			});
 			return obj;
 	   },
+	   sortByField  : function (arr, expr, asc) {
+			if (arr)
+			return arr.sort(function(a,b) {
+				a = a[expr] != null ? a[expr] : '';
+				b = b[expr] != null ? b[expr] : '';
+				if (a < b) return (asc) ? -1 : 1;
+				if (a > b) return (asc) ? 1 : -1;
+				return 0;
+			});
+		}
 	
 	}	
 })();

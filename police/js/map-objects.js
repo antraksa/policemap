@@ -21,9 +21,10 @@ var ObjectWrapper = (function() {
             var count = 0,
                 all = 0;
             anfields.fields.forEach(function(fi, i) {
+                var w = fi.weight || 1;
                 if (fi.hidden) return;
-                if (vals[i]) count++;
-                all++;
+                if (vals[i]) count+=w;
+                all+=w;
             })
             return getRate(count / all);
         }
@@ -41,6 +42,7 @@ var ObjectWrapper = (function() {
     }
 
     function getCenter(p) {
+        if (!p) return;
         var pb = p.geometry.getPixelGeometry().getBounds();
         var pixelCenter = [pb[0][0] + (pb[1][0] - pb[0][0]) / 2, (pb[1][1] - pb[0][1]) / 2 + pb[0][1]];
         var geoCenter = map.options.get('projection').fromGlobalPixels(pixelCenter, map.getZoom());
@@ -166,7 +168,7 @@ var ObjectWrapper = (function() {
             var d = this;
             Core.trigger('department.select', { department: d })
             if (focus) {
-                if (map) map.setCenter(getCenter(d.place))
+                if (map && d.place) map.setCenter(getCenter(d.place))
                 clearSelections()
                 if (d.place) d.place.balloon.open();
             }
@@ -174,30 +176,18 @@ var ObjectWrapper = (function() {
             dselected = d.markSelected(true);
         },
         markSelected: function(val) {
-            this.regions.forEach(function(r) { r.markSelected(val) })
             if (this.place) {
+                this.regions.forEach(function(r) { r.markSelected(val) })
                 this.place.options.set('visible', val)
                 if (!val) this.place.balloon.close();
             }
             return this;
         },
-        /*calcRate : function() {
-                   r.rate =  calcRate(anvalues[r.region.number]);
-                   r.color = getRateColor(r)
-                   var rate = 0, all = 0;
-                   this.regions.forEach(function(r) {
-                       if (rate) {
-                           rate+=
-                       }
-                       rate+= 
-                       r.markSelected(val)
-                   })
-               }*/
         render: function() {
             Core.trigger('department.select', { department: this })
         },
         show: function(val) {
-            this.place.options.set('visible', val)
+            if (this.place) this.place.options.set('visible', val)
         }
     }
 

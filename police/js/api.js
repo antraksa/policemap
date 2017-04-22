@@ -5,7 +5,7 @@ var API = (function() {
         regions : function() { return $.getJSON("data/resolved/regions.json") },
         areas : function() { return $.getJSON("data/resolved/areas.json") },
         sectors : function() { return $.getJSON("data/resolved/sectors.json") },
-        anfields : function() { return $.getJSON("data/resolved/anfields.json") },
+        anfields : function() { return $.getJSON("data/resolved/anfields.json?1234") },
         anvalues : function() { return $.getJSON("data/resolved/anvalues.json") }
     }
     function getAll() {
@@ -45,6 +45,7 @@ var API = (function() {
                     _regs[r.number] = reg;
                     return reg;
                 })
+                //deps[0].sort(function(a, b) { return a.number - b.number })
                 var deps = deps[0].map(function(d, i) {
                     var dep = ObjectWrapper.wrapDepartment(d);
                     dep.regions = d.regions.map(function(rnum) {
@@ -57,6 +58,7 @@ var API = (function() {
                     return dep;
                     //console.log(d)
                 })
+
                 var areas = areas[0].map(function(a, i) {
                     return ObjectWrapper.wrapArea(a) })
                 var streets = {};
@@ -109,8 +111,8 @@ var API = (function() {
             })
         },
         resolveAddr: function(city, addr, success, error) {
-            var url = 'https://geocode-maps.yandex.ru/1.x/?geocode={0}&ll={1},{2}&spn=0.5,0.5&format=json&results=5'
-            $.getJSON(url.format(addr, city.coords[1], city.coords[0]), function(data) {
+            var url = 'https://geocode-maps.yandex.ru/1.x/?geocode={0}&ll={1},{2}&spn=0.5,0.5&format=json&results=5&rspn=1'
+            return $.getJSON(url.format(addr, city.coords[1], city.coords[0]), function(data) {
                 var res = data.response.GeoObjectCollection.featureMember;
                 var output = res.map(function(o) {
                     return { name: o.GeoObject.name, coords: o.GeoObject.Point.pos.split(' ').reverse() } })
@@ -119,7 +121,7 @@ var API = (function() {
         },
         resolvePoint: function(city, p, success, error) {
             var url = 'https://geocode-maps.yandex.ru/1.x/?geocode={0},{1}&kind=street&format=json&results=5';
-            $.getJSON(url.format(p[1], p[0]), function(data) {
+            return $.getJSON(url.format(p[1], p[0]), function(data) {
                 //console.log(data)
                 var res = data.response.GeoObjectCollection.featureMember;
                 var output = res.map(function(o) {
@@ -158,9 +160,7 @@ $(function() {
     function deleteRegions() {
         call({ method: 'DELETE', url: 'regions/*', data: [0] })
     }
-    //deleteRegions()
-    //return
-    //getRegions()
+
     return;
     $.get('data/resolved/regions.json', function(regions) {
             postRegions(regions)

@@ -80,7 +80,7 @@
         return $(this);
     }
     $.fn.autocomplete = function($qpopup, template, apicall, options) {
-        var prevQ, qtimeout, ptimeout, hoveredRow, data;
+        var prevQ, qtimeout, apireq, ptimeout, hoveredRow, data;
         options = options || {};
 
         function check(onfocus) {
@@ -107,7 +107,7 @@
                     //console.log(q, prevQ)
                 if (q != prevQ) {
                     qtimeout = setTimeout(function() {
-                        apicall(q, function(_data) {
+                        apireq = apicall(q, function(_data) {
                             //console.log('_data', _data)
                             data = _data //.slice(0, 10);
                             dopos()
@@ -126,10 +126,11 @@
                 clearTimeout(ptimeout)
             }
         }
+
         var $this = $(this);
         //$qpopup.appendTo('body')
         $this.on('change keyup', function(e, args) {
-            clearTimeout(qtimeout)
+            clear()
             if (args) return;
             if (e.keyCode && e.keyCode == 13) {
                 if (hoveredRow) {
@@ -141,7 +142,7 @@
             check.call(this);
         }).on('blur', function() {
             setTimeout(function() { $qpopup.addClass('collapsed'); }, 300)
-            clearTimeout(qtimeout)
+            clear()
         }).on('keydown', function(e) {
             if (e.keyCode == 40) {
                 hoverRow(false)
@@ -149,9 +150,14 @@
                 hoverRow(true)
             }
         }).on('focus', function() {
-            setTimeout(function() { $this.select(); }, 50)
+            setTimeout(function() { $this.select(); }, 50);
             check.call(this, true);
         })
+
+        function clear() {
+            clearTimeout(qtimeout)
+            if (apireq && apireq.abort) apireq.abort()
+        }
 
         function triggerChange($row) {
             if (data) {

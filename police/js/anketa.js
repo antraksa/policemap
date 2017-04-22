@@ -10,7 +10,9 @@ Core.on('ready', function() {
                 renderAnketa(args.region)
         })
         Core.on('region-anketa.select', function(args) {
-            renderAnketa(args.region)
+            if (!curRegion || curRegion != args.region) {
+                renderAnketa(args.region)
+            }
         })
         var $anketa = $('#anketa').appendTo('#pane-results'),
             $anktempl = $('#ank-temp');
@@ -52,7 +54,7 @@ Core.on('ready', function() {
             console.log('add', q)
                 //anketa.fields.splice(0, 0, q)
             anfields.fields.push(q)
-            renderAnketa(curRegion)
+            renderAnketa()
             $anktempl.find('.editable').attr('contentEditable', true)
         })
         $('#btn-anketa-save').on('click', function() {
@@ -74,7 +76,6 @@ Core.on('ready', function() {
             }
             Core.trigger('region.updated', { region: curRegion })
             $anketa.removeClass('changed').removeClass('edit-mode')
-            renderAnketa()
                 //$anketa.removeClass('shown')
         })
         Core.on('history.changed', function(args) {
@@ -108,9 +109,10 @@ Core.on('ready', function() {
             anfields.fields.forEach(function(fi, i) {
                 var cat = ankData[fi.category] || [];
                 ankData[fi.category] = cat;
-                var state = vals ? (vals[i] ? 'checked' : '') : 'empty';
-                cat.push({ field: fi, checkes: calcSummary(fi, i), checked: !!vals[i], state: state, date: fi.date || 0, index: i });
+                var state = vals[i]==false ? '' : (vals[i] == true ? 'checked' : 'empty') ;
+                cat.push({ field: fi, checkes: calcSummary(fi, i), checked: vals[i], state: state, date: fi.date || 0, index: i });
             })
+            console.log('render anketa', vals)
             var catData = [];
             categories = [];
             for (var key in ankData) {
@@ -150,7 +152,6 @@ Core.on('ready', function() {
             $anktempl.find('.category').on('click', function() {
                 $(this).toggleClass('collapsed')
             })
-            console.log('render anketa', catData)
         }
         initWeightControl($('#new-question .weight'))
 

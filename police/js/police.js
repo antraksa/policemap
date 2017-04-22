@@ -38,7 +38,7 @@
             if (map) map.setCenter(c.coords)
         }).eq(0).trigger('click')
         $('#btn-city-toggle').popup({ hideOnClick: true })
-        var $dashPanels = $('.dash-content').children();
+        var $dashPanels = $('.dash-panel');
         $('.dash-toggle a').on('click', function() {
             $(this).addClass('selected').siblings().removeClass('selected');
             $dashPanels.eq($(this).index()).addClass('shown').siblings().removeClass('shown')
@@ -53,26 +53,12 @@
             streets = args.streets;
             departments = args.departments;
             regionsDict = args.regionsDict;
-            //var r = { region: { title: 'ОП', fields: [] }, department: { title: 'ОУМВД', fields: [] }, sector: { title: 'Участковый', fields: [] } }
-            // for (var key in regions[0].region) {
-            //     console.log(key)
-            //     r.region.fields.push({ name: key, edit: true })
-            // }
-            // for (var key in departments[0].department) {
-            //     console.log(key)
-            //     r.department.fields.push({ name: key, edit: true })
-            // }
-            // for (var key in sectors[0].sector) {
-            //     console.log(key)
-            //     r.sector.fields.push({ name: key, edit: true })
-            // }
-            // console.log(JSON.stringify(r))
             if (window.ymaps) {
                 ymaps.ready(createMap);
             } else {
                 console.warn('Yandex !!')
                 Core.trigger('map-ready', {})
-                renderRegions();
+                renderMainList();
                 loading(false)
             }
             initArgs = args;
@@ -81,7 +67,7 @@
         function createMap(state) {
             map = new ymaps.Map('map', { controls: ["zoomControl"], zoom: 12, center: [59.948814, 30.309640] });
             Core.trigger('map-init', { map: map })
-            renderRegions();
+            renderMainList();
             addObjects('areas');
             addObjects('regions');
             addObjects('sectors');
@@ -94,18 +80,23 @@
                 Core.trigger('map.click', { coords: e.get('coords') })
             });
         }
-        var $deps = $('#departments-list');
-
-        function renderRegions() {
+        var $mlist = $('#main-list'), isViewDepartments = false, isRateSort = false;
+        $('#opt-toggle-view').on('click', function() {
+            isViewDepartments =!isViewDepartments;
+            renderMainList();
+        })
+        $('#opt-toggle-sort').on('click', function() {
+            isRateSort =!isRateSort;
+            renderMainList();
+        }) 
+        function renderMainList() {
             regions.forEach(function(r) { r.calcRate() })
             var $rate;
-            $deps.html(Mustache.render(templates.departmensList, departments));
-            $deps.find('.head-item').on('click', function() {
-                markCurrent()
-                var d = departments[$(this).attr('data-dep-id')];
-                d.select(true)
-            })
-            $deps.find('.item').on('click', function() {
+            if (isViewDepartments)
+                renderDepartments()
+            else 
+                renderRegions()
+            $mlist.find('.item').on('click', function() {
                 markCurrent()
                 var r = regionsDict[$(this).attr('data-reg-id')];
                 r.select(true)
@@ -113,8 +104,40 @@
                 $rate = null;
             }).find('b').on('click', function() { $rate = $(this); })
         }
+
+        function renderRegions() {
+            sortRegions(regions);   
+            $mlist.html(Mustache.render(templates.regionsList, regions));
+        }
+        function sortRegions(_regions) {
+            _regions.sort(function(a, b) { 
+                var ar = a.rate ? a.rate.val : null, br = b.rate ? b.rate.val : null;
+                if (isRateSort) {
+                    if (ar && br && ar !=br) return br - ar;
+                    if (ar && !br) return -1;
+                    if (br && !ar) return 1;
+                }
+                var a = a.region.number, b = b.region.number;
+                if (a == b) return 0;
+                var an = Number(a), bn = Number(b);
+                if (an && bn) return (an - bn);
+                if (an) return -1;
+                if (bn) return 1;
+            })
+        }
+        function renderDepartments() {
+            departments.forEach(function(d) {
+                sortRegions(d.regions);   
+            })
+            $mlist.html(Mustache.render(templates.departmensList, departments));
+            $mlist.find('.head-item').on('click', function() {
+                markCurrent()
+                var d = departments[$(this).attr('data-dep-id')];
+                d.select(true)
+            })
+        }
         Core.on('region.select', function(args) {
-            var $sel = $deps.find('[data-reg-id="{0}"]'.format(args.region.number()))
+            var $sel = $mlist.find('[data-reg-id="{0}"]'.format(args.region.number()))
             $sel.addClass('selected').siblings().removeClass('selected')
             if ($sel[0]) $sel.scrollTo()
         })
@@ -142,16 +165,16 @@
         Core.on('region.updated', function(args) {
             console.log('region.updated', args)
             if (args.region) updateRegion(args.region)
-            renderRegions()
+            renderMainList()
         })
         Core.on('history.changed', function(args) {
             console.log('history changed', args)
-            renderRegions()
+            renderMainList()
             regions.forEach(function(r) { r.draw() })
         })
 
         function updateRegion(reg) {
-            renderRegions()
+            renderMainList()
             if (!reg) reg = selected;
             if (reg) {
                 reg.render()
@@ -185,18 +208,13 @@
                     markCurrent()
                     var $row = args.$row,
                         dsind = Number($row.attr('data-dsindex')),
-                        ds = args.data[dsind];
-                    var ind = $row.index(),
+                        ds = args.data[dsind],
+                        ind = $row.index(),
                         o = ds.data[ind].item;
-                    console.log('autocomplete', dsind, o)
+                    //console.log('autocomplete', dsind, o)
                     if (dsind == 0) { //yandex addr
                         map.setCenter(o.coords)
                         markCurrent(o.coords, o.name)
-                            //var cx = $('#map').width(), cy = $('#map').height();
-                            // console.log(cx, cy)
-                            // map.events.fire('click', {
-                            //     position: [cx/2, cy/2]
-                            // });
                     } else if (dsind == 2) { //sector streets
                         o.sector.select(true)
                         API.resolveAddr(city, o.name, function(data) {
@@ -302,17 +320,17 @@
                 if (o) return o.name
             })
             var yres = []
-            API.resolveAddr(city, q, function(data) {
+            var res = [
+                { title: 'Карта', type : 'map', dsindex: 0, data: yres },
+                { title: 'Отделения', type : 'regions', dsindex: 1, data: regres },
+                { title: 'Адрес', type : 'addrs', dsindex: 2, data: strres },
+                { title: 'Участковые', type : 'sectors', dsindex: 3, data: secres },
+            ]
+            success(res)
+            return API.resolveAddr(city, q, function(data) {
                 data.forEach(function(d) { yres.push({ name: d.name, item: d }) })
                 success(res)
             })
-            var res = [
-                { title: 'Карта', dsindex: 0, data: yres },
-                { title: 'Отделения', dsindex: 1, data: regres },
-                { title: 'Адрес', dsindex: 2, data: strres },
-                { title: 'Участковые', dsindex: 3, data: secres },
-            ]
-            success(res)
         })
 
         function parseQuery(q) {
@@ -343,8 +361,8 @@
             mtimeout = setTimeout(function() { $mess.removeClass('shown') }, 3000)
         })
         window.onerror = function() {
-            Core.trigger('mess', { mess: 'Все совсем плохо. Ошибка в скриптах', error: true })
-        }
+                Core.trigger('mess', { mess: 'Все совсем плохо. Ошибка в скриптах', error: true })
+            }
             //console.log(getcolors())
     };
 })()

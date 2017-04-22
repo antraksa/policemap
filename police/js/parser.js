@@ -1,6 +1,7 @@
 'use strict'
 $(function() {
     loading(true)
+    return;
     API.all(function(args) {
         console.warn(args)
         var types = API.types,

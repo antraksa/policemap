@@ -1,14 +1,21 @@
+'use strict';
+//https://spbmvd2.carto.com/viz/61374122-a143-11e6-83b6-0e3ff518bd15/public_map
 $(function() {
     $('#btn-ank').on('click', function() { regions() })
-        //regions()
+    regions()
+    var otdUrl = 'https://docs.google.com/spreadsheets/d/1LO75T1j0I2aCpgKYr_4BeGggcA7Ju4YRHp7RTjzvMjs/pub?output=csv';
+    var depUrl = 'https://docs.google.com/spreadsheets/d/1DtMId9BgjVerPKLW1edJedVB9CVUTl1tP3ZwCQ48jMY/pub?output=csv';
+    var ank1Url = 'https://docs.google.com/spreadsheets/d/1BfDEwci1YAcbQa-uSk8-ejSE6aTPgWRlIGnZ9Mm_cPc/pub?output=csv';
+    var ank2Url = 'https://docs.google.com/spreadsheets/d/1veV_YBTtjxK575FHg_u9sy_pOjCy9pPMXzon4NY1Vc4/pub?output=csv';
+
     function regions(success) {
         $.when($.getJSON("data/poligoni_rayonov.geojson"),
                 $.getJSON("data/tochki_otdelov.geojson"),
                 $.getJSON("data/otdeleniya.geojson"),
-                $.get("data/otdeleniya.tsv"),
-                $.get("data/anketa1.tsv"),
-                $.get("data/anketa2.tsv"),
-                $.get("data/departments.tsv")
+                $.get("data/otdeleniya.csv"),
+                $.get("data/anketa1.csv"),
+                $.get("data/anketa2.csv"),
+                $.get("data/departments.csv")
             )
             .done(function(a, b, c, c1, c2, c3, d) {
                 var regions = [],
@@ -18,40 +25,11 @@ $(function() {
                 var mo = a[0].features;
                 var potds = b[0].features;
                 var otds = c[0].features;
-                var oinfo = parseCSV(c1[0]);
+                var oinfo = csv(c1[0]);
                 var ank1 = c2[0];
                 var ank2 = c3[0];
-                var deps = parseCSV(d[0])
+                var deps = csv(d[0])
                 var _regions = {}
-                for (var i = 0; i < otds.length; i++) {
-                    var o = otds[i];
-                    if (!o.geometry || !o.properties._2name) {
-                        console.warn('кривые отделения в карто', o)
-                        continue;
-                    }
-                    var coords = convertCoords(o.geometry.coordinates[0][0]);
-                    //console.log(o.properties)
-                    var _otd = {
-                        number: parseInt(o.properties._1number),
-                        name: o.properties._2name.trim().toLowerCase(),
-                        coords: coords,
-                    }
-                    if (!_otd.number)
-                        _otd.number = parseInt(_otd.name)
-                    if (!_otd.number) {
-                        console.warn('нет номера')
-                        continue
-                    }
-                    _otd.id = _otd.number;
-                    var rn = _regions[_otd.number];
-                    if (rn) {
-                        console.warn('дубликат', _otd.number)
-                        rn.coords = coords.concat(rn.coords)
-                    } else {
-                        regions.push(_otd)
-                        _regions[_otd.number] = _otd;
-                    }
-                }
                 var getVal = function(val) {
                     if (!val) return;
                     return val.toLowerCase().trim()
@@ -59,28 +37,37 @@ $(function() {
                 var getv = function(val) {
                     return val ? val.trim() : null;
                 }
-                for (var i = 0; i < oinfo.length; i++) {
+                for (var i = 1; i < oinfo.length; i++) {
                     var o = oinfo[i],
-                        area = o[0],
-                        name = o[1];
-                    if (!name) continue;
-                    name = name.trim()
-                    var num = parseInt(name)
+                        name = getv(o[2]),
+                        num = getv(o[4])
+                    if (!num) {
+                        console.warn('нет номера', o);
+                        continue;
+                    }
                     var reg = _regions[num];
-                    if (!reg) continue;
+                    if (reg) {
+                        console.warn('дубликат отделения', num)
+                        continue;
+                    } else {
+                        reg = { name: name, number: num, coords: [] }
+                        regions.push(reg)
+                        _regions[num] = reg;
+                    }
                     reg.name = name;
                     reg.area = getVal(o[0]);
-                    reg.addr = getv(o[2])
-                    reg.tel = [getv(o[3]), getv(o[4]), getv(o[5])].filter(function(o) {
+                    reg.dep = getVal(o[1]);
+                    reg.addr = getv(o[5])
+                    reg.tel = [getv(o[6]), getv(o[7]), getv(o[8])].filter(function(o) {
                         return !!o
                     })
-                    reg.personName = getv(o[7]);
-                    reg.personRank = getv(o[6]);
-                    reg.personTel = getv(o[8]);
-                    reg.personTime = getv(o[9]);
-                    reg.lastInspect = getv(o[10])
-                    if (o[14]) {
-                        var press = o[14].split(/\s*([0-9]+\))\s*/).filter(function(s) {
+                    reg.personName = getv(o[9]);
+                    reg.personRank = getv(o[10]);
+                    reg.personTel = getv(o[11]);
+                    reg.personTime = getv(o[12]);
+                    reg.lastInspect = getv(o[13])
+                    if (o[16]) {
+                        var press = o[16].split(/\s*([0-9]+\))\s*/).filter(function(s) {
                             return s.length > 3
                         })
                         reg.press = press.map(function(p) {
@@ -88,42 +75,91 @@ $(function() {
                             return [spl[0], spl[1] ? 'http' + spl[1].replace(';', '') : '']
                         })
                     }
-                    //console.log(reg.press)
+                    reg.photo = getv(o[17]);
+                    //console.log(reg);
                 }
-                //console.log(_regions)
+                for (var i = 0; i < otds.length; i++) {
+                    var o = otds[i];
+                    //console.log(o.properties)
+                    var name = getv(o.properties._2name);
+                    var num = o.properties._1number;
+                    if (!num && name) num = parseInt(name);
+                    var rn = _regions[num];
+                    if (!num || !rn) {
+                        console.warn('нет соответствия в карто', o.properties)
+                        continue;
+                    }
+                    var coords = convertCoords(o.geometry.coordinates[0][0]);
+                    rn.coords = rn.coords ? rn.coords.concat(coords) : coords;
+                }
+                for (var i = 0; i < potds.length; i++) {
+                    var po = potds[i];
+
+                    //console.log(po)
+                    var num = po.properties.number;
+                    var name = o.properties.name;
+                    if (!num && name) num = parseInt(name);
+                    var r = _regions[num];
+                    if (!r) {
+                        console.warn('кривая точка отделения', po.properties)
+                        continue;
+                    }
+                    r.point = { coords: convertCoords([po.geometry.coordinates])[0] }
+                }
+
+
+                console.log('_regions', _regions)
                 var anfields = [],
                     anvalues = {};
 
                 function parseAnk(ank, category) {
-                    var ank = parseCSV(ank);
-                    //console.log(ank)
-                    ank.slice(1).forEach(function(v) {
-                        var name = v[0].trim().toLowerCase();
-                        var number = parseInt(name),
+                    if (category == 'открытость') {
+                        var questions = ank[2].slice(2);
+                        var starts = ank[1].slice(2);
+                        starts.forEach(function(a, i) {
+                            if (!a) starts[i] = starts[i - 1] || '';
+                        })
+                        //console.log(starts)
+                        questions.forEach(function(q, i) {
+                            if (!q || !starts[i]) return
+                            questions[i] = (starts[i].replace(/\./g,' ').trim() + ' ' + questions[i].replace(/\./g,' ').trim() )
+                        })
+                        ank.splice(1, 1);
+                    } else {
+                        var questions = ank[1].slice(2);
+                    }
+                    ank.slice(5).forEach(function(v) {
+                        var name = getVal(v[0]);
+                        var number = getv(v[1]),
                             vals = anvalues[number];
                         if (!vals) vals = []
-                        var r = _regions[number] //regions.filter(function(r) { return r.name.indexOf(number) == 0})[0]
+                        var r = _regions[number]; //regions.filter(function(r) { return r.name.indexOf(number) == 0})[0]
                         if (!r)
-                            console.warn('нет соответствия в карто', name, number);
+                            console.warn('нет соответствия в отделениях:', name, number);
                         else {
                             vals = vals.concat(v.slice(2).map(function(o) {
-                                return o.toLowerCase() == 'да'
+                                o = o.toLowerCase()
+                                return o == 'да' ? true : o == 'нет' ? false : null;
                             }))
                             anvalues[number] = vals;
                         }
-                        //v[0] = r.name
                     })
-                    var fields = ank[0].slice(2).map(function(f) {
-                        return { title: f, category: category, weight: Math.round(Math.random() * 5) }
+                    var cats = ank[4].slice(2);
+                    var weights = ank[2].slice(2);
+                    var fields = questions.map(function(f, i) {
+                        var cat = cats[i] || cats[i - 1] || category
+                        return { title: f, category: getv(cat), weight: parseInt(weights[i]) }
                     });
                     anfields = anfields.concat(fields)
                 }
                 console.log('Парсим первую анкету')
-                parseAnk(ank1, 'информация')
+                parseAnk(csv(ank1), 'доступность')
                 console.log('Парсим вторую анкету')
-                parseAnk(ank2, 'доступность')
+                parseAnk(csv(ank2), 'открытость')
+               
                 console.log('Вопросы', anfields)
                 console.log('Ответы', anvalues)
+                
                 for (var i = 0; i < mo.length; i++) {
                     var o = mo[i];
                     //console.log(o)
@@ -134,29 +170,17 @@ $(function() {
                         coords: coords
                     })
                 }
-                for (var i = 0; i < potds.length; i++) {
-                    var po = potds[i];
-                    //console.log(po)
-                    var number = po.properties.number;
-                    var name = o.properties.name;
-                    var r = _regions[number];
-                    if (!r) {
-                        console.warn('кривая точка отделения', po.properties)
-                        continue;
-                    }
-                    if (!name && r) {
-                        name = _regions[number].name;
-                    }
-                    r.point = { coords: convertCoords([po.geometry.coordinates])[0] }
-                }
                 var departments = []
+                deps = deps.splice(1)
                 for (var i = 0; i < deps.length; i++) {
                     var d = deps[i],
-                        num = parseInt(d[0]),
-                        name = getv(d[1]);
+                        num = getv(d[1]),
+                        name = getv(d[0]);
+                    //console.log(d)
+
                     if (!num || !name) continue;
                     //console.log(d[3].split(','))
-                    var dregs = d[3].split(',').map(function(o) {
+                    var dregs = d[4].split(',').map(function(o) {
                         var rnum = parseInt(o)
                         if (rnum >= 0) {
                             if (_regions[rnum]) {
@@ -174,15 +198,25 @@ $(function() {
                         number: num,
                         name: name,
                         regions: dregs,
-                        email: getv(d[4]),
-                        personName: getv(d[5]),
-                        personTel: getv(d[6]),
-                        tel: getv(d[7]).split(',')
+                        email: getv(d[5]),
+                        url : getv(d[6]),
+                        personRank: getv(d[7]),
+                        personName: getv(d[8]),
+                        personTel: getv(d[9]),
+                        tel: getv(d[10]).split(','),
+                        priemnaya : getv(d[11]),
+                        photo : getv(d[12]),
+                        reports : getv(d[13]),
+                        prokuratura : getv(d[14]),
+                        sovet : getv(d[15]),
+                        usb : getv(d[16]),
+                        onk : getv(d[16]),
                     }
                     departments.push(dep)
-                        //console.log(dep)
+                    //    console.log(dep)
                 }
-                //return;
+                console.log('departments', departments)
+               // return;
                 save('regions', regions)
                 save('areas', areas)
                 save('anfields', { fields: anfields })
@@ -358,12 +392,49 @@ $(function() {
             pom.click();
         }
     }
-})
 
-function parseCSV(str) {
-    var x = str.split('\n');
-    for (var i = 0; i < x.length; i++) {
-        x[i] = x[i].split('\t');
+    function parseCSV(str) {
+        var x = str.split('\n');
+        for (var i = 0; i < x.length; i++) {
+            x[i] = x[i].split('\t');
+        }
+        return x;
     }
-    return x;
-}
+
+    function csv(csv, reviver) {
+        reviver = reviver || function(r, c, v) {
+            return v;
+        };
+        var chars = csv.split(''),
+            c = 0,
+            cc = chars.length,
+            start, end, table = [],
+            row;
+        while (c < cc) {
+            table.push(row = []);
+            while (c < cc && '\r' !== chars[c] && '\n' !== chars[c]) {
+                start = end = c;
+                if ('"' === chars[c]) {
+                    start = end = ++c;
+                    while (c < cc) {
+                        if ('"' === chars[c]) {
+                            if ('"' !== chars[c + 1]) {
+                                break;
+                            } else { chars[++c] = ''; } // unescape ""
+                        }
+                        end = ++c;
+                    }
+                    if ('"' === chars[c]) {++c; }
+                    while (c < cc && '\r' !== chars[c] && '\n' !== chars[c] && ',' !== chars[c]) {++c; }
+                } else {
+                    while (c < cc && '\r' !== chars[c] && '\n' !== chars[c] && ',' !== chars[c]) { end = ++c; }
+                }
+                row.push(reviver(table.length - 1, row.length, chars.slice(start, end).join('')));
+                if (',' === chars[c]) {++c; }
+            }
+            if ('\r' === chars[c]) {++c; }
+            if ('\n' === chars[c]) {++c; }
+        }
+        return table;
+    }
+})

@@ -3,18 +3,31 @@
     <nav id="dash-toggle" class="dash-toggle">
         <a>Слои</a>
         <a class="selected">Отделения</a>
-        <a>	Изменения </a>
+        <div class="btns shown" >
+            <button id="opt-toggle-view" class="btn"> <i class="icon-th-list"></i> </a>
+            <button id="opt-toggle-sort" class="btn" > <i class="icon-sort-amount-asc"></i></a>
+        </div>
+        <a> Изменения </a>
         <div id="history-btns" class="btns">
             <button id="btn-save-server" title="Загрузить на сервер" class="btn btn-save"> <i class="icon-cloud-upload"></i></button>
             <button id="btn-clear-changes" title="Отменить все Изменения" class="btn btn-clear"> <i class="icon-close"></i></button>
         </div>
         <!-- <button id="btn-switch-view" class="btn btn-switch"> </button> -->
     </nav>
-    <div id="dash-content" class="dash-content">
-        <ul id="layers" class=" dash-panel checkbox-list"> </ul>
-        <ul id="departments-list" class="dash-panel main-list shown"></ul>
-        <ul id="history-list" class="history-list dash-panel"></ul>
-    </div>
+    <ul id="layers" class=" dash-panel checkbox-list"> </ul>
+    <ul class="dash-panel main-list shown" id="main-list"></ul>
+<!--     <div class="list-toolbar">
+            <div class="search">
+                <input type="text" id="txt-dep-search" class="txt-search" placeholder="Номер, название или ФИО" name="">
+                <i class="icon-search fgc" id="btn-search"> </i>
+            </div>
+            <div class="list-options" >
+                <a id="opt-toggle-view" class="opt icon-th-list"></a>
+                <a id="opt-toggle-sort" class="opt icon-sort-amount-asc"></a>
+            </div>
+        </div>
+        <ul id="main-list" ></ul> -->
+    <ul id="history-list" class="history-list dash-panel"></ul>
     <script data-template="layers" type="text/template">
         {{#.}}
         <li title="{{desc}}" class="{{#checked}} checked {{/checked}}"><i class="icon-check"></i> {{name}}</li>
@@ -37,9 +50,18 @@
         {{#regions}}
         <li class="item " data-reg-id="{{region.number}}">
             {{#oldVals.length}} <i title="Не сохранено" class="icon-pencil">  </i> {{/oldVals.length}}
-            <b class="rate rated{{rate.formatted}}" title="{{rate.val}}"> {{rate.formatted}}</b>
+            <b class="rate rated{{rate.formatted}}" title="Рейтинг: {{rate.formatted}}"> {{rate.formatted}}</b>
             <u title="{{region.name}}" class="overflow"> {{region.name}}</u>
         </li>
         {{/regions}} {{/.}}
+    </script>
+    <script data-template="regionsList" type="text/template">
+        {{#.}}
+        <li class="item single-item" data-reg-id="{{region.number}}">
+            {{#oldVals.length}} <i title="Не сохранено" class="icon-pencil">  </i> {{/oldVals.length}}
+            <b class="rate rated{{rate.formatted}}" title="Рейтинг: {{rate.formatted}}"> {{rate.formatted}}</b>
+            <u title="{{region.name}}" class="overflow"> <em>{{region.number}}</em> {{region.name}}</u>
+        </li>
+        {{/.}}
     </script>
 </div>

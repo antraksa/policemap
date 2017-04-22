@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'icomoon';
-  src:  url('fonts/icomoon.eot?3b8nql');
-  src:  url('fonts/icomoon.eot?3b8nql#iefix') format('embedded-opentype'),
-    url('fonts/icomoon.ttf?3b8nql') format('truetype'),
-    url('fonts/icomoon.woff?3b8nql') format('woff'),
-    url('fonts/icomoon.svg?3b8nql#icomoon') format('svg');
+  src:  url('fonts/icomoon.eot?yjyymc');
+  src:  url('fonts/icomoon.eot?yjyymc#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?yjyymc') format('truetype'),
+    url('fonts/icomoon.woff?yjyymc') format('woff'),
+    url('fonts/icomoon.svg?yjyymc#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -24,6 +24,15 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-trashcan:before {
+  content: "\e917";
+}
+.icon-cancel:before {
+  content: "\e918";
+}
+.icon-minus:before {
+  content: "\e919";
+}
 .icon-compass:before {
   content: "\e913";
 }
@@ -38,6 +47,12 @@
 }
 .icon-redo:before {
   content: "\e911";
+}
+.icon-sort-amount-desc:before {
+  content: "\e91a";
+}
+.icon-sort-amount-asc:before {
+  content: "\e91b";
 }
 .icon-plus:before {
   content: "\e916";

@@ -1,50 +1,49 @@
-<div id="anketa" class="anketa faded"> 
-	<div class="ank-header">
-		
-		<div class="ank-tools">
-			<button id="btn-anketa-save" class="btn btn-save"> <i class="icon-check"></i> Сохранить </button>
-			<button class="btn btn-edit" id="btn-anketa-edit"> Редактировать вопросы </button>		
-			<button class="btn btn-cancel" id="btn-anketa-cancel"> Отменить </button>		
-		</div>
-		<div id="ank-header"></div>
-		<script data-template="ankHeader" type="text/template">
-			<h1 class="subject-title fgc">{{region.name }}  <b>Рейтинг: {{rate.formatted}}</b>	</h1>
-		</script>
-		<div class="new-template" id="new-question">
-			<button class="btn btn-add" id="btn-anketa-add"> <i class="icon-plus"></i> Добавить вопрос </button>
-			<input type="text" placeholder="Вес (1-5)" name="weight" class="weight">
-			<input type="text" id="new-question-cat" placeholder="Категория"  name="category" class="cat">
-			<div id="cat-autocomplete" class="popup cat-autocomplete"></div>
-			<script data-template="anketaCategories" type="text/template">
-				{{#.}}
-				<li class="">{{.}}</li>
-				{{/.}}
-			</script>
-			<input type="text" placeholder="Текст вопроса" id="new-question-title" name="title" class="title"> 
-		</div>
-		<a class="btn-close" id="btn-anketa-close"> <i class="icon-close"></i> </a> 
-	</div>
-	<div class="ank-content">
-		<div id="ank-temp" class="ank-temp"></div>
-	</div>
+<div id="anketa" class="anketa faded">
+    <div class="ank-header">
+        <div class="ank-tools">
+            <button id="btn-anketa-save" class="btn btn-save"> <i class="icon-check"></i> Сохранить </button>
+            <button class="btn btn-edit" id="btn-anketa-edit"> Редактировать вопросы </button>
+            <button class="btn btn-cancel" id="btn-anketa-cancel"> Отменить </button>
+        </div>
+        <div id="ank-header"></div>
+        <script data-template="ankHeader" type="text/template">
+            <h1 class="subject-title fgc">{{region.name }}  <b>Рейтинг: {{rate.formatted}}</b>	</h1>
+        </script>
+        <div class="new-template" id="new-question">
+            <button class="btn btn-add" id="btn-anketa-add"> <i class="icon-plus"></i> Добавить вопрос </button>
+            <input type="text" placeholder="Вес (1-5)" name="weight" class="weight">
+            <input type="text" id="new-question-cat" placeholder="Категория" name="category" class="cat">
+            <div id="cat-autocomplete" class="popup cat-autocomplete"></div>
+            <script data-template="anketaCategories" type="text/template">
+                {{#.}}
+                <li class="">{{.}}</li>
+                {{/.}}
+            </script>
+            <input type="text" placeholder="Текст вопроса" id="new-question-title" name="title" class="title">
+        </div>
+        <a class="btn-close" id="btn-anketa-close"> <i class="icon-close"></i> </a>
+    </div>
+    <div class="ank-content">
+        <div id="ank-temp" class="ank-temp"></div>
+    </div>
 </div>
-
 <script data-template="anketa" type="text/template">
-	<div>
-		{{#categories}}
-		<h3 class="category"> <i class="icon-angle-down"></i> <i class="icon-angle-up"></i>  {{category}}  <!-- <span class="stat bgc"> <q>{{data.length}}</q> </span> --></h3>
-		<ul class="list">
-			{{#data}}
-			<li title="{{field.title}}. Отмечен у {{checkes.length}} отделений" class="item  {{state}} {{#field.hidden}} hidden {{/field.hidden}}" data-index="{{index}}"> <b > <i class=" icon-check check"></i> </b> 
-				<a class=" btn-remove">
-					<i class="icon-close"></i>
-					<i class="icon-plus"></i>
-				</a>
-				<div class="editable weight weight{{field.weight}}">{{field.weight}}</div> 
-				<span class="overflow editable title">{{field.title}}</span> 
-			</li>
-			{{/data}}
-		</ul>
-		{{/categories}}
-	</div>
-</script> 
+    <div>
+        {{#categories}}
+        <h3 class="category"> <i class="icon-angle-down"></i> <i class="icon-angle-up"></i>  {{category}}  <!-- <span class="stat bgc"> <q>{{data.length}}</q> </span> --></h3>
+        <ul class="list">
+            {{#data}}
+            <li title="{{field.title}}. Отмечен у {{checkes.length}} отделений" class="item  {{state}} {{#field.hidden}} hidden {{/field.hidden}}" data-index="{{index}}">
+                <b> <i class=" icon-check check"></i> </b>
+                <a class=" btn-remove">
+                    <i class="icon-close"></i>
+                    <i class="icon-plus"></i>
+                </a>
+                <div title="Вес {{field.weight}}" class="editable weight weight{{field.weight}}">{{field.weight}}</div>
+                <span class="overflow editable title">{{field.title}}</span>
+            </li>
+            {{/data}}
+        </ul>
+        {{/categories}}
+    </div>
+</script>
