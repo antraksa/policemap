@@ -126,6 +126,36 @@
             }, {
                 "name": "raddr",
                 "edit": false,
+            },{
+                "name": "photo",
+                "edit": true,
+                "width": "150px",
+                'title': 'Фото'
+            }, {
+                "name": "priemnaya",
+                "edit": true,
+                'title': 'Фото',
+                 "width": "150px",
+            },{
+                "name": "reports",
+                "edit": true,
+                "width": "150px",
+                'title': 'Отчеты'
+            }, {
+                "name": "sovet",
+                "edit": true,
+                'title': 'Общественный совет',
+                 "width": "150px",
+            },{
+                "name": "usb",
+                "edit": true,
+                'title': 'УСБ',
+                 "width": "150px",
+            },{
+                "name": "onk",
+                "edit": true,
+                'title': 'ОНК',
+                 "width": "150px",
             }, {
                 "name": "coords",
                 "edit": false,

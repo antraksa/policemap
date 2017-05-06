@@ -4,6 +4,7 @@ Core.on('ready', function() {
     var regions, _regions = {},
         templates, anvalues, anfields, targets;
     var actions = Storage.get('police.history') || [];
+
     Core.on('init', function(args) {
         regions = args.regions;
         regions.forEach(function(r) {
@@ -27,6 +28,9 @@ Core.on('ready', function() {
     function render() {
         Core.trigger('history.render', { actions: actions, $history: $history, templates: templates })
     }
+    Core.on('history.rendered', function() {
+        $('#changes-toggle').toggleClass('has-changes', actions.length > 0)
+    })
     Core.on('history.setAction', function(args) {
         var tar = targets[args.action.type];
         tar.setVal(args.action.id, args.val);
@@ -47,6 +51,7 @@ Core.on('ready', function() {
     })
 
     $('#btn-clear-changes').on('click', function() {
+        Core.trigger('history.revert', {}) 
         actions = [];
         Storage.set('police.history', actions)
         render()

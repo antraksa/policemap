@@ -23,7 +23,7 @@
 			<span  class="addr editable">{{region.addr}}</span>
 		</h1>
         <div class="contacts">
-            <a class="hot-line" href="https://78.xn--b1aew.xn--p1ai/request_main" target="_blank"> Электронная Приемная</a>
+            <a class="hot-line" title="Подать заявление через электронную приёмную" href="https://78.xn--b1aew.xn--p1ai/request_main" target="_blank"> Электронная Приемная</a>
             <div class="tel "> <i class="icon-phone"></i> {{#region.tel}} <u>{{.}}</u> {{/region.tel}}</div>
         </div>
         {{#region}} 
@@ -40,7 +40,7 @@
         {{/personName}} {{#press.length}}
         <div class="sectors sub-list">
             <h6 class="sub-header">Новости </h6> {{#press}}
-            <a class="sub-item" target="_blank" href="{{1}}">
+            <a class="sub-item sub-active-item" target="_blank" href="{{1}}">
                 <span class="s-title">{{0}}</span>
                 <!-- <span  class="s-val">{{1}}</span> -->
             </a>
@@ -58,21 +58,64 @@
 			<span  class="addr editable">{{addr}}</span>
 		</h1>
         <div class="contacts">
-            <div class="tel"> <i class="icon-phone"></i> {{#tel}} <u>{{.}}</u> {{/tel}}</div>
-            <a href="mailto:{{email}}" class="tel"> <i class="icon-email"></i> {{email}}</a>
+            <a class="hot-line" title="Подать заявление через электронную приёмную" href="priemnaya" target="_blank"> Электронная Приемная</a>
+            <div class="tel" title="Телефон дежурной части"> <i class="icon-phone"></i> {{#tel}} <u>{{.}}</u> {{/tel}}</div>
+            <div class="url">
+                <a href="mailto:{{email}}" class="url"> <i class="icon-email"></i> {{email}}</a> <b class="bull"></b>
+                <a href="{{url}}" class="url" target="_blank"> {{url}}</a>
+            </div>
         </div>
         {{#personName}}
         <h6 class="sub-header">Начальник </h6>
         <div class="sub-details">
             <h1 class="name"> {{personName}} </h1>
+            <h1 class="rank"> {{personRank}} </h1>
             <h3 class="tel"> <i class="icon-phone"></i> {{personTel}}</h3>
         </div>
-        {{/personName}} {{/department}} {{#regions.length}}
-        <div class="sectors sub-list">
+        {{/personName}} 
+
+        <div class="sub-list">
+            <ul>
+                {{#prokuratura}}
+                <li class="sub-item">
+                    <span class="s-title">Контакты прокуратуры</span>
+                    <span class="s-val">{{prokuratura}}</span>
+                </li>
+                {{/prokuratura}}
+                {{#sovet}}
+                <li class="sub-item">
+                    <span class="s-title">Контакты Общественного совета</span>
+                    <span class="s-val">{{sovet}}</span>
+                </li>
+                {{/sovet}}
+                {{#usb}}
+                <li class="sub-item">
+                    <span class="s-title">Контакты УСБ</span>
+                    <span class="s-val">{{usb}}</span>
+                </li>
+                {{/usb}}
+                {{#onk}}
+                <li class="sub-item">
+                    <span class="s-title">Контакты ОНК</span>
+                    <span class="s-val">{{onk}}</span>
+                </li>
+                {{/onk}}
+                {{#reports}}
+                <li class="sub-item">
+                    <span class="s-title">Отчёты о работе УУП</span>
+                    <span class="s-val">{{reports}}</span>
+                </li>
+                {{/reports}}
+            </ul>
+        </div>
+        {{/department}} 
+
+        {{#regions.length}}
+        <div class="sectors sub-list" id="dep-regions">
             <h6 class="sub-header">Районные отделения </h6>
             <ul>
                 {{#regions}}
-                <li class="sub-item">
+                <li class="sub-item sub-active-item dep-regions" >
                     <span class="s-title">{{region.name}}</span>
                     <span class="s-val">{{region.addr}}</span>
                 </li>

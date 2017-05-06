@@ -13,6 +13,7 @@ Core.on('ready', function() {
             if (!curRegion || curRegion != args.region) {
                 renderAnketa(args.region)
             }
+            $anketa.addClass('shown');
         })
         var $anketa = $('#anketa').appendTo('#pane-results'),
             $anktempl = $('#ank-temp');
@@ -61,14 +62,14 @@ Core.on('ready', function() {
             if (!$anketa.hasClass('edit-mode')) {
                 var num = curRegion.region.number;
                 Core.trigger('history.push', { type: 'anvalues', id: num, name: curRegion.region.name, old: curRegion.oldVals, val: Common.clone(vals), title: 'Анкета изменена'.format(num) })
-                Core.trigger('mess', { mess: 'Данные для  <b>{0}</b> сохранены'.format(num) })
+                Core.trigger('mess', { mess: 'Данные для  <b>{0}</b> сохранены'.format(curRegion.region.name) })
                 curRegion.oldVals = null;
             } else {
                 $anktempl.find('.item').each(function() {
                     var $this = $(this),
                         dindex = $this.attr('data-index'),
                         q = anfields.fields[dindex];
-                    q.weight = $this.find('.weight').html();
+                    q.weight = parseInt($this.find('.weight').html());
                     q.title = $this.find('.title').html();
                 })
                 Core.trigger('mess', { mess: 'Формат анкеты изменен'.format(num) })
@@ -79,7 +80,7 @@ Core.on('ready', function() {
                 //$anketa.removeClass('shown')
         })
         Core.on('history.changed', function(args) {
-            if ($anketa.hasClass('shown')) renderAnketa()
+            if ($anketa.hasClass('shown')) renderAnketa(curRegion)
         })
         $('#new-question-cat').autocomplete($('#cat-autocomplete'), templates.anketaCategories, function(q, success) {
             success(categories);

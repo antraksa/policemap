@@ -13,6 +13,7 @@
         var map, city = cities[0];
         var regions, sectors, areas, templates = Common.getTemplates(),
             initArgs, streets, departments, regionsDict;
+        var state = State.getState()   
         var mapobjects = {}
         var getMapObjects = function() {
             return mapobjects[this.id]
@@ -21,7 +22,6 @@
             { id: 'areas', name: 'Муниципальные округа', map: getMapObjects, checked: false },
             { id: 'departments', name: 'ОУМВД', map: getMapObjects, checked: true },
             { id: 'regions', name: 'ОП', map: getMapObjects, checked: true },
-            // {id : 'regionPoints',  name : 'Адреса отделений',  map :  getMapObjects, checked : true}, 
             { id: 'sectors', name: 'Участковые ', map: getMapObjects, checked: false }
         ]
         $('#layers').html(Mustache.render(templates.layers, layers)).find('li').on('click', function() {
@@ -39,9 +39,9 @@
         }).eq(0).trigger('click')
         $('#btn-city-toggle').popup({ hideOnClick: true })
         var $dashPanels = $('.dash-panel');
-        $('.dash-toggle a').on('click', function() {
+        var $dashToggles = $('.dash-toggle a').on('click', function() {
             $(this).addClass('selected').siblings().removeClass('selected');
-            $dashPanels.eq($(this).index()).addClass('shown').siblings().removeClass('shown')
+            $dashPanels.eq($dashToggles.index(this)).addClass('shown').siblings().removeClass('shown')
         })
         loading(true)
         API.getAndWrapAll(function(args) {
@@ -75,12 +75,13 @@
             prepare()
             validateLayers()
             loading(false)
-            Core.trigger('map-ready', { map: map })
             map.events.add('click', function(e) {
                 Core.trigger('map.click', { coords: e.get('coords') })
             });
+            Core.trigger('map-ready', { map: map })
+
         }
-        var $mlist = $('#main-list'), isViewDepartments = false, isRateSort = false;
+        var $mlist = $('#main-list'), isViewDepartments = true, isRateSort = false;
         $('#opt-toggle-view').on('click', function() {
             isViewDepartments =!isViewDepartments;
             renderMainList();
@@ -142,14 +143,21 @@
             if ($sel[0]) $sel.scrollTo()
         })
 
+        Core.on('department.select', function(args) {
+            if (args.nofocus) return;
+            var $sel = $mlist.find('[data-dep-id="{0}"]'.format(args.department.number()))
+            $sel.addClass('selected').siblings().removeClass('selected')
+            if ($sel[0]) $sel.scrollTo()
+        })
+
         function prepare() {
             regions.forEach(function(r) {
                 var rdata = r.region;
                 r.sectors = []
                 sectors.forEach(function(s) {
-                    if (!s.coords) return
-                    var contains = r.pol.geometry.contains(s.coords)
-                    if (contains) {
+                    var coords = s.sector.coords;
+                    if (!coords) return
+                    if (r.pol && r.pol.geometry.contains(coords)) {
                         s.regionId = r.region.number;
                         s.region = r;
                     }
@@ -217,6 +225,7 @@
                         markCurrent(o.coords, o.name)
                     } else if (dsind == 2) { //sector streets
                         o.sector.select(true)
+                        console.log(o);
                         API.resolveAddr(city, o.name, function(data) {
                             var d = data[0];
                             if (d) markCurrent(d.coords, d.name)
@@ -331,6 +340,24 @@
                 data.forEach(function(d) { yres.push({ name: d.name, item: d }) })
                 success(res)
             })
+        })
+
+        function checkState() {
+            if (state && state.rowId>=0 && state.type) {
+                console.warn('restore', state)
+                if (state.type == 'department') {
+                    departments[state.rowId].select(true, true)
+                } else if (state.type == 'region') {
+                    regions[state.rowId].select(true, true)
+                }
+            }
+        }
+        Core.on('map-ready', function() {
+            setTimeout(function() { checkState() }, 1000)
+        })
+        Core.on('popstate', function(args) {
+            state = args.state;
+            checkState()
         })
 
         function parseQuery(q) {

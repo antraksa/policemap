@@ -1,12 +1,12 @@
 'use strict'
 $(function() {
     loading(true)
-    return;
     API.all(function(args) {
         console.warn(args)
         var types = API.types,
             datas = args,
             $history = $('#history-list'),
+            $veditor = $('#values-editor'),
             $th, renderSaveButtons;
         var typearr = [];
         var templates = Common.getTemplates();
@@ -25,7 +25,7 @@ $(function() {
                 State.pushState({ type : type.name})
             else {
                 if (state && Number(state.rowId) >= 0) {
-                    var $item = $('#values-editor').find('[data-item-ind="{0}"]'.format(state.rowId));
+                    var $item = $veditor.find('[data-item-ind="{0}"]'.format(state.rowId));
                     console.log($item)
                     $item.addClass('current').siblings().removeClass('current');
                     $item.scrollTo()
@@ -33,10 +33,13 @@ $(function() {
             }
         }).eq( state && state.type ? types[state.type].index :  0).trigger('click', {});
 
-        $('#values-editor').on('scroll', function() {
-            var top = $(this).scrollTop()
+        
+        function moveHeaders() {
+            var top = $veditor.scrollTop()
             $th.css('top', top + 'px')
-        })
+        }
+        
+        $veditor.on('scroll', moveHeaders)
         var type, sortField, target, items, fields;
 
 
@@ -58,7 +61,7 @@ $(function() {
                     b = (sortField.desc ? _b : _a).item[sortField.name] || '';
                 return a < b ? -1 : a > b ? 1 : 0;
             })
-            var $res = $('#values-editor').html(Mustache.render(templates.values, { fields: fields, items: items })),
+            var $res = $veditor.html(Mustache.render(templates.values, { fields: fields, items: items })),
                 $dspopup;
             $th = $res.find('.table-header');
             $res.find('.table-cell').on('click', function() {
@@ -132,6 +135,7 @@ $(function() {
                     sortField.desc = false;
                 }
                 render()
+                moveHeaders()
             })
 
             function changeCell(cell, val) {

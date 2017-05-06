@@ -11,6 +11,7 @@ body, html {margin: 0;height: 100%;overflow: hidden;font-family: tahoma;font-siz
 .locked {position: relative;}
 .locked:before {content: '';background: rgba(255, 212, 136, 0.32);text-align: center;padding-top: 10px;color: #777;font-style: italic;}
 .loading:before {background: rgba(255, 255, 255, 0.22) url(img/spin.svg) no-repeat center;}
+.bull:after {content: '\2022';padding: 0 4px;}
 
 a { cursor: pointer;  }
 b {font-weight: bold}
@@ -176,10 +177,11 @@ input[type="text"]:focus {/* background: #fff; */}
 
 .sub-details {background: rgba(255, 255, 255, 0.1);padding: 10px;}
 .sub-list { */font-size: 12px;margin-top: 10px;}
-.sub-item {padding: 6px 10px;cursor: pointer;margin-bottom: 1px;background: rgba(255, 255, 255, 0.1);line-height: 16px;display: block;text-decoration: none;}
-.s-title {color: rgba(255, 255, 255, 0.86);margin-bottom: 6px;font-size: 11px;}
+.sub-item {padding: 6px 10px;/* cursor: pointer; */margin-bottom: 1px;background: rgba(255, 255, 255, 0.1);line-height: 16px;display: block;text-decoration: none;}
+.sub-active-item {cursor: pointer;}
+.sub-active-item:hover  {background: rgba(255, 255, 255, 0.16);}
+.s-title {color: rgba(255, 255, 255, 0.86);margin-bottom: 6px;font-size: 11px;margin-right: 10px;}
 .s-val {color: rgba(255, 255, 255, 0.49);font-size: 11px;}
-.sub-item:hover  {background: rgba(255, 255, 255, 0.16);}
 .details .img {width: 30%;height: 0;padding-top: 30%;background-repeat: no-repeat;background-size: cover;/* margin: -10px; */float: left;margin-right: 10px;}
 .details .pane-cont { padding: 0 }
 .details-wrap { padding: 10px }
@@ -189,25 +191,28 @@ input[type="text"]:focus {/* background: #fff; */}
 .details .back {display: block;background: rgba(255, 255, 255, 0.23);line-height: 30px;padding: 0 10px;color: #fff;font-size: 12px;margin-top: 10px;}
 .details .back i {font-size: 20px;line-height: 30px;margin-right: 20px;}
 .details .area {color: rgba(255, 255, 255, 0.5);font-size: 12px;/* font-weight: bold; *//* margin-top: 10px; */text-transform: CAPITALIZE;float: right;background: rgba(255, 255, 255, 0.1);line-height: 20px;padding: 0 6px;}
-.details .tel {color: rgba(255, 255, 255, 0.81);line-height: 20px;/* margin-top: 10px; */font-size: 11px;overflow: hidden;/* font-weight: bold; */}
+.details .tel, .details .url  {color: rgba(255, 255, 255, 0.81);line-height: 20px;/* margin-top: 10px; */font-size: 11px;overflow: hidden;/* font-weight: bold; */}
 .details .tel u { margin-right: 10px }
-.details .rank {color: rgba(255, 255, 255, 0.41);line-height: 18px;font-size: 12px;margin-bottom: 6px;}
+.details .rank {color: rgba(255, 255, 255, 0.41);line-height: 16px;font-size: 12px;margin-bottom: 6px;}
 .details .streets { margin-top: 10px; color: #fff }
 .details .streets .title {color: rgba(255, 255, 255, 0.47);margin-bottom: 8px;}
 .details .street {margin-bottom: 4px;border-bottom: 1px solid rgba(255, 255, 255, 0.16);padding-bottom: 4px;}
 .details .numbers {font-size: 11px;font-weight: normal;}
 .details .contacts {margin-top: 10px;/* border: 1px solid rgba(255, 255, 255, 0.22); *//* padding: 4px 10px; */overflow: hidden;}
 .details .sub-header {display: block;line-height: 26px;background: rgba(255, 255, 255, 0.5);padding: 0 10px;margin-top: 10px;}
-.details .hot-line {color: rgb(255, 153, 153);float: right;}
+.details .hot-line {color: rgb(255, 153, 153);float: right;font-size: 12px;}
 .details .sub-panel { display: none }
 .details .sub-panel.shown { display: block; }
 .dash-toggle a + .btns { display: none }
 .details .tip {font-size: 10px;color: rgba(255, 255, 255, 0.46);margin-top: 4px;}
 
+.no-records {color: rgba(255, 255, 255, 0.42);font-style: italic;padding: 0 10px;line-height: 30px;}
 .dash-toggle a.selected + .btns.shown {display: block;overflow: hidden; float: right;}
 .dash-toggle .btn {margin-right: 4px;line-height: 26px;height: 30px;font-size: 12px;margin-top: 4px;padding: 0;width: 30px;float: left;display: block;}
 .dash-toggle .btn-save {background: rgba(255, 0, 0, 0.46);color: #fff;}
 .dash-toggle a {padding: 0 10px}
+.dash-toggle a.has-changes {color: #ffa878;}
+.dash-toggle a.has-changes:after {content: '*'}
 
 .dash-panel {height: calc(100% - 38px);overflow: auto;position: relative;}
 .dash-panel {display: none;}
@@ -224,7 +229,7 @@ input[type="text"]:focus {/* background: #fff; */}
 .main-list .single-item {padding-left: 0;}
 .main-list .item em {float: left;background: rgba(255, 255, 255, 0.06);width: 30px;color: #fff;text-align: center;margin-right: 10px;}
 .main-list .item i{position: absolute;left: 0;top: 0;line-height: 30px;padding: 0 10px;color: #ffaf00;}
-.main-list .item.selected {background: rgba(255, 255, 255, 0.66);color: #000;}
+.main-list .item.selected,  .main-list .head-item.selected {background: rgba(255, 255, 255, 0.66);color: #000;}
 
 .main-list .item u {margin-right: 40px;}
 .main-list .item b {float: right;width: 20px;height: 20px;line-height: 20px;text-align: center;margin-left: 1px;/* background: rgba(255, 255, 255, 0.06); *//* font-family: monospace; */border-radius: 20px;margin: 5px;font-weight: normal;font-size: 9px;}

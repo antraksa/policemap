@@ -60,7 +60,7 @@ $(function() {
         Core.trigger('history.rendered', {})
     }
     Core.on('history.revert', function(args) {
-        $item.eq(0).find('.undo').trigger('click')
+        $items.eq(0).find('.undo').trigger('click')
     })
     Core.on('history.push', function(action) {
         console.log('add history', uindex, action, actions)

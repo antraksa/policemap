@@ -4,18 +4,16 @@
         <a>Слои</a>
         <a class="selected">Отделения</a>
         <div class="btns shown" >
-            <button id="opt-toggle-view" class="btn"> <i class="icon-th-list"></i> </a>
-            <button id="opt-toggle-sort" class="btn" > <i class="icon-sort-amount-asc"></i></a>
+            <button id="opt-toggle-view" title="Группировать" class="btn"> <i class="icon-th-list"></i> </a>
+            <button id="opt-toggle-sort" title="Сортировать по названию / рейтингу" class="btn" > <i class="icon-sort-amount-asc"></i></a>
         </div>
-        <a> Изменения </a>
+        <a id="changes-toggle"> Изменения </a>
         <div id="history-btns" class="btns">
             <button id="btn-save-server" title="Загрузить на сервер" class="btn btn-save"> <i class="icon-cloud-upload"></i></button>
             <button id="btn-clear-changes" title="Отменить все Изменения" class="btn btn-clear"> <i class="icon-close"></i></button>
         </div>
         <!-- <button id="btn-switch-view" class="btn btn-switch"> </button> -->
     </nav>
-    <ul id="layers" class=" dash-panel checkbox-list"> </ul>
-    <ul class="dash-panel main-list shown" id="main-list"></ul>
 <!--     <div class="list-toolbar">
             <div class="search">
                 <input type="text" id="txt-dep-search" class="txt-search" placeholder="Номер, название или ФИО" name="">
@@ -27,7 +25,9 @@
             </div>
         </div>
         <ul id="main-list" ></ul> -->
-    <ul id="history-list" class="history-list dash-panel"></ul>
+    <ul id="layers" class=" dash-panel checkbox-list"> </ul>
+    <ul class="dash-panel main-list shown" id="main-list"></ul>
+    <ul id="history-list" class="dash-panel history-list"></ul>
     <script data-template="layers" type="text/template">
         {{#.}}
         <li title="{{desc}}" class="{{#checked}} checked {{/checked}}"><i class="icon-check"></i> {{name}}</li>
@@ -43,6 +43,10 @@
             <div class="title">{{title}}</div>
         </li>
         {{/.}}
+        {{^.}}
+            <li  class="no-records"> Пока еще нет</li>
+        {{/.}}
+
     </script>
     <script data-template="departmensList" type="text/template">
         {{#.}}

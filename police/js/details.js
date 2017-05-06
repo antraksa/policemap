@@ -19,7 +19,7 @@ Core.on('ready', function() {
 
     function renderDepartment(department) {
         $ddetails.html(Mustache.render(templates.department, department))
-            .find('.sub-item').on('click', function() {
+            .find('.dep-regions').on('click', function() {
                 var r = department.regions[$(this).index()]
                 r.select(true)
             })
@@ -53,7 +53,7 @@ Core.on('ready', function() {
         $rdetails.find('.btn-ank').on('click', function() {
             Core.trigger('region-anketa.select', { region: region })
         })
-        if (region.department) Core.trigger('department.select', { department: region.department })
+        if (region.department) Core.trigger('department.select', { department: region.department, nofocus : true })
         console.log('select region', region)
     }
 

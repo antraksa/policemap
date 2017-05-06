@@ -1,12 +1,13 @@
 'use strict';
 var API = (function() {
+    var rand = function() {return Math.round(Math.random() * 10000000)};
     var requests = {
-        departments : function() { return $.getJSON("data/resolved/departments.json") },
-        regions : function() { return $.getJSON("data/resolved/regions.json") },
-        areas : function() { return $.getJSON("data/resolved/areas.json") },
-        sectors : function() { return $.getJSON("data/resolved/sectors.json") },
-        anfields : function() { return $.getJSON("data/resolved/anfields.json?1234") },
-        anvalues : function() { return $.getJSON("data/resolved/anvalues.json") }
+        departments : function() { return $.getJSON("data/resolved/departments.json?" + rand()) },
+        regions : function() { return $.getJSON("data/resolved/regions.json?" + rand()) },
+        areas : function() { return $.getJSON("data/resolved/areas.json?" + rand()) },
+        sectors : function() { return $.getJSON("data/resolved/sectors.json?" + rand()) },
+        anfields : function() { return $.getJSON("data/resolved/anfields.json?" + rand()) },
+        anvalues : function() { return $.getJSON("data/resolved/anvalues.json?" + rand()) }
     }
     function getAll() {
         return $.when(
@@ -21,7 +22,7 @@ var API = (function() {
     return {
         requests : requests,
     	all : function(success) {
-    		getAll().done(function(deps, regions, areas, sectors, anfields, anvalues, types) {
+            getAll().done(function(deps, regions, areas, sectors, anfields, anvalues, types) {
     			 success({
                     regions: regions[0],
                     sectors: sectors[0],

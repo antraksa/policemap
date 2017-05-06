@@ -68,6 +68,7 @@ var ObjectWrapper = (function() {
             var r = this;
             if (r.pol) map.geoObjects.remove(r.pol);
             var reg = r.region;
+            if (!reg.coords || !reg.coords.length ) return;
             var pol = new ymaps.Polygon([reg.coords, []], { hintContent: reg.name }, { zIndex: 10, fillOpacity: 0.3, fillColor: r.color });
             map.geoObjects.add(pol);
             pol.events.add('mouseenter', function(e) { r.hover(true) })
@@ -105,16 +106,18 @@ var ObjectWrapper = (function() {
             r.rate = calcRate(anvalues[r.region.number]);
             r.color = getRateColor(r)
         },
-        select: function(focus) {
+        select: function(focus, nostate) {
+            var r = this;
             if (dselected) dselected.markSelected(false)
             if (rselected) rselected.markSelected(false)
-            Core.trigger('region.select', { region: this })
+            Core.trigger('region.select', { region: r})
             if (focus) {
-                if (this.place) this.place.balloon.open();
+                if (r.place) r.place.balloon.open();
                 //clearSelections()
-                if (map) map.setCenter(getCenter(this.pol))
+                if (map) map.setCenter(getCenter(r.pol))
+                if (!nostate) State.pushState({ type : 'region', rowId : r.ind})
             }
-            rselected = this.markSelected(true);
+            rselected = r.markSelected(true);
         },
         number: function() {
             return this.region.number
@@ -164,13 +167,15 @@ var ObjectWrapper = (function() {
             map.geoObjects.add(place);
             place.events.add('click', function() { d.select(); })
         },
-        select: function(focus) {
+        select: function(focus, nostate) {
             var d = this;
             Core.trigger('department.select', { department: d })
             if (focus) {
                 if (map && d.place) map.setCenter(getCenter(d.place))
                 clearSelections()
                 if (d.place) d.place.balloon.open();
+
+                if (!nostate) State.pushState({ type : 'department', rowId : d.ind})
             }
             if (dselected) dselected.markSelected(false)
             dselected = d.markSelected(true);
@@ -188,7 +193,10 @@ var ObjectWrapper = (function() {
         },
         show: function(val) {
             if (this.place) this.place.options.set('visible', val)
-        }
+        },
+        number: function() {
+            return this.department.number
+        },
     }
 
     function psector(s) { this.sector = s; }
@@ -217,6 +225,7 @@ var ObjectWrapper = (function() {
             }
             if (sselected) sselected.markSelected(false);
             sselected = this.markSelected(true);
+            if (s.region) s.region.render();
             s.render(focus)
         },
         render: function(focus) {
