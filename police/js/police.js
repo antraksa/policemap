@@ -243,7 +243,7 @@
             if (!map) return;
             for (var i = 0; i < regions.length; i++) {
                 var r = regions[i];
-                if (r.pol.geometry.contains(pos)) {
+                if (r.pol && r.pol.geometry.contains(pos)) {
                     r.render()
                     return;
                 }

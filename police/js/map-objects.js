@@ -114,7 +114,7 @@ var ObjectWrapper = (function() {
             if (focus) {
                 if (r.place) r.place.balloon.open();
                 //clearSelections()
-                if (map) map.setCenter(getCenter(r.pol))
+                if (map && r.pol) map.setCenter(getCenter(r.pol))
                 if (!nostate) State.pushState({ type : 'region', rowId : r.ind})
             }
             rselected = r.markSelected(true);
@@ -140,7 +140,7 @@ var ObjectWrapper = (function() {
             return this
         },
         show: function(val) {
-            this.pol.options.set('visible', val)
+            if (this.pol) this.pol.options.set('visible', val)
         },
         render: function(ank) {
             Core.trigger('region.select', { region: this, ank: ank })
