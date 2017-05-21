@@ -38,10 +38,11 @@ var API = (function() {
                 var anvals = anvalues[0];
                 regions[0].sort(function(a, b) {
                     return a.number - b.number })
-                var _regs = {}
+                var _regs = {}, persons = {}
                 var regions = regions[0].map(function(r, i) {
                     var reg = ObjectWrapper.wrapRegion(r);
                     reg.ind = i;
+                    persons[r.personName.toLowerCase()] = { location : reg };
                     //reg.ank = anvals[r.number]
                     _regs[r.number] = reg;
                     return reg;
@@ -56,6 +57,7 @@ var API = (function() {
                     dep.regions.sort(function(a, b) {
                         return a.number - b.number })
                     dep.department.number = dep.ind = i;
+                    persons[d.personName.toLowerCase()] = {location : dep };
                     return dep;
                     //console.log(d)
                 })
@@ -88,6 +90,11 @@ var API = (function() {
                         strarr.push({ name: str.name.toLowerCase() + ' ' + n.number, sector: n.sector })
                     })
                 }
+                var personsArr = [];
+                for (var name in persons)  {
+                    persons[name].name = name;
+                    personsArr.push( persons[name]) 
+                }
                 success({
                     regions: regions,
                     sectors: sectors,
@@ -96,7 +103,8 @@ var API = (function() {
                     areas: areas,
                     anfields: anfields[0],
                     anvalues: anvalues[0],
-                    streets: strarr
+                    streets: strarr,
+                    persons : personsArr
                 })
             })
         },

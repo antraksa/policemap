@@ -1,32 +1,48 @@
 'use strict'
 var ObjectWrapper = (function() {
-    var anfields, anvalues, map;
+    var anfields, anvalues, map, markpoints = [],
+        regions, departments;
     Core.on('init', function(args) {
         anfields = args.anfields;
         anvalues = args.anvalues;
     })
     Core.on('map-init', function(args) {
         map = args.map;
+        regions = args.regions;
+        departments = args.departments;
         //console.warn('map-init',args)
     })
 
     function pregion(r) { this.region = r; }
 
     function getRate(rate) {
-        return (rate) ? { val: rate, formatted: Math.round(rate * 5) } : { val: 0, formatted: '?' }
+        return (rate) ? { val: rate, formatted: Math.round(rate * 5), fixed: (rate * 5).toFixed(1) } : { val: 0, formatted: '', fixed : '' }
     }
+
 
     function calcRate(vals) {
         if (vals && vals.length > 0) {
-            var count = 0,
-                all = 0;
+            var count = {},
+                all = {},
+                rates = {};
             anfields.fields.forEach(function(fi, i) {
-                var w = fi.weight || 1;
+                var w = fi.weight || 1,
+                    cat = fi.category;
                 if (fi.hidden) return;
-                if (vals[i]) count+=w;
-                all+=w;
+                if (!count[cat]) count[cat] = 0;
+                if (!all[cat]) all[cat] = 0;
+
+                if (vals[i]) count[cat] += w;
+                all[cat] += w;
             })
-            return getRate(count / all);
+            var total = 0,
+                totalCount = 0;
+            for (var cat in count) {
+                rates[cat] = getRate(count[cat] / all[cat]);
+                totalCount += count[cat];
+                total += all[cat];
+            }
+            return { totalRate: getRate(totalCount / total), rates: rates };
         }
     }
 
@@ -48,7 +64,18 @@ var ObjectWrapper = (function() {
         var geoCenter = map.options.get('projection').fromGlobalPixels(pixelCenter, map.getZoom());
         return geoCenter;
     }
-    var rselected, dselected, sselected;
+    var rselected, dselected, sselected, hovered = {};
+
+    function markPointOpacity(type, go) {
+        if (go && go.place)
+            go.place.options.set('iconOpacity', 1);
+        var old = hovered[type];
+        if (old && old.place)
+            old.place.options.set('iconOpacity', 0.5);
+        hovered[type] = go;
+        //console.warn('mark', go, list)
+    }
+
 
     function clearSelections() {
         if (dselected) dselected.markSelected(false)
@@ -68,7 +95,7 @@ var ObjectWrapper = (function() {
             var r = this;
             if (r.pol) map.geoObjects.remove(r.pol);
             var reg = r.region;
-            if (!reg.coords || !reg.coords.length ) return;
+            if (!reg.coords || !reg.coords.length) return;
             var pol = new ymaps.Polygon([reg.coords, []], { hintContent: reg.name }, { zIndex: 10, fillOpacity: 0.3, fillColor: r.color });
             map.geoObjects.add(pol);
             pol.events.add('mouseenter', function(e) { r.hover(true) })
@@ -81,19 +108,25 @@ var ObjectWrapper = (function() {
             r.pol = pol;
             r.clearStyle()
             if (reg.point) {
-                if (r.place) map.geoObjects.remove(r.place);
+                if (r.place) {
+                    map.geoObjects.remove(r.place);
+                    markpoints.slice(markpoints.indexOf(r.place), 1)
+                }
                 var place = new ymaps.Placemark(reg.point.coords, {
                     balloonContentHeader: reg.name,
                     balloonContentBody: reg.addr,
                     balloonContentFooter: reg.tel,
                     hintContent: reg.name,
-                    iconContent: reg.number
+                    iconContent: reg.number,
+                    overlayFactory: 'default#interactiveGraphics'
                 }, { //preset: 'islands#circleIcon',
                     preset: 'islands#circleIcon',
-                    iconColor: '#00f'
+                    iconColor: '#00f',
+                    iconOpacity: 0.5
                 });
                 r.place = place;
                 map.geoObjects.add(place);
+                markpoints.push(place)
                 place.events.add('click', function() { r.select(true); })
             }
         },
@@ -102,27 +135,45 @@ var ObjectWrapper = (function() {
                 this.pol.options.set('strokeWidth', 1).set('zIndex', 0).set('strokeColor', '#777');
         },
         calcRate: function() {
+            //if (this.ind != 57) return
             var r = this;
-            r.rate = calcRate(anvalues[r.region.number]);
-            r.color = getRateColor(r)
+            var res = calcRate(anvalues[r.region.number]);
+            if (res) {
+                r.rate = res.totalRate;
+                r.rates = res.rates;
+                r.color = getRateColor(r)
+            }
         },
         select: function(focus, nostate) {
             var r = this;
             if (dselected) dselected.markSelected(false)
             if (rselected) rselected.markSelected(false)
-            Core.trigger('region.select', { region: r})
+            Core.trigger('region.select', { region: r })
             if (focus) {
-                if (r.place) r.place.balloon.open();
+                if (r.place) {
+                    r.place.balloon.open();
+                }
                 //clearSelections()
-                if (map && r.pol) map.setCenter(getCenter(r.pol))
-                if (!nostate) State.pushState({ type : 'region', rowId : r.ind})
+                if (map && r.pol) {
+                    map.setCenter(getCenter(r.pol))
+                }
+                if (!nostate) State.pushState({ type: 'region', rowId: r.ind })
             }
             rselected = r.markSelected(true);
         },
         number: function() {
             return this.region.number
         },
+        getRates: function() {
+            var rates = this.rates, ratesArr = [];
+            for (var cat in rates) {
+                ratesArr.push({category : cat, rate : rates[cat]})
+            }
+            return ratesArr;
+        },
+
         markSelected: function(val) {
+            this.markPointOpacity(true);
             if (this.place && !val) this.place.balloon.close();
             if (val && this.pol) {
                 this.pol.options.set('strokeWidth', 4).set('zIndex', 11).set('strokeColor', '#444');
@@ -130,6 +181,10 @@ var ObjectWrapper = (function() {
                 this.clearStyle()
             }
             return this
+        },
+
+        markPointOpacity: function(val) {
+            markPointOpacity('region', val ? this : null)
         },
         markGroouped: function(val) {
             if (val && this.pol) {
@@ -159,9 +214,12 @@ var ObjectWrapper = (function() {
                 balloonContentBody: dep.addr,
                 balloonContentFooter: dep.tel,
                 hintContent: dep.name,
+                iconContent: dep.name,
+                overlayFactory: 'default#interactiveGraphics'
             }, { //preset: 'islands#circleIcon',
-                preset: 'islands#circleDotIcon',
-                iconColor: '#00f'
+                preset: 'islands#governmentCircleIcon',
+                iconColor: '#00f',
+                iconOpacity: 0.5
             });
             d.place = place;
             map.geoObjects.add(place);
@@ -175,15 +233,18 @@ var ObjectWrapper = (function() {
                 clearSelections()
                 if (d.place) d.place.balloon.open();
 
-                if (!nostate) State.pushState({ type : 'department', rowId : d.ind})
+                if (!nostate) State.pushState({ type: 'department', rowId: d.ind })
             }
             if (dselected) dselected.markSelected(false)
             dselected = d.markSelected(true);
         },
+        markPointOpacity: function(val) {
+            markPointOpacity('department', val ? this : null)
+        },
         markSelected: function(val) {
+            this.markPointOpacity(true);
             if (this.place) {
                 this.regions.forEach(function(r) { r.markSelected(val) })
-                this.place.options.set('visible', val)
                 if (!val) this.place.balloon.close();
             }
             return this;

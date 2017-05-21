@@ -7,7 +7,7 @@
         </div>
         <div id="ank-header"></div>
         <script data-template="ankHeader" type="text/template">
-            <h1 class="subject-title fgc">{{region.name }}  <b>Рейтинг: {{rate.formatted}}</b>	</h1>
+            <h1 class="subject-title fgc">{{region.name }}  <b>Рейтинг: {{rate.fixed}}</b>	</h1>
         </script>
         <div class="new-template" id="new-question">
             <button class="btn btn-add" id="btn-anketa-add"> <i class="icon-plus"></i> Добавить вопрос </button>
@@ -30,7 +30,10 @@
 <script data-template="anketa" type="text/template">
     <div>
         {{#categories}}
-        <h3 class="category"> <i class="icon-angle-down"></i> <i class="icon-angle-up"></i>  {{category}}  <!-- <span class="stat bgc"> <q>{{data.length}}</q> </span> --></h3>
+        <h3 class="category"> <i class="icon-angle-down"></i> <i class="icon-angle-up"></i>  {{category}} 
+            <span class="" data-category="{{category}}"></span>
+                <!-- <span class="stat bgc"> <q>{{data.length}}</q> </span> -->
+        </h3>
         <ul class="list">
             {{#data}}
             <li title="{{field.title}}. Отмечен у {{checkes.length}} отделений" class="item  {{state}} {{#field.hidden}} hidden {{/field.hidden}}" data-index="{{index}}">
@@ -47,3 +50,8 @@
         {{/categories}}
     </div>
 </script>
+<script data-template="regRate" type="text/template">
+    <span><b title="Рейтинг: {{fixed}}" class="ank-rate rated{{formatted}}">{{fixed}}</b></span>
+</script>
+
+

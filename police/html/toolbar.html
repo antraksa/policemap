@@ -54,7 +54,7 @@
         {{#regions}}
         <li class="item " data-reg-id="{{region.number}}">
             {{#oldVals.length}} <i title="Не сохранено" class="icon-pencil">  </i> {{/oldVals.length}}
-            <b class="rate rated{{rate.formatted}}" title="Рейтинг: {{rate.formatted}}"> {{rate.formatted}}</b>
+            <b class="rate rated{{rate.formatted}}" title="Рейтинг: {{rate.fixed}}"> {{rate.formatted}}</b>
             <u title="{{region.name}}" class="overflow"> {{region.name}}</u>
         </li>
         {{/regions}} {{/.}}
@@ -63,7 +63,7 @@
         {{#.}}
         <li class="item single-item" data-reg-id="{{region.number}}">
             {{#oldVals.length}} <i title="Не сохранено" class="icon-pencil">  </i> {{/oldVals.length}}
-            <b class="rate rated{{rate.formatted}}" title="Рейтинг: {{rate.formatted}}"> {{rate.formatted}}</b>
+            <b class="rate rated{{rate.formatted}}" title="Рейтинг: {{rate.{{fixed}}}}"> {{rate.formatted}}</b>
             <u title="{{region.name}}" class="overflow"> <em>{{region.number}}</em> {{region.name}}</u>
         </li>
         {{/.}}

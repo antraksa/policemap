@@ -11,9 +11,9 @@
             { name: 'Воронеж', coords: [51.694273, 39.335955] },
         ];
         var map, city = cities[0];
-        var regions, sectors, areas, templates = Common.getTemplates(),
+        var regions, sectors, areas, persons, templates = Common.getTemplates(),
             initArgs, streets, departments, regionsDict;
-        var state = State.getState()   
+        var state = State.getState()
         var mapobjects = {}
         var getMapObjects = function() {
             return mapobjects[this.id]
@@ -53,6 +53,8 @@
             streets = args.streets;
             departments = args.departments;
             regionsDict = args.regionsDict;
+            persons = args.persons;
+
             if (window.ymaps) {
                 ymaps.ready(createMap);
             } else {
@@ -66,7 +68,8 @@
 
         function createMap(state) {
             map = new ymaps.Map('map', { controls: ["zoomControl"], zoom: 12, center: [59.948814, 30.309640] });
-            Core.trigger('map-init', { map: map })
+            initArgs.map = map;
+            Core.trigger('map-init', initArgs)
             renderMainList();
             addObjects('areas');
             addObjects('regions');
@@ -81,21 +84,24 @@
             Core.trigger('map-ready', { map: map })
 
         }
-        var $mlist = $('#main-list'), isViewDepartments = true, isRateSort = false;
+        var $mlist = $('#main-list'),
+            isViewDepartments = true,
+            isRateSort = false;
         $('#opt-toggle-view').on('click', function() {
-            isViewDepartments =!isViewDepartments;
+            isViewDepartments = !isViewDepartments;
             renderMainList();
         })
         $('#opt-toggle-sort').on('click', function() {
-            isRateSort =!isRateSort;
+            isRateSort = !isRateSort;
             renderMainList();
-        }) 
+        })
+
         function renderMainList() {
             regions.forEach(function(r) { r.calcRate() })
             var $rate;
             if (isViewDepartments)
                 renderDepartments()
-            else 
+            else
                 renderRegions()
             $mlist.find('.item').on('click', function() {
                 markCurrent()
@@ -107,28 +113,33 @@
         }
 
         function renderRegions() {
-            sortRegions(regions);   
+            sortRegions(regions);
             $mlist.html(Mustache.render(templates.regionsList, regions));
         }
+
         function sortRegions(_regions) {
-            _regions.sort(function(a, b) { 
-                var ar = a.rate ? a.rate.val : null, br = b.rate ? b.rate.val : null;
+            _regions.sort(function(a, b) {
+                var ar = a.rate ? a.rate.val : null,
+                    br = b.rate ? b.rate.val : null;
                 if (isRateSort) {
-                    if (ar && br && ar !=br) return br - ar;
+                    if (ar && br && ar != br) return br - ar;
                     if (ar && !br) return -1;
                     if (br && !ar) return 1;
                 }
-                var a = a.region.number, b = b.region.number;
+                var a = a.region.number,
+                    b = b.region.number;
                 if (a == b) return 0;
-                var an = Number(a), bn = Number(b);
+                var an = Number(a),
+                    bn = Number(b);
                 if (an && bn) return (an - bn);
                 if (an) return -1;
                 if (bn) return 1;
             })
         }
+
         function renderDepartments() {
             departments.forEach(function(d) {
-                sortRegions(d.regions);   
+                sortRegions(d.regions);
             })
             $mlist.html(Mustache.render(templates.departmensList, departments));
             $mlist.find('.head-item').on('click', function() {
@@ -219,13 +230,11 @@
                         ds = args.data[dsind],
                         ind = $row.index(),
                         o = ds.data[ind].item;
-                    //console.log('autocomplete', dsind, o)
                     if (dsind == 0) { //yandex addr
                         map.setCenter(o.coords)
                         markCurrent(o.coords, o.name)
                     } else if (dsind == 2) { //sector streets
                         o.sector.select(true)
-                        console.log(o);
                         API.resolveAddr(city, o.name, function(data) {
                             var d = data[0];
                             if (d) markCurrent(d.coords, d.name)
@@ -234,6 +243,8 @@
                         o.select(true)
                     } else if (dsind == 3) { //sector
                         o.select(true)
+                    }else if (dsind == 4) { //person
+                        o.location.select(true)
                     }
                 }
             })
@@ -328,12 +339,16 @@
             var strres = search(streets, pq, function(o) {
                 if (o) return o.name
             })
+            var perres = search(persons, pq, function(o) {
+                if (o) return o.name
+            })
             var yres = []
             var res = [
-                { title: 'Карта', type : 'map', dsindex: 0, data: yres },
-                { title: 'Отделения', type : 'regions', dsindex: 1, data: regres },
-                { title: 'Адрес', type : 'addrs', dsindex: 2, data: strres },
-                { title: 'Участковые', type : 'sectors', dsindex: 3, data: secres },
+                { title: 'Карта', type: 'map', dsindex: 0, data: yres },
+                { title: 'Отделения', type: 'regions', dsindex: 1, data: regres },
+                { title: 'Адрес', type: 'addrs', dsindex: 2, data: strres },
+                { title: 'Участковые', type: 'sectors', dsindex: 3, data: secres },
+                { title: 'Начальники', type: 'persons', dsindex: 4, data: perres },
             ]
             success(res)
             return API.resolveAddr(city, q, function(data) {
@@ -343,7 +358,7 @@
         })
 
         function checkState() {
-            if (state && state.rowId>=0 && state.type) {
+            if (state && state.rowId >= 0 && state.type) {
                 console.warn('restore', state)
                 if (state.type == 'department') {
                     departments[state.rowId].select(true, true)

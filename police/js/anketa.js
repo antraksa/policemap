@@ -124,7 +124,8 @@ Core.on('ready', function() {
                 })
                 var checked = dat.filter(function(d) {
                     return d.checked })
-                catData.push({ category: key, data: dat, checked: checked })
+                var catRate = r.rates[key];
+                catData.push({ category: key, categoryRate : catRate, data: dat, checked: checked })
             }
             $anktempl.html(Mustache.render(templates.anketa, { subject: r, categories: catData })).find('b').on('click', function() {
                 var $item = $(this).parent();
@@ -135,7 +136,7 @@ Core.on('ready', function() {
                 }
                 vals[$item.attr('data-index')] = checked;
                 curRegion.calcRate();
-                renderHeader()
+                renderRates()
                 $anketa.addClass('changed')
             })
             $anktempl.find('.item').on('click', function() {})
@@ -153,8 +154,17 @@ Core.on('ready', function() {
             $anktempl.find('.category').on('click', function() {
                 $(this).toggleClass('collapsed')
             })
+            renderRates()
         }
         initWeightControl($('#new-question .weight'))
+
+        function renderRates() {
+            renderHeader()
+            $anketa.find('[data-category]').each(function() {
+                var cat = $(this).attr('data-category');
+                $(this).html(Mustache.render(templates.regRate, curRegion.rates[cat]))
+            })
+        }
 
         function initWeightControl($w) {
             $w.on('blur', function() {

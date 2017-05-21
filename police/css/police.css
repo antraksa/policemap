@@ -116,7 +116,8 @@ input[type="text"]:focus {/* background: #fff; */}
 .search-autocomplete {right: 4px;left: initial;top: 4px;}
 .autocomplete h3 {line-height: 30px;color: #777;padding: 0 10px;font-weight: bold;}
 .search-autocomplete.popup li{padding-left: 30px;}
-.search-autocomplete.popup li.type-sectors { text-transform: capitalize; }
+.search-autocomplete.popup li.type-sectors, .search-autocomplete.popup li.type-persons {text-transform: capitalize;}
+
 
 .checkbox-list li{
     cursor: pointer;
@@ -174,6 +175,10 @@ input[type="text"]:focus {/* background: #fff; */}
 .details .tel i{padding-right: 10px;line-height: 20px;font-size: 16px;color: rgba(255, 255, 255, 0.35);float: left;} 
 .details .desc {font-size: 11px;margin-top: 10px;color: rgba(255, 255, 255, 0.8);}
 .details .btn-edit { display: none }
+.details .rates {color: rgba(255, 255, 255, 0.88);margin: 10px 0;background: rgba(255, 255, 255, 0.12);/* padding: 10px; */max-height: 0;overflow: hidden;box-sizing: border-box; transition: ease-out 0.5s max-height}
+.details .rates li{padding: 4px 6px;line-height: 24px;}
+.details .rates .ank-rate {margin-right: 10px;float: left;}
+.details .rates.expanded { max-height: 500px }
 
 .sub-details {background: rgba(255, 255, 255, 0.1);padding: 10px;}
 .sub-list { */font-size: 12px;margin-top: 10px;}
@@ -267,6 +272,7 @@ input[type="text"]:focus {/* background: #fff; */}
 .anketa .btn-close {  display: block; position:  absolute; }
 .anketa .weight {opacity: 0; transition: opacity ease-out 0.3s; /* border-radius: 20px; */font-size: 11px;margin-left: 4px;float: right;width: 20px;height: 20px;line-height: 20px;text-align: center;margin-top: 4px;}
 .anketa .item:hover .weight {opacity: 1 }
+.ank-rate {display: inline-block;width: 24px;height: 24px;font-size: 10px;border-radius: 20px;line-height: 24px;text-align: center;font-weight: normal;}
 
 .anketa .title{display: block;margin-left: 0;margin-right: 20px;font-size: 12px;} 
 .anketa.edit-mode .title, .anketa.edit-mode .weight, .anketa.edit-mode .new-template .cat{background: #f2f2f3;border-radius: 0;/* color: #333; */height: 30px;} 

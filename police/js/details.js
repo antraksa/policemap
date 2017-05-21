@@ -13,11 +13,13 @@ Core.on('ready', function() {
         $sdetails = $('#sector-details');
 
     Core.on('department.select', function(args) {
+        args.department.markPointOpacity(true);
         renderDepartment(args.department)
         $dtoggle.eq(0).trigger('click')
     })
-
+    var curDepartment, curRegion, curSector;
     function renderDepartment(department) {
+        curDepartment = department;
         $ddetails.html(Mustache.render(templates.department, department))
             .find('.dep-regions').on('click', function() {
                 var r = department.regions[$(this).index()]
@@ -53,7 +55,12 @@ Core.on('ready', function() {
         $rdetails.find('.btn-ank').on('click', function() {
             Core.trigger('region-anketa.select', { region: region })
         })
-        if (region.department) Core.trigger('department.select', { department: region.department, nofocus : true })
+        if (region.department && curDepartment!=region.department) {
+            Core.trigger('department.select', { department: region.department, nofocus : true })
+        }
+        $('#details-rate-toggle').on('click', function() {
+            $('#details-rate').toggleClass('expanded')
+        })
         console.log('select region', region)
     }
 
