@@ -65,13 +65,13 @@ var ObjectWrapper = (function() {
         return geoCenter;
     }
     var rselected, dselected, sselected, hovered = {};
-
+    var defOpacity = 0.2;
     function markPointOpacity(type, go) {
         if (go && go.place)
             go.place.options.set('iconOpacity', 1);
         var old = hovered[type];
         if (old && old.place)
-            old.place.options.set('iconOpacity', 0.5);
+            old.place.options.set('iconOpacity', defOpacity);
         hovered[type] = go;
         //console.warn('mark', go, list)
     }
@@ -122,7 +122,7 @@ var ObjectWrapper = (function() {
                 }, { //preset: 'islands#circleIcon',
                     preset: 'islands#circleIcon',
                     iconColor: '#00f',
-                    iconOpacity: 0.5
+                    iconOpacity: defOpacity
                 });
                 r.place = place;
                 map.geoObjects.add(place);
@@ -135,7 +135,6 @@ var ObjectWrapper = (function() {
                 this.pol.options.set('strokeWidth', 1).set('zIndex', 0).set('strokeColor', '#777');
         },
         calcRate: function() {
-            //if (this.ind != 57) return
             var r = this;
             var res = calcRate(anvalues[r.region.number]);
             if (res) {
@@ -219,7 +218,7 @@ var ObjectWrapper = (function() {
             }, { //preset: 'islands#circleIcon',
                 preset: 'islands#governmentCircleIcon',
                 iconColor: '#00f',
-                iconOpacity: 0.5
+                iconOpacity: defOpacity
             });
             d.place = place;
             map.geoObjects.add(place);
@@ -280,7 +279,7 @@ var ObjectWrapper = (function() {
         },
         select: function(focus) {
             var s = this;
-            if (focus) {
+            if (focus && s.sector.coords) {
                 if (map) map.setCenter(s.sector.coords)
                     //if (s.place)  s.place.balloon.open();
             }

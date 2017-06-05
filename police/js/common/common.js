@@ -101,10 +101,10 @@ Date.prototype.fineFormat = function() {
 	var	diff = (((new Date()).getTime() - date.getTime()) / 1000),
 		day_diff = Math.floor(diff / 86400);
 
-	if (isNaN(day_diff) || day_diff < 0 || day_diff >= 40) return ''; //date.toLocaleDateString();
-	var res =  day_diff == 0 && (diff < 60 && "just now" || diff < 120 && "a minute ago" 
-		|| diff < 3600 && Math.floor(diff / 60) + " minutes ago" || diff < 7200 && "1 hour ago" 
-		|| diff < 86400 && Math.floor(diff / 3600) + " hours ago") || day_diff == 1 && "yesturday" || day_diff < 7 && day_diff + " days ago" 
+	if (isNaN(day_diff) || day_diff < 0 || day_diff >= 40) 		return date.toLocaleDateString();
+	var res =  day_diff == 0 && (diff < 60 && "только что" || diff < 120 && "минуту назад" 
+		|| diff < 3600 && Math.floor(diff / 60) + " минут назад" || diff < 7200 && "час назад" 
+		|| diff < 86400 && Math.floor(diff / 3600) + " часов назад") || day_diff == 1 && "вчера" || day_diff < 7 && day_diff + " дней назад" 
 		|| day_diff < 31 && Math.ceil(day_diff / 7) + " weeks ago" ;
 	return res;
 
@@ -118,7 +118,7 @@ var Common = (function () {
 		
 		getTemplates : function() {
 			var templates = {}
-			$('[data-template').each(function() {
+			$('[data-template]').each(function() {
 				var $this = $(this)
 				templates[$this.attr('data-template')] =$this.html();
 			}).appendTo($('body'))

@@ -6,9 +6,9 @@
 
     function ready() {
         var cities = [
-            { name: 'Санкт-Петербург', coords: [59.939440, 30.302135] },
-            { name: 'Москва', coords: [55.725045, 37.646961] },
-            { name: 'Воронеж', coords: [51.694273, 39.335955] },
+            { name: 'Санкт-Петербург', coords: [59.939440, 30.302135], code: 'spb' },
+            { name: 'Москва', coords: [55.725045, 37.646961], code: 'msc' },
+            { name: 'Воронеж', coords: [51.694273, 39.335955], code: 'vo' },
         ];
         var map, city = cities[0];
         var regions, sectors, areas, persons, templates = Common.getTemplates(),
@@ -31,12 +31,16 @@
             var m = layer.map();
             if (m) m.forEach(function(o) { o.show(layer.checked) })
         })
-        $('#city-popup').html(Mustache.render(templates.cities, cities)).find('li').on('click', function() {
+        var $cities = $('#city-popup').html(Mustache.render(templates.cities, cities)).find('li').on('click', function() {
             var c = cities[$(this).index()]
             $('#btn-city-toggle').html(c.name)
             city = c;
-            if (map) map.setCenter(c.coords)
-        }).eq(0).trigger('click')
+            if (window.ymaps) {
+                map.setCenter(c.coords)
+            } else {
+               renderStaticHome(c.coords)
+            }
+        })
         $('#btn-city-toggle').popup({ hideOnClick: true })
         var $dashPanels = $('.dash-panel');
         var $dashToggles = $('.dash-toggle a').on('click', function() {
@@ -44,8 +48,11 @@
             $dashPanels.eq($dashToggles.index(this)).addClass('shown').siblings().removeClass('shown')
         })
         loading(true)
-        API.getAndWrapAll(function(args) {
+        API.getAndWrapAll(city.code, function(args) {
             args.templates = templates;
+            args.getCurrentCity = function() {
+                return city
+            }
             Core.trigger('init', args)
             sectors = args.sectors;
             areas = args.areas;
@@ -58,14 +65,69 @@
             if (window.ymaps) {
                 ymaps.ready(createMap);
             } else {
-                console.warn('Yandex !!')
-                Core.trigger('map-ready', {})
-                renderMainList();
-                loading(false)
+                createStatic()
             }
             initArgs = args;
         })
 
+        function createStatic() {
+            var url = 'https://static-maps.yandex.ru/1.x/?ll={0},{1}&z={2}&l=map&';
+            //size=150,150
+            var $map = $('#map');
+            map = {
+                setCenter: function(c, zoom) {
+                    if (!zoom) zoom = 10;
+                    this.render(c, zoom)
+                },
+                markPoint: function(p, zoom) {
+                    if (!zoom) zoom = 13;
+                    console.warn('markPoint', p);
+                    this.render(p.coords, zoom, [p])
+                },
+                markPoints: function(c, points, zoom) {
+                    if (!zoom) zoom = 10;
+                    console.warn('markPoints', points);
+                    this.render(c, zoom, points)
+                },
+                render: function(c, zoom, points) {
+                    console.warn('render', c, points);
+                    var pt = '';
+                    if (points) {
+                        pt = '&pt=';
+                        points.forEach(function(p) {
+                            var pc = p.coords;
+                            pt += '{0},{1},{2}~'.format(pc[1], pc[0], p.preset);
+                        })
+                        pt = pt.substr(0, pt.length - 1)
+                    }
+                    $map.css('background-image', 'url({0})'.format(url.format(c[1], c[0], zoom) + pt))
+
+                }
+            };
+
+            Core.trigger('map-ready', { map: map })
+            renderMainList();
+            loading(false)
+
+        }
+
+        function renderStaticHome(c) {
+            var rp = regions.filter(function(r) {
+                return r.region.point }).map(function(r) {
+                return {
+                    coords: r.region.point.coords,
+                    preset: 'pmwts' + r.region.number
+                }
+            })
+            var dp = departments.filter(function(d) {
+                return d.department.coords }).map(function(d) {
+                return {
+                    coords: d.department.coords,
+                    preset: 'pmgrs'
+                }
+            }) //    .slice(0,5)
+            map.markPoints(c, dp)
+        }
         function createMap(state) {
             map = new ymaps.Map('map', { controls: ["zoomControl"], zoom: 12, center: [59.948814, 30.309640] });
             initArgs.map = map;
@@ -220,6 +282,90 @@
         Core.on('map.click', function(args) {
             resolvePoint(args.coords)
         })
+
+        function searchPoint(pos) {
+            console.log('searchPoint', pos)
+            if (!map) return;
+            for (var i = 0; i < regions.length; i++) {
+                var r = regions[i];
+                if (r.pol && r.pol.geometry.contains(pos)) {
+                    r.render()
+                    return;
+                }
+            }
+        }
+        $('#btn-locate').on('click', function() {
+            location(function(p) {
+                searchPoint(p)
+                resolvePoint(p)
+            })
+        })
+        Core.on('map-ready', function() {
+            location(function(p) {
+                var nearest;
+                cities.forEach(function(c) {
+                    var cp = c.coords;
+                    c.d = Math.sqrt((cp[0] - p[0]) * (cp[0] - p[0]) + (cp[1] - p[1]) * (cp[1] - p[1]))
+                    if (!nearest || (nearest.d > c.d)) {
+                        nearest = c;
+                    }
+                })
+                var ci = cities.indexOf(nearest);
+                $cities.eq(ci).trigger('click')
+            }, function() {
+                $cities.eq(0).trigger('click')
+            })
+        })
+        var cp;
+
+        function location(success, error) {
+            loading(true)
+            navigator.geolocation.getCurrentPosition(function(location) {
+                var p = [location.coords.latitude, location.coords.longitude];
+                success(p);
+                loading(false)
+            }, function() {
+                loading(false);
+                Core.trigger('mess', { mess: 'Не удалось определить координаты.', warn: true })
+                if (error) error()
+            })
+
+        }
+
+        function markCurrent(p, addr) {
+            if (window.ymaps) {
+                if (cp) map.geoObjects.remove(cp);
+                if (!p) return;
+                map.setCenter(p)
+                cp = new ymaps.Placemark(p, {
+                    iconCaption: addr || '...',
+                    hintContent: addr || '...'
+                }, {
+                    preset: 'islands#redCircleDotIconWithCaption',
+                    iconColor: '#f00'
+                });
+                map.geoObjects.add(cp);
+            } else if (p) {
+                map.markPoint({ coords: p, preset: 'flag' })
+            }
+        }
+
+        function resolvePoint(p) {
+            markCurrent(p)
+            API.resolvePoint(city, p, function(addr) {
+                if (!addr[0]) return;
+                var name = addr[0].name;
+                if (cp) cp.properties.set('iconCaption', name).set('hintContent', name);
+                var pq = parseQuery(name);
+                var strres = search(streets, pq, function(o) {
+                        if (o) return o.name
+                    })
+                    // console.log(addr[0].name, strres[0])
+                if (strres[0])
+                    strres[0].item.sector.select()
+            })
+        }
+
         var $txtSearch = $('#txt-search')
             .on('focus', function() { this.select() })
             .on('change', function(e, args) {
@@ -230,6 +376,7 @@
                         ds = args.data[dsind],
                         ind = $row.index(),
                         o = ds.data[ind].item;
+
                     if (dsind == 0) { //yandex addr
                         map.setCenter(o.coords)
                         markCurrent(o.coords, o.name)
@@ -243,67 +390,13 @@
                         o.select(true)
                     } else if (dsind == 3) { //sector
                         o.select(true)
-                    }else if (dsind == 4) { //person
+                    } else if (dsind == 4) { //person
                         o.location.select(true)
+                    } else if (dsind == 5) { //person
+                        o.select(true)
                     }
                 }
             })
-
-        function searchPoint(pos) {
-            console.log('searchPoint', pos)
-            if (!map) return;
-            for (var i = 0; i < regions.length; i++) {
-                var r = regions[i];
-                if (r.pol && r.pol.geometry.contains(pos)) {
-                    r.render()
-                    return;
-                }
-            }
-        }
-        //Core.on('map-init', function() {
-        $('#btn-locate').on('click', function() {
-                loading(true)
-                navigator.geolocation.getCurrentPosition(function(location) {
-                    var p = [location.coords.latitude, location.coords.longitude];
-                    searchPoint(p)
-                    resolvePoint(p)
-                    loading(false)
-                }, function() {
-                    loading(false)
-                })
-            })
-            //})
-        var cp;
-
-        function markCurrent(p, addr) {
-            if (cp) map.geoObjects.remove(cp);
-            if (!p) return;
-            cp = new ymaps.Placemark(p, {
-                iconCaption: addr || '...',
-                hintContent: addr || '...'
-            }, {
-                preset: 'islands#redCircleDotIconWithCaption', //'islands#stretchyIcon',
-                iconColor: '#f00'
-            });
-            map.geoObjects.add(cp);
-        }
-
-        function resolvePoint(p) {
-            markCurrent(p)
-            map.setCenter(p)
-            API.resolvePoint(city, p, function(addr) {
-                if (!addr[0]) return;
-                var name = addr[0].name;
-                cp.properties.set('iconCaption', name).set('hintContent', name);
-                var pq = parseQuery(name);
-                var strres = search(streets, pq, function(o) {
-                        if (o) return o.name
-                    })
-                    // console.log(addr[0].name, strres[0])
-                if (strres[0])
-                    strres[0].item.sector.select()
-            })
-        }
 
         function search(arr, ws, fname) {
             var res = []
@@ -312,8 +405,9 @@
                     rate = 0;
                 var s = fname(o);
                 if (!s) return;
+                var slc = s.toLowerCase();
                 ws.forEach(function(w) {
-                    var ind = s.indexOf(w);
+                    var ind = slc.indexOf(w);
                     if (ind >= 0) matches.push({ w: w, ind: ind })
                     if (ind == 0) rate++;
                 })
@@ -325,13 +419,17 @@
             res.sort(function(a, b) {
                 return b.rate - a.rate
             })
+            console.warn(res);
             return res.slice(0, 5);
         }
         $txtSearch.autocomplete($('#search-popup'), templates.autocomplete, function(q, success) {
             if (!q) return;
             var pq = parseQuery(q);
             var regres = search(regions, pq, function(o) {
-                return o.region.name.toLowerCase()
+                return o.region.name
+            })
+            var depres = search(departments, pq, function(o) {
+                return o.department.name
             })
             var secres = search(sectors, pq, function(o) {
                 return o.sector.name
@@ -349,8 +447,10 @@
                 { title: 'Адрес', type: 'addrs', dsindex: 2, data: strres },
                 { title: 'Участковые', type: 'sectors', dsindex: 3, data: secres },
                 { title: 'Начальники', type: 'persons', dsindex: 4, data: perres },
+                { title: 'ОУМВД', type: 'departments', dsindex: 5, data: depres },
             ]
             success(res)
+                //console.log(res)
             return API.resolveAddr(city, q, function(data) {
                 data.forEach(function(d) { yres.push({ name: d.name, item: d }) })
                 success(res)

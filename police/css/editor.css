@@ -23,7 +23,7 @@
 .save-btns {position: absolute;bottom: 0;right: 0;left: 0;}
 .mt-toggle.selected {/* background: rgba(255, 255, 255, 0.77); */}
 .mt-toggle.selected + .mt {max-height: 500px}
-.mt {/* padding: 10px; */box-sizing: border-box;transition: max-height 0.3s;max-height: 0;overflow: hidden;margin-bottom: 31px;position: absolute;z-index: 2;}
+.mt {/* padding: 10px; */box-sizing: border-box;transition: max-height 0.3s;/* max-height: 0; */overflow: hidden;margin-bottom: 31px;position: absolute;z-index: 2;width: 300px;top: 0;}
 .values {position: relative;margin-left: 250px;/* background: rgba(255, 255, 255, 0.46); */overflow: auto;}
 .flex {flex-direction: row; display: flex;}
 .item {}

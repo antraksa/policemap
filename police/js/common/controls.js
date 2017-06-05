@@ -161,9 +161,10 @@
 
         function triggerChange($row) {
             if (data) {
-                $this.val($row.text());
+                var txt = $row.find('a').text().trim()
+                $this.val(txt);
                 $this.trigger('change', [{
-                    label: $row.text().trim(),
+                    label: txt,
                     $row: $row,
                     data: data
                         //item : data[$row.index()]

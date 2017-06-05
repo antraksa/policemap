@@ -8,7 +8,7 @@ $(function() {
     var ank1Url = useLocal  ? 'data/anketa1.csv?' + rand :  'https://docs.google.com/spreadsheets/d/1BfDEwci1YAcbQa-uSk8-ejSE6aTPgWRlIGnZ9Mm_cPc/pub?output=csv';
     var ank2Url = useLocal  ? 'data/anketa2.csv?' + rand :  'https://docs.google.com/spreadsheets/d/1veV_YBTtjxK575FHg_u9sy_pOjCy9pPMXzon4NY1Vc4/pub?output=csv';
     
-    regions()
+    //regions()
    
 
     function regions(success) {
@@ -239,16 +239,17 @@ $(function() {
         })
     })
 
-    function save(key, data) {
-        API.save(key, data, function(res) {
+    function save(key, city, data) {
+        if (!city) city = 'spb';
+        API.save(key, city, data, function(res) {
             console.info('Cохранилось', key, data)
         })
     }
-    $('#btn-resolve-spb').on('click', function() { prepareSectors(7800000000000, 'spb') })
+    $('#btn-resolve-spb').on('click', function() { prepareSectors('spb') })
     $('#btn-resolve-msc').on('click', function() { prepareSectors('msc') })
     $('#btn-resolve-vo').on('click', function() { prepareSectors('vo') })
         //prepareSectors(7800000000000, 'spb') 
-    function prepareSectors(sub, city) {
+    function prepareSectors(city) {
         function parseOptions(data) {
             var arr = []
             $(data.list).each(function() {
@@ -258,7 +259,8 @@ $(function() {
             })
             return arr;
         }
-        $.getJSON("data/sectors-parsed/ment-{0}.json".format(city), function(pots) {
+        $.getJSON("../data/sectors-parsed/ment-{0}.json".format(city), function(pots) {
+            console.warn(pots);
             pots.forEach(function(p) {
                 var street, pstr = p.streets;
                 p.streets.forEach(function(s, i) {
@@ -277,7 +279,7 @@ $(function() {
             })
             console.log(city, 'ресловим сектора', pots)
             resolveSectors(pots, function() {
-                save('sectors', pots)
+                save('sectors', city, pots)
             })
         })
     }
@@ -301,8 +303,7 @@ $(function() {
         })
     }
 
-    mergeSectors()
-
+  
     function resolveSectors(pots, success) {
         var ind = 0;
         //pots = pots.slice(0,3)
@@ -318,12 +319,13 @@ $(function() {
                 var res = data.response.GeoObjectCollection.featureMember[0]
                 if (res) {
                     p.raddr = res.GeoObject.name
+                    p.rdescription = res.GeoObject.description;
                     var coords = res.GeoObject.Point;
                     if (coords)
                         p.coords = coords.pos.split(' ').map(function(x) {
                             return Number(x)
                         }).reverse()
-                    console.log(ind, p.addr, p.raddr, p.coords)
+                    console.log(ind, p.addr, p.raddr,  p.coords, p.rdescription)
                 } else {
                     console.warn(ind, p.addr, 'Not resolved')
                 }
@@ -349,6 +351,8 @@ $(function() {
     $('#btn-sectors-spb').on('click', function() { parseSectors(7800000000000, 'spb') })
     $('#btn-sectors-msc').on('click', function() { parseSectors(7700000000000, 'msc') })
     $('#btn-sectors-vo').on('click', function() { parseSectors(3600000000000, 'vo') })
+
+
         //parseSectors(7800000000000, 'spb')
     function parseSectors(sub, city) {
         console.log('начинаем ддосить ' + city)

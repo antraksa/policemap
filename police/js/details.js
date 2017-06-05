@@ -12,12 +12,19 @@ Core.on('ready', function() {
         $rdetails = $('#region-details'),
         $sdetails = $('#sector-details');
 
+    if (location.href.indexOf('admin') > 0) {
+        $('[local-url]').each(function() {
+            this.href = '../' + $(this).attr('href')
+        })
+    }
+
     Core.on('department.select', function(args) {
         args.department.markPointOpacity(true);
         renderDepartment(args.department)
         $dtoggle.eq(0).trigger('click')
     })
     var curDepartment, curRegion, curSector;
+
     function renderDepartment(department) {
         curDepartment = department;
         $ddetails.html(Mustache.render(templates.department, department))
@@ -28,9 +35,9 @@ Core.on('ready', function() {
         console.log('select department', department)
     }
     Core.on('details.clear', function(args) {
-		renderRegion();
-		renderSector();
-		renderDepartment();
+        renderRegion();
+        renderSector();
+        renderDepartment();
     })
 
     Core.on('region.select', function(args) {
@@ -55,15 +62,16 @@ Core.on('ready', function() {
         $rdetails.find('.btn-ank').on('click', function() {
             Core.trigger('region-anketa.select', { region: region })
         })
-        if (region.department && curDepartment!=region.department) {
-            Core.trigger('department.select', { department: region.department, nofocus : true })
+        if (region.department && curDepartment != region.department) {
+            Core.trigger('department.select', { department: region.department, nofocus: true })
         }
         $('#details-rate-toggle').on('click', function() {
             $('#details-rate').toggleClass('expanded')
         })
+        Core.trigger('details.rendered', {region : region,  $rdetails :  $rdetails })
         console.log('select region', region)
     }
-
+    
     Core.on('sector.select', function(args) {
         renderSector(args.sector, args.focus);
     })
@@ -88,10 +96,16 @@ Core.on('ready', function() {
             region.draw();
         }
     }
-    var $dtoggle = $('#details-toggle a').on('click', function() {
+    var $dtoggle = $('#details-toggle .tab-toggle').on('click', function() {
         $(this).addClass('selected').siblings().removeClass('selected');
         $details.children().eq($(this).index()).addClass('shown').siblings().removeClass('shown')
     })
+
+    // $('#btn-main-menu').on('click', function() {
+    //     $(this).toggleClass('selected');
+    //     $('#main-nav').toggleClass('expanded');
+    // })
+    $('#btn-main-menu').popup({popup : $('#main-nav')})
 
     function dataHandler(data, handler) {
         return function(e) {

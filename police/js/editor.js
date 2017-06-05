@@ -1,12 +1,13 @@
 'use strict'
 $(function() {
-    loading(true)
+    loading(true);
+    var $ttoggles = $('#types-toggle'),
+        types = API.types,
+        $history = $('#history-list'),
+        $veditor = $('#values-editor');
     API.all(function(args) {
         console.warn(args)
-        var types = API.types,
-            datas = args,
-            $history = $('#history-list'),
-            $veditor = $('#values-editor'),
+        var datas = args,
             $th, renderSaveButtons;
         var typearr = [];
         var templates = Common.getTemplates();
@@ -14,31 +15,30 @@ $(function() {
 
         var ti = 0;
         for (var key in types) {
-            types[key].index  = ti++;
+            types[key].index = ti++;
             typearr.push(types[key])
         }
-        var $ttoggles = $('#types-toggle').html(Mustache.render(templates.types, typearr))
+        $ttoggles.html(Mustache.render(templates.types, typearr))
         $ttoggles.find('a').on('click', function(e, args) {
             render(types[$(this).attr('data-type')]);
             $(this).addClass('selected').siblings().removeClass('selected')
             if (!args)
-                State.pushState({ type : type.name})
+                State.pushState({ type: type.name })
             else {
                 if (state && Number(state.rowId) >= 0) {
                     var $item = $veditor.find('[data-item-ind="{0}"]'.format(state.rowId));
-                    console.log($item)
                     $item.addClass('current').siblings().removeClass('current');
                     $item.scrollTo()
                 }
             }
-        }).eq( state && state.type ? types[state.type].index :  0).trigger('click', {});
+        }).eq(state && state.type ? types[state.type].index : 0).trigger('click', {});
 
-        
+
         function moveHeaders() {
             var top = $veditor.scrollTop()
             $th.css('top', top + 'px')
         }
-        
+
         $veditor.on('scroll', moveHeaders)
         var type, sortField, target, items, fields;
 
@@ -76,7 +76,7 @@ $(function() {
                         rowind = $item.index(),
                         cell = items[rowind].cells[ind];
                     $item.addClass('current').siblings().removeClass('current');
-                    State.addState({ rowId : items[rowind].itemInd, type : type.name})
+                    State.addState({ rowId: items[rowind].itemInd, type: type.name })
                     if (field.popup) {
                         $this.addClass('edited');
                         var popup = datas[field.popup];
@@ -119,9 +119,9 @@ $(function() {
                 Core.trigger('history.push', action)
             })
             $('#btn-add').on('click', function() {
-                
-                var obj =  { name : type.name };
-                target.push( obj )
+
+                var obj = { name: type.name };
+                target.push(obj)
                 var action = { type: type.name, old: null, ds: target, name: obj.name, val: obj, title: 'Добавлен' };
                 Core.trigger('history.push', action)
                 render()
@@ -147,7 +147,7 @@ $(function() {
             renderSaveButtons = function() {
                 $('#btn-cancel').on('click', update)
                 $('#btn-save').on('click', function() {
-                    API.save(type.ds, datas[type.ds], function() {
+                    API.save(type.ds, 'spb', datas[type.ds], function() {
                         Core.trigger('mess', { mess: '"{0}" сохранены'.format(type.title) })
                         update()
                     }, function() {
@@ -218,9 +218,15 @@ $(function() {
     })
 
     Core.on('popstate', function(args) {
-        var stoneId = Number(args.state.stoneId);
-        if (!curStone || curStone.id == stoneId) return
-        renderStone(stones[stoneId], null, true)
+        var state = args.state;
+        if (state) {
+            $ttoggles.eq(state.type ? types[state.type].index : 0).trigger('click', {});
+             if (Number(state.rowId) >= 0) {
+                var $item = $veditor.find('[data-item-ind="{0}"]'.format(state.rowId));
+                $item.addClass('current').siblings().removeClass('current');
+                $item.scrollTo()
+            }
+        }
     })
 
     function loading(val) {

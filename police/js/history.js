@@ -3,7 +3,8 @@ Core.on('ready', function() {
     //Storage.set('police.history', null)
     var regions, _regions = {},
         templates, anvalues, anfields, targets;
-    var actions = Storage.get('police.history') || [];
+    var actions = Storage.get('police.history') || [], getCurrentCity;
+
 
     Core.on('init', function(args) {
         regions = args.regions;
@@ -13,6 +14,7 @@ Core.on('ready', function() {
         anvalues = args.anvalues;
         anfields = args.anfields;
         templates = args.templates;
+        getCurrentCity = args.getCurrentCity;
         targets = {
             anvalues: { tar: anvalues, setVal: function(id, val) { anvalues[id] = val; } },
             anfields: { tar: anfields, setVal: function(id, val) { anfields.fields = val.fields } }
@@ -66,7 +68,7 @@ Core.on('ready', function() {
             var t = targets[key]
                 //if (t.changed) {
             calls++;
-            API.save(key, t.tar, function() {
+            API.save(key, getCurrentCity().code, t.tar, function() {
                     calls--;
                     if (calls == 0) {
                         actions = []

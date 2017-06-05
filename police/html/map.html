@@ -1,6 +1,10 @@
-<div id="map" class="map"></div>
+<div id="map" class="map">
+	
+</div>
+<div id="mess" class="mess faded"></div>
+	
 <div class="search">
-	<input type="text" id="txt-search" class="txt-search" value="андрей" placeholder="Адрес, Номер отдела или ФИО " name="">
+	<input type="text" id="txt-search" class="txt-search" placeholder="Адрес, Номер отдела или ФИО " name="">
 	<i class="icon-search fgc" id="btn-search"> </i>
 </div>
 <div id="search-popup" class="popup search-autocomplete  autocomplete collapsed "> </div> 
@@ -10,17 +14,20 @@
 		<h3> {{title }}</h3>
 		<ul>
 			{{#data}}
-			<li class="capitalize type-{{type}}" data-dsindex = "{{dsindex}}" title="{{name}}">{{name}}</li>
+			<li class="capitalize type-{{type}}" data-dsindex = "{{dsindex}}" title="{{name}} {{item.locationName}}">
+				<a class="name">{{name}}</a>
+				<u>{{item.locationName}} </u>
+			</li>
 			{{/data}}
 		</ul>
 		{{/data.length}}
 	{{/.}}
 </script>
 <div class="map-tools">
-	<a id="btn-locate" class="locate icon-location"></a>
-	<a id="btn-city-toggle" class="city-toggle" > </a>
+	<a id="btn-locate" class="tool-btn locate icon-location"></a>
+	<a id="btn-city-toggle" class="tool-btn city-toggle" > </a>
 	<ul id="city-popup" class="popup city-popup"> </ul> 
 	<script data-template="cities" type="text/template">
-		{{#.}} <li> {{name}} </li> {{/.}} 
+		{{#.}} <li><a>{{name}} </a> </li> {{/.}} 
 	</script>
 </div>

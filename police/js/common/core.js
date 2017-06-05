@@ -16,7 +16,8 @@ var Core = (function() {
 			Core.trigger('ready', {})
 		});
 	}
-	var incAttr= 'data-include'
+	var incAttr= 'data-include';
+
 	function loadStatics($target, loaded, completed) {
 		var $statics = $target.find('[{0}]'.format(incAttr)).each(function() {
 			var $tar = $(this);

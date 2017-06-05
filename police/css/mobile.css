@@ -1,0 +1,10 @@
+.pane {}
+.pane.results { margin:0  }
+.pane.details {display: none}
+.pane .map-tools {bottom: 0;top: initial;}
+.pane .search {
+    width: auto;
+    left: 0;
+}
+.pane .search-autocomplete{left: 0;right: 0;width: auto;}
+.map {background-repeat: no-repeat;background-size: cover;background-position: center;/* opacity: 0.8; */}

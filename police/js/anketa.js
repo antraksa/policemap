@@ -124,7 +124,7 @@ Core.on('ready', function() {
                 })
                 var checked = dat.filter(function(d) {
                     return d.checked })
-                var catRate = r.rates[key];
+                var catRate = r.rates ? r.rates[key] : null;
                 catData.push({ category: key, categoryRate : catRate, data: dat, checked: checked })
             }
             $anktempl.html(Mustache.render(templates.anketa, { subject: r, categories: catData })).find('b').on('click', function() {
@@ -162,7 +162,8 @@ Core.on('ready', function() {
             renderHeader()
             $anketa.find('[data-category]').each(function() {
                 var cat = $(this).attr('data-category');
-                $(this).html(Mustache.render(templates.regRate, curRegion.rates[cat]))
+                var rates = curRegion.rates ? curRegion.rates[cat] : null;
+                $(this).html(Mustache.render(templates.regRate, rates))
             })
         }
 

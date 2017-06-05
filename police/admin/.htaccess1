@@ -1,0 +1,4 @@
+AuthName "Secure Area"
+AuthType Basic
+AuthUserFile /home/a/averbovski/averbovski.beget.tech/public_html/.htpasswd
+require valid-user

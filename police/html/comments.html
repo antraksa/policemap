@@ -1,0 +1,49 @@
+<div id="comments-popup" class="comments-popup">
+</div>
+<script data-template="commentsPopup" type="text/template">
+    {{#length}}
+    <a class="toggle" id="comments-toggle">Есть новые комментарии</a>
+    <ul class="list">
+        {{#.}}
+        <li class="comment">
+            <div class="head" title="{{name}}">{{name}} <b class="date">{{createdDate}}</b></div>
+            <div class="body" title="{{text}}">{{text}}
+                <div class="btns">
+                    <button data-comment-id="{{_id}}" class="btn btn-primary btn-accept"> <i class="icon-check"></i> Принять</button>
+                    <button data-comment-id="{{_id}}" class="btn btn-reject"><i class="icon-close"></i> Отклонить</button>
+                </div>
+            </div>
+        </li>
+        {{/.}}
+    </ul>
+    {{/length}}
+</script>
+<script data-template="regionComments" type="text/template">
+    <div class="details-comments">
+        <h6 class="sub-header">Отзывы </h6>
+        <ul>
+            {{#.}}
+            <li class="comment accepted-{{accepted}}" >
+                <div class="head">{{name}} <b class="date">{{createdDate}}</b></div>
+                <div class="body">{{text}}
+                    <div class="btns">
+                         <span class="accepted-title">{{acceptedTitle}}</span>
+                        <button data-comment-id="{{_id}}" class="btn btn-primary btn-accept"> <i class="icon-check"></i> Принять</button>
+                        <button data-comment-id="{{_id}}" class="btn btn-reject"><i class="icon-close"></i> Отклонить</button>
+                    </div>
+                </div>
+            </li>
+            {{/.}} {{^.}}
+            <li class="no-records">Отзывов пока нет</li>
+            {{/.}}
+        </ul>
+        <div class="comment-form">
+            <input type="text" name="" placeholder="Ваше имя" id="region-comment-name">
+            <textarea id="region-comment-text" placeholder="Оставьте свой отзыв" rows="4"></textarea>
+            <div class="tip"> <i class="icon-info"></i> Ваш отзыв пройдет премодерацию </div>
+            <div class="btns">
+                <button id="region-comment-submit" class="btn btn-primary btn-accept"> Отправить</button>
+            </div>
+        </div>
+    </div>
+</script>

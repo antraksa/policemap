@@ -1,28 +1,32 @@
 'use strict';
 var API = (function() {
     var rand = function() {return Math.round(Math.random() * 10000000)};
-    var requests = {
-        departments : function() { return $.getJSON("data/resolved/departments.json?" + rand()) },
-        regions : function() { return $.getJSON("data/resolved/regions.json?" + rand()) },
-        areas : function() { return $.getJSON("data/resolved/areas.json?" + rand()) },
-        sectors : function() { return $.getJSON("data/resolved/sectors.json?" + rand()) },
-        anfields : function() { return $.getJSON("data/resolved/anfields.json?" + rand()) },
-        anvalues : function() { return $.getJSON("data/resolved/anvalues.json?" + rand()) }
+    var pref = '' 
+    if (location.href.indexOf('admin') > 0) {
+        pref = '../'
     }
-    function getAll() {
+    var requests = {
+        departments : function(city) { return $.getJSON(pref + "data/resolved/{0}/departments.json?".format(city) + rand()) },
+        regions : function(city) { return $.getJSON(pref + "data/resolved/{0}/regions.json?".format(city) + rand()) },
+        areas : function(city) { return $.getJSON(pref + "data/resolved/{0}/areas.json?".format(city) + rand()) },
+        sectors : function(city) { return $.getJSON(pref + "data/resolved/{0}/sectors.json?".format(city) + rand()) },
+        anfields : function(city) { return $.getJSON(pref + "data/resolved/{0}/anfields.json?".format(city) + rand()) },
+        anvalues : function(city) { return $.getJSON(pref + "data/resolved/{0}/anvalues.json?".format(city) + rand()) }
+    }
+    function getAll(city) {
         return $.when(
-            requests.departments(),
-            requests.regions(),
-            requests.areas(),
-            requests.sectors(),
-            requests.anfields(),
-            requests.anvalues()
+            requests.departments(city),
+            requests.regions(city),
+            requests.areas(city),
+            requests.sectors(city),
+            requests.anfields(city),
+            requests.anvalues(city)
         )
     }
     return {
         requests : requests,
-    	all : function(success) {
-            getAll().done(function(deps, regions, areas, sectors, anfields, anvalues, types) {
+    	all : function(city, success) {
+            getAll(city).done(function(deps, regions, areas, sectors, anfields, anvalues, types) {
     			 success({
                     regions: regions[0],
                     sectors: sectors[0],
@@ -33,8 +37,8 @@ var API = (function() {
                 })
     		})
     	},
-        getAndWrapAll: function(success) {
-            getAll().done(function(deps, regions, areas, sectors, anfields, anvalues) {
+        getAndWrapAll: function(city, success) {
+            getAll(city).done(function(deps, regions, areas, sectors, anfields, anvalues) {
                 var anvals = anvalues[0];
                 regions[0].sort(function(a, b) {
                     return a.number - b.number })
@@ -42,7 +46,7 @@ var API = (function() {
                 var regions = regions[0].map(function(r, i) {
                     var reg = ObjectWrapper.wrapRegion(r);
                     reg.ind = i;
-                    persons[r.personName.toLowerCase()] = { location : reg };
+                    persons[r.personName.toLowerCase()] = { location : reg, locationName : r.name };
                     //reg.ank = anvals[r.number]
                     _regs[r.number] = reg;
                     return reg;
@@ -57,7 +61,7 @@ var API = (function() {
                     dep.regions.sort(function(a, b) {
                         return a.number - b.number })
                     dep.department.number = dep.ind = i;
-                    persons[d.personName.toLowerCase()] = {location : dep };
+                    persons[d.personName.toLowerCase()] = {location : dep,  locationName : d.name };
                     return dep;
                     //console.log(d)
                 })
@@ -108,8 +112,8 @@ var API = (function() {
                 })
             })
         },
-        save: function(key, data, success, fail) {
-            $.post("php/put.php", { key: key, data: JSON.stringify(data) }, function(res) {
+        save: function(key,city, data, success, fail) {
+            $.post("php/put.php", { key: key, city : city, data: JSON.stringify(data) }, function(res) {
                 if (!res.trim()) {
                     success()
                     console.log('put success ', key, data, res)
@@ -137,48 +141,32 @@ var API = (function() {
                     return { name: o.GeoObject.name, coords: o.GeoObject.Point.pos.split(' ').reverse() } })
                 success(output)
             })
+        }, 
+        getComments : function(reg, success) {
+            setTimeout(function() {  
+                success([{name : '<i>name1', text : '<i>text1'}, {name : '<i>name1name1name1 name1name1name1', text : 'dbx — компандерная система шумопонижения (СШП), разработанная в начале 1970-х годов Дэвидом Блэкмером. В отличие от конкурировавших СШП Dolby, dbx сжимает и экспандирует сигнал во всём диапазоне звуковых частот и на всех уровнях сигнала, что снижает чувствительность СШП к частотным и фазовым искажениям тракта записи-воспроизведения и к точности его настройки. Подавление шума магнитной ленты достигает 30 дБ, динамический диапазон записываемого и воспроизводимого сигнала достигает 100 дБ. Высокие показатели достигаются ценой полной несовместимости лент, записанных с применением dbx, с обычной аппаратурой, не оснащённой декодером dbx.'} ])
+            }, 300)
+        },
+        getUnapprovedComments : function(success) {
+            setTimeout(function() {  
+                success([
+                    {name : 'name1', text : 'text1',}, 
+                    {name : 'name1', text : 'text1'}, 
+                    {name : 'name1', text : 'text1'}, 
+                    {name : 'name1', text : 'text1'}, 
+                    {name : 'name1', text : 'text1'}, 
+                     {name : 'name1', text : 'text1'}, 
+                    {name : 'name1', text : 'text1'}, 
+                    {name : 'name1', text : 'text1'}, 
+                    {name : 'name1', text : 'text1'}, 
+                    {name : 'name1', text : 'text1'}, 
+                    {name : 'name1name1name1 <b> <c> name1name1name1', text : 'dbx — компандерная система шумопонижения (СШП), разработанная в начале 1970-х годов Дэвидом Блэкмером. В отличие от конкурировавших СШП Dolby, dbx сжимает и экспандирует сигнал во всём диапазоне звуковых частот и на всех уровнях сигнала, что снижает чувствительность СШП к частотным и фазовым искажениям тракта записи-воспроизведения и к точности его настройки. Подавление шума магнитной ленты достигает 30 дБ, динамический диапазон записываемого и воспроизводимого сигнала достигает 100 дБ. Высокие показатели достигаются ценой полной несовместимости лент, записанных с применением dbx, с обычной аппаратурой, не оснащённой декодером dbx.'}, 
+                    {name : 'name1name1name1 name1name1name1', text : 'dbx — компандерная система шумопонижения (СШП), разработанная в начале 1970-х годов Дэвидом Блэкмером. В отличие от конкурировавших СШП Dolby, dbx сжимает и экспандирует сигнал во всём диапазоне звуковых частот и на всех уровнях сигнала, что снижает чувствительность СШП к частотным и фазовым искажениям тракта записи-воспроизведения и к точности его настройки. Подавление шума магнитной ленты достигает 30 дБ, динамический диапазон записываемого и воспроизводимого сигнала достигает 100 дБ. Высокие показатели достигаются ценой полной несовместимости лент, записанных с применением dbx, с обычной аппаратурой, не оснащённой декодером dbx.'}, 
+                    {name : 'name1name1name1 name1name1name1', text : 'dbx — компандерная система шумопонижения (СШП), разработанная в начале 1970-х годов Дэвидом Блэкмером. В отличие от конкурировавших СШП Dolby, dbx сжимает и экспандирует сигнал во всём диапазоне звуковых частот и на всех уровнях сигнала, что снижает чувствительность СШП к частотным и фазовым искажениям тракта записи-воспроизведения и к точности его настройки. Подавление шума магнитной ленты достигает 30 дБ, динамический диапазон записываемого и воспроизводимого сигнала достигает 100 дБ. Высокие показатели достигаются ценой полной несовместимости лент, записанных с применением dbx, с обычной аппаратурой, не оснащённой декодером dbx.'}, 
+                    {name : 'name1name1name1 name1name1name1', text : 'dbx — компандерная система шумопонижения (СШП), разработанная в начале 1970-х годов Дэвидом Блэкмером. В отличие от конкурировавших СШП Dolby, dbx сжимает и экспандирует сигнал во всём диапазоне звуковых частот и на всех уровнях сигнала, что снижает чувствительность СШП к частотным и фазовым искажениям тракта записи-воспроизведения и к точности его настройки. Подавление шума магнитной ленты достигает 30 дБ, динамический диапазон записываемого и воспроизводимого сигнала достигает 100 дБ. Высокие показатели достигаются ценой полной несовместимости лент, записанных с применением dbx, с обычной аппаратурой, не оснащённой декодером dbx.'}, 
+                    {name : 'name1name1name1 name1name1name1', text : 'dbx — компандерная система шумопонижения (СШП), разработанная в начале 1970-х годов Дэвидом Блэкмером. В отличие от конкурировавших СШП Dolby, dbx сжимает и экспандирует сигнал во всём диапазоне звуковых частот и на всех уровнях сигнала, что снижает чувствительность СШП к частотным и фазовым искажениям тракта записи-воспроизведения и к точности его настройки. Подавление шума магнитной ленты достигает 30 дБ, динамический диапазон записываемого и воспроизводимого сигнала достигает 100 дБ. Высокие показатели достигаются ценой полной несовместимости лент, записанных с применением dbx, с обычной аппаратурой, не оснащённой декодером dbx.'}, 
+                ])
+            }, 300)
         }
     }
 })()
-
-$(function() {
-    return
-    var headers = { 'x-apikey': '58da976b9b7aa194660910e5', 'Content-Type': 'application/json', 'Accept': 'application/json' }
-
-    function call(args, success) {
-        return $.ajax({
-            url: 'https://police-7230.restdb.io/rest/{0}'.format(args.url || 'regions'),
-            headers: headers,
-            method: args.method || 'GET',
-            data: args.data ? JSON.stringify(args.data) : null,
-            success: function(data) {
-                console.log('call success', args, data)
-                if (success) success(data)
-            },
-        })
-    }
-
-    function getRegions() {
-        call({})
-    }
-
-    function postRegions(regions) {
-        call({ method: 'POST', data: regions })
-    }
-
-    function deleteRegions() {
-        call({ method: 'DELETE', url: 'regions/*', data: [0] })
-    }
-
-    return;
-    $.get('data/resolved/regions.json', function(regions) {
-            postRegions(regions)
-        })
-        //get()
-    function getGSheet() {
-        $.get('https://docs.google.com/spreadsheets/d/1qManYIJ67hWEVP0xPcG0ry4xusZja8aTjAxTOS0GIwc/pub?output=tsv', function(data) {
-            console.log(parseCSV(data))
-        })
-    }
-    //getGSheet()
-})
