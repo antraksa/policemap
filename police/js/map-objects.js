@@ -16,9 +16,8 @@ var ObjectWrapper = (function() {
     function pregion(r) { this.region = r; }
 
     function getRate(rate) {
-        return (rate) ? { val: rate, formatted: Math.round(rate * 5), fixed: (rate * 5).toFixed(1) } : { val: 0, formatted: '', fixed : '' }
+        return (rate) ? { val: rate, formatted: Math.round(rate * 5), fixed: (rate * 5).toFixed(1) } : { val: 0, formatted: '', fixed: '' }
     }
-
 
     function calcRate(vals) {
         if (vals && vals.length > 0) {
@@ -31,7 +30,6 @@ var ObjectWrapper = (function() {
                 if (fi.hidden) return;
                 if (!count[cat]) count[cat] = 0;
                 if (!all[cat]) all[cat] = 0;
-
                 if (vals[i]) count[cat] += w;
                 all[cat] += w;
             })
@@ -66,6 +64,7 @@ var ObjectWrapper = (function() {
     }
     var rselected, dselected, sselected, hovered = {};
     var defOpacity = 0.2;
+
     function markPointOpacity(type, go) {
         if (go && go.place)
             go.place.options.set('iconOpacity', 1);
@@ -75,7 +74,6 @@ var ObjectWrapper = (function() {
         hovered[type] = go;
         //console.warn('mark', go, list)
     }
-
 
     function clearSelections() {
         if (dselected) dselected.markSelected(false)
@@ -91,7 +89,7 @@ var ObjectWrapper = (function() {
             }
         },
         draw: function() {
-            if (!map) return;
+            if (!map || !window.ymaps) return;
             var r = this;
             if (r.pol) map.geoObjects.remove(r.pol);
             var reg = r.region;
@@ -141,6 +139,10 @@ var ObjectWrapper = (function() {
                 r.rate = res.totalRate;
                 r.rates = res.rates;
                 r.color = getRateColor(r)
+                r.starRate = []
+                for (var i=0; i < 5; i++) {
+                    r.starRate.push(i < r.rate.formatted);
+                }
             }
         },
         select: function(focus, nostate) {
@@ -148,29 +150,35 @@ var ObjectWrapper = (function() {
             if (dselected) dselected.markSelected(false)
             if (rselected) rselected.markSelected(false)
             Core.trigger('region.select', { region: r })
-            if (focus) {
-                if (r.place) {
-                    r.place.balloon.open();
+            if (window.ymaps) {
+                if (focus) {
+                    if (r.place) {
+                        r.place.balloon.open();
+                    }
+                    //clearSelections()
+                    if (map && r.pol) {
+                        map.setCenter(getCenter(r.pol))
+                    }
+                    
+                    rselected = r.markSelected(true);
                 }
-                //clearSelections()
-                if (map && r.pol) {
-                    map.setCenter(getCenter(r.pol))
-                }
-                if (!nostate) State.pushState({ type: 'region', rowId: r.ind })
+            } else {
+                if (this.region.point && this.region.point.coords && focus)
+                    map.markPoint({ coords: this.region.point.coords, preset: 'pmlbm' })
             }
-            rselected = r.markSelected(true);
+            if (!nostate && focus) State.pushState({ type: 'region', rowId: r.ind })
         },
         number: function() {
             return this.region.number
         },
         getRates: function() {
-            var rates = this.rates, ratesArr = [];
+            var rates = this.rates,
+                ratesArr = [];
             for (var cat in rates) {
-                ratesArr.push({category : cat, rate : rates[cat]})
+                ratesArr.push({ category: cat, rate: rates[cat] })
             }
             return ratesArr;
         },
-
         markSelected: function(val) {
             this.markPointOpacity(true);
             if (this.place && !val) this.place.balloon.close();
@@ -181,9 +189,13 @@ var ObjectWrapper = (function() {
             }
             return this
         },
-
         markPointOpacity: function(val) {
-            markPointOpacity('region', val ? this : null)
+            if (window.ymaps) {
+                markPointOpacity('region', val ? this : null)
+            } else {
+                if (this.region.point && this.region.point.coords)
+                    map.delayMarkPoint({ coords: this.region.point.coords, preset: 'pmlbm' })
+            }
         },
         markGroouped: function(val) {
             if (val && this.pol) {
@@ -204,6 +216,7 @@ var ObjectWrapper = (function() {
     function pdepartment(d) { this.department = d; }
     pdepartment.prototype = {
         draw: function() {
+            if (!map || !window.ymaps) return;
             var d = this;
             var dep = this.department;
             if (d.place) map.geoObjects.remove(d.place);
@@ -227,18 +240,27 @@ var ObjectWrapper = (function() {
         select: function(focus, nostate) {
             var d = this;
             Core.trigger('department.select', { department: d })
-            if (focus) {
-                if (map && d.place) map.setCenter(getCenter(d.place))
-                clearSelections()
-                if (d.place) d.place.balloon.open();
-
-                if (!nostate) State.pushState({ type: 'department', rowId: d.ind })
+            if (window.ymaps) {
+                if (focus) {
+                    if (map && d.place) map.setCenter(getCenter(d.place))
+                    clearSelections()
+                    if (d.place) d.place.balloon.open();
+                }
+                if (dselected) dselected.markSelected(false)
+                dselected = d.markSelected(true);
+            } else {
+                if (this.department.coords && focus)
+                    map.markPoint({ coords: this.department.coords, preset: 'pmblm' })
             }
-            if (dselected) dselected.markSelected(false)
-            dselected = d.markSelected(true);
+            if (!nostate && focus) State.pushState({ type: 'department', rowId: d.ind })
         },
         markPointOpacity: function(val) {
-            markPointOpacity('department', val ? this : null)
+            if (window.ymaps) {
+                markPointOpacity('department', val ? this : null)
+            } else {
+                if (this.department.coords)
+                    map.delayMarkPoint({ coords: this.department.coords, preset: 'pmblm' })
+            }
         },
         markSelected: function(val) {
             this.markPointOpacity(true);
@@ -262,6 +284,7 @@ var ObjectWrapper = (function() {
     function psector(s) { this.sector = s; }
     psector.prototype = {
         draw: function() {
+            if (!map || !window.ymaps) return;
             var that = this;
             var s = this.sector;
             if (s.place) map.geoObjects.remove(s.place);
@@ -279,12 +302,17 @@ var ObjectWrapper = (function() {
         },
         select: function(focus) {
             var s = this;
-            if (focus && s.sector.coords) {
-                if (map) map.setCenter(s.sector.coords)
-                    //if (s.place)  s.place.balloon.open();
+            if (window.ymaps) {
+                if (focus && s.sector.coords) {
+                    if (map) map.setCenter(s.sector.coords)
+                        //if (s.place)  s.place.balloon.open();
+                }
+                if (sselected) sselected.markSelected(false);
+                sselected = this.markSelected(true);
+            } else {
+                if (this.sector.coords && focus)
+                    map.markPoint({ coords: this.sector.coords, preset: 'pmgrs' })
             }
-            if (sselected) sselected.markSelected(false);
-            sselected = this.markSelected(true);
             if (s.region) s.region.render();
             s.render(focus)
         },
@@ -295,9 +323,14 @@ var ObjectWrapper = (function() {
             if (this.place) this.place.options.set('visible', val)
         },
         markSelected: function(val) {
-            if (this.place) {
-                if (!val) this.place.balloon.close();
-                this.place.options.set('visible', val)
+            if (window.ymaps) {
+                if (this.place) {
+                    if (!val) this.place.balloon.close();
+                    this.place.options.set('visible', val)
+                }
+            } else {
+                if (this.sector.coords)
+                    map.delayMarkPoint({ coords: this.sector.coords, preset: 'pmgrs' })
             }
             return this;
         }
@@ -306,6 +339,7 @@ var ObjectWrapper = (function() {
     function parea(a) { this.area = a }
     parea.prototype = {
         draw: function() {
+            if (!map || !window.ymaps) return;
             var a = this.area;
             if (a.pol) map.geoObjects.remove(a.pol);
             var pol = new ymaps.Polygon([a.coords, []], { hintContent: a.name }, { zIndex: 0, strokeOpacity: 0.7, fillOpacity: 0, strokeColor: '#592167', strokeWidth: 2 });

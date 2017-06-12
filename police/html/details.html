@@ -1,3 +1,7 @@
+<a class="back-to-map" id="back-to-map" title=" Назад на карту">
+    <i class="icon-compass"></i>
+   
+</a>
 <nav id="details-toggle" class="details-toggle">
     <a class="t-area tab-toggle">ОУМВД</a>
     <a class="selected t-region tab-toggle">ОП</a>
@@ -25,13 +29,16 @@
         <h1  class="name">
 			<q  class="area">{{region.area}}</q> 
 			<!-- <u class="number">{{region.number}} </u>  -->
-			<u id="details-rate-toggle"  class="number btn-ank rated{{rate.formatted}}"> <em class="lb">Рейтинг</em> {{rate.formatted}} </u>
+			<u  class="number photo" style="background-image: url('{{photo}}')"> </u>
 			<a class="name-link editable" target="_blank" href="parser.html#rowId={{ind}}&type=region">{{region.name}}</a> 
 			<span  class="addr editable">{{region.addr}}</span>
 		</h1>
-        <div class="contacts">
-            <a class="hot-line" title="Подать заявление через электронную приёмную" href="https://78.xn--b1aew.xn--p1ai/request_main" target="_blank"> Электронная Приемная</a>
-            <div class="tel "> <i class="icon-phone"></i> {{#region.tel}} <u>{{.}}</u> {{/region.tel}}</div>
+        <div id="details-rate-toggle" class="btn-ank star-rate">
+            <em class="lb">Рейтинг:  {{rate.fixed}}</em>
+            {{#starRate}}
+                {{^.}}<i class="icon-star_border srated{{rate.formatted}}"></i>{{/.}}
+                {{#.}}<i class="icon-star srated{{rate.formatted}}"></i>{{/.}}
+            {{/starRate}}
         </div>
         <ul id="details-rate" class="rates">
             {{#getRates}}
@@ -42,6 +49,10 @@
             {{/getRates}}
 
         </ul>
+        <div class="contacts">
+            <a class="hot-line" title="Подать заявление через электронную приёмную" href="https://78.xn--b1aew.xn--p1ai/request_main" target="_blank"> Электронная Приемная</a>
+            <div class="tel "> <i class="icon-phone"></i> {{#region.tel}} <u>{{.}}</u> {{/region.tel}}</div>
+        </div>
         {{#region}} 
         {{#personName}}
         <h6 class="sub-header">Начальник </h6>

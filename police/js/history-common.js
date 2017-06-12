@@ -2,7 +2,7 @@ $(function() {
     var $history = $('#history-list'),
         uindex, actions;
     Core.on('history.render', function(args) {
-    	console.log('history.render', args.actions)	
+    	//console.log('history.render', args.actions)	
     	uindex = -1;
         actions = args.actions;
         $history = args.$history;
@@ -38,7 +38,7 @@ $(function() {
                     Core.trigger('history.changed', {})
                     uindex = ind;
                 }
-                console.log('uindex', uindex, 'start' , start)
+                //console.log('uindex', uindex, 'start' , start)
             })
             $item.find('.redo').on('click', function() {
                 var changed;
@@ -53,7 +53,7 @@ $(function() {
                     Core.trigger('history.changed', {})
                     uindex = ind + 1;
                 }
-                console.log('uindex', uindex)
+                //console.log('uindex', uindex)
             })
         })
         $('#history-btns').toggleClass('shown', actions.length > 0)
@@ -63,7 +63,7 @@ $(function() {
         $items.eq(0).find('.undo').trigger('click')
     })
     Core.on('history.push', function(action) {
-        console.log('add history', uindex, action, actions)
+        //console.log('add history', uindex, action, actions)
         if (uindex >= 0) {
             actions = actions.slice(0, uindex)
             uindex = -1;
@@ -74,7 +74,7 @@ $(function() {
         Core.trigger('history.actionAdded', { action: action })
     })
     Core.on('history.restore', function(args) {
-        console.log('restore history', actions)
+        //console.log('restore history', actions)
         actions = args.actions;
         if (actions.length) {
             actions.forEach(function(a) { setAction(a, a.val) })

@@ -6,7 +6,10 @@
     <ul class="list">
         {{#.}}
         <li class="comment">
-            <div class="head" title="{{name}}">{{name}} <b class="date">{{createdDate}}</b></div>
+            <div class="head" title="{{name}}">
+                <h6>{{region.region.name}}</h6>
+            {{name}} 
+            <b class="date">{{createdDate}}</b></div>
             <div class="body" title="{{text}}">{{text}}
                 <div class="btns">
                     <button data-comment-id="{{_id}}" class="btn btn-primary btn-accept"> <i class="icon-check"></i> Принять</button>
@@ -38,12 +41,15 @@
             {{/.}}
         </ul>
         <div class="comment-form">
-            <input type="text" name="" placeholder="Ваше имя" id="region-comment-name">
-            <textarea id="region-comment-text" placeholder="Оставьте свой отзыв" rows="4"></textarea>
-            <div class="tip"> <i class="icon-info"></i> Ваш отзыв пройдет премодерацию </div>
-            <div class="btns">
-                <button id="region-comment-submit" class="btn btn-primary btn-accept"> Отправить</button>
-            </div>
+            <form onsubmit="return false">
+                <input type="text" name="" placeholder="Ваше имя" id="region-comment-name" required>
+                <input type="email" name="email" placeholder="Ваше email" id="region-comment-email">
+                <textarea id="region-comment-text" placeholder="Оставьте свой отзыв" rows="4" required></textarea>
+                <div class="tip"> <i class="icon-info"></i> Ваш отзыв пройдет премодерацию </div>
+                <div class="btns">
+                    <button id="region-comment-submit" type="submit" class="btn btn-primary btn-accept"> Отправить</button>
+                </div>
+            </form>
         </div>
     </div>
 </script>

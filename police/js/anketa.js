@@ -27,7 +27,6 @@ Core.on('ready', function() {
             if (oldFields) anfields.fields = oldFields.fields;
             var num = curRegion.region.number;
             if (curRegion.oldVals) {
-                console.log(curRegion.oldVals)
                 anvalues[num] = vals = curRegion.oldVals;
                 curRegion.oldVals = null;
             }
@@ -66,12 +65,15 @@ Core.on('ready', function() {
                 curRegion.oldVals = null;
             } else {
                 $anktempl.find('.item').each(function() {
-                    var $this = $(this),
+                    var $this = $(this), sindex = $this.index(),
                         dindex = $this.attr('data-index'),
                         q = anfields.fields[dindex];
                     q.weight = parseInt($this.find('.weight').html());
                     q.title = $this.find('.title').html();
+                    q.sindex = sindex;
+                    q.category = $this.parent().prev().find('.category-title').attr('data-category');
                 })
+                console.log('anfields', anfields)
                 Core.trigger('mess', { mess: 'Формат анкеты изменен'.format(num) })
                 Core.trigger('history.push', { type: 'anfields', old: oldFields, val: Common.clone(anfields), title: 'Формат анкеты изменен'.format(num) })
             }
@@ -85,7 +87,6 @@ Core.on('ready', function() {
         $('#new-question-cat').autocomplete($('#cat-autocomplete'), templates.anketaCategories, function(q, success) {
             success(categories);
         }).on('change', function(e, args) {
-            console.log(e, args)
         })
 
         function renderHeader() {
@@ -113,14 +114,15 @@ Core.on('ready', function() {
                 var state = vals[i]==false ? '' : (vals[i] == true ? 'checked' : 'empty') ;
                 cat.push({ field: fi, checkes: calcSummary(fi, i), checked: vals[i], state: state, date: fi.date || 0, index: i });
             })
-            console.log('render anketa', vals)
+            //console.log('render anketa', vals)
             var catData = [];
             categories = [];
             for (var key in ankData) {
                 if (categories.indexOf(key) < 0) categories.push(key)
                 var dat = ankData[key];
                 dat.sort(function(b, a) {
-                    return (a.date || b.date) ? a.date - b.date : (a.title < b.title ? -1 : a.title > b.title ? 1 : 0);
+                    //return (a.date || b.date) ? a.date - b.date : (a.title < b.title ? -1 : a.title > b.title ? 1 : 0);
+                    return b.field.sindex - a.field.sindex;
                 })
                 var checked = dat.filter(function(d) {
                     return d.checked })
@@ -139,7 +141,8 @@ Core.on('ready', function() {
                 renderRates()
                 $anketa.addClass('changed')
             })
-            $anktempl.find('.item').on('click', function() {})
+            $anktempl.find('.item').on('click', function() {}).draggable($anketa)
+
             $anktempl.find('.btn-remove').on('click', function() {
                 var $item = $(this).parent(),
                     ind = $item.index(),

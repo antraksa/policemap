@@ -39,7 +39,7 @@ Core.on('ready', function() {
     })
     Core.on('history.actionAdded', function(args) {
     	Storage.set('police.history', actions)
-    	console.log('sets', actions)
+    	//console.log('sets', actions)
     	// window.onbeforeunload = function(evt) {
      //        var message = 'Изменения не сохранены на сервере! Продолжить?';
      //        if (typeof evt == "undefined") {

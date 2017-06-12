@@ -70,8 +70,14 @@ Core.on('ready', function() {
         })
         Core.trigger('details.rendered', {region : region,  $rdetails :  $rdetails })
         console.log('select region', region)
+        $('.photo').on('click', function() {
+            $('#photo-large').addClass('expanded').css('background-image', $(this).css('background-image'))
+        })
     }
-    
+    $('#photo-large, #map').on('click', function() {
+        $('#photo-large').removeClass('expanded')
+    })
+
     Core.on('sector.select', function(args) {
         renderSector(args.sector, args.focus);
     })
@@ -106,6 +112,10 @@ Core.on('ready', function() {
     //     $('#main-nav').toggleClass('expanded');
     // })
     $('#btn-main-menu').popup({popup : $('#main-nav')})
+
+    $('#back-to-map').on('click', function() {
+        $('body').removeClass('mobile-details-view')
+    })
 
     function dataHandler(data, handler) {
         return function(e) {

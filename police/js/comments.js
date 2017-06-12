@@ -1,5 +1,6 @@
 Core.on('init', function(args) {
     var $comments = $('#comments-popup'),
+        regions = args.regionsDict,
         templates = args.templates;
 
     function getUnapprovedComments() {
@@ -47,7 +48,8 @@ Core.on('init', function(args) {
         initControls($items);
         var $btnSubmit = $('#region-comment-submit').on('click', function() {
             var txt = trim($('#region-comment-text').val()),
-                name = trim($('#region-comment-name').val());
+                name = trim($('#region-comment-name').val()),
+                email = trim($('#region-comment-email').val());
 
             if (!txt || !name) {
                 Core.trigger('mess', { warn: true, mess: 'Имя и/или текст комментария не заполнены!' })
@@ -56,6 +58,7 @@ Core.on('init', function(args) {
             var comment = {
                 text: txt,
                 name: name,
+                email: email,
                 target: reg.region.number,
             }
             $btnSubmit.addClass('btn-loading');
@@ -74,6 +77,7 @@ Core.on('init', function(args) {
             c.name = trim(c.name);
             c.createdDate = (new Date(c.created)).fineFormat();
             c.acceptedTitle = c.accepted === true ? 'принят' : c.accepted === false ? 'отклонен' : 'не обработан';
+            c.region = regions[c.target];
         })
         Common.sortByField(comments, 'created')
         return comments;

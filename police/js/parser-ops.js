@@ -3,18 +3,18 @@
 $(function() {
     $('#btn-ank').on('click', function() { regions() })
     var useLocal = true, rand = Math.round(Math.random() * 100000);
-    var otdUrl = useLocal  ? 'data/otdeleniya.csv?' + rand :  'https://docs.google.com/spreadsheets/d/1LO75T1j0I2aCpgKYr_4BeGggcA7Ju4YRHp7RTjzvMjs/pub?output=csv';
-    var depUrl = useLocal  ? 'data/departments.csv?' + rand :  'https://docs.google.com/spreadsheets/d/1DtMId9BgjVerPKLW1edJedVB9CVUTl1tP3ZwCQ48jMY/pub?output=csv';
-    var ank1Url = useLocal  ? 'data/anketa1.csv?' + rand :  'https://docs.google.com/spreadsheets/d/1BfDEwci1YAcbQa-uSk8-ejSE6aTPgWRlIGnZ9Mm_cPc/pub?output=csv';
-    var ank2Url = useLocal  ? 'data/anketa2.csv?' + rand :  'https://docs.google.com/spreadsheets/d/1veV_YBTtjxK575FHg_u9sy_pOjCy9pPMXzon4NY1Vc4/pub?output=csv';
+    var otdUrl = useLocal  ? '../data/otdeleniya.csv?' + rand :  'https://docs.google.com/spreadsheets/d/1LO75T1j0I2aCpgKYr_4BeGggcA7Ju4YRHp7RTjzvMjs/pub?output=csv';
+    var depUrl = useLocal  ? '../data/departments.csv?' + rand :  'https://docs.google.com/spreadsheets/d/1DtMId9BgjVerPKLW1edJedVB9CVUTl1tP3ZwCQ48jMY/pub?output=csv';
+    var ank1Url = useLocal  ? '../data/anketa1.csv?' + rand :  'https://docs.google.com/spreadsheets/d/1BfDEwci1YAcbQa-uSk8-ejSE6aTPgWRlIGnZ9Mm_cPc/pub?output=csv';
+    var ank2Url = useLocal  ? '../data/anketa2.csv?' + rand :  'https://docs.google.com/spreadsheets/d/1veV_YBTtjxK575FHg_u9sy_pOjCy9pPMXzon4NY1Vc4/pub?output=csv';
     
-    //regions()
+    regions()
    
 
     function regions(success) {
-        $.when($.getJSON("data/poligoni_rayonov.geojson"),
-                $.getJSON("data/tochki_otdelov.geojson"),
-                $.getJSON("data/otdeleniya.geojson"),
+        $.when($.getJSON("../data/poligoni_rayonov.geojson"),
+                $.getJSON("../data/tochki_otdelov.geojson"),
+                $.getJSON("../data/otdeleniya.geojson"),
                 $.get(otdUrl),
                 $.get(ank1Url),
                 $.get(ank2Url),
@@ -45,7 +45,7 @@ $(function() {
                 for (var i = 1; i < oinfo.length; i++) {
                     var o = oinfo[i],
                         name = getv(o[2]),
-                        num = getv(o[4])
+                        num = getv(o[3]);
                     if (!num) {
                         console.warn('нет номера', o);
                         continue;
@@ -62,17 +62,18 @@ $(function() {
                     reg.name = name;
                     reg.area = getVal(o[0]);
                     reg.dep = getVal(o[1]);
-                    reg.addr = getv(o[5])
-                    reg.tel = [getv(o[6]), getv(o[7]), getv(o[8])].filter(function(o) {
+                    reg.addr = getv(o[4])
+                    reg.tel = [getv(o[5]), getv(o[6]), getv(o[7])].filter(function(o) {
                         return !!o
                     })
-                    reg.personRank = getv(o[9]);
-                    reg.personName = getv(o[10]);
-                    reg.personTel = getv(o[11]);
-                    reg.personTime = getv(o[12]);
-                    reg.lastInspect = getv(o[13])
-                    if (o[16]) {
-                        var press = o[16].split(/\s*([0-9]+\))\s*/).filter(function(s) {
+                    reg.personRank = getv(o[8]);
+                    reg.personName = getv(o[9]);
+                    reg.personTel = getv(o[10]);
+                    reg.personTime = getv(o[11]);
+                    reg.lastInspect = getv(o[12])
+                    reg.hotLine = getv(o[14])
+                    if (o[15]) {
+                        var press = o[15].split(/\s*([0-9]+\))\s*/).filter(function(s) {
                             return s.length > 3
                         })
                         reg.press = press.map(function(p) {
@@ -80,7 +81,10 @@ $(function() {
                             return [spl[0], spl[1] ? 'http' + spl[1].replace(';', '') : '']
                         })
                     }
-                    reg.photo = getv(o[17]);
+                    reg.photo = getv(o[16]);
+                    reg.report = getv(o[17]);
+                    reg.comm = getv(o[18]);
+                    reg.icon = getv(o[21]);
                     //console.log(reg);
                 }
                 for (var i = 0; i < otds.length; i++) {
@@ -224,8 +228,8 @@ $(function() {
                 }
                 console.log('departments', departments)
                // return;
-                save('regions', regions)
-                save('areas', areas)
+                save('regions', 'spb', regions)
+                //save('areas', areas)
                 //save('anfields', { fields: anfields })
                 //save('anvalues', anvalues)
                 //save('departments', departments)

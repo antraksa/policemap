@@ -79,6 +79,47 @@
         })
         return $(this);
     }
+    $.fn.draggable = function($cont) {
+        var $lis = $(this),
+            $dragged, dtimeout, prevInd;
+        $lis.on('mousedown', function(e) {
+            e.preventDefault()
+            var $this = $(this);
+            clearTimeout(dtimeout);
+            dtimeout = setTimeout(function() {
+                $dragged = $this.addClass('dragged')
+                $cont.addClass('drag-mode');
+            }, 300)
+        }).on('mouseenter', function() {
+            var $this = $(this), thisInd = $this.index();
+            if ($dragged) {
+                // console.log($dragged)
+                if (!prevInd && thisInd > prevInd )
+                    $this.after($dragged)
+                else 
+                    $this.before($dragged)
+                prevInd = thisInd;
+            }
+        }).on('dragstart', function(e) {
+            e.preventDefault()
+        }).on('selectstart', function(e) {
+            e.preventDefault()
+        })
+        $cont.on('mouseleave', function() {
+            stopDrag()
+        })
+        $(document).on('mouseup', function(e) {
+            stopDrag()
+        })
+
+        function stopDrag() {
+            clearTimeout(dtimeout);
+            if (!$dragged) return
+            $dragged.removeClass('dragged')
+            $cont.removeClass('drag-mode');
+            $dragged = null;
+        }
+    }
     $.fn.autocomplete = function($qpopup, template, apicall, options) {
         var prevQ, qtimeout, apireq, ptimeout, hoveredRow, data;
         options = options || {};
@@ -126,7 +167,6 @@
                 clearTimeout(ptimeout)
             }
         }
-
         var $this = $(this);
         //$qpopup.appendTo('body')
         $this.on('change keyup', function(e, args) {
@@ -209,7 +249,7 @@
                         update({ paged: ds.slice(st, st + pageSize) })
                 }, 300)
             }
-            //console.log(scroll_bottom, height)	
+            //console.log(scroll_bottom, height)    
         })
         $this.data('pager', {
             rebind: function(_ds) {
@@ -339,20 +379,20 @@
                 var endX = $a.eq(1).data('left');
                 $b.css('left', startX + 'px').css('width', (endX - startX) + 'px');
                 return
-                /*		
+                /*      
                 var x = (pageX - offsetX);
-				
+                
                 if (i==0 && val >= $a.eq(1).data('value')) {
-                	val = $a.eq(1).data('value')-1;
-                	x = $a.eq(1).data('left')-aw;
+                    val = $a.eq(1).data('value')-1;
+                    x = $a.eq(1).data('left')-aw;
                 }
                 if (i==1 && val <= $a.eq(0).data('value')) {
-                	val = $a.eq(0).data('value')+1;
-                	x = $a.eq(0).data('left')+aw;
+                    val = $a.eq(0).data('value')+1;
+                    x = $a.eq(0).data('left')+aw;
                 }
 
                 $dragged.data('value', val).data('left', x).attr('data-value', val) ;
-				
+                
                 */
             }
             var $dragged, startX;

@@ -62,71 +62,98 @@
             regionsDict = args.regionsDict;
             persons = args.persons;
 
+            initArgs = args;
             if (window.ymaps) {
                 ymaps.ready(createMap);
             } else {
                 createStatic()
             }
-            initArgs = args;
         })
 
         function createStatic() {
-            var url = 'https://static-maps.yandex.ru/1.x/?ll={0},{1}&z={2}&l=map&';
-            //size=150,150
-            var $map = $('#map');
+            var $map = $('#map'), dpoints=[], dtimeout;
+            $map.on('click', function() {
+                $('body').addClass('mobile-details-view')
+            })
             map = {
                 setCenter: function(c, zoom) {
                     if (!zoom) zoom = 10;
                     this.render(c, zoom)
                 },
+                delayMarkPoint : function(p, zoom) {
+                    return; //!!!!
+
+                    dpoints.push(p)
+                    if (dtimeout) return;
+                    dtimeout = setTimeout(function() {
+                        var sum = [0,0]
+                        dpoints.forEach(function(p) {
+                            sum[0] += p.coords[0];
+                            sum[1] += p.coords[1];
+                        })
+                        var c = [sum[0]/dpoints.length, sum[1]/dpoints.length];
+                        //console.log('ce', c)
+
+                        map.markPoints(c, dpoints, zoom) 
+                        console.log('delayMarkPoint', dpoints)
+                        dpoints = [];
+                        dtimeout = null;
+                    }, 300)
+                },
                 markPoint: function(p, zoom) {
-                    if (!zoom) zoom = 13;
                     console.warn('markPoint', p);
                     this.render(p.coords, zoom, [p])
                 },
                 markPoints: function(c, points, zoom) {
-                    if (!zoom) zoom = 10;
-                    console.warn('markPoints', points);
+                    console.warn('markPoints',c, points);
                     this.render(c, zoom, points)
                 },
                 render: function(c, zoom, points) {
                     console.warn('render', c, points);
+                    var url = 'https://static-maps.yandex.ru/1.x/?ll={0},{1}&l=map&';
                     var pt = '';
                     if (points) {
+                        if (points.length == 1) zoom = 15;
                         pt = '&pt=';
                         points.forEach(function(p) {
                             var pc = p.coords;
                             pt += '{0},{1},{2}~'.format(pc[1], pc[0], p.preset);
                         })
                         pt = pt.substr(0, pt.length - 1)
+
                     }
+                    if (zoom) {
+                        url+='z={0}&'.format(zoom)
+                    }  
                     $map.css('background-image', 'url({0})'.format(url.format(c[1], c[0], zoom) + pt))
 
                 }
             };
-
-            Core.trigger('map-ready', { map: map })
+            initArgs.map = map;
+            Core.trigger('map-init', initArgs)
+            Core.trigger('map-ready', initArgs)
             renderMainList();
             loading(false)
 
         }
 
         function renderStaticHome(c) {
+            return;
             var rp = regions.filter(function(r) {
                 return r.region.point }).map(function(r) {
                 return {
                     coords: r.region.point.coords,
-                    preset: 'pmwts' + r.region.number
+                    preset: 'pmlbs' + r.region.number
                 }
             })
             var dp = departments.filter(function(d) {
                 return d.department.coords }).map(function(d) {
                 return {
                     coords: d.department.coords,
-                    preset: 'pmgrs'
+                    preset: 'pmbls'
                 }
             }) //    .slice(0,5)
-            map.markPoints(c, dp)
+            map.markPoints(c, dp.concat(rp))
         }
         function createMap(state) {
             map = new ymaps.Map('map', { controls: ["zoomControl"], zoom: 12, center: [59.948814, 30.309640] });
@@ -137,13 +164,12 @@
             addObjects('regions');
             addObjects('sectors');
             addObjects('departments');
-            prepare()
             validateLayers()
             loading(false)
             map.events.add('click', function(e) {
                 Core.trigger('map.click', { coords: e.get('coords') })
             });
-            Core.trigger('map-ready', { map: map })
+            Core.trigger('map-ready', initArgs)
 
         }
         var $mlist = $('#main-list'),
@@ -223,25 +249,7 @@
             if ($sel[0]) $sel.scrollTo()
         })
 
-        function prepare() {
-            regions.forEach(function(r) {
-                var rdata = r.region;
-                r.sectors = []
-                sectors.forEach(function(s) {
-                    var coords = s.sector.coords;
-                    if (!coords) return
-                    if (r.pol && r.pol.geometry.contains(coords)) {
-                        s.regionId = r.region.number;
-                        s.region = r;
-                    }
-                })
-                areas.forEach(function(a) {
-                    if (rdata.point && a.pol.geometry.contains(rdata.point.coords)) {
-                        r.area = a;
-                    }
-                })
-            })
-        }
+        
         var selected;
         Core.on('region.updated', function(args) {
             console.log('region.updated', args)
@@ -332,6 +340,9 @@
 
         }
 
+        Core.on('map.set-center', function() {
+
+        })
         function markCurrent(p, addr) {
             if (window.ymaps) {
                 if (cp) map.geoObjects.remove(cp);
@@ -419,7 +430,7 @@
             res.sort(function(a, b) {
                 return b.rate - a.rate
             })
-            console.warn(res);
+            //console.warn(res);
             return res.slice(0, 5);
         }
         $txtSearch.autocomplete($('#search-popup'), templates.autocomplete, function(q, success) {
