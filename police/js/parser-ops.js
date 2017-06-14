@@ -8,7 +8,7 @@ $(function() {
     var ank1Url = useLocal  ? '../data/anketa1.csv?' + rand :  'https://docs.google.com/spreadsheets/d/1BfDEwci1YAcbQa-uSk8-ejSE6aTPgWRlIGnZ9Mm_cPc/pub?output=csv';
     var ank2Url = useLocal  ? '../data/anketa2.csv?' + rand :  'https://docs.google.com/spreadsheets/d/1veV_YBTtjxK575FHg_u9sy_pOjCy9pPMXzon4NY1Vc4/pub?output=csv';
     
-    regions()
+    //regions()
    
 
     function regions(success) {
@@ -44,7 +44,7 @@ $(function() {
 
                 for (var i = 1; i < oinfo.length; i++) {
                     var o = oinfo[i],
-                        name = getv(o[2]),
+                        name = getv(o[1]),
                         num = getv(o[3]);
                     if (!num) {
                         console.warn('нет номера', o);
@@ -288,25 +288,42 @@ $(function() {
         })
     }
 
-    function mergeSectors() {
-        $.getJSON("data/resolved/sectors.json", function(sectors) {
-            var sectorsFiltered = [], merged = [];
-            sectors.forEach(function(sec) {
-                for (var i =0; i < sectorsFiltered.length; i ++ ) {
-                    var sf = sectorsFiltered[i];
-                    if (sf.name == sec.name && sf.raddr == sec.raddr && sf.time == sec.time && (sf.tel || sf.tel.join('') == sec.time.tel.join(''))) {
-                        merged.push(sf)
-                        sf.streets = sf.streets.concat(sec.streets)
-                        return;
-                    }
-                }
-                sectorsFiltered.push(sec) 
+    function validateSectors() {
+        $.getJSON("../data/resolved/spb/sectors.json", function(rsectors) {
+            var map = {};
+            rsectors.forEach(function(s) {
+                var key = s.coords[0] + ' ' +  s.coords[1];
+                var rs = map[]
+                if (!rs)  
             })
-            console.log(merged)
-            //save('sectors', sectors)
+            $.getJSON("../data/ment-spb-main-checked.json", function(sectors) {
+                var sects = []
+                sectors.forEach(function(s, i) {
+                    console.log(rsectors[i].name, sectors[i].name )
+                    var sec = {
+                        addr : s.addr,
+                        raddr : s.raddr,
+                        name : s.name,
+                        rank : s.rank,
+                        photo : s.photo,
+                        time : s.time,
+                        tel : []
+                    }
+                    if (s['ncoords/0']) {
+                        sec.coords = [s['ncoords/0'], s['ncoords/1']]
+                    } else {
+                        sec.coords = [s['coords/0'], s['coords/1']]
+                    }
+                    if (s['tel/0']) sec.tel.push(s['tel/0'])
+                    if (s['tel/1']) sec.tel.push(s['tel/1'])
+                    if (s['tel/2']) sec.tel.push(s['tel/2'])
+                    //console.log(sec)
+                })
+                //save('sectors', sectors)
+            })
         })
     }
-
+    validateSectors()
   
     function resolveSectors(pots, success) {
         var ind = 0;
