@@ -223,7 +223,7 @@ input[type="text"]:focus {/* background: #fff; */}
 .details .numbers {font-size: 11px;font-weight: normal;}
 .details .contacts {margin-top: 10px;/* border: 1px solid rgba(255, 255, 255, 0.22); *//* padding: 4px 10px; */overflow: hidden;}
 .details .sub-header {display: block;line-height: 26px;background: rgba(255, 255, 255, 0.5);padding: 0 10px;margin-top: 10px;}
-.details .hot-line {color: rgb(255, 153, 153);font-size: 13px;}
+.details .hot-line {color: rgb(255, 153, 153);/* font-size: 13px; */}
 .details .real-hot-line {color: rgba(255, 255, 255, 0.75);font-size: 12px;line-height: 16px;}
 .details .real-hot-line a {color: rgba(255, 255, 255, 0.75);}
 .details .sub-panel { display: none }
@@ -287,7 +287,7 @@ input[type="text"]:focus {/* background: #fff; */}
 .anketa .item.checked .check { display: block }
 .anketa .item.empty b {background: rgba(255, 255, 255, 0.4); background: #dfdfdf;}
 .anketa .ank-temp {}
-.anketa .ank-content {overflow-y: auto;padding: 0 20px;top: 130px;left: 0;position: absolute;bottom: 0;right: 0;}
+.anketa .ank-content {overflow-y: auto;padding: 0 20px 30px;top: 130px;left: 0;position: absolute;bottom: 0;right: 0;}
 .anketa.changed .btn-save, .anketa.changed .btn-cancel  {  display: block}
 .anketa.changed .btn-edit {  display: none }
 .anketa .btn-close {  display: block; position:  absolute; }
@@ -325,7 +325,7 @@ input[type="text"]:focus {/* background: #fff; */}
 .new-template :-ms-input-placeholder   {line-height: 30px; color:#777;}
 .new-template .cat {width: 100px;float: left;margin-right: 4px;}
 .anketa  .list {max-height: 1000px;transition: ease-in-out 0.5s max-height;overflow: hidden;margin-bottom: 4px;}
-.anketa .category {line-height: 20px;font-size: 13px;text-transform: capitalize;font-weight: bold;margin-bottom: 6px; padding-bottom: 6px; color: #555;cursor: pointer;}
+.anketa .category {line-height: 20px;font-size: 13px;/* text-transform: capitalize; */font-weight: bold;margin-bottom: 6px;padding-bottom: 6px;color: #555;cursor: pointer;}
 .anketa .category .stat {overflow: hidden;margin-right: 10px;float: left;font-size: 11px;}
 .anketa .category .stat q, .anketa .category .stat u {float: left;line-height: 20px;/* padding: 0 6px; *//* color: #fff; */background: rgba(255, 255, 255, 0.9);width: 20px;text-align: center;}
 .anketa .category .stat q {background: rgba(255, 255, 255, 0.89);}

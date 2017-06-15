@@ -69,9 +69,19 @@
         </div>
         {{/personName}}
         <h6 class="sub-header">Деятельность ОВД</h6>
-        <div class="sub-details">
-            <div class="desc"><span class="prop-title">Отчеты:</span>{{report}}</div>
-            {{#comm}}<div class="desc">{{comm}}</div>{{/comm}}
+        <div>
+            {{#report}}
+            <a class="sub-item sub-active-item" target="_blank" href="#">
+                <span class="s-title">Отчет руководителя</span>
+                <span  class="s-val">{{report}}</span>
+            </a>
+            {{/report}}
+            {{#comm}}
+            <a class="sub-item sub-active-item" target="_blank" href="#">
+                <span class="s-title">Комментарии: </span>
+                <span  class="s-val">{{comm}}</span>
+            </a>
+            {{/comm}}
         </div>
         {{#press.length}}
         <div class="sectors sub-list">
@@ -88,49 +98,63 @@
         <div class="sectors sub-list" id="dep-regions">
             <h6 class="sub-header">Подробнее</h6>
             <ul>
-                {{#department}}
+                {{#department}}{{#department}}
                 <li class="sub-item sub-active-item dep-regions" >
-                    <span class="s-title">{{name}}</span>
+                    <span class="s-title">Подчиняется {{name}}</span>
                     <span class="s-val">{{addr}}</span>
                 </li>
-                {{#prokuratura}}
+                {{#prokName}}
                 <li class="sub-item">
-                    <span class="s-title">Контакты прокуратуры</span>
-                    <span class="s-val">{{prokuratura}}</span>
-                    <a class="hot-line" title="Подать заявление в прокуратуру через электронную приёмную" href="#" target="_blank">Обратиться в прокуратуру</a><span class="real-hot-line"> (электронная приемная)</span>
+                    <div class="s-title">Контакты прокуратуры</div>
+                    <div class="s-val">{{prokName}}</div>
+                    <div class="s-val">{{prokAddr}}</div>
+                    <div class="s-val tel"><i class="icon-phone"></i>{{prokTel}} (дежурный прокурор)</div>
+                    <a class="s-val hot-line" title="Подать заявление в прокуратуру через электронную приёмную" href="{{prokPriemnaya}}" target="_blank">Обратиться в прокуратуру</a><span class="s-val"> (электронная приемная)</span>
                 </li>
-                {{/prokuratura}}
-                {{#usb}}
+                {{/prokName}}
+                {{#bezop}}
                 <li class="sub-item">
                     <span class="s-title">Собственная безопасность</span>
-                    <span class="s-val">{{usb}}</span>
+                    <span class="s-val">{{bezop}}</span>
                 </li>
-                {{/usb}}
+                {{/bezop}}
                 {{#sovet}}
                 <li class="sub-item">
                     <span class="s-title">Общественный совет</span>
                     <span class="s-val">{{sovet}}</span>
                 </li>
                 {{/sovet}}
-                {{#onk}}
                 <li class="sub-item">
                     <span class="s-title">Общественная наблюдательная комиссия (ОНК)</span>
-                    <span class="s-val">{{onk}}</span>
+                    <span class="s-val">Санкт-Петербург, Суворовский пр. 62, 199004, а/я 62;  http://onkspb.ru/; mail@onkspb.ru</span>
                 </li>
-                {{/onk}}
-                {{#upp}}
                 <li class="sub-item">
-                    <span class="s-title">Уполномоченный по правам человека</span>
-                    <span class="s-val">{{upp}}</span>
+                    <div class="s-title">Уполномоченный по правам человека</div>
+                    <div class="s-val">Почтовый адрес: 190000, Санкт-Петербург, BOX 1137.</div>
+                    <div class="s-val">Приемная: Щербаков переулок,  д. 1-3 (набережная Реки Фонтанки, д. 60).</div>
+                    <div class="s-val tel"><i class="icon-phone"></i>(812) 374 99 39</div>
+                    <div class="url">
+                        <a href="http://ombudsmanspb.ru/" class="url s-val" target="_blank">http://ombudsmanspb.ru/</a> <b class="bull"></b>
+                        <a href="mailto:mail@ombudsmanspb.ru" class="url s-val"> <i class="icon-email"></i> mail@ombudsmanspb.ru</a>
+                    </div>
+                    <div class="url">
+                      <a class="url s-val hot-line" title="Подать заявление Уполномоченному по правам человека" href="http://ombudsmanspb.ru/ru/request" target="_blank">Подать заявление</a><b class="bull"></b><a class="url s-val hot-line" title="Записаться на прием к Уполномоченному по правам человека" href="http://ombudsmanspb.ru/ru/appointment" target="_blank">Записаться на прием</a>
+                    </div>
                 </li>
-                {{/upp}}
-                {{#upr}}
                 <li class="sub-item">
-                    <span class="s-title">Уполномоченный по правам ребенка</span>
-                    <span class="s-val">{{upr}}</span>
+                    <div class="s-title">Уполномоченный по правам ребенка</div>
+                    <div class="s-val">Почтовый адрес: 190000, Санкт-Петербург, BOX 1163.</div>
+                    <div class="s-val">Приемная: переулок Гривцова д. 11. Тел. (812) 576-70-00.</div>
+                    <div class="url">
+                        <a href="http://www.spbdeti.org/" class="url s-val" target="_blank">http://www.spbdeti.org/</a> <b class="bull"></b>
+                        <a href="mailto:admin@spbdeti.org" class="url s-val"> <i class="icon-email"></i> admin@spbdeti.org</a><b class="bull"></b>
+                        <a href="mailto:spbdeti@mail.ru" class="url s-val"> <i class="icon-email"></i> spbdeti@mail.ru</a>
+                    </div>
+                    <div class="url">
+                      <a class="url s-val hot-line" title="Подать заявление Уполномоченному по правам ребенка" href="http://www.spbdeti.org/feedback" target="_blank">Подать заявление</a><b class="bull"></b><a class="url s-val hot-line" title="Записаться на прием к Уполномоченному по правам ребенка" href="http://www.spbdeti.org/recept" target="_blank">Записаться на прием</a>
+                    </div>
                 </li>
-                {{/upr}}
-                {{/department}}
+                {{/department}}{{/department}}
             </ul>
         </div>
         {{/departmentNumber}}{{/region}}
@@ -153,6 +177,12 @@
           <a href="{{url}}" class="url" target="_blank"> {{url}}</a> <b class="bull"></b>
           <a href="mailto:{{email}}" class="url"> <i class="icon-email"></i> {{email}}</a>
       </div>
+      {{#regions.0}}
+      {{#region}}
+      <a>{{region}}</a>
+      <div class="real-hot-line" title="Горячая линия о нарушениях"> <span class="hot-line"><i class="icon-phone"></i> {{hotLine}}</span> - горячая линия о нарушениях</div>
+      {{/region}}
+      {{/regions.0}}
       <a class="hot-line" title="Подать заявление через электронную приёмную" href="{{priemnaya}}" target="_blank">Отправить обращение</a><span class="real-hot-line"> (для составления обращения воспользуйтесь <a title="Составить обращение о нарушениях" href="#">Конструктором обращений</a>)</span>
     </div>
 
@@ -160,10 +190,28 @@
         <h6 class="sub-header">Начальник </h6>
         <div class="sub-details">
             <h1 class="name"> {{personName}} </h1>
-            <h1 class="rank"> {{personRank}} </h1>
+            <div class="rank"> {{personRank}} </div>
             <div class="tel"><span class="prop-title">Записаться на прием:</span> <i class="icon-phone"></i> {{personTel}}</div>
-            <div class="desc"><span class="prop-title">Отчет руководителя за 2016 год </span></div>
-            <div class="desc"><span class="prop-title">Отчеты участковых за 2016 год </span>{{reports}}</div>
+            <span class="s-val prop-title">Отчеты руководителя за 2016 год </span>
+            {{#rukReports}}
+            <a class="sub-item sub-active-item url" target="_blank" href="{{rukReports}}">{{rukReports}}</a>
+            {{/rukReports}}
+            {{^rukReports}}
+            <span class="s-val">отчеты не опубликованы</span>
+            {{/rukReports}}
+            <span class="s-val prop-title">Отчеты участковых за за 2016 год</span>
+            {{#uchReports}}
+            <a class="sub-item sub-active-item url" target="_blank" href="{{uchReports}}">{{uchReports}}</a>
+            {{/uchReports}}
+            {{^uchReports}}
+            <span class="s-val">отчеты не опубликованы</span>
+            {{/uchReports}}
+            {{#comm}}
+            <a class="sub-item sub-active-item" target="_blank" href="#">
+                <span class="s-title">Комментарии: </span>
+                <span  class="s-val">{{comm}}</span>
+            </a>
+            {{/comm}}
         </div>
         {{/personName}}
         {{/department}}
@@ -185,43 +233,57 @@
             <h6 class="sub-header">Подробнее</h6>
 
               <ul>
-                  {{#prokuratura}}
-                  <li class="sub-item">
-                      <span class="s-title">Контакты прокуратуры</span>
-                      <span class="s-val">{{prokuratura}}</span><br>
-                      <a class="hot-line" title="Подать заявление в прокуратуру через электронную приёмную" href="#" target="_blank">Обратиться в прокуратуру</a><span class="real-hot-line"> (электронная приемная)</span>
-                  </li>
-                  {{/prokuratura}}
-                  {{#usb}}
-                  <li class="sub-item">
-                      <span class="s-title">Собственная безопасность</span>
-                      <span class="s-val">{{usb}}</span>
-                  </li>
-                  {{/usb}}
-                  {{#sovet}}
-                  <li class="sub-item">
-                      <span class="s-title">Общественный совет</span>
-                      <span class="s-val">{{sovet}}</span>
-                  </li>
-                  {{/sovet}}
-                  {{#onk}}
-                  <li class="sub-item">
-                      <span class="s-title">Общественная наблюдательная комиссия (ОНК)</span>
-                      <span class="s-val">{{onk}}</span>
-                  </li>
-                  {{/onk}}
-                  {{#upp}}
-                  <li class="sub-item">
-                      <span class="s-title">Уполномоченный по правам человека</span>
-                      <span class="s-val">{{upp}}</span>
-                  </li>
-                  {{/upp}}
-                  {{#upr}}
-                  <li class="sub-item">
-                      <span class="s-title">Уполномоченный по правам ребенка</span>
-                      <span class="s-val">{{upr}}</span>
-                  </li>
-                  {{/upr}}
+                {{#prokName}}
+                <li class="sub-item">
+                    <div class="s-title">Контакты прокуратуры</div>
+                    <div class="s-val">{{prokName}}</div>
+                    <div class="s-val">{{prokAddr}}</div>
+                    <div class="s-val tel"><i class="icon-phone"></i>{{prokTel}} (дежурный прокурор)</div>
+                    <a class="s-val hot-line" title="Подать заявление в прокуратуру через электронную приёмную" href="{{prokPriemnaya}}" target="_blank">Обратиться в прокуратуру</a><span class="s-val"> (электронная приемная)</span>
+                </li>
+                {{/prokName}}
+                {{#bezop}}
+                <li class="sub-item">
+                    <span class="s-title">Собственная безопасность</span>
+                    <span class="s-val">{{bezop}}</span>
+                </li>
+                {{/bezop}}
+                {{#sovet}}
+                <li class="sub-item">
+                    <span class="s-title">Общественный совет</span>
+                    <span class="s-val">{{sovet}}</span>
+                </li>
+                {{/sovet}}
+                <li class="sub-item">
+                    <span class="s-title">Общественная наблюдательная комиссия (ОНК)</span>
+                    <span class="s-val">Санкт-Петербург, Суворовский пр. 62, 199004, а/я 62;  http://onkspb.ru/; mail@onkspb.ru</span>
+                </li>
+                <li class="sub-item">
+                    <div class="s-title">Уполномоченный по правам человека</div>
+                    <div class="s-val">Почтовый адрес: 190000, Санкт-Петербург, BOX 1137.</div>
+                    <div class="s-val">Приемная: Щербаков переулок,  д. 1-3 (набережная Реки Фонтанки, д. 60).</div>
+                    <div class="s-val tel"><i class="icon-phone"></i>(812) 374 99 39</div>
+                    <div class="url">
+                        <a href="http://ombudsmanspb.ru/" class="url s-val" target="_blank">http://ombudsmanspb.ru/</a> <b class="bull"></b>
+                        <a href="mailto:mail@ombudsmanspb.ru" class="url s-val"> <i class="icon-email"></i> mail@ombudsmanspb.ru</a>
+                    </div>
+                    <div class="url">
+                      <a class="url s-val hot-line" title="Подать заявление Уполномоченному по правам человека" href="http://ombudsmanspb.ru/ru/request" target="_blank">Подать заявление</a><b class="bull"></b><a class="url s-val hot-line" title="Записаться на прием к Уполномоченному по правам человека" href="http://ombudsmanspb.ru/ru/appointment" target="_blank">Записаться на прием</a>
+                    </div>
+                </li>
+                <li class="sub-item">
+                    <div class="s-title">Уполномоченный по правам ребенка</div>
+                    <div class="s-val">Почтовый адрес: 190000, Санкт-Петербург, BOX 1163.</div>
+                    <div class="s-val">Приемная: переулок Гривцова д. 11. Тел. (812) 576-70-00.</div>
+                    <div class="url">
+                        <a href="http://www.spbdeti.org/" class="url s-val" target="_blank">http://www.spbdeti.org/</a> <b class="bull"></b>
+                        <a href="mailto:admin@spbdeti.org" class="url s-val"> <i class="icon-email"></i> admin@spbdeti.org</a><b class="bull"></b>
+                        <a href="mailto:spbdeti@mail.ru" class="url s-val"> <i class="icon-email"></i> spbdeti@mail.ru</a>
+                    </div>
+                    <div class="url">
+                      <a class="url s-val hot-line" title="Подать заявление Уполномоченному по правам ребенка" href="http://www.spbdeti.org/feedback" target="_blank">Подать заявление</a><b class="bull"></b><a class="url s-val hot-line" title="Записаться на прием к Уполномоченному по правам ребенка" href="http://www.spbdeti.org/recept" target="_blank">Записаться на прием</a>
+                    </div>
+                </li>
               </ul>
           </div>
         {{/department}}
@@ -242,32 +304,32 @@
         </div>
         <div class="clear"></div>
         {{#regionId}}
-        {{#region}}
-        {{#region.departmentNumber}}
-        {{#department}}
+        {{#region}}{{#region}}
+        {{#departmentNumber}}
+        {{#department}}{{#department}}
         <div class="contacts">
           <a class="hot-line" title="Подать заявление через электронную приёмную" href="{{department.priemnaya}}" target="_blank">Отправить обращение</a><span class="real-hot-line"> (для составления обращения воспользуйтесь <a title="Составить обращение о нарушениях" href="#">Конструктором обращений</a>)</span>
         </div>
-        {{/department}}
-        {{/region.departmentNumber}}
+        {{/department}}{{/department}}
+        {{/departmentNumber}}
         <div class="sectors sub-list" id="dep-regions">
             <h6 class="sub-header">Участковый непосредственно подчиняется</h6>
             <ul>
                 <li class="sub-item sub-active-item dep-regions" >
-                    <span class="s-title">{{region.name}}</span>
-                    <span class="s-val">{{region.addr}}</span>
+                    <span class="s-title">{{name}}</span>
+                    <span class="s-val">{{addr}}</span>
                 </li>
-                {{#region.departmentNumber}}
-                {{#department}}
+                {{#departmentNumber}}
+                {{#department}}{{#department}}
                 <li class="sub-item sub-active-item dep-regions" >
-                    <span class="s-title">{{department.name}}</span>
-                    <span class="s-val">{{department.addr}}</span>
+                    <span class="s-title">{{name}}</span>
+                    <span class="s-val">{{addr}}</span>
                 </li>
-                {{/department}}
-                {{/region.departmentNumber}}
+                {{/department}}{{/department}}
+                {{/departmentNumber}}
             </ul>
         </div>
-        {{/region}}
+        {{/region}}{{/region}}
         {{/regionId}}
         <h6 class="sub-header">Участковый обслуживает адреса</h6>
         <ul class="streets ">
@@ -287,56 +349,57 @@
             <h6 class="sub-header">Подробнее о работе и обязанностях участкового</h6>
             <ul>
                 {{#department}}{{#department}}
-
-                <li class="sub-item sub-active-item dep-regions" >
-                    <span class="s-title">{{department.name}}</span>
-                    <span class="s-val">{{department.addr}}</span>
-                </li>
-                {{#prokuratura}}
+                {{#prokName}}
                 <li class="sub-item">
-                    <span class="s-title">Контакты прокуратуры</span>
-                    <span class="s-val">{{prokuratura}}</span>
-                    <a class="hot-line" title="Подать заявление в прокуратуру через электронную приёмную" href="#" target="_blank">Обратиться в прокуратуру</a><span class="real-hot-line"> (электронная приемная)</span>
+                    <div class="s-title">Контакты прокуратуры</div>
+                    <div class="s-val">{{prokName}}</div>
+                    <div class="s-val">{{prokAddr}}</div>
+                    <div class="s-val tel"><i class="icon-phone"></i>{{prokTel}} (дежурный прокурор)</div>
+                    <a class="s-val hot-line" title="Подать заявление в прокуратуру через электронную приёмную" href="{{prokPriemnaya}}" target="_blank">Обратиться в прокуратуру</a><span class="s-val"> (электронная приемная)</span>
                 </li>
-                {{/prokuratura}}
-                {{#usb}}
+                {{/prokName}}
+                {{#bezop}}
                 <li class="sub-item">
                     <span class="s-title">Собственная безопасность</span>
-                    <span class="s-val">{{usb}}</span>
+                    <span class="s-val">{{bezop}}</span>
                 </li>
-                {{/usb}}
+                {{/bezop}}
                 {{#sovet}}
                 <li class="sub-item">
                     <span class="s-title">Общественный совет</span>
                     <span class="s-val">{{sovet}}</span>
                 </li>
                 {{/sovet}}
-                {{#onk}}
                 <li class="sub-item">
                     <span class="s-title">Общественная наблюдательная комиссия (ОНК)</span>
-                    <span class="s-val">{{onk}}</span>
+                    <span class="s-val">Санкт-Петербург, Суворовский пр. 62, 199004, а/я 62;  http://onkspb.ru/; mail@onkspb.ru</span>
                 </li>
-                {{/onk}}
-                {{#upp}}
                 <li class="sub-item">
-                    <span class="s-title">Уполномоченный по правам человека</span>
-                    <span class="s-val">{{upp}}</span>
+                    <div class="s-title">Уполномоченный по правам человека</div>
+                    <div class="s-val">Почтовый адрес: 190000, Санкт-Петербург, BOX 1137.</div>
+                    <div class="s-val">Приемная: Щербаков переулок,  д. 1-3 (набережная Реки Фонтанки, д. 60).</div>
+                    <div class="s-val tel"><i class="icon-phone"></i>(812) 374 99 39</div>
+                    <div class="url">
+                        <a href="http://ombudsmanspb.ru/" class="url s-val" target="_blank">http://ombudsmanspb.ru/</a> <b class="bull"></b>
+                        <a href="mailto:mail@ombudsmanspb.ru" class="url s-val"> <i class="icon-email"></i> mail@ombudsmanspb.ru</a>
+                    </div>
+                    <div class="url">
+                      <a class="url s-val hot-line" title="Подать заявление Уполномоченному по правам человека" href="http://ombudsmanspb.ru/ru/request" target="_blank">Подать заявление</a><b class="bull"></b><a class="url s-val hot-line" title="Записаться на прием к Уполномоченному по правам человека" href="http://ombudsmanspb.ru/ru/appointment" target="_blank">Записаться на прием</a>
+                    </div>
                 </li>
-                {{/upp}}
-                {{#upr}}
                 <li class="sub-item">
-                    <span class="s-title">Уполномоченный по правам ребенка</span>
-                    <span class="s-val">{{upr}}</span>
+                    <div class="s-title">Уполномоченный по правам ребенка</div>
+                    <div class="s-val">Почтовый адрес: 190000, Санкт-Петербург, BOX 1163.</div>
+                    <div class="s-val">Приемная: переулок Гривцова д. 11. Тел. (812) 576-70-00.</div>
+                    <div class="url">
+                        <a href="http://www.spbdeti.org/" class="url s-val" target="_blank">http://www.spbdeti.org/</a> <b class="bull"></b>
+                        <a href="mailto:admin@spbdeti.org" class="url s-val"> <i class="icon-email"></i> admin@spbdeti.org</a><b class="bull"></b>
+                        <a href="mailto:spbdeti@mail.ru" class="url s-val"> <i class="icon-email"></i> spbdeti@mail.ru</a>
+                    </div>
+                    <div class="url">
+                      <a class="url s-val hot-line" title="Подать заявление Уполномоченному по правам ребенка" href="http://www.spbdeti.org/feedback" target="_blank">Подать заявление</a><b class="bull"></b><a class="url s-val hot-line" title="Записаться на прием к Уполномоченному по правам ребенка" href="http://www.spbdeti.org/recept" target="_blank">Записаться на прием</a>
+                    </div>
                 </li>
-                {{/upr}}
-
-                {{#upr}}
-                <li class="sub-item">
-                    <span class="s-title">Уполномоченный по правам ребенка</span>
-                    <span class="s-val">{{upr}}</span>
-                </li>
-                {{/upr}}
-
                 {{/department}} {{/department}}
             </ul>
         </div>
