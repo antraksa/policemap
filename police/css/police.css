@@ -16,7 +16,7 @@ body, html {margin: 0;height: 100%;overflow: hidden;font-family: tahoma;font-siz
 a { cursor: pointer;  }
 b {font-weight: bold}
 nav {background: rgba(255, 255, 255, 0.11);overflow: hidden;}
-nav a {float: left;line-height: 38px;padding: 0 20px;color: rgba(255, 255, 255, 0.69);transition: background-color 0.3s ease-out;border-right: 1px solid rgba(255, 255, 255, 0.16);text-transform: uppercase;font-size: 11px;}
+nav a {float: left;line-height: 38px;padding: 0 16px;color: rgba(255, 255, 255, 0.69);transition: background-color 0.3s ease-out;border-right: 1px solid rgba(255, 255, 255, 0.16);text-transform: uppercase;font-size: 11px;}
 nav a{ display: block }
 nav a:hover {color: #fff}
 nav a.selected {background: rgba(255, 255, 255, 0.8);color: #000;}
