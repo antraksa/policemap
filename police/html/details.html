@@ -1,10 +1,10 @@
 <a class="back-to-map" id="back-to-map" title=" Назад на карту">
     <i class="icon-compass"></i>
-   
+
 </a>
 <nav id="details-toggle" class="details-toggle">
-    <a class="t-area tab-toggle">ОУМВД</a>
-    <a class="selected t-region tab-toggle">ОП</a>
+    <a class="t-area tab-toggle">Руководство</a>
+    <a class="selected t-region tab-toggle">Отдел (ОВД)</a>
     <a class="t-sector tab-toggle" >Участковый</a>
     <a id="btn-main-menu" class="btn-menu"> <i class="icon-th-list"></i> </a>
     <!-- <div class="details-tools tools">
@@ -19,7 +19,6 @@
     <a local-url href="admin/editor.html">Админка: Редактор</a>
     <a local-url href="mobile.html">Мобильная версия</a>
 </nav>
-
 <div id="details" class="pane-cont template">
     <div id="department-details" class="sub-panel "></div>
     <div id="region-details" class="sub-panel  shown"></div>
@@ -28,11 +27,13 @@
 <script data-template="region" type="text/template">
     <div class="details-wrap">
         <h1  class="name">
-			<q  class="area">{{region.area}}</q> 
+			<q  class="area">{{region.area}}</q>
 			<!-- <u class="number">{{region.number}} </u>  -->
-			<u  class="number photo" style="background-image: url('{{photo}}')"> </u>
-			<a class="name-link editable" target="_blank" href="parser.html#rowId={{ind}}&type=region">{{region.name}}</a> 
+			<u  class="number photo" style="background-image: url('{{photoLink}}')"> </u>
+			<a class="name-link editable" target="_blank" href="parser.html#rowId={{ind}}&type=region">{{region.name}}</a>
 			<span  class="addr editable">{{region.addr}}</span>
+      <span class="tel-name">Дежурная часть:</span>
+      <div class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i> {{#region.tel}} <u>{{.}}</u> {{/region.tel}}</div>
 		</h1>
         <div id="details-rate-toggle" class="btn-ank star-rate">
             <em class="lb">Рейтинг:  {{rate.fixed}}</em>
@@ -48,24 +49,31 @@
             {{^getRates}}
                 <li class="no-records"> Нет рейтинга </li>
             {{/getRates}}
-
+                <li class="info"><a class="sub-item sub-active-item" href="#" title="Как формируется рейтинг?"><span class="s-title">Как формируется рейтинг?</span></a></li>
         </ul>
         <div class="contacts">
-            <a class="hot-line" title="Подать заявление через электронную приёмную" href="https://78.xn--b1aew.xn--p1ai/request_main" target="_blank"> Электронная Приемная</a>
-            <div class="tel "> <i class="icon-phone"></i> {{#region.tel}} <u>{{.}}</u> {{/region.tel}}</div>
+          <div class="real-hot-line" title="Горячая линия о нарушениях"> <span class="hot-line"><i class="icon-phone"></i> {{region.hotLine}}</span> - горячая линия о нарушениях</div>
+          <a class="hot-line" title="Подать заявление через электронную приёмную" href="https://78.xn--b1aew.xn--p1ai/request_main" target="_blank">Отправить обращение</a><span class="real-hot-line"> (для составления обращения воспользуйтесь <a title="Составить обращение о нарушениях" href="#">Конструктором обращений</a>)</span>
         </div>
-        {{#region}} 
+        {{#region}}
         {{#personName}}
         <h6 class="sub-header">Начальник </h6>
         <div class="sub-details">
             <h1 class="name"> {{personName}} </h1>
             <h2 class="rank"> {{personRank}} </h2>
-            <h3 class="tel"> <i class="icon-phone"></i> {{personTel}}</h3> {{#personTime}}
-            <div class="desc">{{personTime}}</div>
+            <div class="desc"><span class="prop-title">Принимает посетителей:</span> {{personTime}}</div>
+            <h3 class="tel"><span class="prop-title">Записаться на прием:</span> <i class="icon-phone"></i> {{personTel}}</h3>
+            {{#personTime}}
             <p class="tip"> Актуальное время приёма может отличаться от указанного, для записи уточняйте график по телефону</p>
             {{/personTime}}
         </div>
-        {{/personName}} {{#press.length}}
+        {{/personName}}
+        <h6 class="sub-header">Деятельность ОВД</h6>
+        <div class="sub-details">
+            <div class="desc"><span class="prop-title">Отчеты:</span>{{report}}</div>
+            {{#comm}}<div class="desc">{{comm}}</div>{{/comm}}
+        </div>
+        {{#press.length}}
         <div class="sectors sub-list">
             <h6 class="sub-header">Новости </h6> {{#press}}
             <a class="sub-item sub-active-item" target="_blank" href="{{1}}">
@@ -76,6 +84,56 @@
         </div>
         {{/press.length}} {{/region}}
         <div id="region-comments"></div>
+        {{#region}}{{#departmentNumber}}
+        <div class="sectors sub-list" id="dep-regions">
+            <h6 class="sub-header">Подробнее</h6>
+            <ul>
+                {{#department}}{{#department}}
+                <li class="sub-item sub-active-item dep-regions" >
+                    <span class="s-title">{{name}}</span>
+                    <span class="s-val">{{addr}}</span>
+                </li>
+                {{#prokuratura}}
+                <li class="sub-item">
+                    <span class="s-title">Контакты прокуратуры</span>
+                    <span class="s-val">{{prokuratura}}</span>
+                    <a class="hot-line" title="Подать заявление в прокуратуру через электронную приёмную" href="#" target="_blank">Обратиться в прокуратуру</a><span class="real-hot-line"> (электронная приемная)</span>
+                </li>
+                {{/prokuratura}}
+                {{#usb}}
+                <li class="sub-item">
+                    <span class="s-title">Собственная безопасность</span>
+                    <span class="s-val">{{usb}}</span>
+                </li>
+                {{/usb}}
+                {{#sovet}}
+                <li class="sub-item">
+                    <span class="s-title">Общественный совет</span>
+                    <span class="s-val">{{sovet}}</span>
+                </li>
+                {{/sovet}}
+                {{#onk}}
+                <li class="sub-item">
+                    <span class="s-title">Общественная наблюдательная комиссия (ОНК)</span>
+                    <span class="s-val">{{onk}}</span>
+                </li>
+                {{/onk}}
+                {{#upp}}
+                <li class="sub-item">
+                    <span class="s-title">Уполномоченный по правам человека</span>
+                    <span class="s-val">{{upp}}</span>
+                </li>
+                {{/upp}}
+                {{#upr}}
+                <li class="sub-item">
+                    <span class="s-title">Уполномоченный по правам ребенка</span>
+                    <span class="s-val">{{upr}}</span>
+                </li>
+                {{/upr}}
+                {{/department}}{{/department}}
+            </ul>
+        </div>
+        {{/departmentNumber}}{{/region}}
     </div>
 </script>
 
@@ -84,66 +142,34 @@
     <div class="details-wrap">
         {{#department}}
         <h1 class="name">
-			<u class="number">  </u> 
-			<a class="editable name-link" target="_blank" href="parser.html#rowId={{ind}}&type=department">{{name}}</a> 
+			<u  class="number photo" style="background-image: url('{{photoLink}}')"> </u>
+			<a class="editable name-link" target="_blank" href="parser.html#rowId={{ind}}&type=department">{{name}}</a>
 			<span  class="addr editable">{{addr}}</span>
+      <div class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i> {{#tel}} <u>{{.}}</u>{{/tel}}(дежурная часть)</div>
+
 		</h1>
-        <div class="contacts">
-            <a class="hot-line" title="Подать заявление через электронную приёмную" href="priemnaya" target="_blank"> Электронная Приемная</a>
-            <div class="tel" title="Телефон дежурной части"> <i class="icon-phone"></i> {{#tel}} <u>{{.}}</u> {{/tel}}</div>
-            <div class="url">
-                <a href="mailto:{{email}}" class="url"> <i class="icon-email"></i> {{email}}</a> <b class="bull"></b>
-                <a href="{{url}}" class="url" target="_blank"> {{url}}</a>
-            </div>
-        </div>
+    <div class="contacts">
+      <div class="url">
+          <a href="{{url}}" class="url" target="_blank"> {{url}}</a> <b class="bull"></b>
+          <a href="mailto:{{email}}" class="url"> <i class="icon-email"></i> {{email}}</a>
+      </div>
+      <a class="hot-line" title="Подать заявление через электронную приёмную" href="{{priemnaya}}" target="_blank">Отправить обращение</a><span class="real-hot-line"> (для составления обращения воспользуйтесь <a title="Составить обращение о нарушениях" href="#">Конструктором обращений</a>)</span>
+    </div>
+
         {{#personName}}
         <h6 class="sub-header">Начальник </h6>
         <div class="sub-details">
             <h1 class="name"> {{personName}} </h1>
             <h1 class="rank"> {{personRank}} </h1>
-            <h3 class="tel"> <i class="icon-phone"></i> {{personTel}}</h3>
+            <div class="tel"><span class="prop-title">Записаться на прием:</span> <i class="icon-phone"></i> {{personTel}}</div>
+            <div class="desc"><span class="prop-title">Отчет руководителя за 2016 год </span></div>
+            <div class="desc"><span class="prop-title">Отчеты участковых за 2016 год </span>{{reports}}</div>
         </div>
-        {{/personName}} 
-
-        <div class="sub-list">
-            <ul>
-                {{#prokuratura}}
-                <li class="sub-item">
-                    <span class="s-title">Контакты прокуратуры</span>
-                    <span class="s-val">{{prokuratura}}</span>
-                </li>
-                {{/prokuratura}}
-                {{#sovet}}
-                <li class="sub-item">
-                    <span class="s-title">Контакты Общественного совета</span>
-                    <span class="s-val">{{sovet}}</span>
-                </li>
-                {{/sovet}}
-                {{#usb}}
-                <li class="sub-item">
-                    <span class="s-title">Контакты УСБ</span>
-                    <span class="s-val">{{usb}}</span>
-                </li>
-                {{/usb}}
-                {{#onk}}
-                <li class="sub-item">
-                    <span class="s-title">Контакты ОНК</span>
-                    <span class="s-val">{{onk}}</span>
-                </li>
-                {{/onk}}
-                {{#reports}}
-                <li class="sub-item">
-                    <span class="s-title">Отчёты о работе УУП</span>
-                    <span class="s-val">{{reports}}</span>
-                </li>
-                {{/reports}}
-            </ul>
-        </div>
-        {{/department}} 
-
+        {{/personName}}
+        {{/department}}
         {{#regions.length}}
         <div class="sectors sub-list" id="dep-regions">
-            <h6 class="sub-header">Районные отделения </h6>
+            <h6 class="sub-header">Подразделения</h6>
             <ul>
                 {{#regions}}
                 <li class="sub-item sub-active-item dep-regions" >
@@ -154,12 +180,59 @@
             </ul>
         </div>
         {{/regions.length}}
+        {{#department}}
+          <div class="sub-list">
+            <h6 class="sub-header">Подробнее</h6>
+
+              <ul>
+                  {{#prokuratura}}
+                  <li class="sub-item">
+                      <span class="s-title">Контакты прокуратуры</span>
+                      <span class="s-val">{{prokuratura}}</span><br>
+                      <a class="hot-line" title="Подать заявление в прокуратуру через электронную приёмную" href="#" target="_blank">Обратиться в прокуратуру</a><span class="real-hot-line"> (электронная приемная)</span>
+                  </li>
+                  {{/prokuratura}}
+                  {{#usb}}
+                  <li class="sub-item">
+                      <span class="s-title">Собственная безопасность</span>
+                      <span class="s-val">{{usb}}</span>
+                  </li>
+                  {{/usb}}
+                  {{#sovet}}
+                  <li class="sub-item">
+                      <span class="s-title">Общественный совет</span>
+                      <span class="s-val">{{sovet}}</span>
+                  </li>
+                  {{/sovet}}
+                  {{#onk}}
+                  <li class="sub-item">
+                      <span class="s-title">Общественная наблюдательная комиссия (ОНК)</span>
+                      <span class="s-val">{{onk}}</span>
+                  </li>
+                  {{/onk}}
+                  {{#upp}}
+                  <li class="sub-item">
+                      <span class="s-title">Уполномоченный по правам человека</span>
+                      <span class="s-val">{{upp}}</span>
+                  </li>
+                  {{/upp}}
+                  {{#upr}}
+                  <li class="sub-item">
+                      <span class="s-title">Уполномоченный по правам ребенка</span>
+                      <span class="s-val">{{upr}}</span>
+                  </li>
+                  {{/upr}}
+              </ul>
+          </div>
+        {{/department}}
+
+
     </div>
 </script>
 <script data-template="sector" type="text/template">
     <div class="details-wrap">
         {{#sector}}
-        <div class="img" style="background-image: url('{{photo}}') "></div>
+        <div class="img-wrap"><div class="img" style="background-image: url('{{photo}}') "></div></div>
         <h1 class="name capitalize-all">{{name}} </h1>
         <h2 class="rank"> {{rank}} </h2>
         <div class="addr">{{raddr}}</div>
@@ -168,6 +241,35 @@
             <div class="tel"> <i class="icon-phone"></i> {{tel}}</div>
         </div>
         <div class="clear"></div>
+        {{#regionId}}
+        {{#region}}
+        {{#region.departmentNumber}}
+        {{#department}}
+        <div class="contacts">
+          <a class="hot-line" title="Подать заявление через электронную приёмную" href="{{department.priemnaya}}" target="_blank">Отправить обращение</a><span class="real-hot-line"> (для составления обращения воспользуйтесь <a title="Составить обращение о нарушениях" href="#">Конструктором обращений</a>)</span>
+        </div>
+        {{/department}}
+        {{/region.departmentNumber}}
+        <div class="sectors sub-list" id="dep-regions">
+            <h6 class="sub-header">Участковый непосредственно подчиняется</h6>
+            <ul>
+                <li class="sub-item sub-active-item dep-regions" >
+                    <span class="s-title">{{region.name}}</span>
+                    <span class="s-val">{{region.addr}}</span>
+                </li>
+                {{#region.departmentNumber}}
+                {{#department}}
+                <li class="sub-item sub-active-item dep-regions" >
+                    <span class="s-title">{{department.name}}</span>
+                    <span class="s-val">{{department.addr}}</span>
+                </li>
+                {{/department}}
+                {{/region.departmentNumber}}
+            </ul>
+        </div>
+        {{/region}}
+        {{/regionId}}
+        <h6 class="sub-header">Участковый обслуживает адреса</h6>
         <ul class="streets ">
             {{#streets}}
             <li class="street ">
@@ -179,6 +281,66 @@
             </li>
             {{/streets}}
         </ul>
+        {{#regionId}}
+        {{#region}}{{#region.departmentNumber}}
+        <div class="sectors sub-list" id="dep-regions">
+            <h6 class="sub-header">Подробнее о работе и обязанностях участкового</h6>
+            <ul>
+                {{#department}}{{#department}}
+                
+                <li class="sub-item sub-active-item dep-regions" >
+                    <span class="s-title">{{department.name}}</span>
+                    <span class="s-val">{{department.addr}}</span>
+                </li>
+                {{#prokuratura}}
+                <li class="sub-item">
+                    <span class="s-title">Контакты прокуратуры</span>
+                    <span class="s-val">{{prokuratura}}</span>
+                    <a class="hot-line" title="Подать заявление в прокуратуру через электронную приёмную" href="#" target="_blank">Обратиться в прокуратуру</a><span class="real-hot-line"> (электронная приемная)</span>
+                </li>
+                {{/prokuratura}}
+                {{#usb}}
+                <li class="sub-item">
+                    <span class="s-title">Собственная безопасность</span>
+                    <span class="s-val">{{usb}}</span>
+                </li>
+                {{/usb}}
+                {{#sovet}}
+                <li class="sub-item">
+                    <span class="s-title">Общественный совет</span>
+                    <span class="s-val">{{sovet}}</span>
+                </li>
+                {{/sovet}}
+                {{#onk}}
+                <li class="sub-item">
+                    <span class="s-title">Общественная наблюдательная комиссия (ОНК)</span>
+                    <span class="s-val">{{onk}}</span>
+                </li>
+                {{/onk}}
+                {{#upp}}
+                <li class="sub-item">
+                    <span class="s-title">Уполномоченный по правам человека</span>
+                    <span class="s-val">{{upp}}</span>
+                </li>
+                {{/upp}}
+                {{#upr}}
+                <li class="sub-item">
+                    <span class="s-title">Уполномоченный по правам ребенка</span>
+                    <span class="s-val">{{upr}}</span>
+                </li>
+                {{/upr}}
+
+                {{#upr}}
+                <li class="sub-item">
+                    <span class="s-title">Уполномоченный по правам ребенка</span>
+                    <span class="s-val">{{upr}}</span>
+                </li>
+                {{/upr}}
+
+                {{/department}} {{/department}}
+            </ul>
+        </div>
+        {{/region.departmentNumber}}{{/region}}{{/regionId}}
         {{/sector}}
     </div>
 </script>

@@ -13,7 +13,7 @@ if ($key == 'anfields') {
 }else if ($key == 'sectors') {
 	$datafile = '../../data/resolved/'.$city.'/sectors.json';
 }else if ($key == 'departments') {
-	$datafile = '../../data/resolved/departments.json';
+	$datafile = '../../data/resolved/'.$city.'/departments.json';
 }else if ($key == 'sectors-parsed') {
 	$datafile = '../../data/sectors-parsed/'.$city.'/ment.json';
 }

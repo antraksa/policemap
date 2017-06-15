@@ -8,7 +8,7 @@ $(function() {
     var ank1Url = useLocal  ? '../data/anketa1.csv?' + rand :  'https://docs.google.com/spreadsheets/d/1BfDEwci1YAcbQa-uSk8-ejSE6aTPgWRlIGnZ9Mm_cPc/pub?output=csv';
     var ank2Url = useLocal  ? '../data/anketa2.csv?' + rand :  'https://docs.google.com/spreadsheets/d/1veV_YBTtjxK575FHg_u9sy_pOjCy9pPMXzon4NY1Vc4/pub?output=csv';
     
-    //regions()
+    regions()
    
 
     function regions(success) {
@@ -36,10 +36,15 @@ $(function() {
 
                 var getVal = function(val) {
                     if (!val) return;
-                    return val.toLowerCase().trim()
+                    val = val.toLowerCase().trim()
+                    if (val=='-') val = ''
+                    return val; 
                 }
                 var getv = function(val) {
-                    return val ? val.trim() : null;
+                    var val = val ? val.trim() : ''; 
+                    if (val=='-') val = ''
+                    //console.log(val)
+                    return val || null;
                 }
 
                 for (var i = 1; i < oinfo.length; i++) {
@@ -89,7 +94,7 @@ $(function() {
                 }
                 for (var i = 0; i < otds.length; i++) {
                     var o = otds[i];
-                    console.log(o.properties)
+                    //console.log(o.properties)
                     
                     var name = getv(o.properties.podrazdelenie);
                     var num = o.properties._1number;
@@ -187,8 +192,6 @@ $(function() {
                     var d = deps[i],
                         num = getv(d[1]),
                         name = getv(d[0]);
-                    //console.log(d)
-
                     if (!num || !name) continue;
                     //console.log(d[3].split(','))
                     var dregs = d[4].split(',').map(function(o) {
@@ -217,14 +220,20 @@ $(function() {
                         tel: getv(d[10]).split(','),
                         priemnaya : getv(d[11]),
                         photo : getv(d[12]),
-                        reports : getv(d[13]),
-                        prokuratura : getv(d[14]),
-                        sovet : getv(d[15]),
-                        usb : getv(d[16]),
-                        onk : getv(d[16]),
+                        prokAddr : getv(d[13]),
+                        prokName : getv(d[14]),
+                        prokTel : getv(d[15]),
+                        prokPriemnaya : getv(d[16]),
+                        sovet : getv(d[17]),
+                        sovPriemnaya : getv(d[18]),
+                        bezop : getv(d[19]),
+                        bezPerson : getv(d[20]),
+                        rukReports : getv(d[21]),
+                        uchReports : getv(d[22]),
+                        comm : getv(d[23]),
+                        icon : getv(d[25]),
                     }
                     departments.push(dep)
-                    //    console.log(dep)
                 }
                 console.log('departments', departments)
                // return;
@@ -232,7 +241,7 @@ $(function() {
                 //save('areas', areas)
                 //save('anfields', { fields: anfields })
                 //save('anvalues', anvalues)
-                //save('departments', departments)
+                save('departments', 'spb', departments)
             })
     }
     $('#btn-resolve-dep').on('click', function() {
@@ -291,15 +300,11 @@ $(function() {
     function validateSectors() {
         $.getJSON("../data/resolved/spb/sectors.json", function(rsectors) {
             var map = {};
-            rsectors.forEach(function(s) {
-                var key = s.coords[0] + ' ' +  s.coords[1];
-                var rs = map[]
-                if (!rs)  
-            })
+           
             $.getJSON("../data/ment-spb-main-checked.json", function(sectors) {
                 var sects = []
                 sectors.forEach(function(s, i) {
-                    console.log(rsectors[i].name, sectors[i].name )
+                    //console.log(rsectors[i].name, sectors[i].name )
                     var sec = {
                         addr : s.addr,
                         raddr : s.raddr,
@@ -323,7 +328,7 @@ $(function() {
             })
         })
     }
-    validateSectors()
+    //validateSectors()
   
     function resolveSectors(pots, success) {
         var ind = 0;

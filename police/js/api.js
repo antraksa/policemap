@@ -46,16 +46,19 @@ var API = (function() {
                 var _regs = {}, persons = {}
                 var regions = regions[0].map(function(r, i) {
                     var reg = ObjectWrapper.wrapRegion(r);
-                    reg.photo = pref + 'css/img/photos/' + r.photo;
+                    reg.photoLink = pref + 'css/img/photos/' + r.photo;
                     reg.ind = i;
-                    persons[r.personName.toLowerCase()] = { location : reg, locationName : r.name };
-                    //reg.ank = anvals[r.number]
+                    if (r.personName) {
+                        persons[r.personName.toLowerCase()] = { location : reg, locationName : r.name };
+
+                    }//reg.ank = anvals[r.number]
                     _regs[r.number] = reg;
                     return reg;
                 })
                 //deps[0].sort(function(a, b) { return a.number - b.number })
                 var deps = deps[0].map(function(d, i) {
                     var dep = ObjectWrapper.wrapDepartment(d);
+                    dep.photoLink = pref + 'css/img/photos/' + d.photo;
                     dep.regions = d.regions.map(function(rnum) {
                         return _regs[rnum] }).filter(function(o) {
                         return !!o })
