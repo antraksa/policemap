@@ -4,9 +4,9 @@
 </a>
 <nav id="details-toggle" class="details-toggle">
     <a class="t-area tab-toggle">Руководство</a>
-    <a class="selected t-region tab-toggle">Отдел (ОВД)</a>
+    <a class="t-region tab-toggle">Отдел (ОВД)</a>
     <a class="t-sector tab-toggle" >Участковый</a>
-    <a id="btn-main-menu" class="btn-menu"> <i class="icon-th-list"></i> </a>
+    <a id="btn-main-menu" class="selected btn-menu tab-toggle"> <i class="icon-th-list"></i> </a>
     <!-- <div class="details-tools tools">
         <button class="btn btn-edit"> <i class="icon-pencil"></i> </button>
         <button class="btn btn-save"> <i class="icon-check"></i> </button>
@@ -21,8 +21,21 @@
 </nav>
 <div id="details" class="pane-cont template">
     <div id="department-details" class="sub-panel "></div>
-    <div id="region-details" class="sub-panel  shown"></div>
+    <div id="region-details" class="sub-panel"></div>
     <div id="sector-details" class="sub-panel "></div>
+    <div id="main-info" class="main-info sub-panel   shown">
+        <ul id="main-info-list" class="info-list">
+            <li class="info-link" data-link="html/info/about.html">
+                <h2>О проекте </h2>
+                <p>Интерактивная “Карта полиции” в настоящий момент создана для Воронежа, Москвы и Санкт-Петербурга. Здесь собрана вся необходимая и актуальная справочная информация о подразделении, обслуживающем конкретный адрес - будь то участковый, отдел или РУВД, и даже есть подборки новостей по каждому отделу. Вычисленный по специальной методике рейтинг отделов полиции позволяет их сравнивать друг с другом по информационной открытости и доступности.</p>
+            </li>
+            <li  class="info-link" data-link="html/info/how-to-rate.html">
+                <h2>Как формируется рейтинг </h2>
+                <p>Команда проекта «Карта полиции» по результатам общественного мониторинга, проводимого в ходе общероссийской кампании «Гражданин и полиция», определяет параметры открытости и доступности подразделений полиции.
+Каждый из параметров имеет определенный вес. При подсчете рейтинга подразделения баллы по каждому параметру суммируются и переводятся в пятибалльную систему. Максимальный рейтинг подразделения — 5, он складывается из рейтинга доступности (максимум 1,5 балла) и открытости подразделения (максимум 3,5 балла). Эти две категории параметров неравновесны: всё больше услуг мы оформляем в электронном виде, и даже подать заявление о преступлении теперь можно через электронную приёмную; но впоследствии все процессуальные действия придётся совершать всё равно лично.</p>
+            </li>
+        </ul>
+    </div>
 </div>
 <script data-template="region" type="text/template">
     <div class="details-wrap">

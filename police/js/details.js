@@ -13,6 +13,7 @@ Core.on('ready', function() {
         $sdetails = $('#sector-details');
 
     if (location.href.indexOf('admin') > 0) {
+        var isAdmin = true;
         $('[local-url]').each(function() {
             this.href = '../' + $(this).attr('href')
         })
@@ -46,6 +47,13 @@ Core.on('ready', function() {
         $dtoggle.eq(1).trigger('click')
     })
 
+    $('#main-info-list').find('[data-link]').on('click', function() {
+        var link = $(this).attr('data-link');
+        if (isAdmin) link = '../' + link;
+        $('#info-holder-iframe').attr('src', link)
+        $('#info-holder').addClass('expanded')
+    })
+
     function renderRegion(region) {
         var rdata = region.region;
         $rdetails.html(Mustache.render(templates.region, region))
@@ -75,10 +83,11 @@ Core.on('ready', function() {
             $('#photo-large').addClass('expanded').css('background-image', $(this).css('background-image'))
         })
     }
-    $('#photo-large .btn-close').on('click', function() {
+    $('#photo-large .btn-close, #info-holder .btn-close').on('click', function() {
         $('#photo-large').removeClass('expanded')
-    })
-
+        $('#info-holder').removeClass('expanded')
+    }) 
+    
     Core.on('sector.select', function(args) {
         renderSector(args.sector, args.focus);
     })
