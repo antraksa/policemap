@@ -35,6 +35,7 @@
       <span class="tel-name">Дежурная часть:</span>
       <div class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i> {{#region.tel}} <u>{{.}}</u> {{/region.tel}}</div>
 		</h1>
+        {{#rate}}
         <div id="details-rate-toggle" class="btn-ank star-rate">
             <em class="lb">Рейтинг:  {{rate.fixed}}</em>
             {{#starRate}}
@@ -42,6 +43,10 @@
                 {{#.}}<i class="icon-star srated{{rate.formatted}}"></i>{{/.}}
             {{/starRate}}
         </div>
+        {{/rate}}
+        {{^rate}}
+            <div class="no-records"> Рейтинга пока не  опубликован</div>
+        {{/rate}}
         <ul id="details-rate" class="rates">
             {{#getRates}}
                 <li class="overflow" title="{{category}}"><b class="ank-rate rated{{rate.formatted}}">{{rate.fixed}}</b>{{category}}</li>
@@ -315,13 +320,13 @@
         <div class="sectors sub-list" id="dep-regions">
             <h6 class="sub-header">Участковый непосредственно подчиняется</h6>
             <ul>
-                <li class="sub-item sub-active-item dep-regions" >
+                <li id="sector-reg-link" class="sub-item sub-active-item dep-regions" >
                     <span class="s-title">{{name}}</span>
                     <span class="s-val">{{addr}}</span>
                 </li>
                 {{#departmentNumber}}
                 {{#department}}{{#department}}
-                <li class="sub-item sub-active-item dep-regions" >
+                <li id="sector-dep-link" class="sub-item sub-active-item dep-regions" >
                     <span class="s-title">{{name}}</span>
                     <span class="s-val">{{addr}}</span>
                 </li>

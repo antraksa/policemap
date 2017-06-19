@@ -95,6 +95,9 @@ String.prototype.equals = function (s) {
 String.prototype.capitalize = function() {
     return this.charAt(0).toUpperCase() + this.slice(1);
 }
+String.prototype.capitalizeAll = function() {
+    return this.replace(/(?:^|\s)\S/g, function(a) { return a.toUpperCase(); });
+};
 Date.prototype.fineFormat = function() {
 	var date = this;
 	//var date = new Date((time || "").replace(/-/g, "/").replace(/[TZ]/g, " ")),

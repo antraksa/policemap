@@ -7,7 +7,7 @@
             <button id="opt-toggle-view" title="Группировать" class="btn"> <i class="icon-th-list"></i> </a>
             <button id="opt-toggle-sort" title="Сортировать по названию / рейтингу" class="btn" > <i class="icon-sort-amount-asc"></i></a>
         </div>
-        <a id="changes-toggle"> Изменения </a>
+        <a id="changes-toggle" class="history-btn"> Изменения </a>
         <div id="history-btns" class="btns">
             <button id="btn-save-server" title="Загрузить на сервер" class="btn btn-save"> <i class="icon-cloud-upload"></i></button>
             <button id="btn-clear-changes" title="Отменить все Изменения" class="btn btn-clear"> <i class="icon-close"></i></button>
@@ -52,18 +52,18 @@
         {{#.}}
         <li class="head-item overflow" data-dep-id="{{department.number}}"> {{department.name}}</li>
         {{#regions}}
-        <li class="item " data-reg-id="{{region.number}}">
+        <li class="item published-{{anketaPublished}}" data-reg-id="{{region.number}}">
             {{#oldVals.length}} <i title="Не сохранено" class="icon-pencil">  </i> {{/oldVals.length}}
-            <b class="rate rated{{rate.formatted}}" title="Рейтинг: {{rate.fixed}}"> {{rate.formatted}}</b>
+            <b class="rate rated{{rate.formatted}} " title="Рейтинг: {{rate.fixed}}">  {{rate.formatted}}</b>
             <u title="{{region.name}}" class="overflow"> {{region.name}}</u>
         </li>
         {{/regions}} {{/.}}
     </script>
     <script data-template="regionsList" type="text/template">
         {{#.}}
-        <li class="item single-item" data-reg-id="{{region.number}}">
+        <li class="item single-item published-{{anketaPublished}}" data-reg-id="{{region.number}}">
             {{#oldVals.length}} <i title="Не сохранено" class="icon-pencil">  </i> {{/oldVals.length}}
-            <b class="rate rated{{rate.formatted}}" title="Рейтинг: {{rate.{{fixed}}}}"> {{rate.formatted}}</b>
+            <b class="rate rated{{rate.formatted}} " title="Рейтинг: {{rate.{{fixed}}}}"> {{rate.formatted}}</b>
             <u title="{{region.name}}" class="overflow"> <em>{{region.number}}</em> {{region.name}}</u>
         </li>
         {{/.}}

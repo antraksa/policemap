@@ -1,1 +1,2 @@
-.pane.results {margin-left: 0;height: 100%;}
+.pane.results {/* margin-left: 0; */height: 100%;}
+.history-btn { display: none }

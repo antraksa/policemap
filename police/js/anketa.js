@@ -2,7 +2,8 @@
 Core.on('ready', function() {
     Core.on('init', function(args) {
         var curRegion, categories, oldFields, vals, regionsDict = args.regionsDict,
-            templates = args.templates;
+            templates = args.templates,
+            meta = args.meta;
         var anvalues = args.anvalues,
             anfields = args.anfields;
         Core.on('region.select', function(args) {
@@ -65,7 +66,8 @@ Core.on('ready', function() {
                 curRegion.oldVals = null;
             } else {
                 $anktempl.find('.item').each(function() {
-                    var $this = $(this), sindex = $this.index(),
+                    var $this = $(this),
+                        sindex = $this.index(),
                         dindex = $this.attr('data-index'),
                         q = anfields.fields[dindex];
                     q.weight = parseInt($this.find('.weight').html());
@@ -86,11 +88,26 @@ Core.on('ready', function() {
         })
         $('#new-question-cat').autocomplete($('#cat-autocomplete'), templates.anketaCategories, function(q, success) {
             success(categories);
-        }).on('change', function(e, args) {
-        })
+        }).on('change', function(e, args) {})
 
         function renderHeader() {
             $('#ank-header').html(Mustache.render(templates.ankHeader, curRegion))
+            $('#btn-anketa-publish').on('click', function() {
+               publish(true)
+            })
+            $('#btn-anketa-depublish').on('click', function() {
+               publish(false)
+            })
+        }
+
+        function publish(val) {
+            var old = Common.clone(meta);
+            curRegion.anketaPublished = val;
+            if (!meta.data.published) meta.data.published = {}
+            meta.data.published[curRegion.region.number] = val;
+            renderHeader()
+            Core.trigger('history.push', { type: 'meta', name: curRegion.region.name, old: old, val: Common.clone(meta), title: val ? 'Анкета опубликована' : 'Анкета не опубликована' })
+            Core.trigger('region.updated', { region: curRegion })
         }
 
         function renderAnketa(r) {
@@ -106,15 +123,16 @@ Core.on('ready', function() {
             }
             if (!r) return;
             r.vals = vals;
+
             $anketa.toggleClass('changed', !!curRegion.oldVals)
             var ankData = {};
             anfields.fields.forEach(function(fi, i) {
-                var cat = ankData[fi.category] || [];
-                ankData[fi.category] = cat;
-                var state = vals[i]==false ? '' : (vals[i] == true ? 'checked' : 'empty') ;
-                cat.push({ field: fi, checkes: calcSummary(fi, i), checked: vals[i], state: state, date: fi.date || 0, index: i });
-            })
-            //console.log('render anketa', vals)
+                    var cat = ankData[fi.category] || [];
+                    ankData[fi.category] = cat;
+                    var state = vals[i] == false ? '' : (vals[i] == true ? 'checked' : 'empty');
+                    cat.push({ field: fi, checkes: calcSummary(fi, i), checked: vals[i], state: state, date: fi.date || 0, index: i });
+                })
+            console.log('render anketa', anvalues)
             var catData = [];
             categories = [];
             for (var key in ankData) {
@@ -125,9 +143,10 @@ Core.on('ready', function() {
                     return b.field.sindex - a.field.sindex;
                 })
                 var checked = dat.filter(function(d) {
-                    return d.checked })
+                    return d.checked
+                })
                 var catRate = r.rates ? r.rates[key] : null;
-                catData.push({ category: key, categoryRate : catRate, data: dat, checked: checked })
+                catData.push({ category: key, categoryRate: catRate, data: dat, checked: checked })
             }
             $anktempl.html(Mustache.render(templates.anketa, { subject: r, categories: catData })).find('b').on('click', function() {
                 var $item = $(this).parent();
@@ -142,7 +161,6 @@ Core.on('ready', function() {
                 $anketa.addClass('changed')
             })
             $anktempl.find('.item').on('click', function() {}).draggable($anketa)
-
             $anktempl.find('.btn-remove').on('click', function() {
                 var $item = $(this).parent(),
                     ind = $item.index(),

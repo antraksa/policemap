@@ -343,6 +343,7 @@
         Core.on('map.set-center', function() {
 
         })
+        var curTimeout;
         function markCurrent(p, addr) {
             if (window.ymaps) {
                 if (cp) map.geoObjects.remove(cp);
@@ -355,6 +356,10 @@
                     preset: 'islands#redCircleDotIconWithCaption',
                     iconColor: '#f00'
                 });
+                clearTimeout(curTimeout)
+                curTimeout = setTimeout(function() {
+                     if (cp) map.geoObjects.remove(cp);
+                }, 3000)
                 map.geoObjects.add(cp);
             } else if (p) {
                 map.markPoint({ coords: p, preset: 'flag' })
@@ -373,7 +378,7 @@
                     })
                     // console.log(addr[0].name, strres[0])
                 if (strres[0])
-                    strres[0].item.sector.select()
+                    strres[0].item.sector.render()
             })
         }
 

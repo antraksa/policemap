@@ -63,7 +63,7 @@ $(function() {
         $items.eq(0).find('.undo').trigger('click')
     })
     Core.on('history.push', function(action) {
-        //console.log('add history', uindex, action, actions)
+        console.log('add history', uindex, action, actions)
         if (uindex >= 0) {
             actions = actions.slice(0, uindex)
             uindex = -1;
@@ -74,7 +74,7 @@ $(function() {
         Core.trigger('history.actionAdded', { action: action })
     })
     Core.on('history.restore', function(args) {
-        //console.log('restore history', actions)
+        console.log('restore history', actions)
         actions = args.actions;
         if (actions.length) {
             actions.forEach(function(a) { setAction(a, a.val) })

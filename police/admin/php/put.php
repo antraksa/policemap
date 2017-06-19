@@ -16,6 +16,8 @@ if ($key == 'anfields') {
 	$datafile = '../../data/resolved/'.$city.'/departments.json';
 }else if ($key == 'sectors-parsed') {
 	$datafile = '../../data/sectors-parsed/'.$city.'/ment.json';
+}else if ($key == 'meta') {
+	$datafile = '../../data/resolved/'.$city.'/meta.json';
 }
 if (isset($datafile)) {
 	$data = $_POST['data'];

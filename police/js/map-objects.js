@@ -1,7 +1,8 @@
 'use strict'
 var ObjectWrapper = (function() {
+    var isAdmin = (location.href.indexOf('admin') > 0); 
     var anfields, anvalues, map, markpoints = [],
-        regions, departments;
+        regions, departments, meta;
     Core.on('init', function(args) {
         anfields = args.anfields;
         anvalues = args.anvalues;
@@ -10,17 +11,23 @@ var ObjectWrapper = (function() {
         map = args.map;
         regions = args.regions;
         departments = args.departments;
+        meta = args.meta;
         //console.warn('map-init',args)
     })
 
-    function pregion(r) { this.region = r; }
+    function pregion(r) { 
+        this.region = r; 
+
+    }
 
     function getRate(rate) {
         return (rate) ? { val: rate, formatted: Math.round(rate * 5), fixed: (rate * 5).toFixed(1) } : { val: 0, formatted: '', fixed: '' }
     }
 
     function calcRate(vals) {
+
         if (vals && vals.length > 0) {
+            var notFull = false;
             var count = {},
                 all = {},
                 rates = {};
@@ -28,6 +35,7 @@ var ObjectWrapper = (function() {
                 var w = fi.weight || 1,
                     cat = fi.category;
                 if (fi.hidden) return;
+                if (vals[i] == null) notFull = true;
                 if (!count[cat]) count[cat] = 0;
                 if (!all[cat]) all[cat] = 0;
                 if (vals[i]) count[cat] += w;
@@ -40,7 +48,7 @@ var ObjectWrapper = (function() {
                 totalCount += count[cat];
                 total += all[cat];
             }
-            return { totalRate: getRate(totalCount / total), rates: rates };
+            return { totalRate: getRate(totalCount / total), rates: rates, notFull : notFull };
         }
     }
 
@@ -134,8 +142,13 @@ var ObjectWrapper = (function() {
         },
         calcRate: function() {
             var r = this;
-            var res = calcRate(anvalues[r.region.number]);
-            if (res) {
+            var num = r.region.number;
+            var published = meta.data.published;
+            if (published)
+                r.anketaPublished = published[num]
+            var res = calcRate(anvalues[num]);
+            if (res ) {
+                if (!isAdmin && !r.anketaPublished) return;
                 r.rate = res.totalRate;
                 r.rates = res.rates;
                 r.color = getRateColor(r)
@@ -143,6 +156,7 @@ var ObjectWrapper = (function() {
                 for (var i=0; i < 5; i++) {
                     r.starRate.push(i < r.rate.formatted);
                 }
+                r.notFullRate = res.notFull;
             }
         },
         select: function(focus, nostate) {
@@ -155,18 +169,18 @@ var ObjectWrapper = (function() {
                     if (r.place) {
                         r.place.balloon.open();
                     }
-                    //clearSelections()
                     if (map && r.pol) {
                         map.setCenter(getCenter(r.pol))
                     }
-                    
                     rselected = r.markSelected(true);
+                } else {
+                    r.markGroouped(true)
                 }
             } else {
                 if (this.region.point && this.region.point.coords && focus)
                     map.markPoint({ coords: this.region.point.coords, preset: 'pmlbm' })
             }
-            if (!nostate && focus) State.pushState({ type: 'region', rowId: r.ind })
+            if (!nostate) State.pushState({ type: 'region', rowId: r.ind })
         },
         number: function() {
             return this.region.number
@@ -264,8 +278,8 @@ var ObjectWrapper = (function() {
         },
         markSelected: function(val) {
             this.markPointOpacity(true);
+            this.regions.forEach(function(r) { r.markSelected(val) })
             if (this.place) {
-                this.regions.forEach(function(r) { r.markSelected(val) })
                 if (!val) this.place.balloon.close();
             }
             return this;
@@ -281,7 +295,9 @@ var ObjectWrapper = (function() {
         },
     }
 
-    function psector(s) { this.sector = s; }
+    function psector(s) { this.sector = s; 
+        this.name = s.name.capitalizeAll()
+    }
     psector.prototype = {
         draw: function() {
             if (!map || !window.ymaps) return;
@@ -290,10 +306,10 @@ var ObjectWrapper = (function() {
             if (s.place) map.geoObjects.remove(s.place);
             if (!s.coords) return
             var place = new ymaps.Placemark(s.coords, {
-                balloonContentHeader: s.name,
+                balloonContentHeader: that.name,
                 balloonContentBody: s.raddr,
                 balloonContentFooter: s.tel,
-                hintContent: s.name,
+                hintContent: that.name,
                 iconContent: 'У'
             }, { preset: 'islands#circleIcon', iconColor: 'black' });
             this.place = place;

@@ -245,9 +245,9 @@ $(function() {
             })
     }
     $('#btn-resolve-dep').on('click', function() {
-        $.getJSON("data/resolved/departments.json".format(), function(data) {
+        $.getJSON("../data/resolved/spb/departments.json".format(), function(data) {
             resolveSectors(data, function() {
-                save('departments', data)
+                save('departments', 'spb', data)
             })
         })
     })

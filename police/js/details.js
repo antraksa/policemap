@@ -52,6 +52,7 @@ Core.on('ready', function() {
         $rdetails.find('.btn-edit').on('click', function() {
             edit(region, true)
         })
+  
         $rdetails.find('.btn-save').on('click', function() {
             edit(region, false)
             Core.trigger('mess', { mess: 'Отделение сохранено' })
@@ -74,7 +75,7 @@ Core.on('ready', function() {
             $('#photo-large').addClass('expanded').css('background-image', $(this).css('background-image'))
         })
     }
-    $('#photo-large, #map').on('click', function() {
+    $('#photo-large .btn-close').on('click', function() {
         $('#photo-large').removeClass('expanded')
     })
 
@@ -87,6 +88,15 @@ Core.on('ready', function() {
         if (focus)
             $dtoggle.eq(2).trigger('click')
         console.log('select sector', sector)
+        $('#sector-reg-link').on('click', function() {
+            if (sector.region)
+                sector.region.select(true)
+        })
+        $('#sector-dep-link').on('click', function() {
+            console.log(sector.departments)
+            if (sector.region && sector.region.department )
+                sector.region.department.select(true)
+        })
     }
 
     function edit(region, val) {

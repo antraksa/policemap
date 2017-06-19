@@ -11,7 +11,8 @@ var API = (function() {
         areas : function(city) { return $.getJSON(pref + "data/resolved/{0}/areas.json?".format(city) + rand()) },
         sectors : function(city) { return $.getJSON(pref + "data/resolved/{0}/sectors.json?".format(city) + rand()) },
         anfields : function(city) { return $.getJSON(pref + "data/resolved/{0}/anfields.json?".format(city) + rand()) },
-        anvalues : function(city) { return $.getJSON(pref + "data/resolved/{0}/anvalues.json?".format(city) + rand()) }
+        anvalues : function(city) { return $.getJSON(pref + "data/resolved/{0}/anvalues.json?".format(city) + rand()) },
+        meta : function(city) { return $.getJSON(pref + "data/resolved/{0}/meta.json?".format(city) + rand()) }
     }
     function getAll(city) {
         return $.when(
@@ -20,13 +21,14 @@ var API = (function() {
             requests.areas(city),
             requests.sectors(city),
             requests.anfields(city),
-            requests.anvalues(city)
+            requests.anvalues(city),
+            requests.meta(city),
         )
     }
     return {
         requests : requests,
     	all : function(city, success) {
-            getAll(city).done(function(deps, regions, areas, sectors, anfields, anvalues, types) {
+            getAll(city).done(function(deps, regions, areas, sectors, anfields, anvalues, types, meta) {
     			 success({
                     regions: regions[0],
                     sectors: sectors[0],
@@ -34,11 +36,12 @@ var API = (function() {
                     areas: areas[0],
                     anfields: anfields[0],
                     anvalues: anvalues[0],
+                    meta: meta[0],
                 })
     		})
     	},
         getAndWrapAll: function(city, success) {
-            getAll(city).done(function(deps, regions, areas, sectors, anfields, anvalues) {
+            getAll(city).done(function(deps, regions, areas, sectors, anfields, anvalues, meta) {
                 var oregions = regions[0], osectors = sectors[0],oareas = areas[0];
                 var anvals = anvalues[0];
                 regions[0].sort(function(a, b) {
@@ -116,7 +119,8 @@ var API = (function() {
                     persons : personsArr,
                     oregions : oregions,
                     oareas : oareas,
-                    osectors : osectors
+                    osectors : osectors,
+                    meta : meta[0]
                 })
             })
         },

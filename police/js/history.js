@@ -2,7 +2,7 @@
 Core.on('ready', function() {
     //Storage.set('police.history', null)
     var regions, _regions = {},
-        templates, anvalues, anfields, targets;
+        templates, anvalues, anfields, targets, meta;
     var actions = Storage.get('police.history') || [], getCurrentCity;
 
 
@@ -13,11 +13,16 @@ Core.on('ready', function() {
         })
         anvalues = args.anvalues;
         anfields = args.anfields;
+        meta = args.meta;
         templates = args.templates;
         getCurrentCity = args.getCurrentCity;
         targets = {
             anvalues: { tar: anvalues, setVal: function(id, val) { anvalues[id] = val; } },
-            anfields: { tar: anfields, setVal: function(id, val) { anfields.fields = val.fields } }
+            anfields: { tar: anfields, setVal: function(id, val) { anfields.fields = val.fields } },
+            meta: { tar: meta, setVal: function(id, val) { 
+                meta.data = val.data 
+                console.log('setAction', val, meta)
+            } }
         }
         render()
             //console.log(_regions)
@@ -36,6 +41,7 @@ Core.on('ready', function() {
     Core.on('history.setAction', function(args) {
         var tar = targets[args.action.type];
         tar.setVal(args.action.id, args.val);
+
     })
     Core.on('history.actionAdded', function(args) {
     	Storage.set('police.history', actions)
