@@ -77,10 +77,10 @@ var ObjectWrapper = (function() {
         if (go && go.place)
             go.place.options.set('iconOpacity', 1);
         var old = hovered[type];
-        if (old && old.place)
+        if (old && old.place && old.place!=go.place)
             old.place.options.set('iconOpacity', defOpacity);
         hovered[type] = go;
-        //console.warn('mark', go, list)
+       // console.log('markPointOpacity', type, go)
     }
 
     function clearSelections() {
@@ -174,7 +174,7 @@ var ObjectWrapper = (function() {
                     }
                     rselected = r.markSelected(true);
                 } else {
-                    r.markGroouped(true)
+                    r.markPointOpacity(true)
                 }
             } else {
                 if (this.region.point && this.region.point.coords && focus)
@@ -316,7 +316,7 @@ var ObjectWrapper = (function() {
             place.events.add('click', function() { that.select(true) })
             map.geoObjects.add(place);
         },
-        select: function(focus) {
+        select: function(focus, noRenderSector) {
             var s = this;
             if (window.ymaps) {
                 if (focus && s.sector.coords) {
@@ -329,7 +329,7 @@ var ObjectWrapper = (function() {
                 if (this.sector.coords && focus)
                     map.markPoint({ coords: this.sector.coords, preset: 'pmgrs' })
             }
-            if (s.region) s.region.render();
+            if (!noRenderSector && s.region) s.region.render();
             s.render(focus)
         },
         render: function(focus) {
@@ -339,8 +339,10 @@ var ObjectWrapper = (function() {
             if (this.place) this.place.options.set('visible', val)
         },
         markSelected: function(val) {
+            console.log('markSelected', this.place, val)    
             if (window.ymaps) {
                 if (this.place) {
+
                     if (!val) this.place.balloon.close();
                     this.place.options.set('visible', val)
                 }

@@ -38,7 +38,7 @@
             if (window.ymaps) {
                 map.setCenter(c.coords)
             } else {
-               renderStaticHome(c.coords)
+                renderStaticHome(c.coords)
             }
         })
         $('#btn-city-toggle').popup({ hideOnClick: true })
@@ -61,7 +61,6 @@
             departments = args.departments;
             regionsDict = args.regionsDict;
             persons = args.persons;
-
             initArgs = args;
             if (window.ymaps) {
                 ymaps.ready(createMap);
@@ -71,7 +70,9 @@
         })
 
         function createStatic() {
-            var $map = $('#map'), dpoints=[], dtimeout;
+            var $map = $('#map'),
+                dpoints = [],
+                dtimeout;
             $map.on('click', function() {
                 $('body').addClass('mobile-details-view')
             })
@@ -80,21 +81,19 @@
                     if (!zoom) zoom = 10;
                     this.render(c, zoom)
                 },
-                delayMarkPoint : function(p, zoom) {
+                delayMarkPoint: function(p, zoom) {
                     return; //!!!!
-
                     dpoints.push(p)
                     if (dtimeout) return;
                     dtimeout = setTimeout(function() {
-                        var sum = [0,0]
+                        var sum = [0, 0]
                         dpoints.forEach(function(p) {
                             sum[0] += p.coords[0];
                             sum[1] += p.coords[1];
                         })
-                        var c = [sum[0]/dpoints.length, sum[1]/dpoints.length];
+                        var c = [sum[0] / dpoints.length, sum[1] / dpoints.length];
                         //console.log('ce', c)
-
-                        map.markPoints(c, dpoints, zoom) 
+                        map.markPoints(c, dpoints, zoom)
                         console.log('delayMarkPoint', dpoints)
                         dpoints = [];
                         dtimeout = null;
@@ -105,7 +104,7 @@
                     this.render(p.coords, zoom, [p])
                 },
                 markPoints: function(c, points, zoom) {
-                    console.warn('markPoints',c, points);
+                    console.warn('markPoints', c, points);
                     this.render(c, zoom, points)
                 },
                 render: function(c, zoom, points) {
@@ -120,13 +119,11 @@
                             pt += '{0},{1},{2}~'.format(pc[1], pc[0], p.preset);
                         })
                         pt = pt.substr(0, pt.length - 1)
-
                     }
                     if (zoom) {
-                        url+='z={0}&'.format(zoom)
-                    }  
+                        url += 'z={0}&'.format(zoom)
+                    }
                     $map.css('background-image', 'url({0})'.format(url.format(c[1], c[0], zoom) + pt))
-
                 }
             };
             initArgs.map = map;
@@ -134,27 +131,29 @@
             Core.trigger('map-ready', initArgs)
             renderMainList();
             loading(false)
-
         }
 
         function renderStaticHome(c) {
             return;
             var rp = regions.filter(function(r) {
-                return r.region.point }).map(function(r) {
+                return r.region.point
+            }).map(function(r) {
                 return {
                     coords: r.region.point.coords,
                     preset: 'pmlbs' + r.region.number
                 }
             })
             var dp = departments.filter(function(d) {
-                return d.department.coords }).map(function(d) {
-                return {
-                    coords: d.department.coords,
-                    preset: 'pmbls'
-                }
-            }) //    .slice(0,5)
+                    return d.department.coords
+                }).map(function(d) {
+                    return {
+                        coords: d.department.coords,
+                        preset: 'pmbls'
+                    }
+                }) //    .slice(0,5)
             map.markPoints(c, dp.concat(rp))
         }
+
         function createMap(state) {
             map = new ymaps.Map('map', { controls: ["zoomControl"], zoom: 12, center: [59.948814, 30.309640] });
             initArgs.map = map;
@@ -170,7 +169,6 @@
                 Core.trigger('map.click', { coords: e.get('coords') })
             });
             Core.trigger('map-ready', initArgs)
-
         }
         var $mlist = $('#main-list'),
             isViewDepartments = true,
@@ -241,15 +239,12 @@
             $sel.addClass('selected').siblings().removeClass('selected')
             if ($sel[0]) $sel.scrollTo()
         })
-
         Core.on('department.select', function(args) {
             if (args.nofocus) return;
             var $sel = $mlist.find('[data-dep-id="{0}"]'.format(args.department.number()))
             $sel.addClass('selected').siblings().removeClass('selected')
             if ($sel[0]) $sel.scrollTo()
         })
-
-        
         var selected;
         Core.on('region.updated', function(args) {
             console.log('region.updated', args)
@@ -337,13 +332,11 @@
                 Core.trigger('mess', { mess: 'Не удалось определить координаты.', warn: true })
                 if (error) error()
             })
-
         }
-
         Core.on('map.set-center', function() {
-
         })
         var curTimeout;
+
         function markCurrent(p, addr) {
             if (window.ymaps) {
                 if (cp) map.geoObjects.remove(cp);
@@ -358,7 +351,7 @@
                 });
                 clearTimeout(curTimeout)
                 curTimeout = setTimeout(function() {
-                     if (cp) map.geoObjects.remove(cp);
+                    if (cp) map.geoObjects.remove(cp);
                 }, 3000)
                 map.geoObjects.add(cp);
             } else if (p) {
@@ -377,11 +370,12 @@
                         if (o) return o.name
                     })
                     // console.log(addr[0].name, strres[0])
-                if (strres[0])
-                    strres[0].item.sector.render()
+                if (strres[0]) {
+                    var sec = strres[0].item.sector;
+                    sec.select(false, true)
+                }
             })
         }
-
         var $txtSearch = $('#txt-search')
             .on('focus', function() { this.select() })
             .on('change', function(e, args) {
@@ -389,10 +383,9 @@
                     markCurrent()
                     var $row = args.$row,
                         dsind = Number($row.attr('data-dsindex')),
-                        ds = args.data[dsind],
+                        ds = args.data.filter(function(d) { return d.dsindex == dsind })[0],
                         ind = $row.index(),
                         o = ds.data[ind].item;
-
                     if (dsind == 0) { //yandex addr
                         map.setCenter(o.coords)
                         markCurrent(o.coords, o.name)
@@ -433,9 +426,9 @@
                 }
             })
             res.sort(function(a, b) {
-                return b.rate - a.rate
-            })
-            //console.warn(res);
+                    return b.rate - a.rate
+                })
+                //console.warn(res);
             return res.slice(0, 5);
         }
         $txtSearch.autocomplete($('#search-popup'), templates.autocomplete, function(q, success) {
@@ -458,7 +451,7 @@
             })
             var yres = []
             var res = [
-                { title: 'Карта', type: 'map', dsindex: 0, data: yres },
+                //{ title: 'Карта', type: 'map', dsindex: 0, data: yres },
                 { title: 'Отделения', type: 'regions', dsindex: 1, data: regres },
                 { title: 'Адрес', type: 'addrs', dsindex: 2, data: strres },
                 { title: 'Участковые', type: 'sectors', dsindex: 3, data: secres },
