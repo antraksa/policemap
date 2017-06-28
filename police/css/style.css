@@ -73,7 +73,7 @@
   content: "\e90e";
 }
 .icon-close:before {
-  content: "\e90f";
+  content: "\002573";
 }
 .icon-phone-square:before {
   content: "\e90c";
@@ -117,3 +117,56 @@
 .icon-angle-left:before {
   content: "\e903";
 }
+/* Макет метки с "хвостиком" */
+
+.placemark_layout_container {
+            position: relative;
+            text-align: center;
+            z-index: -1;
+        }
+        .polygon_layout {
+            background: #ffffff;
+            border: 5px solid #1d3854;
+            border-radius:25px 25px 25px 25px;
+            width: 24px;
+            height: 26px;
+            position: absolute;
+            color: #fff;
+            padding:5px;
+        }
+
+        .polygon_layout:after, .polygon_layout:before {
+            top: 100%;
+            left: 50%;
+            border: solid transparent;
+            content: " ";
+            height: 0;
+            width: 0;
+            position: absolute;
+        }
+
+        .polygon_layout:after {
+            border-top-color: #1d3854;
+            border-width: 10px;
+            margin-left: -10px;
+        }
+
+        .polygon_layout:before {
+            border-top-color: #1d3854;
+            border-width: 14px;
+            margin-left: -14px;
+        }
+        .polygon_layout img {
+          max-width: 100%;
+          max-height: 100%;
+        }
+        .polygon_layout div {
+          position: relative;
+          font-size: 20px;
+          line-height: 28px;
+          color:#1d3854;
+          z-index: 99;
+        }
+        .polygon_layout.poly div {
+          position: absolute;
+        }

@@ -155,7 +155,7 @@
         }
 
         function createMap(state) {
-            map = new ymaps.Map('map', { controls: ["zoomControl"], zoom: 12, center: [59.948814, 30.309640] });
+            map = new ymaps.Map('map', { controls: ["zoomControl"], zoom: 12, center: [59.948814, 30.309640]}, {suppressMapOpenBlock: true});
             initArgs.map = map;
             Core.trigger('map-init', initArgs)
             renderMainList();

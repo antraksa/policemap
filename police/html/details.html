@@ -2,6 +2,7 @@
     <i class="icon-compass"></i>
 
 </a>
+<div class="raddr">Адрес <span>[вставить]</span> обслуживается</div>
 <nav id="details-toggle" class="details-toggle">
     <a class="t-area tab-toggle">Руководство</a>
     <a class="t-region tab-toggle">Отдел (ОВД)</a>
@@ -27,12 +28,21 @@
         <ul id="main-info-list" class="info-list">
             <li class="info-link" data-link="html/info/about.html">
                 <h2>О проекте </h2>
-                <p>Интерактивная “Карта полиции” в настоящий момент создана для Воронежа, Москвы и Санкт-Петербурга. Здесь собрана вся необходимая и актуальная справочная информация о подразделении, обслуживающем конкретный адрес - будь то участковый, отдел или РУВД, и даже есть подборки новостей по каждому отделу. Вычисленный по специальной методике рейтинг отделов полиции позволяет их сравнивать друг с другом по информационной открытости и доступности.</p>
+            </li>
+            <li  class="info-link" data-link="html/info/no-content.html">
+                <h2>Как пользоваться картой</h2>
             </li>
             <li  class="info-link" data-link="html/info/how-to-rate.html">
                 <h2>Как формируется рейтинг </h2>
-                <p>Команда проекта «Карта полиции» по результатам общественного мониторинга, проводимого в ходе общероссийской кампании «Гражданин и полиция», определяет параметры открытости и доступности подразделений полиции.
-Каждый из параметров имеет определенный вес. При подсчете рейтинга подразделения баллы по каждому параметру суммируются и переводятся в пятибалльную систему. Максимальный рейтинг подразделения — 5, он складывается из рейтинга доступности (максимум 1,5 балла) и открытости подразделения (максимум 3,5 балла). Эти две категории параметров неравновесны: всё больше услуг мы оформляем в электронном виде, и даже подать заявление о преступлении теперь можно через электронную приёмную; но впоследствии все процессуальные действия придётся совершать всё равно лично.</p>
+            </li>
+            <li  class="info-link" data-link="html/info/no-content.html">
+                <h2>Частые вопросы о полиции</h2>
+            </li>
+            <li  class="info-link" data-link="html/info/no-content.html">
+                <h2>Обратная связь</h2>
+            </li>
+            <li  class="info-link" data-link="html/info/no-content.html">
+                <h2>Поддержать прооект</h2>
             </li>
         </ul>
     </div>
@@ -43,7 +53,7 @@
 			<q  class="area">{{region.area}}</q>
 			<!-- <u class="number">{{region.number}} </u>  -->
 			<u  class="number photo" style="background-image: url('{{photoLink}}')"> </u>
-			<a class="name-link editable" target="_blank" href="parser.html#rowId={{ind}}&type=region">{{region.name}}</a>
+			<a class="name-link editable">{{region.name}}</a>
 			<span  class="addr editable">{{region.addr}}</span>
       <span class="tel-name">Дежурная часть:</span>
       <div class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i> {{#region.tel}} <u>{{.}}</u> {{/region.tel}}</div>
@@ -58,7 +68,7 @@
         </div>
         {{/rate}}
         {{^rate}}
-            <div class="no-records"> Рейтинга пока не  опубликован</div>
+            <div class="no-records">Рейтинг пока не опубликован</div>
         {{/rate}}
         <ul id="details-rate" class="rates">
             {{#getRates}}
@@ -69,11 +79,11 @@
             {{/getRates}}
                 <li class="info"><a class="sub-item sub-active-item" href="#" title="Как формируется рейтинг?"><span class="s-title">Как формируется рейтинг?</span></a></li>
         </ul>
+        {{#region}}
         <div class="contacts">
-          <div class="real-hot-line" title="Горячая линия о нарушениях"> <span class="hot-line"><i class="icon-phone"></i> {{region.hotLine}}</span> - горячая линия о нарушениях</div>
+          <div class="real-hot-line" title="Горячая линия о нарушениях"> <span class="hot-line"><i class="icon-phone"></i> {{hotLine}}</span> - горячая линия о нарушениях</div>
           <a class="hot-line" title="Подать заявление через электронную приёмную" href="https://78.xn--b1aew.xn--p1ai/request_main" target="_blank">Отправить обращение</a><span class="real-hot-line"> (для составления обращения воспользуйтесь <a title="Составить обращение о нарушениях" href="#">Конструктором обращений</a>)</span>
         </div>
-        {{#region}}
         {{#personName}}
         <h6 class="sub-header">Начальник </h6>
         <div class="sub-details">
@@ -112,8 +122,8 @@
         </div>
         {{/press.length}} {{/region}}
         <div id="region-comments"></div>
-        {{#region}}{{#departmentNumber}}
-        <div class="sectors sub-list" id="dep-regions">
+        {{#region}}
+        <div class="sectors more sub-list" id="region-more">
             <h6 class="sub-header">Подробнее</h6>
             <ul>
                 {{#department}}{{#department}}
@@ -175,7 +185,7 @@
                 {{/department}}{{/department}}
             </ul>
         </div>
-        {{/departmentNumber}}{{/region}}
+        {{/region}}
     </div>
 </script>
 
@@ -185,7 +195,7 @@
         {{#department}}
         <h1 class="name">
 			<u  class="number photo" style="background-image: url('{{photoLink}}')"> </u>
-			<a class="editable name-link" target="_blank" href="parser.html#rowId={{ind}}&type=department">{{name}}</a>
+			<a class="editable name-link">{{name}}</a>
 			<span  class="addr editable">{{addr}}</span>
       <div class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i> {{#tel}} <u>{{.}}</u>{{/tel}}(дежурная часть)</div>
 
@@ -195,12 +205,7 @@
           <a href="{{url}}" class="url" target="_blank"> {{url}}</a> <b class="bull"></b>
           <a href="mailto:{{email}}" class="url"> <i class="icon-email"></i> {{email}}</a>
       </div>
-      {{#regions.0}}
-      {{#region}}
-      <a>{{region}}</a>
-      <div class="real-hot-line" title="Горячая линия о нарушениях"> <span class="hot-line"><i class="icon-phone"></i> {{hotLine}}</span> - горячая линия о нарушениях</div>
-      {{/region}}
-      {{/regions.0}}
+      <div class="real-hot-line" title="Горячая линия о нарушениях"> <span class="hot-line"><i class="icon-phone"></i> {{regions.0.region.hotLine}}</span> - горячая линия о нарушениях</div>
       <a class="hot-line" title="Подать заявление через электронную приёмную" href="{{priemnaya}}" target="_blank">Отправить обращение</a><span class="real-hot-line"> (для составления обращения воспользуйтесь <a title="Составить обращение о нарушениях" href="#">Конструктором обращений</a>)</span>
     </div>
 
@@ -247,7 +252,7 @@
         </div>
         {{/regions.length}}
         {{#department}}
-          <div class="sub-list">
+          <div class="sub-list more" id="department-more">
             <h6 class="sub-header">Подробнее</h6>
 
               <ul>
@@ -321,34 +326,34 @@
             <div class="tel"> <i class="icon-phone"></i> {{tel}}</div>
         </div>
         <div class="clear"></div>
-        {{#regionId}}
-        {{#region}}{{#region}}
-        {{#departmentNumber}}
-        {{#department}}{{#department}}
+        {{#region}}
+
+        {{#department}}
+        {{#department}}
         <div class="contacts">
-          <a class="hot-line" title="Подать заявление через электронную приёмную" href="{{department.priemnaya}}" target="_blank">Отправить обращение</a><span class="real-hot-line"> (для составления обращения воспользуйтесь <a title="Составить обращение о нарушениях" href="#">Конструктором обращений</a>)</span>
+          <a class="hot-line" title="Подать заявление через электронную приёмную" href="{{priemnaya}}" target="_blank">Отправить обращение</a><span class="real-hot-line"> (для составления обращения воспользуйтесь <a title="Составить обращение о нарушениях" href="#">Конструктором обращений</a>)</span>
         </div>
-        {{/department}}{{/department}}
-        {{/departmentNumber}}
+        {{/department}}
+        {{/department}}
         <div class="sectors sub-list" id="dep-regions">
             <h6 class="sub-header">Участковый непосредственно подчиняется</h6>
             <ul>
+              {{#region}}
                 <li id="sector-reg-link" class="sub-item sub-active-item dep-regions" >
                     <span class="s-title">{{name}}</span>
                     <span class="s-val">{{addr}}</span>
                 </li>
-                {{#departmentNumber}}
+                {{/region}}
+
                 {{#department}}{{#department}}
                 <li id="sector-dep-link" class="sub-item sub-active-item dep-regions" >
                     <span class="s-title">{{name}}</span>
                     <span class="s-val">{{addr}}</span>
                 </li>
                 {{/department}}{{/department}}
-                {{/departmentNumber}}
             </ul>
         </div>
-        {{/region}}{{/region}}
-        {{/regionId}}
+      {{/region}}
         <h6 class="sub-header">Участковый обслуживает адреса</h6>
         <ul class="streets ">
             {{#streets}}
@@ -361,9 +366,8 @@
             </li>
             {{/streets}}
         </ul>
-        {{#regionId}}
-        {{#region}}{{#region.departmentNumber}}
-        <div class="sectors sub-list" id="dep-regions">
+        {{#region}}
+        <div class="sectors more sub-list" id="sector-more">
             <h6 class="sub-header">Подробнее о работе и обязанностях участкового</h6>
             <ul>
                 {{#department}}{{#department}}
@@ -421,7 +425,7 @@
                 {{/department}} {{/department}}
             </ul>
         </div>
-        {{/region.departmentNumber}}{{/region}}{{/regionId}}
+        {{/region}}
         {{/sector}}
     </div>
 </script>

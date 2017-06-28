@@ -60,7 +60,7 @@ Core.on('ready', function() {
         $rdetails.find('.btn-edit').on('click', function() {
             edit(region, true)
         })
-  
+
         $rdetails.find('.btn-save').on('click', function() {
             edit(region, false)
             Core.trigger('mess', { mess: 'Отделение сохранено' })
@@ -77,17 +77,23 @@ Core.on('ready', function() {
         $('#details-rate-toggle').on('click', function() {
             $('#details-rate').toggleClass('expanded')
         })
+        $('#region-more, #department-more, #sector-more').on('click', function() {
+            $(this).toggleClass('expanded')
+            $('.pane.details').animate({
+                    scrollTop: $(this).offset().top + 1000
+                }, 500);
+        })
         Core.trigger('details.rendered', {region : region,  $rdetails :  $rdetails })
         console.log('select region', region)
         $('.photo').on('click', function() {
-            $('#photo-large').addClass('expanded').css('background-image', $(this).css('background-image'))
+            $('#photo-large').addClass('expanded').find('#photo-large-img').css('background-image', $(this).css('background-image'))
         })
     }
     $('#photo-large .btn-close, #info-holder .btn-close').on('click', function() {
         $('#photo-large').removeClass('expanded')
         $('#info-holder').removeClass('expanded')
-    }) 
-    
+    })
+
     Core.on('sector.select', function(args) {
         renderSector(args.sector, args.focus);
     })

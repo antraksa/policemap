@@ -1,20 +1,21 @@
 <div id="photo-large" class="photo-large">
 	<i class="icon-close btn-close"></i>
+	<div id="photo-large-img"></div>
 </div>
 <div id="info-holder" class="info-holder">
 	<i class="icon-close btn-close"></i>
 	<iframe id="info-holder-iframe"></iframe>
 </div>
 <div id="map" class="map">
-	
+
 </div>
 <div id="mess" class="mess faded"></div>
-	
+
 <div class="search">
 	<input type="text" id="txt-search" class="txt-search" placeholder="Адрес, Номер отдела или ФИО " name="">
 	<i class="icon-search fgc" id="btn-search"> </i>
 </div>
-<div id="search-popup" class="popup search-autocomplete  autocomplete collapsed "> </div> 
+<div id="search-popup" class="popup search-autocomplete  autocomplete collapsed "> </div>
 <script data-template="autocomplete" type="text/template">
 	{{#.}}
 		{{#data.length}}
@@ -33,8 +34,8 @@
 <div class="map-tools">
 	<a id="btn-locate" class="tool-btn locate icon-location"></a>
 	<a id="btn-city-toggle" class="tool-btn city-toggle" > </a>
-	<ul id="city-popup" class="popup city-popup"> </ul> 
+	<ul id="city-popup" class="popup city-popup"> </ul>
 	<script data-template="cities" type="text/template">
-		{{#.}} <li><a>{{name}} </a> </li> {{/.}} 
+		{{#.}} <li><a>{{name}} </a> </li> {{/.}}
 	</script>
 </div>

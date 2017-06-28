@@ -1,6 +1,6 @@
 'use strict'
 var ObjectWrapper = (function() {
-    var isAdmin = (location.href.indexOf('admin') > 0); 
+    var isAdmin = (location.href.indexOf('admin') > 0);
     var anfields, anvalues, map, markpoints = [],
         regions, departments, meta;
     Core.on('init', function(args) {
@@ -15,8 +15,8 @@ var ObjectWrapper = (function() {
         //console.warn('map-init',args)
     })
 
-    function pregion(r) { 
-        this.region = r; 
+    function pregion(r) {
+        this.region = r;
 
     }
 
@@ -295,7 +295,7 @@ var ObjectWrapper = (function() {
         },
     }
 
-    function psector(s) { this.sector = s; 
+    function psector(s) { this.sector = s;
         this.name = s.name.capitalizeAll()
     }
     psector.prototype = {
@@ -339,7 +339,7 @@ var ObjectWrapper = (function() {
             if (this.place) this.place.options.set('visible', val)
         },
         markSelected: function(val) {
-            console.log('markSelected', this.place, val)    
+            console.log('markSelected', this.place, val)
             if (window.ymaps) {
                 if (this.place) {
 
