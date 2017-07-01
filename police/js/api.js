@@ -127,7 +127,7 @@ var API = (function() {
         save: function(key,city, data, success, fail) {
             $.post("php/put.php", { key: key, city : city, data: JSON.stringify(data) }, function(res) {
                 if (!res.trim()) {
-                    success()
+                    if (success) success()
                     console.log('put success ', key, data, res)
                 } else {
                     console.warn('put fail ', key, data, res)

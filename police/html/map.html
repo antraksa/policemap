@@ -1,21 +1,29 @@
+<div class="logo">
+	<h1> Карта  полиции</h1>
+</div>
 <div id="photo-large" class="photo-large">
-	<i class="icon-close btn-close"></i>
-	<div id="photo-large-img"></div>
+    <i class="icon-close btn-close"></i>
+    <div id="photo-large-img"></div>
 </div>
 <div id="info-holder" class="info-holder">
-	<i class="icon-close btn-close"></i>
-	<iframe id="info-holder-iframe"></iframe>
+    <i class="icon-close btn-close"></i>
+    <iframe id="info-holder-iframe"></iframe>
 </div>
 <div id="map" class="map">
-
 </div>
 <div id="mess" class="mess faded"></div>
-
 <div class="search">
-	<input type="text" id="txt-search" class="txt-search" placeholder="Адрес, Номер отдела или ФИО " name="">
-	<i class="icon-search fgc" id="btn-search"> </i>
+    <input type="text" id="txt-search" class="txt-search" placeholder="Адрес, Номер отдела или ФИО " name="">
+    <i class="icon-search fgc" id="btn-search"> </i>
 </div>
 <div id="search-popup" class="popup search-autocomplete  autocomplete collapsed "> </div>
+<script data-template="mapPoint" type="text/template">
+    <div class="placemark_layout_container">
+        <div class="polygon_layout y-icon y-icon-{{type}}" id="point-icon-{{num}}" style="background-image:url({{icon}})">
+            <b>$[properties.iconContent]<b> 
+        </div>
+    </div>
+</script>
 <script data-template="autocomplete" type="text/template">
 	{{#.}}
 		{{#data.length}}

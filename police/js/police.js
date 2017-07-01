@@ -319,8 +319,7 @@
                 $cities.eq(0).trigger('click')
             })
         })
-        var cp;
-
+       
         function location(success, error) {
             loading(true)
             navigator.geolocation.getCurrentPosition(function(location) {
@@ -337,35 +336,39 @@
         })
         var curTimeout;
 
-        function markCurrent(p, addr) {
-            if (window.ymaps) {
-                if (cp) map.geoObjects.remove(cp);
-                if (!p) return;
-                map.setCenter(p)
-                cp = new ymaps.Placemark(p, {
-                    iconCaption: addr || '...',
-                    hintContent: addr || '...'
-                }, {
-                    preset: 'islands#redCircleDotIconWithCaption',
-                    iconColor: '#f00'
-                });
-                clearTimeout(curTimeout)
-                curTimeout = setTimeout(function() {
-                    if (cp) map.geoObjects.remove(cp);
-                }, 3000)
-                map.geoObjects.add(cp);
-            } else if (p) {
-                map.markPoint({ coords: p, preset: 'flag' })
-            }
+        // var cp;
+        function markCurrent(addr) {
+
+            // if (window.ymaps) {
+            //     if (cp) map.geoObjects.remove(cp);
+            //     if (!p) return;
+            //     map.setCenter(p)
+            //     cp = new ymaps.Placemark(p, {
+            //         iconCaption: addr || '...',
+            //         hintContent: addr || '...'
+            //     }, {
+            //         preset: 'islands#redCircleDotIconWithCaption',
+            //         iconColor: '#f00'
+            //     });
+            //     clearTimeout(curTimeout)
+            //     curTimeout = setTimeout(function() {
+            //         if (cp) map.geoObjects.remove(cp);
+            //     }, 3000)
+            //     map.geoObjects.add(cp);
+            // } else if (p) {
+            //     map.markPoint({ coords: p, preset: 'flag' })
+            // }
+            Core.trigger('map-click.resolved', { addr : addr});
         }
 
         function resolvePoint(p) {
-            markCurrent(p)
+            markCurrent()
             API.resolvePoint(city, p, function(addr) {
                 if (!addr[0]) return;
                 var name = addr[0].name;
-                if (cp) cp.properties.set('iconCaption', name).set('hintContent', name);
+                //if (cp) cp.properties.set('iconCaption', name).set('hintContent', name);
                 var pq = parseQuery(name);
+                markCurrent(name);
                 var strres = search(streets, pq, function(o) {
                         if (o) return o.name
                     })
@@ -388,12 +391,12 @@
                         o = ds.data[ind].item;
                     if (dsind == 0) { //yandex addr
                         map.setCenter(o.coords)
-                        markCurrent(o.coords, o.name)
+                        markCurrent(o.name, o.coords)
                     } else if (dsind == 2) { //sector streets
                         o.sector.select(true)
                         API.resolveAddr(city, o.name, function(data) {
                             var d = data[0];
-                            if (d) markCurrent(d.coords, d.name)
+                            if (d) markCurrent(d.name, d.coords)
                         })
                     } else if (dsind == 1) { //region
                         o.select(true)

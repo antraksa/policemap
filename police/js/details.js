@@ -142,6 +142,11 @@ Core.on('ready', function() {
         $('body').removeClass('mobile-details-view')
     })
 
+    Core.on('map-click.resolved', function(args) {
+        //console.log('map-click.resolved', args)
+        $('.cur-address').html(Mustache.render(templates.curAddress, args))
+    })
+
     function dataHandler(data, handler) {
         return function(e) {
             console.log(this, $(this).index())

@@ -1,12 +1,13 @@
 <a class="back-to-map" id="back-to-map" title=" Назад на карту">
     <i class="icon-compass"></i>
-
 </a>
-<div class="raddr">Адрес <span>[вставить]</span> обслуживается</div>
+<script data-template="curAddress" type="text/template">
+    {{#addr}} Адрес <b>{{addr}}</b> обслуживается: {{/addr}}
+</script>
 <nav id="details-toggle" class="details-toggle">
     <a class="t-area tab-toggle">Руководство</a>
     <a class="t-region tab-toggle">Отдел (ОВД)</a>
-    <a class="t-sector tab-toggle" >Участковый</a>
+    <a class="t-sector tab-toggle">Участковый</a>
     <a id="btn-main-menu" class="selected btn-menu tab-toggle"> <i class="icon-th-list"></i> </a>
     <!-- <div class="details-tools tools">
         <button class="btn btn-edit"> <i class="icon-pencil"></i> </button>
@@ -29,60 +30,56 @@
             <li class="info-link" data-link="html/info/about.html">
                 <h2>О проекте </h2>
             </li>
-            <li  class="info-link" data-link="html/info/no-content.html">
+            <li class="info-link" data-link="html/info/no-content.html">
                 <h2>Как пользоваться картой</h2>
             </li>
-            <li  class="info-link" data-link="html/info/how-to-rate.html">
+            <li class="info-link" data-link="html/info/how-to-rate.html">
                 <h2>Как формируется рейтинг </h2>
             </li>
-            <li  class="info-link" data-link="html/info/no-content.html">
+            <li class="info-link" data-link="html/info/no-content.html">
                 <h2>Частые вопросы о полиции</h2>
             </li>
-            <li  class="info-link" data-link="html/info/no-content.html">
+            <li class="info-link" data-link="html/info/no-content.html">
                 <h2>Обратная связь</h2>
             </li>
-            <li  class="info-link" data-link="html/info/no-content.html">
+            <li class="info-link" data-link="html/info/no-content.html">
                 <h2>Поддержать прооект</h2>
             </li>
         </ul>
     </div>
 </div>
 <script data-template="region" type="text/template">
+    <div class="cur-address"></div>
     <div class="details-wrap">
-        <h1  class="name">
-			<q  class="area">{{region.area}}</q>
-			<!-- <u class="number">{{region.number}} </u>  -->
-			<u  class="number photo" style="background-image: url('{{photoLink}}')"> </u>
-			<a class="name-link editable">{{region.name}}</a>
-			<span  class="addr editable">{{region.addr}}</span>
+        <h1 class="name">
+            <q  class="area">{{region.area}}</q>
+            <!-- <u class="number">{{region.number}} </u>  -->
+            <u  class="number photo" style="background-image: url('{{photoLink}}')"> </u>
+            <a class="name-link editable">{{region.name}}</a>
+            <span  class="addr editable">{{region.addr}}</span>
       <span class="tel-name">Дежурная часть:</span>
       <div class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i> {{#region.tel}} <u>{{.}}</u> {{/region.tel}}</div>
-		</h1>
-        {{#rate}}
+        </h1> {{#rate}}
         <div id="details-rate-toggle" class="btn-ank star-rate">
-            <em class="lb">Рейтинг:  {{rate.fixed}}</em>
-            {{#starRate}}
-                {{^.}}<i class="icon-star_border srated{{rate.formatted}}"></i>{{/.}}
-                {{#.}}<i class="icon-star srated{{rate.formatted}}"></i>{{/.}}
-            {{/starRate}}
+            <em class="lb">Рейтинг:  {{rate.fixed}}</em> {{#starRate}} {{^.}}
+            <i class="icon-star_border srated{{rate.formatted}}"></i>{{/.}} {{#.}}
+            <i class="icon-star srated{{rate.formatted}}"></i>{{/.}} {{/starRate}}
         </div>
-        {{/rate}}
-        {{^rate}}
-            <div class="no-records">Рейтинг пока не опубликован</div>
+        {{/rate}} {{^rate}}
+        <div class="no-records">Рейтинг пока не опубликован</div>
         {{/rate}}
         <ul id="details-rate" class="rates">
             {{#getRates}}
-                <li class="overflow" title="{{category}}"><b class="ank-rate rated{{rate.formatted}}">{{rate.fixed}}</b>{{category}}</li>
+            <li class="overflow" title="{{category}}"><b class="ank-rate rated{{rate.formatted}}">{{rate.fixed}}</b>{{category}}</li>
+            {{/getRates}} {{^getRates}}
+            <li class="no-records"> Нет рейтинга </li>
             {{/getRates}}
-            {{^getRates}}
-                <li class="no-records"> Нет рейтинга </li>
-            {{/getRates}}
-                <li class="info"><a class="sub-item sub-active-item" href="#" title="Как формируется рейтинг?"><span class="s-title">Как формируется рейтинг?</span></a></li>
+            <li class="info"><a class="sub-item sub-active-item" href="#" title="Как формируется рейтинг?"><span class="s-title">Как формируется рейтинг?</span></a></li>
         </ul>
         {{#region}}
         <div class="contacts">
-          <div class="real-hot-line" title="Горячая линия о нарушениях"> <span class="hot-line"><i class="icon-phone"></i> {{hotLine}}</span> - горячая линия о нарушениях</div>
-          <a class="hot-line" title="Подать заявление через электронную приёмную" href="https://78.xn--b1aew.xn--p1ai/request_main" target="_blank">Отправить обращение</a><span class="real-hot-line"> (для составления обращения воспользуйтесь <a title="Составить обращение о нарушениях" href="#">Конструктором обращений</a>)</span>
+            <div class="real-hot-line" title="Горячая линия о нарушениях"> <span class="hot-line"><i class="icon-phone"></i> {{hotLine}}</span> - горячая линия о нарушениях</div>
+            <a class="hot-line" title="Подать заявление через электронную приёмную" href="https://78.xn--b1aew.xn--p1ai/request_main" target="_blank">Отправить обращение</a><span class="real-hot-line"> (для составления обращения воспользуйтесь <a title="Составить обращение о нарушениях" href="#">Конструктором обращений</a>)</span>
         </div>
         {{#personName}}
         <h6 class="sub-header">Начальник </h6>
@@ -90,8 +87,7 @@
             <h1 class="name"> {{personName}} </h1>
             <h2 class="rank"> {{personRank}} </h2>
             <div class="desc"><span class="prop-title">Принимает посетителей:</span> {{personTime}}</div>
-            <h3 class="tel"><span class="prop-title">Записаться на прием:</span> <i class="icon-phone"></i> {{personTel}}</h3>
-            {{#personTime}}
+            <h3 class="tel"><span class="prop-title">Записаться на прием:</span> <i class="icon-phone"></i> {{personTel}}</h3> {{#personTime}}
             <p class="tip"> Актуальное время приёма может отличаться от указанного, для записи уточняйте график по телефону</p>
             {{/personTime}}
         </div>
@@ -101,13 +97,12 @@
             {{#report}}
             <a class="sub-item sub-active-item" target="_blank" href="#">
                 <span class="s-title">Отчет руководителя</span>
-                <span  class="s-val">{{report}}</span>
+                <span class="s-val">{{report}}</span>
             </a>
-            {{/report}}
-            {{#comm}}
+            {{/report}} {{#comm}}
             <a class="sub-item sub-active-item" target="_blank" href="#">
                 <span class="s-title">Комментарии: </span>
-                <span  class="s-val">{{comm}}</span>
+                <span class="s-val">{{comm}}</span>
             </a>
             {{/comm}}
         </div>
@@ -127,7 +122,7 @@
             <h6 class="sub-header">Подробнее</h6>
             <ul>
                 {{#department}}{{#department}}
-                <li class="sub-item sub-active-item dep-regions" >
+                <li class="sub-item sub-active-item dep-regions">
                     <span class="s-title">Подчиняется {{name}}</span>
                     <span class="s-val">{{addr}}</span>
                 </li>
@@ -139,14 +134,12 @@
                     <div class="s-val tel"><i class="icon-phone"></i>{{prokTel}} (дежурный прокурор)</div>
                     <a class="s-val hot-line" title="Подать заявление в прокуратуру через электронную приёмную" href="{{prokPriemnaya}}" target="_blank">Обратиться в прокуратуру</a><span class="s-val"> (электронная приемная)</span>
                 </li>
-                {{/prokName}}
-                {{#bezop}}
+                {{/prokName}} {{#bezop}}
                 <li class="sub-item">
                     <span class="s-title">Собственная безопасность</span>
                     <span class="s-val">{{bezop}}</span>
                 </li>
-                {{/bezop}}
-                {{#sovet}}
+                {{/bezop}} {{#sovet}}
                 <li class="sub-item">
                     <span class="s-title">Общественный совет</span>
                     <span class="s-val">{{sovet}}</span>
@@ -159,14 +152,14 @@
                 <li class="sub-item">
                     <div class="s-title">Уполномоченный по правам человека</div>
                     <div class="s-val">Почтовый адрес: 190000, Санкт-Петербург, BOX 1137.</div>
-                    <div class="s-val">Приемная: Щербаков переулок,  д. 1-3 (набережная Реки Фонтанки, д. 60).</div>
+                    <div class="s-val">Приемная: Щербаков переулок, д. 1-3 (набережная Реки Фонтанки, д. 60).</div>
                     <div class="s-val tel"><i class="icon-phone"></i>(812) 374 99 39</div>
                     <div class="url">
                         <a href="http://ombudsmanspb.ru/" class="url s-val" target="_blank">http://ombudsmanspb.ru/</a> <b class="bull"></b>
                         <a href="mailto:mail@ombudsmanspb.ru" class="url s-val"> <i class="icon-email"></i> mail@ombudsmanspb.ru</a>
                     </div>
                     <div class="url">
-                      <a class="url s-val hot-line" title="Подать заявление Уполномоченному по правам человека" href="http://ombudsmanspb.ru/ru/request" target="_blank">Подать заявление</a><b class="bull"></b><a class="url s-val hot-line" title="Записаться на прием к Уполномоченному по правам человека" href="http://ombudsmanspb.ru/ru/appointment" target="_blank">Записаться на прием</a>
+                        <a class="url s-val hot-line" title="Подать заявление Уполномоченному по правам человека" href="http://ombudsmanspb.ru/ru/request" target="_blank">Подать заявление</a><b class="bull"></b><a class="url s-val hot-line" title="Записаться на прием к Уполномоченному по правам человека" href="http://ombudsmanspb.ru/ru/appointment" target="_blank">Записаться на прием</a>
                     </div>
                 </li>
                 <li class="sub-item">
@@ -179,7 +172,7 @@
                         <a href="mailto:spbdeti@mail.ru" class="url s-val"> <i class="icon-email"></i> spbdeti@mail.ru</a>
                     </div>
                     <div class="url">
-                      <a class="url s-val hot-line" title="Подать заявление Уполномоченному по правам ребенка" href="http://www.spbdeti.org/feedback" target="_blank">Подать заявление</a><b class="bull"></b><a class="url s-val hot-line" title="Записаться на прием к Уполномоченному по правам ребенка" href="http://www.spbdeti.org/recept" target="_blank">Записаться на прием</a>
+                        <a class="url s-val hot-line" title="Подать заявление Уполномоченному по правам ребенка" href="http://www.spbdeti.org/feedback" target="_blank">Подать заявление</a><b class="bull"></b><a class="url s-val hot-line" title="Записаться на прием к Уполномоченному по правам ребенка" href="http://www.spbdeti.org/recept" target="_blank">Записаться на прием</a>
                     </div>
                 </li>
                 {{/department}}{{/department}}
@@ -188,74 +181,60 @@
         {{/region}}
     </div>
 </script>
-
-
 <script data-template="department" type="text/template">
+    <div class="cur-address" id="cur-address"></div>
     <div class="details-wrap">
         {{#department}}
         <h1 class="name">
-			<u  class="number photo" style="background-image: url('{{photoLink}}')"> </u>
-			<a class="editable name-link">{{name}}</a>
-			<span  class="addr editable">{{addr}}</span>
+            <u  class="number photo" style="background-image: url('{{photoLink}}')"> </u>
+            <a class="editable name-link">{{name}}</a>
+            <span  class="addr editable">{{addr}}</span>
       <div class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i> {{#tel}} <u>{{.}}</u>{{/tel}}(дежурная часть)</div>
 
-		</h1>
-    <div class="contacts">
-      <div class="url">
-          <a href="{{url}}" class="url" target="_blank"> {{url}}</a> <b class="bull"></b>
-          <a href="mailto:{{email}}" class="url"> <i class="icon-email"></i> {{email}}</a>
-      </div>
-      <div class="real-hot-line" title="Горячая линия о нарушениях"> <span class="hot-line"><i class="icon-phone"></i> {{regions.0.region.hotLine}}</span> - горячая линия о нарушениях</div>
-      <a class="hot-line" title="Подать заявление через электронную приёмную" href="{{priemnaya}}" target="_blank">Отправить обращение</a><span class="real-hot-line"> (для составления обращения воспользуйтесь <a title="Составить обращение о нарушениях" href="#">Конструктором обращений</a>)</span>
-    </div>
-
+        </h1>
+        <div class="contacts">
+            <div class="url">
+                <a href="{{url}}" class="url" target="_blank"> {{url}}</a> <b class="bull"></b>
+                <a href="mailto:{{email}}" class="url"> <i class="icon-email"></i> {{email}}</a>
+            </div>
+            <div class="real-hot-line" title="Горячая линия о нарушениях"> <span class="hot-line"><i class="icon-phone"></i> {{regions.0.region.hotLine}}</span> - горячая линия о нарушениях</div>
+            <a class="hot-line" title="Подать заявление через электронную приёмную" href="{{priemnaya}}" target="_blank">Отправить обращение</a><span class="real-hot-line"> (для составления обращения воспользуйтесь <a title="Составить обращение о нарушениях" href="#">Конструктором обращений</a>)</span>
+        </div>
         {{#personName}}
         <h6 class="sub-header">Начальник </h6>
         <div class="sub-details">
             <h1 class="name"> {{personName}} </h1>
             <div class="rank"> {{personRank}} </div>
             <div class="tel"><span class="prop-title">Записаться на прием:</span> <i class="icon-phone"></i> {{personTel}}</div>
-            <span class="s-val prop-title">Отчеты руководителя за 2016 год </span>
             {{#rukReports}}
-            <a class="sub-item sub-active-item url" target="_blank" href="{{rukReports}}">{{rukReports}}</a>
-            {{/rukReports}}
-            {{^rukReports}}
-            <span class="s-val">отчеты не опубликованы</span>
-            {{/rukReports}}
-            <span class="s-val prop-title">Отчеты участковых за за 2016 год</span>
-            {{#uchReports}}
-            <a class="sub-item sub-active-item url" target="_blank" href="{{uchReports}}">{{uchReports}}</a>
-            {{/uchReports}}
-            {{^uchReports}}
-            <span class="s-val">отчеты не опубликованы</span>
-            {{/uchReports}}
-            {{#comm}}
+            <a class="sub-item sub-active-item url" target="_blank" href="{{rukReports}}"> Отчеты руководителя за 2016 год </a> {{/rukReports}} {{^rukReports}}
+            <div class="no-records  ">Отчеты руководителя не опубликованы</div>
+            {{/rukReports}} {{#uchReports}}
+            <a class="sub-item sub-active-item url" target="_blank" href="{{uchReports}}">Отчеты участковых за за 2016 год</a> {{/uchReports}} {{^uchReports}}
+            <div class="no-records">Отчеты участковых не опубликованы</div>
+            {{/uchReports}} {{#comm}}
             <a class="sub-item sub-active-item" target="_blank" href="#">
                 <span class="s-title">Комментарии: </span>
-                <span  class="s-val">{{comm}}</span>
+                <span class="s-val">{{comm}}</span>
             </a>
             {{/comm}}
         </div>
-        {{/personName}}
-        {{/department}}
-        {{#regions.length}}
+        {{/personName}} {{/department}} {{#regions.length}}
         <div class="sectors sub-list" id="dep-regions">
             <h6 class="sub-header">Подразделения</h6>
             <ul>
                 {{#regions}}
-                <li class="sub-item sub-active-item dep-regions" >
+                <li class="sub-item sub-active-item dep-regions">
                     <span class="s-title">{{region.name}}</span>
                     <span class="s-val">{{region.addr}}</span>
                 </li>
                 {{/regions}}
             </ul>
         </div>
-        {{/regions.length}}
-        {{#department}}
-          <div class="sub-list more" id="department-more">
+        {{/regions.length}} {{#department}}
+        <div class="sub-list more" id="department-more">
             <h6 class="sub-header">Подробнее</h6>
-
-              <ul>
+            <ul>
                 {{#prokName}}
                 <li class="sub-item">
                     <div class="s-title">Контакты прокуратуры</div>
@@ -264,14 +243,12 @@
                     <div class="s-val tel"><i class="icon-phone"></i>{{prokTel}} (дежурный прокурор)</div>
                     <a class="s-val hot-line" title="Подать заявление в прокуратуру через электронную приёмную" href="{{prokPriemnaya}}" target="_blank">Обратиться в прокуратуру</a><span class="s-val"> (электронная приемная)</span>
                 </li>
-                {{/prokName}}
-                {{#bezop}}
+                {{/prokName}} {{#bezop}}
                 <li class="sub-item">
                     <span class="s-title">Собственная безопасность</span>
                     <span class="s-val">{{bezop}}</span>
                 </li>
-                {{/bezop}}
-                {{#sovet}}
+                {{/bezop}} {{#sovet}}
                 <li class="sub-item">
                     <span class="s-title">Общественный совет</span>
                     <span class="s-val">{{sovet}}</span>
@@ -284,14 +261,14 @@
                 <li class="sub-item">
                     <div class="s-title">Уполномоченный по правам человека</div>
                     <div class="s-val">Почтовый адрес: 190000, Санкт-Петербург, BOX 1137.</div>
-                    <div class="s-val">Приемная: Щербаков переулок,  д. 1-3 (набережная Реки Фонтанки, д. 60).</div>
+                    <div class="s-val">Приемная: Щербаков переулок, д. 1-3 (набережная Реки Фонтанки, д. 60).</div>
                     <div class="s-val tel"><i class="icon-phone"></i>(812) 374 99 39</div>
                     <div class="url">
                         <a href="http://ombudsmanspb.ru/" class="url s-val" target="_blank">http://ombudsmanspb.ru/</a> <b class="bull"></b>
                         <a href="mailto:mail@ombudsmanspb.ru" class="url s-val"> <i class="icon-email"></i> mail@ombudsmanspb.ru</a>
                     </div>
                     <div class="url">
-                      <a class="url s-val hot-line" title="Подать заявление Уполномоченному по правам человека" href="http://ombudsmanspb.ru/ru/request" target="_blank">Подать заявление</a><b class="bull"></b><a class="url s-val hot-line" title="Записаться на прием к Уполномоченному по правам человека" href="http://ombudsmanspb.ru/ru/appointment" target="_blank">Записаться на прием</a>
+                        <a class="url s-val hot-line" title="Подать заявление Уполномоченному по правам человека" href="http://ombudsmanspb.ru/ru/request" target="_blank">Подать заявление</a><b class="bull"></b><a class="url s-val hot-line" title="Записаться на прием к Уполномоченному по правам человека" href="http://ombudsmanspb.ru/ru/appointment" target="_blank">Записаться на прием</a>
                     </div>
                 </li>
                 <li class="sub-item">
@@ -304,20 +281,21 @@
                         <a href="mailto:spbdeti@mail.ru" class="url s-val"> <i class="icon-email"></i> spbdeti@mail.ru</a>
                     </div>
                     <div class="url">
-                      <a class="url s-val hot-line" title="Подать заявление Уполномоченному по правам ребенка" href="http://www.spbdeti.org/feedback" target="_blank">Подать заявление</a><b class="bull"></b><a class="url s-val hot-line" title="Записаться на прием к Уполномоченному по правам ребенка" href="http://www.spbdeti.org/recept" target="_blank">Записаться на прием</a>
+                        <a class="url s-val hot-line" title="Подать заявление Уполномоченному по правам ребенка" href="http://www.spbdeti.org/feedback" target="_blank">Подать заявление</a><b class="bull"></b><a class="url s-val hot-line" title="Записаться на прием к Уполномоченному по правам ребенка" href="http://www.spbdeti.org/recept" target="_blank">Записаться на прием</a>
                     </div>
                 </li>
-              </ul>
-          </div>
+            </ul>
+        </div>
         {{/department}}
-
-
     </div>
 </script>
 <script data-template="sector" type="text/template">
+    <div class="cur-address" id="cur-address"></div>
     <div class="details-wrap">
         {{#sector}}
-        <div class="img-wrap"><div class="img" style="background-image: url('{{photo}}') "></div></div>
+        <div class="img-wrap">
+            <div class="img" style="background-image: url('//static.mvd.ru/upload/site79/document_district/{{photo}}') "></div>
+        </div>
         <h1 class="name capitalize-all">{{name}} </h1>
         <h2 class="rank"> {{rank}} </h2>
         <div class="addr">{{raddr}}</div>
@@ -326,34 +304,28 @@
             <div class="tel"> <i class="icon-phone"></i> {{tel}}</div>
         </div>
         <div class="clear"></div>
-        {{#region}}
-
-        {{#department}}
-        {{#department}}
+        {{#region}} {{#department}} {{#department}}
         <div class="contacts">
-          <a class="hot-line" title="Подать заявление через электронную приёмную" href="{{priemnaya}}" target="_blank">Отправить обращение</a><span class="real-hot-line"> (для составления обращения воспользуйтесь <a title="Составить обращение о нарушениях" href="#">Конструктором обращений</a>)</span>
+            <a class="hot-line" title="Подать заявление через электронную приёмную" href="{{priemnaya}}" target="_blank">Отправить обращение</a><span class="real-hot-line"> (для составления обращения воспользуйтесь <a title="Составить обращение о нарушениях" href="#">Конструктором обращений</a>)</span>
         </div>
-        {{/department}}
-        {{/department}}
+        {{/department}} {{/department}}
         <div class="sectors sub-list" id="dep-regions">
             <h6 class="sub-header">Участковый непосредственно подчиняется</h6>
             <ul>
-              {{#region}}
-                <li id="sector-reg-link" class="sub-item sub-active-item dep-regions" >
+                {{#region}}
+                <li id="sector-reg-link" class="sub-item sub-active-item dep-regions">
                     <span class="s-title">{{name}}</span>
                     <span class="s-val">{{addr}}</span>
                 </li>
-                {{/region}}
-
-                {{#department}}{{#department}}
-                <li id="sector-dep-link" class="sub-item sub-active-item dep-regions" >
+                {{/region}} {{#department}}{{#department}}
+                <li id="sector-dep-link" class="sub-item sub-active-item dep-regions">
                     <span class="s-title">{{name}}</span>
                     <span class="s-val">{{addr}}</span>
                 </li>
                 {{/department}}{{/department}}
             </ul>
         </div>
-      {{/region}}
+        {{/region}}
         <h6 class="sub-header">Участковый обслуживает адреса</h6>
         <ul class="streets ">
             {{#streets}}
@@ -370,8 +342,7 @@
         <div class="sectors more sub-list" id="sector-more">
             <h6 class="sub-header">Подробнее о работе и обязанностях участкового</h6>
             <ul>
-                {{#department}}{{#department}}
-                {{#prokName}}
+                {{#department}}{{#department}} {{#prokName}}
                 <li class="sub-item">
                     <div class="s-title">Контакты прокуратуры</div>
                     <div class="s-val">{{prokName}}</div>
@@ -379,14 +350,12 @@
                     <div class="s-val tel"><i class="icon-phone"></i>{{prokTel}} (дежурный прокурор)</div>
                     <a class="s-val hot-line" title="Подать заявление в прокуратуру через электронную приёмную" href="{{prokPriemnaya}}" target="_blank">Обратиться в прокуратуру</a><span class="s-val"> (электронная приемная)</span>
                 </li>
-                {{/prokName}}
-                {{#bezop}}
+                {{/prokName}} {{#bezop}}
                 <li class="sub-item">
                     <span class="s-title">Собственная безопасность</span>
                     <span class="s-val">{{bezop}}</span>
                 </li>
-                {{/bezop}}
-                {{#sovet}}
+                {{/bezop}} {{#sovet}}
                 <li class="sub-item">
                     <span class="s-title">Общественный совет</span>
                     <span class="s-val">{{sovet}}</span>
@@ -399,14 +368,14 @@
                 <li class="sub-item">
                     <div class="s-title">Уполномоченный по правам человека</div>
                     <div class="s-val">Почтовый адрес: 190000, Санкт-Петербург, BOX 1137.</div>
-                    <div class="s-val">Приемная: Щербаков переулок,  д. 1-3 (набережная Реки Фонтанки, д. 60).</div>
+                    <div class="s-val">Приемная: Щербаков переулок, д. 1-3 (набережная Реки Фонтанки, д. 60).</div>
                     <div class="s-val tel"><i class="icon-phone"></i>(812) 374 99 39</div>
                     <div class="url">
                         <a href="http://ombudsmanspb.ru/" class="url s-val" target="_blank">http://ombudsmanspb.ru/</a> <b class="bull"></b>
                         <a href="mailto:mail@ombudsmanspb.ru" class="url s-val"> <i class="icon-email"></i> mail@ombudsmanspb.ru</a>
                     </div>
                     <div class="url">
-                      <a class="url s-val hot-line" title="Подать заявление Уполномоченному по правам человека" href="http://ombudsmanspb.ru/ru/request" target="_blank">Подать заявление</a><b class="bull"></b><a class="url s-val hot-line" title="Записаться на прием к Уполномоченному по правам человека" href="http://ombudsmanspb.ru/ru/appointment" target="_blank">Записаться на прием</a>
+                        <a class="url s-val hot-line" title="Подать заявление Уполномоченному по правам человека" href="http://ombudsmanspb.ru/ru/request" target="_blank">Подать заявление</a><b class="bull"></b><a class="url s-val hot-line" title="Записаться на прием к Уполномоченному по правам человека" href="http://ombudsmanspb.ru/ru/appointment" target="_blank">Записаться на прием</a>
                     </div>
                 </li>
                 <li class="sub-item">
@@ -419,13 +388,12 @@
                         <a href="mailto:spbdeti@mail.ru" class="url s-val"> <i class="icon-email"></i> spbdeti@mail.ru</a>
                     </div>
                     <div class="url">
-                      <a class="url s-val hot-line" title="Подать заявление Уполномоченному по правам ребенка" href="http://www.spbdeti.org/feedback" target="_blank">Подать заявление</a><b class="bull"></b><a class="url s-val hot-line" title="Записаться на прием к Уполномоченному по правам ребенка" href="http://www.spbdeti.org/recept" target="_blank">Записаться на прием</a>
+                        <a class="url s-val hot-line" title="Подать заявление Уполномоченному по правам ребенка" href="http://www.spbdeti.org/feedback" target="_blank">Подать заявление</a><b class="bull"></b><a class="url s-val hot-line" title="Записаться на прием к Уполномоченному по правам ребенка" href="http://www.spbdeti.org/recept" target="_blank">Записаться на прием</a>
                     </div>
                 </li>
                 {{/department}} {{/department}}
             </ul>
         </div>
-        {{/region}}
-        {{/sector}}
+        {{/region}} {{/sector}}
     </div>
 </script>

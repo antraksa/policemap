@@ -87,7 +87,8 @@ $(function() {
                         })
                     }
                     reg.photo = getv(o[16]);
-                    reg.report = getv(o[17]);
+                    if (getv(o[17]).indexOf('http')>=0)
+                        reg.report =  getv(o[17]);
                     reg.comm = getv(o[18]);
                     reg.icon = getv(o[21]);
                     //console.log(reg);
@@ -241,7 +242,7 @@ $(function() {
                 //save('areas', areas)
                 //save('anfields', { fields: anfields })
                 //save('anvalues', anvalues)
-                save('departments', 'spb', departments)
+                //save('departments', 'spb', departments)
             })
     }
     $('#btn-resolve-dep').on('click', function() {
@@ -433,6 +434,42 @@ $(function() {
         }
         parse()
     }
+
+    function convertCheckedSectors() {
+        $.getJSON('../data/ment-spb-checked-all.json', function(data) {
+            data.forEach(function(s) {
+                var streets = []
+                if (s.check!='1') {
+                    if (s.check=='') {
+                        s.fail = true;
+                    } else {
+                        s.coords = s.ncoords;
+                        s.raddr = s.check;
+                    }
+                }
+                s.photo = s.photo.replace('//static.mvd.ru/upload/site79/document_district/', '')
+                console.log(s.photo)
+                delete s.check;
+                delete s.ncoords;
+                s.streets.forEach(function(s) {
+                    if (s.name) {
+                        var sn = {name : s.name, numbers : []}
+                        streets.push(sn);
+                        if (!s.numbers) return;
+                        s.numbers.forEach(function(n) {
+                            if (n) sn.numbers.push(n)
+                        })
+                    }
+                })
+                s.streets = streets;
+
+
+            })
+            //console.log(data)
+            API.save('sectors', 'spb', data)
+        })
+    }
+   // convertCheckedSectors();
 
     function download(name, data, nojson) {
         var pom = document.createElement('a');

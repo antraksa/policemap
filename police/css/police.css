@@ -87,7 +87,7 @@ input[type="text"]:focus {/* background: #fff; */}
 .pane.details.collapsed ~ .list-header{padding-right: 0;right: 0;}
 .pane.toolbar.collapsed ~ .list-header{left: 0;padding-left: 40px;}
 
-.map-tools {position: absolute;top:0;left: 0;padding: 4px;}
+.map-tools {position: absolute;top:0;/* left: 200px; */padding: 4px;right: 251px;}
 .map-tools .tool-btn {float: left;width: 30px;height: 30px;line-height: 30px;background: rgba(255, 255, 255, 0.66);border-radius: 2px;text-align: center;font-size: 16px;margin-right: 4px;box-shadow: 0 0 10px rgba(0, 0, 0, 0.38);}
 .map-tools a:hover { opacity: 0.8 }
 .map-tools .city-toggle {width: 100px;font-size: 12px;padding: 0 10px;}
@@ -202,10 +202,10 @@ input[type="text"]:focus {/* background: #fff; */}
 .sub-active-item:hover  {background: rgba(255, 255, 255, 0.16);}
 .s-title {color: rgba(255, 255, 255, 0.86);margin-bottom: 6px;font-size: 11px;margin-right: 10px;}
 .s-val {color: rgba(255, 255, 255, 0.49);font-size: 11px;}
-.details .img-wrap {width: 100px;height: 100px;line-height: 100px;text-align: center;float: left;margin-right: 10px;background: rgba(255, 255, 255, 0.19);}
-.details .img {width: 70px;height: 80px;display: inline-block;vertical-align: middle;background-repeat: no-repeat;background-size: cover;/* margin: -10px; */}
+.details .img-wrap {/* width: 80px; *//* height: 80px; */line-height: 100px;text-align: center;float: left;margin-right: 10px;/* background: rgba(255, 255, 255, 0.19); */background-position: center;}
+.details .img {width: 70px;height: 90px;background-repeat: no-repeat;background-size: auto 100%;/* margin: -10px; */background-position: center;}
 .details .pane-cont { padding: 0 }
-.details-wrap {padding: 15px;}
+.details-wrap {padding: 10px;}
 .details .number {float: left;width: 100px;height: 100px;background: rgba(255, 255, 255, 0.19);margin-right: 10px;text-align: center;line-height: 50px;font-size: 18px;font-weight: bold;/* color: rgba(255, 255, 255, 0.58); */position: relative;}
 .details .number .lb {position: absolute;top: 0;left: 0;right: 0;height: 16px;line-height: 16px;font-size: 7px;text-transform: uppercase;text-align: center;}
 .details .photo, .photo-large {background-repeat: no-repeat;background-size: cover;cursor: pointer;background-position: center;}
@@ -237,7 +237,7 @@ input[type="text"]:focus {/* background: #fff; */}
 .details .sub-panel.shown { display: block; }
 .dash-toggle a + .btns { display: none }
 .details .tip {font-size: 10px;color: rgba(255, 255, 255, 0.46);margin-top: 4px;/* font-style: italic; */}
-.info-list {padding: 20px 0;}
+.info-list {padding: 0;}
 .details .info-link {color: rgba(255, 255, 255, 0.85);/* padding: 0 10px; */border-bottom: 1px solid rgba(255, 255, 255, 0.28);line-height: 30px;padding: 5px 15px;}
 .details .info-link:first-of-type {/* border-top: 1px solid rgba(255, 255, 255, 0.28) */}
 .details .info-link p {font-size: 11px;line-height: 16px;padding: 10px;padding-top: 0;color: rgba(255, 255, 255, 0.7);}
@@ -265,7 +265,8 @@ input[type="text"]:focus {/* background: #fff; */}
     /* overflow: hidden; */
 }
 .main-list ul{height : calc(100% - 38px);overflow-y: auto;}
-.main-list .item, .main-list .head-item {overflow:hidden;padding: 0 15px;color: rgba(255, 255, 255, 0.76);font-size: 11px;border-bottom: 1px solid rgba(255, 255, 255, 0.2);cursor: pointer;/* background: rgba(255, 255, 255, 0.06); */padding-right: 15px;line-height: 30px;}
+.main-list .item, .main-list .head-item {overflow:hidden;color: rgba(255, 255, 255, 0.76);font-size: 11px;border-bottom: 1px solid rgba(255, 255, 255, 0.2);cursor: pointer;/* background: rgba(255, 255, 255, 0.06); *//* padding-right: 15px; */line-height: 30px;}
+.main-list .head-item { padding: 0 10px }
 .main-list .item:hover, .main-list .head-item:hover {background: rgba(255, 255, 255, 0.1);}
 .main-list .item {padding-left: 30px;color: rgba(255, 255, 255, 0.5);background: none;position: relative;transition: background ease-out 0.5s;}
 .main-list .single-item {padding-left: 0;}
@@ -381,8 +382,9 @@ input[type="text"]:focus {/* background: #fff; */}
 .comment .date {float: right;color: rgba(255, 255, 255, 0.35);font-size: 11px;font-weight: normal;}
 .comment.expanded .body{max-height: 200px; transition: max-height 0.5s ease-out, overflow-y 1s ease-out 1s;}
 
-.comments-popup {position: fixed;bottom: 0;right: 400px;width: 400px;background: rgb(0, 107, 97);z-index: 1;}
-.comments-popup .toggle {padding: 0 19px;line-height: 30px;display: block;color: #fff;}
+.comments-popup {position: fixed;bottom: 0;right: 400px;background: rgb(54, 78, 103);z-index: 1;margin: 4px;width: 160px;}
+.comments-popup.expanded { width: 400px; }
+.comments-popup .toggle {padding: 0 10px;line-height: 30px;display: block;color: #ffa878;font-size: 12px;}
 .comments-popup .list {visibility: hidden;max-height: 0;transition: max-height ease-out 0.5s;overflow: hidden;overflow-y: auto;/* background: rgba(255, 255, 255, 0.46); */color: #000;font-size: 12px;}
 .comments-popup.expanded .list {max-height: 600px;visibility: visible;/* height: calc(100% - 20px); */}
 .comments-popup .comment {transition: background ease-out 0.5s;cursor: pointer;background: rgba(255, 255, 255, 0.2);}
@@ -402,5 +404,14 @@ input[type="text"]:focus {/* background: #fff; */}
 .comment-form textarea:focus, .comment-form input:focus { background: #fff ;}
 .btn.btn-primary {background: #ff7945;color: #fff;}
 
+.cur-address {/* background: rgba(255, 255, 255, 0.22); */line-height: 24px;font-size: 11px;padding: 0 10px;/* background: #d7dce1; */color: rgba(255, 255, 255, 0.7);}
+.cur-address b {color: #fff;font-weight: normal;}
 .user-layout .comment .btns { display: none !important }
-rtant }
+.y-icon {width: 30px; height: 30px; text-align: center; border-radius: 20px; background-color: #fff; text-align: center; background-size: 16px; background-repeat: no-repeat; background-position: center; border: 1px solid #00f; opacity: 0.4; }
+.y-icon-department {width: 40px;height: 40px;background-size: 25px;}
+.y-icon-sector {width: 24px;height: 24px;background-size: 23px;}
+.y-icon.marked { opacity: 1 }
+.y-icon b {position: absolute;font-size: 9px;left: 0;padding: 4px 5px;font-weight: normal;color: #2020ff;width: 10px;text-align: center;}
+
+.logo {position: absolute;height: 70px;width: 200px;background: url('img/logo.png') no-repeat left;z-index: 1;background-size: auto 90%;background-color: rgba(255, 255, 255, 0.3);}
+.logo h1 {margin-left: 80px;font-size: 25px;font-family: Tahoma;font-weight: bold;line-height: 32px;color: #8e9caa;cursor: default;}

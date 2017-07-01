@@ -1,7 +1,7 @@
 'use strict'
 var ObjectWrapper = (function() {
     var isAdmin = (location.href.indexOf('admin') > 0);
-    var anfields, anvalues, map, markpoints = [],
+    var anfields, anvalues, map, markpoints = [], templates,
         regions, departments, meta;
     Core.on('init', function(args) {
         anfields = args.anfields;
@@ -12,12 +12,12 @@ var ObjectWrapper = (function() {
         regions = args.regions;
         departments = args.departments;
         meta = args.meta;
+        templates = args.templates;
         //console.warn('map-init',args)
     })
 
     function pregion(r) {
         this.region = r;
-
     }
 
     function getRate(rate) {
@@ -25,7 +25,6 @@ var ObjectWrapper = (function() {
     }
 
     function calcRate(vals) {
-
         if (vals && vals.length > 0) {
             var notFull = false;
             var count = {},
@@ -48,7 +47,7 @@ var ObjectWrapper = (function() {
                 totalCount += count[cat];
                 total += all[cat];
             }
-            return { totalRate: getRate(totalCount / total), rates: rates, notFull : notFull };
+            return { totalRate: getRate(totalCount / total), rates: rates, notFull: notFull };
         }
     }
 
@@ -71,22 +70,42 @@ var ObjectWrapper = (function() {
         return geoCenter;
     }
     var rselected, dselected, sselected, hovered = {};
-    var defOpacity = 0.2;
-
-    function markPointOpacity(type, go) {
-        if (go && go.place)
-            go.place.options.set('iconOpacity', 1);
+    
+    function markPointOpacity(type, obj) {
+        //console.log('markPointOpacity', type, obj)
+        if (obj && obj.place)
+             $('#point-icon-' + obj.number()).addClass('marked')
         var old = hovered[type];
-        if (old && old.place && old.place!=go.place)
-            old.place.options.set('iconOpacity', defOpacity);
-        hovered[type] = go;
-       // console.log('markPointOpacity', type, go)
+        if (old && old.place && old.place != obj.place)
+            $('#point-icon-' + old.number()).removeClass('marked')
+        hovered[type] = obj;
     }
 
     function clearSelections() {
         if (dselected) dselected.markSelected(false)
         if (rselected) rselected.markSelected(false)
         if (sselected) sselected.markSelected(false)
+    }
+
+    var regIconTemplate = '';
+    function constructPlace(obj, type, coords, content) {
+        var icon = obj.icon;
+        if (!icon) icon = 'sheriff.png'; 
+        var iconUrl = 'css/img/icons/' + icon;
+        if (isAdmin) iconUrl = '../' + iconUrl; 
+        var regIcon = Mustache.render(templates.mapPoint, {icon : iconUrl, num : obj.number, type : type})
+        var regLayout = ymaps.templateLayoutFactory.createClass(regIcon);
+        var place = new ymaps.Placemark(coords, {
+            balloonContentHeader: obj.name,
+            balloonContentBody: obj.addr,
+            balloonContentFooter: obj.tel,
+            hintContent: obj.name,
+            iconContent: content, //если есть "Кол-во задержанных", то выводить их
+            overlayFactory: 'default#interactiveGraphics'
+        }, {
+            iconLayout: regLayout, hideIconOnBalloonOpen: false,
+        });
+        return place;
     }
     Core.on('map.click', function() { clearSelections() })
     pregion.prototype = {
@@ -118,18 +137,7 @@ var ObjectWrapper = (function() {
                     map.geoObjects.remove(r.place);
                     markpoints.slice(markpoints.indexOf(r.place), 1)
                 }
-                var place = new ymaps.Placemark(reg.point.coords, {
-                    balloonContentHeader: reg.name,
-                    balloonContentBody: reg.addr,
-                    balloonContentFooter: reg.tel,
-                    hintContent: reg.name,
-                    iconContent: reg.number,
-                    overlayFactory: 'default#interactiveGraphics'
-                }, { //preset: 'islands#circleIcon',
-                    preset: 'islands#circleIcon',
-                    iconColor: '#00f',
-                    iconOpacity: defOpacity
-                });
+                var place = constructPlace(reg, 'region', reg.point.coords, reg.number);
                 r.place = place;
                 map.geoObjects.add(place);
                 markpoints.push(place)
@@ -147,13 +155,13 @@ var ObjectWrapper = (function() {
             if (published)
                 r.anketaPublished = published[num]
             var res = calcRate(anvalues[num]);
-            if (res ) {
+            if (res) {
                 if (!isAdmin && !r.anketaPublished) return;
                 r.rate = res.totalRate;
                 r.rates = res.rates;
                 r.color = getRateColor(r)
                 r.starRate = []
-                for (var i=0; i < 5; i++) {
+                for (var i = 0; i < 5; i++) {
                     r.starRate.push(i < r.rate.formatted);
                 }
                 r.notFullRate = res.notFull;
@@ -172,10 +180,10 @@ var ObjectWrapper = (function() {
                     if (map && r.pol) {
                         map.setCenter(getCenter(r.pol))
                     }
-                    rselected = r.markSelected(true);
                 } else {
                     r.markPointOpacity(true)
                 }
+                rselected = r.markSelected(true);
             } else {
                 if (this.region.point && this.region.point.coords && focus)
                     map.markPoint({ coords: this.region.point.coords, preset: 'pmlbm' })
@@ -235,18 +243,7 @@ var ObjectWrapper = (function() {
             var dep = this.department;
             if (d.place) map.geoObjects.remove(d.place);
             if (!dep.coords) return;
-            var place = new ymaps.Placemark(dep.coords, {
-                balloonContentHeader: dep.name,
-                balloonContentBody: dep.addr,
-                balloonContentFooter: dep.tel,
-                hintContent: dep.name,
-                iconContent: dep.name,
-                overlayFactory: 'default#interactiveGraphics'
-            }, { //preset: 'islands#circleIcon',
-                preset: 'islands#governmentCircleIcon',
-                iconColor: '#00f',
-                iconOpacity: defOpacity
-            });
+            var place = constructPlace(dep, 'department', dep.coords);
             d.place = place;
             map.geoObjects.add(place);
             place.events.add('click', function() { d.select(); })
@@ -295,7 +292,8 @@ var ObjectWrapper = (function() {
         },
     }
 
-    function psector(s) { this.sector = s;
+    function psector(s) {
+        this.sector = s;
         this.name = s.name.capitalizeAll()
     }
     psector.prototype = {
@@ -305,13 +303,7 @@ var ObjectWrapper = (function() {
             var s = this.sector;
             if (s.place) map.geoObjects.remove(s.place);
             if (!s.coords) return
-            var place = new ymaps.Placemark(s.coords, {
-                balloonContentHeader: that.name,
-                balloonContentBody: s.raddr,
-                balloonContentFooter: s.tel,
-                hintContent: that.name,
-                iconContent: 'У'
-            }, { preset: 'islands#circleIcon', iconColor: 'black' });
+            var place = constructPlace(s, 'sector', s.coords);
             this.place = place;
             place.events.add('click', function() { that.select(true) })
             map.geoObjects.add(place);
@@ -339,10 +331,8 @@ var ObjectWrapper = (function() {
             if (this.place) this.place.options.set('visible', val)
         },
         markSelected: function(val) {
-            console.log('markSelected', this.place, val)
             if (window.ymaps) {
                 if (this.place) {
-
                     if (!val) this.place.balloon.close();
                     this.place.options.set('visible', val)
                 }
