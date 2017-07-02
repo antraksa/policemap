@@ -413,5 +413,5 @@ input[type="text"]:focus {/* background: #fff; */}
 .y-icon.marked { opacity: 1 }
 .y-icon b {position: absolute;font-size: 9px;left: 0;padding: 4px 5px;font-weight: normal;color: #2020ff;width: 10px;text-align: center;}
 
-.logo {position: absolute;height: 70px;width: 200px;background: url('img/logo.png') no-repeat left;z-index: 1;background-size: auto 90%;background-color: rgba(255, 255, 255, 0.3);}
+.logo {position: absolute;height: 70px;width: 210px;background: url('img/logo.png') no-repeat left;z-index: 1;background-size: auto 90%;background-color: rgba(255, 255, 255, 0.3);}
 .logo h1 {margin-left: 80px;font-size: 25px;font-family: Tahoma;font-weight: bold;line-height: 32px;color: #8e9caa;cursor: default;}
