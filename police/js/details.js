@@ -1,11 +1,11 @@
-Core.on('ready', function() {
-    var regions, sectors, templates, map, areas;
-    Core.on('init', function(args) {
-        templates = args.templates;
+'use strict';
+Core.on('init', function(initArgs) {
+    var regions, sectors, map, areas;
+    var templates = initArgs.templates;
+    Core.on('load', function(args) {
         areas = args.areas;
         sectors = args.sectors;
         map = args.map;
-        console.log('init', args)
     })
     var $details = $('#details'),
         $ddetails = $('#department-details'),
@@ -33,12 +33,15 @@ Core.on('ready', function() {
                 var r = department.regions[$(this).index()]
                 r.select(true)
             })
+        if (!department) return;
+        if (department.department.photo) initFoto($ddetails)
         console.log('select department', department)
     }
     Core.on('details.clear', function(args) {
         renderRegion();
         renderSector();
         renderDepartment();
+        $dtoggle.eq(3).trigger('click')
     })
 
     Core.on('region.select', function(args) {
@@ -55,19 +58,22 @@ Core.on('ready', function() {
     })
 
     function renderRegion(region) {
-        var rdata = region.region;
         $rdetails.html(Mustache.render(templates.region, region))
+        curRegion = region;
+        if (!region) return;
+        console.log('select region', region)
+        var rdata = region.region;
         $rdetails.find('.btn-edit').on('click', function() {
             edit(region, true)
         })
 
-        $rdetails.find('.btn-save').on('click', function() {
-            edit(region, false)
-            Core.trigger('mess', { mess: 'Отделение сохранено' })
-        })
-        $rdetails.find('.btn-cancel').on('click', function() {
-            edit(region, false)
-        })
+        // $rdetails.find('.btn-save').on('click', function() {
+        //     edit(region, false)
+        //     Core.trigger('mess', { mess: 'Отделение сохранено' })
+        // })
+        // $rdetails.find('.btn-cancel').on('click', function() {
+        //     edit(region, false)
+        // })
         $rdetails.find('.btn-ank').on('click', function() {
             Core.trigger('region-anketa.select', { region: region })
         })
@@ -80,12 +86,15 @@ Core.on('ready', function() {
         $('#region-more, #department-more, #sector-more').on('click', function() {
             $(this).toggleClass('expanded')
             $('.pane.details').animate({
-                    scrollTop: $(this).offset().top + 1000
-                }, 500);
+                scrollTop: $(this).offset().top + 1000
+            }, 500);
         })
-        Core.trigger('details.rendered', {region : region,  $rdetails :  $rdetails })
-        console.log('select region', region)
-        $('.photo').on('click', function() {
+        Core.trigger('details.rendered', { region: region, $rdetails: $rdetails })
+        if (rdata.photo) initFoto($rdetails)
+    }
+
+    function initFoto($cont) {
+        $cont.find('.photo').on('click', function() {
             $('#photo-large').addClass('expanded').find('#photo-large-img').css('background-image', $(this).css('background-image'))
         })
     }
@@ -100,6 +109,7 @@ Core.on('ready', function() {
 
     function renderSector(sector, focus) {
         $sdetails.html(Mustache.render(templates.sector, sector))
+        if (!sector) return;
         if (focus)
             $dtoggle.eq(2).trigger('click')
         console.log('select sector', sector)
@@ -109,7 +119,7 @@ Core.on('ready', function() {
         })
         $('#sector-dep-link').on('click', function() {
             console.log(sector.departments)
-            if (sector.region && sector.region.department )
+            if (sector.region && sector.region.department)
                 sector.region.department.select(true)
         })
     }
@@ -136,7 +146,7 @@ Core.on('ready', function() {
     //     $(this).toggleClass('selected');
     //     $('#main-nav').toggleClass('expanded');
     // })
-    $('#btn-main-menu').popup({popup : $('#main-nav')})
+    //$('#btn-main-menu').popup({ popup: $('#main-nav') })
 
     $('#back-to-map').on('click', function() {
         $('body').removeClass('mobile-details-view')

@@ -83,7 +83,7 @@
         var $lis = $(this),
             $dragged, dtimeout, prevInd;
         $lis.on('mousedown', function(e) {
-            e.preventDefault()
+           // e.preventDefault()
             var $this = $(this);
             clearTimeout(dtimeout);
             dtimeout = setTimeout(function() {
@@ -103,7 +103,7 @@
         }).on('dragstart', function(e) {
             e.preventDefault()
         }).on('selectstart', function(e) {
-            e.preventDefault()
+            //e.preventDefault()
         })
         $cont.on('mouseleave', function() {
             stopDrag()

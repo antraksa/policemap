@@ -10,7 +10,7 @@ var API = (function() {
         regions : function(city) { return $.getJSON(pref + "data/resolved/{0}/regions.json?".format(city) + rand()) },
         areas : function(city) { return $.getJSON(pref + "data/resolved/{0}/areas.json?".format(city) + rand()) },
         sectors : function(city) { return $.getJSON(pref + "data/resolved/{0}/sectors.json?".format(city) + rand()) },
-        anfields : function(city) { return $.getJSON(pref + "data/resolved/{0}/anfields.json?".format(city) + rand()) },
+        anfields : function(city) { return $.getJSON(pref + "data/resolved/anfields.json?".format(city) + rand()) },
         anvalues : function(city) { return $.getJSON(pref + "data/resolved/{0}/anvalues.json?".format(city) + rand()) },
         meta : function(city) { return $.getJSON(pref + "data/resolved/{0}/meta.json?".format(city) + rand()) }
     }
@@ -28,7 +28,7 @@ var API = (function() {
     return {
         requests : requests,
     	all : function(city, success) {
-            getAll(city).done(function(deps, regions, areas, sectors, anfields, anvalues, types, meta) {
+            return getAll(city).done(function(deps, regions, areas, sectors, anfields, anvalues, types, meta) {
     			 success({
                     regions: regions[0],
                     sectors: sectors[0],
@@ -41,7 +41,8 @@ var API = (function() {
     		})
     	},
         getAndWrapAll: function(city, success) {
-            getAll(city).done(function(deps, regions, areas, sectors, anfields, anvalues, meta) {
+            var req = getAll(city);
+            req.done(function(deps, regions, areas, sectors, anfields, anvalues, meta) {
                 var oregions = regions[0], osectors = sectors[0],oareas = areas[0];
                 var anvals = anvalues[0];
                 regions[0].sort(function(a, b) {
@@ -49,7 +50,8 @@ var API = (function() {
                 var _regs = {}, persons = {}
                 var regions = regions[0].map(function(r, i) {
                     var reg = ObjectWrapper.wrapRegion(r);
-                    reg.photoLink = pref + 'css/img/photos/' + r.photo;
+                    if (r.photo)
+                        reg.photoLink = pref + 'data/photo/{0}/{1}'.format(city, r.photo);
                     reg.ind = i;
                     if (r.personName) {
                         persons[r.personName.toLowerCase()] = { location : reg, locationName : r.name };
@@ -61,7 +63,8 @@ var API = (function() {
                 //deps[0].sort(function(a, b) { return a.number - b.number })
                 var deps = deps[0].map(function(d, i) {
                     var dep = ObjectWrapper.wrapDepartment(d);
-                    dep.photoLink = pref + 'css/img/photos/' + d.photo;
+                    if (d.photo)
+                        dep.photoLink = pref + 'data/photo/{0}/{1}'.format(city, d.photo);
                     dep.regions = d.regions.map(function(rnum) {
                         return _regs[rnum] }).filter(function(o) {
                         return !!o })
@@ -122,7 +125,24 @@ var API = (function() {
                     osectors : osectors,
                     meta : meta[0]
                 })
+            }).fail(function() {
+                 success({
+                    regions: [],
+                    sectors: [],
+                    departments: [],
+                    regionsDict: {},
+                    areas: [],
+                    anfields: [],
+                    anvalues: [],
+                    streets: [],
+                    persons : [],
+                    oregions : [],
+                    oareas : [],
+                    osectors : [],
+                    meta : {}
+                })
             })
+            return req;
         },
         save: function(key,city, data, success, fail) {
             $.post("php/put.php", { key: key, city : city, data: JSON.stringify(data) }, function(res) {

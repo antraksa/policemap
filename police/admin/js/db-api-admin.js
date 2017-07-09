@@ -7,9 +7,9 @@ DBApi.acceptComment = function(commentId, accepted, success) {
     return DBApi.docall({ method: 'PATCH', data: patch, url: 'police-comments/' + commentId }, success)
 }
 
-DBApi.getCommentsByTargetId = function(targetId, success) {
-    var q = '{"target" : "{0}"}';
-    return DBApi.docall({ url: 'police-comments?q=' + q.format(targetId) }, success)
+DBApi.getCommentsByTargetId = function(targetId, city, success) {
+    var q = '{"target" : "{0}", "city" : "{1}"}';
+    return DBApi.docall({ url: 'police-comments?q=' + q.format(targetId, city) }, success)
 }
 
 DBApi.deleteComment = function(comment) {

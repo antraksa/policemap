@@ -51,9 +51,9 @@ var DBApi = (function() {
         })
     }
 
-    function getCommentsByTargetId(targetId, success) {
-        var q = '{"target" : "{0}", "accepted" : true}';
-        return docall({ url: 'police-comments?q=' + q.format(targetId) }, success)
+    function getCommentsByTargetId(targetId, city, success) {
+        var q = '{"target" : "{0}", "accepted" : true, "city" : "{1}"}';
+        return docall({ url: 'police-comments?q=' + q.format(targetId, city) }, success)
     }
 
     function postComment(comment, success) {

@@ -23,7 +23,7 @@ $(function() {
             render(types[$(this).attr('data-type')]);
             $(this).addClass('selected').siblings().removeClass('selected')
             if (!args)
-                State.pushState({ type: type.name })
+                State.addState({ type: type.name })
             else {
                 if (state && Number(state.rowId) >= 0) {
                     var $item = $veditor.find('[data-item-ind="{0}"]'.format(state.rowId));

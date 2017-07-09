@@ -210,7 +210,7 @@ input[type="text"]:focus {/* background: #fff; */}
 .details .number .lb {position: absolute;top: 0;left: 0;right: 0;height: 16px;line-height: 16px;font-size: 7px;text-transform: uppercase;text-align: center;}
 .details .photo, .photo-large {background-repeat: no-repeat;background-size: cover;cursor: pointer;background-position: center;}
 .photo-large, .info-holder {visibility: hidden;opacity: 0;background-color: #fff;position: fixed;position: relative;}
-.photo-large {background-color: #1d3854;}
+.photo-large {background-color: rgba(29, 56, 84, 0.63);}
 .photo-large.expanded , .info-holder.expanded {position: fixed;top: 0;left: 0;right: 0;bottom: 0;z-index: 10;transition: opacity 0.3s ease-out;/* background-color: #1d3854; */opacity: 1;visibility: visible;}
 .photo-large .icon-close, .info-holder .icon-close{cursor: pointer;position: absolute;top: 0;font-size: 30px;width: 50px;height: 50px;z-index: 1;/* background: rgba(255, 255, 255, 0.54); */text-align: center;line-height: 40px;color: #fff;right: 0;padding: 20px;}
 .photo-large > div {position: absolute;top: 50px;left: 50px;right: 50px;bottom: 50px;background-repeat: no-repeat;background-size: contain;background-position: center;}
@@ -292,7 +292,7 @@ input[type="text"]:focus {/* background: #fff; */}
 
 .map, .anketa {position: absolute;top: 0;right: 0;left: 0;bottom: 0;/* position: relative; */background-repeat: no-repeat;background-size: cover;background-position: center;}
 .anketa {/* padding: 20px; *//* position: relative; */box-sizing: border-box;/* overflow-y: auto; */z-index: 1;background: rgba(255, 255, 255, 0.95);}
-.anketa .item{line-height: 30px;font-size: 12px;overflow:hidden;margin-bottom: 4px;}
+.anketa .item{line-height: 30px;font-size: 12px;overflow:hidden;margin-bottom: 4px;-webkit-user-select: none;user-select: none;}
 .anketa .item b {width: 30px;height: 30px;float: left;text-align: center;margin-right: 10px;cursor: pointer;box-sizing: border-box;border: 1px solid #ddd;}
 .anketa .item.dragged { border:1px dashed #b7250c; padding: 2px; opacity: 0.6 }
 .drag-mode *{ cursor: move !important  }
@@ -311,7 +311,7 @@ input[type="text"]:focus {/* background: #fff; */}
 .ank-rate {display: inline-block;width: 24px;height: 24px;font-size: 10px;border-radius: 20px;line-height: 24px;text-align: center;font-weight: normal;}
 
 .anketa .title{display: block;margin-left: 0;margin-right: 20px;font-size: 12px;cursor: default;}
-.anketa.edit-mode .title, .anketa.edit-mode .weight, .anketa.edit-mode .new-template .cat{background: #f2f2f3;border-radius: 0;/* color: #333; */height: 30px;}
+.anketa.edit-mode .title, .anketa.edit-mode .weight, .anketa.edit-mode .new-template .cat{background: #f2f2f3;border-radius: 0;/* color: #333; */height: 30px;/* user-select: none; */}
 .anketa.edit-mode .editable:focus, .anketa .weight:focus , .anketa.edit-mode input[type="text"]:focus  {background: rgba(234, 115, 48, 0.21) !important; color: #000}
 .anketa.edit-mode .title { padding: 0 10px }
 .anketa.edit-mode .weight { width: 30px; margin-top:0; line-height: 30px; opacity: 1 }
@@ -413,5 +413,5 @@ input[type="text"]:focus {/* background: #fff; */}
 .y-icon.marked { opacity: 1 }
 .y-icon b {position: absolute;font-size: 9px;left: 0;padding: 4px 5px;font-weight: normal;color: #2020ff;width: 10px;text-align: center;}
 
-.logo {position: absolute;height: 70px;width: 210px;background: url('img/logo.png') no-repeat left;z-index: 1;background-size: auto 90%;background-color: rgba(255, 255, 255, 0.3);}
+.logo {position: absolute;height: 70px;width: 210px;background: url('img/logo.png') no-repeat left;z-index: 1;background-size: auto 90%;background-color: rgba(255, 255, 255, 0.85);}
 .logo h1 {margin-left: 80px;font-size: 25px;font-family: Tahoma;font-weight: bold;line-height: 32px;color: #8e9caa;cursor: default;}
