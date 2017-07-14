@@ -22,7 +22,7 @@ var API = (function() {
             requests.sectors(city),
             requests.anfields(city),
             requests.anvalues(city),
-            requests.meta(city),
+            requests.meta(city)
         )
     }
     return {
