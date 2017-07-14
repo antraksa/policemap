@@ -10,7 +10,7 @@
             { name: 'Москва', coords: [55.725045, 37.646961], code: 'msc' },
             { name: 'Воронеж', coords: [51.694273, 39.335955], code: 'vo' },
         ];
-        var map, city = cities[0];
+        var map, city;
         var regions, sectors, areas, persons, templates = Common.getTemplates(),
             initArgs, streets, departments, regionsDict;
         var state = State.getState()
@@ -31,64 +31,85 @@
             var m = layer.map();
             if (m) m.forEach(function(o) { o.show(layer.checked) })
         })
-        var $cities = $('#city-popup').html(Mustache.render(templates.cities, cities)).find('li').on('click', function() {
-            var c = cities[$(this).index()]
-            $('#btn-city-toggle').html(c.name)
-            city = c;
-            if (window.ymaps) {
-                map.setCenter(c.coords)
-            } else {
-                renderStaticHome(c.coords)
+        loading(true)
+
+        Core.trigger('init', { templates: templates, cities : cities, location : location })
+
+        function load() {
+            $('#btn-city-toggle').html(city.name)
+                //console.log(city.coords)
+            map.setCenter(city.coords)
+            if (!window.ymaps) {
+                renderStaticHome(city.coords)
             }
+            API.getAndWrapAll(city.code, function(args) {
+                args.city = city;
+                sectors = args.sectors;
+                areas = args.areas;
+                regions = args.regions;
+                streets = args.streets;
+                departments = args.departments;
+                regionsDict = args.regionsDict;
+                persons = args.persons;
+                initArgs = args;
+                initArgs.map = map;
+                Core.trigger('load', args)
+                renderMainList();
+                loadMap()
+            }).fail(function() {
+                console.log()
+            })
+        }
+        var $cities = $('#city-popup').html(Mustache.render(templates.cities, cities)).find('li').on('click', function() {
+            changeCity($(this).index())  
         })
+        function changeCity(index, nostate) {
+            if (city == cities[index]) return;
+            city = cities[index];
+            if (!nostate)
+                State.addState({ city : index })
+            load();
+        }
         $('#btn-city-toggle').popup({ hideOnClick: true })
         var $dashPanels = $('.dash-panel');
         var $dashToggles = $('.dash-toggle a').on('click', function() {
             $(this).addClass('selected').siblings().removeClass('selected');
             $dashPanels.eq($dashToggles.index(this)).addClass('shown').siblings().removeClass('shown')
         })
-        loading(true)
-        API.getAndWrapAll(city.code, function(args) {
-            args.templates = templates;
-            args.getCurrentCity = function() {
-                return city
-            }
-            Core.trigger('init', args)
-            sectors = args.sectors;
-            areas = args.areas;
-            regions = args.regions;
-            streets = args.streets;
-            departments = args.departments;
-            regionsDict = args.regionsDict;
-            persons = args.persons;
-            initArgs = args;
+
+        function loadMap() {
+            Core.trigger('details.clear', {})
             if (window.ymaps) {
-                ymaps.ready(createMap);
+                map.geoObjects.removeAll()
+                addObjects('areas');
+                addObjects('regions');
+                addObjects('sectors');
+                addObjects('departments');
+                validateLayers()
+            } else {
+
+            }
+            loading(false);
+            Core.trigger('map-ready', initArgs)
+        }
+
+        createMap()
+
+        function createMap() {
+            if (window.ymaps) {
+                ymaps.ready(function() {
+                    map = new ymaps.Map('map', { controls: ["zoomControl"], zoom: 12, center: [59.948814, 30.309640] }, { suppressMapOpenBlock: true });
+                    map.events.add('click', function(e) {
+                        Core.trigger('map.click', { coords: e.get('coords') })
+                    });
+                    Core.trigger('map-init', { map: map })
+                });
             } else {
                 map = createStatic();
-                initArgs.map = map;
-                Core.trigger('map-init', initArgs)
-                Core.trigger('map-ready', initArgs)
-                renderMainList();
-                loading(false)
+                setTimeout(function() {
+                    Core.trigger('map-init', { map: map })
+                }, 0)
             }
-        })
-
-        function createMap(state) {
-            map = new ymaps.Map('map', { controls: ["zoomControl"], zoom: 12, center: [59.948814, 30.309640] }, { suppressMapOpenBlock: true });
-            initArgs.map = map;
-            Core.trigger('map-init', initArgs)
-            renderMainList();
-            addObjects('areas');
-            addObjects('regions');
-            addObjects('sectors');
-            addObjects('departments');
-            validateLayers()
-            loading(false)
-            map.events.add('click', function(e) {
-                Core.trigger('map.click', { coords: e.get('coords') })
-            });
-            Core.trigger('map-ready', initArgs)
         }
         var $mlist = $('#main-list'),
             isViewDepartments = true,
@@ -202,7 +223,11 @@
                 })
             })
         }
-        Core.on('map-ready', function() {
+        Core.on('map-init', function() {
+            if (state.city!== undefined) {
+                changeCity(state.city, true) 
+                return;
+            }
             location(function(p) {
                 var nearest;
                 cities.forEach(function(c) {
@@ -213,9 +238,9 @@
                     }
                 })
                 var ci = cities.indexOf(nearest);
-                $cities.eq(ci).trigger('click')
+                changeCity(ci)
             }, function() {
-                $cities.eq(0).trigger('click')
+                changeCity(0)
             })
         })
 
@@ -238,12 +263,15 @@
         }
 
         function checkState() {
+            console.log('state check', state)
             if (state && state.rowId >= 0 && state.type) {
                 console.warn('restore', state)
                 if (state.type == 'department') {
-                    departments[state.rowId].select(true, true)
+                    var dep = departments[state.rowId];
+                    if (dep) dep.select(true, true)
                 } else if (state.type == 'region') {
-                    regions[state.rowId].select(true, true)
+                    var reg = regions[state.rowId];
+                    if (reg) reg.select(true, true)
                 }
             }
         }

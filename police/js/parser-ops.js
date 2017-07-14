@@ -2,29 +2,25 @@
 //https://spbmvd2.carto.com/viz/61374122-a143-11e6-83b6-0e3ff518bd15/public_map
 $(function() {
     $('#btn-ank').on('click', function() { regions() })
-    var useLocal = true, rand = Math.round(Math.random() * 100000);
-    var otdUrl = useLocal  ? '../data/otdeleniya.csv?' + rand :  'https://docs.google.com/spreadsheets/d/1LO75T1j0I2aCpgKYr_4BeGggcA7Ju4YRHp7RTjzvMjs/pub?output=csv';
-    var depUrl = useLocal  ? '../data/departments.csv?' + rand :  'https://docs.google.com/spreadsheets/d/1DtMId9BgjVerPKLW1edJedVB9CVUTl1tP3ZwCQ48jMY/pub?output=csv';
-    var ank1Url = useLocal  ? '../data/anketa1.csv?' + rand :  'https://docs.google.com/spreadsheets/d/1BfDEwci1YAcbQa-uSk8-ejSE6aTPgWRlIGnZ9Mm_cPc/pub?output=csv';
-    var ank2Url = useLocal  ? '../data/anketa2.csv?' + rand :  'https://docs.google.com/spreadsheets/d/1veV_YBTtjxK575FHg_u9sy_pOjCy9pPMXzon4NY1Vc4/pub?output=csv';
-    
-    regions()
-   
+    var useLocal = true,
+        rand = Math.round(Math.random() * 100000);
+    // var otdUrl = useLocal  ? '../data/{0}otdeleniya.csv?' + rand :  'https://docs.google.com/spreadsheets/d/1LO75T1j0I2aCpgKYr_4BeGggcA7Ju4YRHp7RTjzvMjs/pub?output=csv';
+    // var depUrl = useLocal  ? '../data/departments.csv?' + rand :  'https://docs.google.com/spreadsheets/d/1DtMId9BgjVerPKLW1edJedVB9CVUTl1tP3ZwCQ48jMY/pub?output=csv';
+    // var ank1Url = useLocal  ? '../data/anketa1.csv?' + rand :  'https://docs.google.com/spreadsheets/d/1BfDEwci1YAcbQa-uSk8-ejSE6aTPgWRlIGnZ9Mm_cPc/pub?output=csv';
+    // var ank2Url = useLocal  ? '../data/anketa2.csv?' + rand :  'https://docs.google.com/spreadsheets/d/1veV_YBTtjxK575FHg_u9sy_pOjCy9pPMXzon4NY1Vc4/pub?output=csv';
 
-    function regions(success) {
-        $.when($.getJSON("../data/poligoni_rayonov.geojson"),
-                $.getJSON("../data/tochki_otdelov.geojson"),
-                $.getJSON("../data/otdeleniya.geojson"),
-                $.get(otdUrl),
-                $.get(ank1Url),
-                $.get(ank2Url),
-                $.get(depUrl)
+
+    function getSpb() {
+        var city = 'spb';
+        $.when($.getJSON("../data/{0}/poligoni_rayonov.geojson".format(city)),
+                $.getJSON("../data/{0}/tochki_otdelov.geojson".format(city)),
+                $.getJSON("../data/{0}/otdeleniya.geojson".format(city)),
+                $.get('../data/{0}/otdeleniya.csv?'.format(city) + rand),
+                $.get('../data/{0}/anketa1.csv?'.format(city) + rand),
+                $.get('../data/{0}/anketa2.csv?'.format(city) + rand),
+                $.get('../data/{0}/departments.csv?'.format(city) + rand)
             )
             .done(function(a, b, c, c1, c2, c3, d) {
-                var regions = [],
-                    region_points = [],
-                    sectors = [],
-                    areas = [];
                 var mo = a[0].features;
                 var potds = b[0].features;
                 var otds = c[0].features;
@@ -32,237 +28,302 @@ $(function() {
                 var ank1 = c2[0];
                 var ank2 = c3[0];
                 var deps = csv(d[0])
-                var _regions = {}
+                regions(city, {
+                    mo: mo,
+                    potds: potds,
+                    otds: otds,
+                    oinfo: oinfo,
+                    ank1: ank1,
+                    ank2: ank2,
+                    deps: deps
+                })
+            })
 
-                var getVal = function(val) {
-                    if (!val) return;
-                    val = val.toLowerCase().trim()
-                    if (val=='-') val = ''
-                    return val; 
-                }
-                var getv = function(val) {
-                    var val = val ? val.trim() : ''; 
-                    if (val=='-') val = ''
-                    //console.log(val)
-                    return val || null;
-                }
+    }
+    //getVo()
 
-                for (var i = 1; i < oinfo.length; i++) {
-                    var o = oinfo[i],
-                        name = getv(o[1]),
-                        num = getv(o[3]);
-                    if (!num) {
-                        console.warn('нет номера', o);
-                        continue;
-                    }
-                    var reg = _regions[num];
-                    if (reg) {
-                        console.warn('дубликат отделения', num)
-                        continue;
-                    } else {
-                        reg = { name: name, number: num, coords: [] }
-                        regions.push(reg)
-                        _regions[num] = reg;
-                    }
-                    reg.name = name;
-                    reg.area = getVal(o[0]);
-                    reg.dep = getVal(o[1]);
-                    reg.addr = getv(o[4])
-                    reg.tel = [getv(o[5]), getv(o[6]), getv(o[7])].filter(function(o) {
-                        return !!o
-                    })
-                    reg.personRank = getv(o[8]);
-                    reg.personName = getv(o[9]);
-                    reg.personTel = getv(o[10]);
-                    reg.personTime = getv(o[11]);
-                    reg.lastInspect = getv(o[12])
-                    reg.hotLine = getv(o[14])
-                    if (o[15]) {
-                        var press = o[15].split(/\s*([0-9]+\))\s*/).filter(function(s) {
-                            return s.length > 3
-                        })
-                        reg.press = press.map(function(p) {
-                            var spl = p.split('http');
-                            return [spl[0], spl[1] ? 'http' + spl[1].replace(';', '') : '']
-                        })
-                    }
-                    reg.photo = getv(o[16]);
-                    if (getv(o[17]).indexOf('http')>=0)
-                        reg.report =  getv(o[17]);
-                    reg.comm = getv(o[18]);
-                    reg.icon = getv(o[21]);
-                    //console.log(reg);
-                }
-                for (var i = 0; i < otds.length; i++) {
-                    var o = otds[i];
-                    //console.log(o.properties)
-                    
-                    var name = getv(o.properties.podrazdelenie);
-                    var num = o.properties._1number;
-                    if (!num && name) num = parseInt(name);
-                    var rn = _regions[num];
+    function getVo() {
+        var city = 'vo';
+        $.when(
+                //$.getJSON("../data/{0}/tochki_otdelov.geojson".format(city)),
+                $.getJSON("../data/{0}/otdeleniya.geojson".format(city)),
+                $.get('../data/{0}/otdeleniya.csv?'.format(city) + rand),
+                $.get('../data/{0}/departments.csv?'.format(city) + rand)
+            )
+            .done(function(a, b, c) {
+                var otds = a[0].features;
+                var oinfo = csv(b[0]);
+                var deps = csv(c[0])
+                regions(city, {
+                    otds: otds,
+                    oinfo: oinfo,
+                    deps: deps
+                })
+            })
 
-                    if (!num || !rn) {
-                        console.warn('нет соответствия в карто', o.properties)
-                        continue;
-                    }
+    }
+
+    function regions(city, args) {
+        var mo = args.mo;
+        var potds = args.potds;
+        var otds = args.otds;
+        var oinfo = args.oinfo;
+        var ank1 = args.ank1;
+        var ank2 = args.ank2;
+        var deps = args.deps;
+
+        var regions = [],
+            region_points = [],
+            sectors = [],
+            areas = [];
+
+        var _regions = {}
+
+        var getVal = function(val) {
+            if (!val) return;
+            val = val.toLowerCase().trim()
+            if (val == '-') val = ''
+            return val;
+        }
+        var getv = function(val) {
+            var val = val ? val.trim() : '';
+            if (val == '-') val = ''
+                //console.log(val)
+            return val || null;
+        }
+
+        for (var i = 1; i < oinfo.length; i++) {
+            var o = oinfo[i],
+                name = getv(o[1]),
+                num = getv(o[3]);
+            if (!num) {
+                console.warn('нет номера', o);
+                continue;
+            }
+            var reg = _regions[num];
+            if (reg) {
+                console.warn('дубликат отделения', num)
+                continue;
+            } else {
+                reg = { name: name, number: num, coords: [] }
+                regions.push(reg)
+                _regions[num] = reg;
+            }
+            reg.name = name;
+            reg.area = getVal(o[0]);
+            reg.dep = getVal(o[1]);
+            reg.addr = getv(o[4])
+            reg.tel = [getv(o[5]), getv(o[6]), getv(o[7])].filter(function(o) {
+                return !!o
+            })
+            reg.personRank = getv(o[8]);
+            reg.personName = getv(o[9]);
+            reg.personTel = getv(o[10]);
+            reg.personTime = getv(o[11]);
+            reg.lastInspect = getv(o[12])
+            reg.hotLine = getv(o[14])
+            if (o[15]) {
+                var press = o[15].split(/\s*([0-9]+\))\s*/).filter(function(s) {
+                    return s.length > 3
+                })
+                reg.press = press.map(function(p) {
+                    var spl = p.split('http');
+                    return [spl[0], spl[1] ? 'http' + spl[1].replace(';', '') : '']
+                })
+            }
+            reg.photo = getv(o[16]);
+            if (getv(o[17]).indexOf('http') >= 0)
+                reg.report = getv(o[17]);
+            reg.comm = getv(o[18]);
+            reg.icon = getv(o[21]);
+            //console.log(reg);
+        }
+        for (var i = 0; i < otds.length; i++) {
+            var o = otds[i];
+            //console.log(o.properties)
+
+            var name = getv(o.properties.podrazdelenie);
+            var num = o.properties._1number || o.properties.name_ru;
+            if (!num && name) num = parseInt(name);
+            var rn = _regions[num];
+
+            if (!num || !rn) {
+                console.warn('нет соответствия в карто', o.properties)
+                continue;
+            }
+            var coords = convertCoords(o.geometry.coordinates[0][0]);
+            rn.coords = rn.coords ? rn.coords.concat(coords) : coords;
+        }
+        if (potds) {
+            for (var i = 0; i < potds.length; i++) {
+                var po = potds[i];
+
+                //console.log(po)
+                var num = po.properties.number;
+                var name = o.properties.name;
+                if (!num && name) num = parseInt(name);
+                var r = _regions[num];
+                if (!r) {
+                    console.warn('кривая точка отделения', po.properties)
+                    continue;
+                }
+                r.point = { coords: convertCoords([po.geometry.coordinates])[0] }
+            }
+        } else {
+            console.warn('Нет файла geojson с точками отделений')
+        }
+        if (mo) {
+            for (var i = 0; i < mo.length; i++) {
+                var o = mo[i];
+                //console.log(o)
+                if (o.geometry)
                     var coords = convertCoords(o.geometry.coordinates[0][0]);
-                    rn.coords = rn.coords ? rn.coords.concat(coords) : coords;
-                }
-                for (var i = 0; i < potds.length; i++) {
-                    var po = potds[i];
+                areas.push({
+                    name: o.properties._1name,
+                    coords: coords
+                })
+            }
+        } else {
+            console.warn('Нет файла geojson с мунициальными округами')
+        }
 
-                    //console.log(po)
-                    var num = po.properties.number;
-                    var name = o.properties.name;
-                    if (!num && name) num = parseInt(name);
-                    var r = _regions[num];
-                    if (!r) {
-                        console.warn('кривая точка отделения', po.properties)
-                        continue;
-                    }
-                    r.point = { coords: convertCoords([po.geometry.coordinates])[0] }
-                }
+        var departments = []
+        deps = deps.splice(1)
 
-
-                console.log('_regions', _regions)
-                var anfields = [],
-                    anvalues = {};
-
-                function parseAnk(ank, category) {
-                    if (category == 'открытость') {
-                        var questions = ank[2].slice(2);
-                        var starts = ank[1].slice(2);
-                        starts.forEach(function(a, i) {
-                            if (!a) starts[i] = starts[i - 1] || '';
-                        })
-                        //console.log(starts)
-                        questions.forEach(function(q, i) {
-                            if (!q || !starts[i]) return
-                            questions[i] = (starts[i].replace(/\./g,' ').trim() + ' ' + questions[i].replace(/\./g,' ').trim() )
-                        })
-                        ank.splice(1, 1);
+        for (var i = 0; i < deps.length; i++) {
+            var d = deps[i],
+                num = getv(d[1]),
+                name = getv(d[0]);
+            if (!name) {
+                console.log('нет имени у департамента', d)
+                continue;
+            }
+            //console.log(d[3].split(','))
+            var dregs = d[4].split(',').map(function(o) {
+                var rnum = parseInt(o)
+                if (rnum >= 0) {
+                    if (_regions[rnum]) {
+                        _regions[rnum].departmentNumber = num;
                     } else {
-                        var questions = ank[1].slice(2);
+                        console.warn('Нет номера ', rnum)
                     }
-                    ank.slice(5).forEach(function(v) {
-                        var name = getVal(v[0]);
-                        var number = getv(v[1]),
-                            vals = anvalues[number];
-                        if (!vals) vals = []
-                        var r = _regions[number]; //regions.filter(function(r) { return r.name.indexOf(number) == 0})[0]
-                        if (!r)
-                            console.warn('нет соответствия в отделениях:', name, number);
-                        else {
-                            vals = vals.concat(v.slice(2).map(function(o) {
-                                o = o.toLowerCase()
-                                return o == 'да' ? true : o == 'нет' ? false : null;
-                            }))
-                            anvalues[number] = vals;
-                        }
-                    })
-                    var cats = ank[4].slice(2);
-                    var weights = ank[2].slice(2);
-                    var fields = questions.map(function(f, i) {
-                        var cat = cats[i] || cats[i - 1] || category
-                        return { title: f, category: getv(cat), weight: parseInt(weights[i]) }
-                    });
-                    anfields = anfields.concat(fields)
                 }
-                console.log('Парсим первую анкету')
-                parseAnk(csv(ank1), 'доступность')
-                console.log('Парсим вторую анкету')
-                parseAnk(csv(ank2), 'открытость')
-               
-                console.log('Вопросы', anfields)
-                console.log('Ответы', anvalues)
-                
-                for (var i = 0; i < mo.length; i++) {
-                    var o = mo[i];
-                    //console.log(o)
-                    if (o.geometry)
-                        var coords = convertCoords(o.geometry.coordinates[0][0]);
-                    areas.push({
-                        name: o.properties._1name,
-                        coords: coords
-                    })
-                }
-                var departments = []
-                deps = deps.splice(1)
-                for (var i = 0; i < deps.length; i++) {
-                    var d = deps[i],
-                        num = getv(d[1]),
-                        name = getv(d[0]);
-                    if (!num || !name) continue;
-                    //console.log(d[3].split(','))
-                    var dregs = d[4].split(',').map(function(o) {
-                        var rnum = parseInt(o)
-                        if (rnum >= 0) {
-                            if (_regions[rnum]) {
-                                _regions[rnum].departmentNumber = num;
-                            } else {
-                                console.warn('Нет номера ', rnum)
-                            }
-                        }
-                        return rnum;
-                    }).filter(function(o) {
-                        return !!o
-                    })
-                    var dep = {
-                        addr: getv(d[2]),
-                        number: num,
-                        name: name,
-                        regions: dregs,
-                        email: getv(d[5]),
-                        url : getv(d[6]),
-                        personRank: getv(d[7]),
-                        personName: getv(d[8]),
-                        personTel: getv(d[9]),
-                        tel: getv(d[10]).split(','),
-                        priemnaya : getv(d[11]),
-                        photo : getv(d[12]),
-                        prokAddr : getv(d[13]),
-                        prokName : getv(d[14]),
-                        prokTel : getv(d[15]),
-                        prokPriemnaya : getv(d[16]),
-                        sovet : getv(d[17]),
-                        sovPriemnaya : getv(d[18]),
-                        bezop : getv(d[19]),
-                        bezPerson : getv(d[20]),
-                        rukReports : getv(d[21]),
-                        uchReports : getv(d[22]),
-                        comm : getv(d[23]),
-                        icon : getv(d[25]),
-                    }
-                    departments.push(dep)
-                }
-                console.log('departments', departments)
-               // return;
-                save('regions', 'spb', regions)
-                //save('areas', areas)
-                //save('anfields', { fields: anfields })
-                //save('anvalues', anvalues)
-                //save('departments', 'spb', departments)
+                return rnum;
+            }).filter(function(o) {
+                return !!o
             })
-    }
-    $('#btn-resolve-dep').on('click', function() {
-        $.getJSON("../data/resolved/spb/departments.json".format(), function(data) {
-            resolveSectors(data, function() {
-                save('departments', 'spb', data)
-            })
-        })
-    })
+            var dep = {
+                addr: getv(d[2]),
+                number: num,
+                name: name,
+                regions: dregs,
+                email: getv(d[5]),
+                url: getv(d[6]),
+                personRank: getv(d[7]),
+                personName: getv(d[8]),
+                personTel: getv(d[9]),
+                tel: getv(d[10]).split(','),
+                priemnaya: getv(d[11]),
+                photo: getv(d[12]),
+                prokAddr: getv(d[13]),
+                prokName: getv(d[14]),
+                prokTel: getv(d[15]),
+                prokPriemnaya: getv(d[16]),
+                sovet: getv(d[17]),
+                sovPriemnaya: getv(d[18]),
+                bezop: getv(d[19]),
+                bezPerson: getv(d[20]),
+                rukReports: getv(d[21]),
+                uchReports: getv(d[22]),
+                comm: getv(d[23]),
+                icon: getv(d[25]),
+            }
+            departments.push(dep)
+        }
 
-    function save(key, city, data) {
-        if (!city) city = 'spb';
-        API.save(key, city, data, function(res) {
-            console.info('Cохранилось', key, data)
+        console.log('departments', departments)
+
+        if (ank1 && ank2) {
+            parseAnketas(ank1, ank2)
+        } else {
+            console.log('нет файлов анкет');
+            save('anvalues', city, [])
+
+        }
+        // return;
+        save('regions', city, regions)
+        save('areas', city, areas)
+        save('departments', city, departments)
+        save('meta', city, { "data": { "published": {} } })
+    }
+
+    function parseAnketas(ank1, ank2) {
+        var anfields = [],
+            anvalues = {};
+
+        function parseAnk(ank, category) {
+            if (category == 'открытость') {
+                var questions = ank[2].slice(2);
+                var starts = ank[1].slice(2);
+                starts.forEach(function(a, i) {
+                        if (!a) starts[i] = starts[i - 1] || '';
+                    })
+                    //console.log(starts)
+                questions.forEach(function(q, i) {
+                    if (!q || !starts[i]) return
+                    questions[i] = (starts[i].replace(/\./g, ' ').trim() + ' ' + questions[i].replace(/\./g, ' ').trim())
+                })
+                ank.splice(1, 1);
+            } else {
+                var questions = ank[1].slice(2);
+            }
+            ank.slice(5).forEach(function(v) {
+                var name = getVal(v[0]);
+                var number = getv(v[1]),
+                    vals = anvalues[number];
+                if (!vals) vals = []
+                var r = _regions[number]; //regions.filter(function(r) { return r.name.indexOf(number) == 0})[0]
+                if (!r)
+                    console.warn('нет соответствия в отделениях:', name, number);
+                else {
+                    vals = vals.concat(v.slice(2).map(function(o) {
+                        o = o.toLowerCase()
+                        return o == 'да' ? true : o == 'нет' ? false : null;
+                    }))
+                    anvalues[number] = vals;
+                }
+            })
+            var cats = ank[4].slice(2);
+            var weights = ank[2].slice(2);
+            var fields = questions.map(function(f, i) {
+                var cat = cats[i] || cats[i - 1] || category
+                return { title: f, category: getv(cat), weight: parseInt(weights[i]) }
+            });
+            anfields = anfields.concat(fields)
+        }
+        console.log('Парсим первую анкету')
+        parseAnk(csv(ank1), 'доступность')
+        console.log('Парсим вторую анкету')
+        parseAnk(csv(ank2), 'открытость')
+
+        console.log('Вопросы', anfields)
+        console.log('Ответы', anvalues)
+            //save('anfields', city, { fields: anfields })
+            //save('anvalues',city, anvalues)
+
+    }
+    
+    resolveDepartments('vo')
+
+    function resolveDepartments(city) {
+        $.getJSON("../data/resolved/{0}/departments.json".format(city), function(data) {
+            resolveSectors(data, function() {
+                save('departments', city, data)
+            })
         })
     }
-    $('#btn-resolve-spb').on('click', function() { prepareSectors('spb') })
-    $('#btn-resolve-msc').on('click', function() { prepareSectors('msc') })
-    $('#btn-resolve-vo').on('click', function() { prepareSectors('vo') })
-        //prepareSectors(7800000000000, 'spb') 
+    //prepareSectors('vo') 
+
     function prepareSectors(city) {
         function parseOptions(data) {
             var arr = []
@@ -273,10 +334,14 @@ $(function() {
             })
             return arr;
         }
-        $.getJSON("../data/sectors-parsed/ment-{0}.json".format(city), function(pots) {
-            console.warn(pots);
+        $.getJSON("../data/{0}/sectors.json".format(city), function(pots) {
+            pots = pots.filter(function(p) {
+                return p.streets.length;
+            })
             pots.forEach(function(p) {
                 var street, pstr = p.streets;
+                console.log(p.streets)
+
                 p.streets.forEach(function(s, i) {
                     var ind = 2;
                     if (s[2]) {
@@ -301,36 +366,36 @@ $(function() {
     function validateSectors() {
         $.getJSON("../data/resolved/spb/sectors.json", function(rsectors) {
             var map = {};
-           
+
             $.getJSON("../data/ment-spb-main-checked.json", function(sectors) {
                 var sects = []
                 sectors.forEach(function(s, i) {
-                    //console.log(rsectors[i].name, sectors[i].name )
-                    var sec = {
-                        addr : s.addr,
-                        raddr : s.raddr,
-                        name : s.name,
-                        rank : s.rank,
-                        photo : s.photo,
-                        time : s.time,
-                        tel : []
-                    }
-                    if (s['ncoords/0']) {
-                        sec.coords = [s['ncoords/0'], s['ncoords/1']]
-                    } else {
-                        sec.coords = [s['coords/0'], s['coords/1']]
-                    }
-                    if (s['tel/0']) sec.tel.push(s['tel/0'])
-                    if (s['tel/1']) sec.tel.push(s['tel/1'])
-                    if (s['tel/2']) sec.tel.push(s['tel/2'])
-                    //console.log(sec)
-                })
-                //save('sectors', sectors)
+                        //console.log(rsectors[i].name, sectors[i].name )
+                        var sec = {
+                            addr: s.addr,
+                            raddr: s.raddr,
+                            name: s.name,
+                            rank: s.rank,
+                            photo: s.photo,
+                            time: s.time,
+                            tel: []
+                        }
+                        if (s['ncoords/0']) {
+                            sec.coords = [s['ncoords/0'], s['ncoords/1']]
+                        } else {
+                            sec.coords = [s['coords/0'], s['coords/1']]
+                        }
+                        if (s['tel/0']) sec.tel.push(s['tel/0'])
+                        if (s['tel/1']) sec.tel.push(s['tel/1'])
+                        if (s['tel/2']) sec.tel.push(s['tel/2'])
+                            //console.log(sec)
+                    })
+                    //save('sectors', sectors)
             })
         })
     }
     //validateSectors()
-  
+
     function resolveSectors(pots, success) {
         var ind = 0;
         //pots = pots.slice(0,3)
@@ -352,7 +417,7 @@ $(function() {
                         p.coords = coords.pos.split(' ').map(function(x) {
                             return Number(x)
                         }).reverse()
-                    console.log(ind, p.addr, p.raddr,  p.coords, p.rdescription)
+                    console.log(ind, p.addr, p.raddr, p.coords, p.rdescription)
                 } else {
                     console.warn(ind, p.addr, 'Not resolved')
                 }
@@ -365,6 +430,21 @@ $(function() {
         }
         resolve()
     }
+
+    $('#btn-resolve-dep').on('click', function() {
+
+    })
+
+    function save(key, city, data) {
+        if (!city) city = 'spb';
+        API.save(key, city, data, function(res) {
+            //console.info('Cохранилось', key, data)
+        })
+    }
+    $('#btn-resolve-spb').on('click', function() { prepareSectors('spb') })
+    $('#btn-resolve-msc').on('click', function() { prepareSectors('msc') })
+    $('#btn-resolve-vo').on('click', function() { prepareSectors('vo') })
+
 
     function convertCoords(coords) {
         if (coords) {
@@ -380,7 +460,7 @@ $(function() {
     $('#btn-sectors-vo').on('click', function() { parseSectors(3600000000000, 'vo') })
 
 
-        //parseSectors(7800000000000, 'spb')
+    //parseSectors(7800000000000, 'spb')
     function parseSectors(sub, city) {
         console.log('начинаем ддосить ' + city)
         var offset = 0,
@@ -438,38 +518,38 @@ $(function() {
     function convertCheckedSectors() {
         $.getJSON('../data/ment-spb-checked-all.json', function(data) {
             data.forEach(function(s) {
-                var streets = []
-                if (s.check!='1') {
-                    if (s.check=='') {
-                        s.fail = true;
-                    } else {
-                        s.coords = s.ncoords;
-                        s.raddr = s.check;
+                    var streets = []
+                    if (s.check != '1') {
+                        if (s.check == '') {
+                            s.fail = true;
+                        } else {
+                            s.coords = s.ncoords;
+                            s.raddr = s.check;
+                        }
                     }
-                }
-                s.photo = s.photo.replace('//static.mvd.ru/upload/site79/document_district/', '')
-                console.log(s.photo)
-                delete s.check;
-                delete s.ncoords;
-                s.streets.forEach(function(s) {
-                    if (s.name) {
-                        var sn = {name : s.name, numbers : []}
-                        streets.push(sn);
-                        if (!s.numbers) return;
-                        s.numbers.forEach(function(n) {
-                            if (n) sn.numbers.push(n)
-                        })
-                    }
+                    s.photo = s.photo.replace('//static.mvd.ru/upload/site79/document_district/', '')
+                    console.log(s.photo)
+                    delete s.check;
+                    delete s.ncoords;
+                    s.streets.forEach(function(s) {
+                        if (s.name) {
+                            var sn = { name: s.name, numbers: [] }
+                            streets.push(sn);
+                            if (!s.numbers) return;
+                            s.numbers.forEach(function(n) {
+                                if (n) sn.numbers.push(n)
+                            })
+                        }
+                    })
+                    s.streets = streets;
+
+
                 })
-                s.streets = streets;
-
-
-            })
-            //console.log(data)
+                //console.log(data)
             API.save('sectors', 'spb', data)
         })
     }
-   // convertCheckedSectors();
+    // convertCheckedSectors();
 
     function download(name, data, nojson) {
         var pom = document.createElement('a');

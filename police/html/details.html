@@ -50,22 +50,24 @@
 </div>
 <script data-template="region" type="text/template">
     <div class="cur-address"></div>
+    {{#region}}
     <div class="details-wrap">
         <h1 class="name">
-            <q  class="area">{{region.area}}</q>
-            <!-- <u class="number">{{region.number}} </u>  -->
+            <q  class="area">{{area}}</q>
             <u  class="number photo" style="background-image: url('{{photoLink}}')"> </u>
-            <a class="name-link editable">{{region.name}}</a>
-            <span  class="addr editable">{{region.addr}}</span>
+            <a class="name-link editable">{{name}}</a>
+            <span  class="addr editable">{{addr}}</span>
       <span class="tel-name">Дежурная часть:</span>
-      <div class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i> {{#region.tel}} <u>{{.}}</u> {{/region.tel}}</div>
-        </h1> {{#rate}}
+      <div class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i> {{#tel}} <u>{{.}}</u> {{/tel}}</div>
+        </h1> 
+        {{#rate}}
         <div id="details-rate-toggle" class="btn-ank star-rate">
             <em class="lb">Рейтинг:  {{rate.fixed}}</em> {{#starRate}} {{^.}}
             <i class="icon-star_border srated{{rate.formatted}}"></i>{{/.}} {{#.}}
             <i class="icon-star srated{{rate.formatted}}"></i>{{/.}} {{/starRate}}
         </div>
-        {{/rate}} {{^rate}}
+        {{/rate}} 
+        {{^rate}}
         <div class="no-records">Рейтинг пока не опубликован</div>
         {{/rate}}
         <ul id="details-rate" class="rates">
@@ -117,7 +119,6 @@
         </div>
         {{/press.length}} {{/region}}
         <div id="region-comments"></div>
-        {{#region}}
         <div class="sectors more sub-list" id="region-more">
             <h6 class="sub-header">Подробнее</h6>
             <ul>
@@ -178,8 +179,8 @@
                 {{/department}}{{/department}}
             </ul>
         </div>
-        {{/region}}
     </div>
+    {{/region}}
 </script>
 <script data-template="department" type="text/template">
     <div class="cur-address" id="cur-address"></div>

@@ -1,12 +1,26 @@
 'use strict';
-Core.on('map-init', function(args) {
-    var sectors = args.sectors,
-        areas = args.areas,
-        regions = args.regions,
-        streets = args.streets,
-        departments = args.departments,
-        persons = args.persons,
-        getCurrentCity = args.getCurrentCity;
+Core.on('init', function(initArgs) {
+    var sectors,
+        areas,
+        regions,
+        streets,
+        departments,
+        persons,
+        city,
+        templates = initArgs.templates,
+        location = initArgs.location;
+
+    Core.on('load', function(args) {
+        sectors = args.sectors;
+        areas = args.areas;
+        regions = args.regions;
+        streets = args.streets;
+        departments = args.departments;
+        persons = args.persons;
+        templates = args.persons;
+        city = args.city;
+    })
+
     var $txtSearch = $('#txt-search')
         .on('focus', function() { this.select() })
         .on('change', function(e, args) {
@@ -24,7 +38,7 @@ Core.on('map-init', function(args) {
                     markCurrent(o.name, o.coords)
                 } else if (dsind == 2) { //sector streets
                     o.sector.select(true)
-                    API.resolveAddr(getCurrentCity(), o.name, function(data) {
+                    API.resolveAddr(city, o.name, function(data) {
                         var d = data[0];
                         if (d) markCurrent(d.name, d.coords)
                     })
@@ -120,6 +134,7 @@ Core.on('map-init', function(args) {
             //console.warn(res);
         return res.slice(0, 5);
     }
+
     $txtSearch.autocomplete($('#search-popup'), templates.autocomplete, function(q, success) {
         if (!q) return;
         var pq = parseQuery(q);
@@ -149,7 +164,7 @@ Core.on('map-init', function(args) {
         ]
         success(res)
             //console.log(res)
-        return API.resolveAddr(getCurrentCity(), q, function(data) {
+        return API.resolveAddr(city, q, function(data) {
             data.forEach(function(d) { yres.push({ name: d.name, item: d }) })
             success(res)
         })

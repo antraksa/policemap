@@ -3,17 +3,17 @@ var ObjectWrapper = (function() {
     var isAdmin = (location.href.indexOf('admin') > 0);
     var anfields, anvalues, map, markpoints = [], templates,
         regions, departments, meta;
-    Core.on('init', function(args) {
+
+    Core.on('init', function(initArgs) {
+        templates = initArgs.templates;
+    })
+    Core.on('load', function(args) {
         anfields = args.anfields;
         anvalues = args.anvalues;
-    })
-    Core.on('map-init', function(args) {
         map = args.map;
         regions = args.regions;
         departments = args.departments;
         meta = args.meta;
-        templates = args.templates;
-        //console.warn('map-init',args)
     })
 
     function pregion(r) {
@@ -188,7 +188,7 @@ var ObjectWrapper = (function() {
                 if (this.region.point && this.region.point.coords && focus)
                     map.markPoint({ coords: this.region.point.coords, preset: 'pmlbm' })
             }
-            if (!nostate) State.pushState({ type: 'region', rowId: r.ind })
+            if (!nostate) State.addState({ type: 'region', rowId: r.ind })
         },
         number: function() {
             return this.region.number
@@ -263,7 +263,7 @@ var ObjectWrapper = (function() {
                 if (this.department.coords && focus)
                     map.markPoint({ coords: this.department.coords, preset: 'pmblm' })
             }
-            if (!nostate && focus) State.pushState({ type: 'department', rowId: d.ind })
+            if (!nostate && focus) State.addState({ type: 'department', rowId: d.ind })
         },
         markPointOpacity: function(val) {
             if (window.ymaps) {

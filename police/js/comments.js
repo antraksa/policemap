@@ -1,7 +1,12 @@
-Core.on('init', function(args) {
+Core.on('init', function(initArgs) {
     var $comments = $('#comments-popup'),
-        regions = args.regionsDict,
-        templates = args.templates;
+        templates = initArgs.templates,
+        regions, city;
+
+    Core.on('load', function(args) {
+        regions = args.regionsDict;
+        city = args.city.code;
+    })
 
     function getUnapprovedComments() {
         if (!DBApi.getUnapprovedComments) return;
@@ -60,7 +65,9 @@ Core.on('init', function(args) {
                 name: name,
                 email: email,
                 target: reg.region.number,
+                city : city
             }
+            console.log('post comment', comment)
             $btnSubmit.addClass('btn-loading');
             DBApi.postComment(comment, function() {
                 reg.comments.push(comment);
@@ -85,7 +92,7 @@ Core.on('init', function(args) {
     Core.on('details.rendered', function(arg) {
         var reg = arg.region;
         if (!reg.comments) {
-            DBApi.getCommentsByTargetId(reg.region.number, function(comments) {
+            DBApi.getCommentsByTargetId(reg.region.number, city, function(comments) {
                 console.warn('comments', comments)
                 prepareComments(comments)
                 reg.comments = comments;

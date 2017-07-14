@@ -3,7 +3,7 @@
 $key = $_POST['key']; 
 $city = $_POST['city'];
 if ($key == 'anfields') {
-	$datafile = '../../data/resolved/'.$city.'/anfields.json';
+	$datafile = '../../data/resolved/anfields.json';
 } else if ($key == 'anvalues') {
 	$datafile = '../../data/resolved/'.$city.'/anvalues.json';
 } else if ($key == 'areas') {
