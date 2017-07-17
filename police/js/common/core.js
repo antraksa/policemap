@@ -21,11 +21,12 @@ var Core = (function() {
 	function loadStatics($target, loaded, completed) {
 		var $statics = $target.find('[{0}]'.format(incAttr)).each(function() {
 			var $tar = $(this);
+			if ($tar.text().trim()!='') return
 			var url = $tar.attr(incAttr);
 			xhrs.push(this);
 			//console.log('start', url);
 			$tar.load(url, function(res, status, _xhr) {
-				loadStatics($(this), loaded, completed);
+				//loadStatics($(this), loaded, completed);
 				loaded.call(this);
 				xhrs.splice(xhrs.indexOf(this), 1);
 				$tar.removeAttr(incAttr);
@@ -34,9 +35,9 @@ var Core = (function() {
 				}
 			})
 		})
-		/*if ($statics.length == 0) {
+		if ($statics.length	 == 0 || !xhrs.length ) {
 			if (completed) completed();
-		}*/
+		}
 	}
 	var events = {};
 	function on(eventName, callback) {

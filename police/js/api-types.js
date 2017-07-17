@@ -1,4 +1,4 @@
-(function() {
+$(function() {
     API.types = {
         "region": {
             'name': 'region',
@@ -210,4 +210,4 @@
             return !!a
         })
     }
-})()
+});

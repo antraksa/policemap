@@ -5,7 +5,11 @@ $(function() {
         types = API.types,
         $history = $('#history-list'),
         $veditor = $('#values-editor');
-    API.all(function(args) {
+    var cities = API.getCities(),
+        city = cities[0];
+
+
+    API.all(city.code, function(args) {
         console.warn(args)
         var datas = args,
             $th, renderSaveButtons;
@@ -147,7 +151,7 @@ $(function() {
             renderSaveButtons = function() {
                 $('#btn-cancel').on('click', update)
                 $('#btn-save').on('click', function() {
-                    API.save(type.ds, 'spb', datas[type.ds], function() {
+                    API.save(type.ds, city.code, datas[type.ds], function() {
                         Core.trigger('mess', { mess: '"{0}" сохранены'.format(type.title) })
                         update()
                     }, function() {
@@ -158,7 +162,7 @@ $(function() {
 
             function update() {
                 loading(true)
-                API.requests[type.ds]().success(function(data) {
+                API.requests[type.ds](city.code).success(function(data) {
                     datas[type.ds] = data;
                     console.log('update ', type.name, data)
                     render(type)
@@ -189,7 +193,7 @@ $(function() {
 
         function getValues(type) {
             loading(true)
-            API.requests[type.ds]().success(function(data) {
+            API.requests[type.ds](city.code).success(function(data) {
                 datas[type.ds] = data;
                 render(type)
             })
@@ -221,7 +225,7 @@ $(function() {
         var state = args.state;
         if (state) {
             $ttoggles.eq(state.type ? types[state.type].index : 0).trigger('click', {});
-             if (Number(state.rowId) >= 0) {
+            if (Number(state.rowId) >= 0) {
                 var $item = $veditor.find('[data-item-ind="{0}"]'.format(state.rowId));
                 $item.addClass('current').siblings().removeClass('current');
                 $item.scrollTo()

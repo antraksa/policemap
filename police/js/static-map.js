@@ -1,4 +1,5 @@
 'use strict';
+
 function createStatic() {
     var $map = $('#map'),
         dpoints = [],
@@ -54,28 +55,27 @@ function createStatic() {
                 url += 'z={0}&'.format(zoom)
             }
             $map.css('background-image', 'url({0})'.format(url.format(c[1], c[0], zoom) + pt))
+        },
+        renderStaticHome : function (c) {
+            return;
+            var rp = regions.filter(function(r) {
+                return r.region.point
+            }).map(function(r) {
+                return {
+                    coords: r.region.point.coords,
+                    preset: 'pmlbs' + r.region.number
+                }
+            })
+            var dp = departments.filter(function(d) {
+                return d.department.coords
+            }).map(function(d) {
+                return {
+                    coords: d.department.coords,
+                    preset: 'pmbls'
+                }
+            }) //    .slice(0,5)
+            map.markPoints(c, dp.concat(rp))
         }
     };
     return map;
-}
-
-function renderStaticHome(c) {
-    return;
-    var rp = regions.filter(function(r) {
-        return r.region.point
-    }).map(function(r) {
-        return {
-            coords: r.region.point.coords,
-            preset: 'pmlbs' + r.region.number
-        }
-    })
-    var dp = departments.filter(function(d) {
-            return d.department.coords
-        }).map(function(d) {
-            return {
-                coords: d.department.coords,
-                preset: 'pmbls'
-            }
-        }) //    .slice(0,5)
-    map.markPoints(c, dp.concat(rp))
-}
+};

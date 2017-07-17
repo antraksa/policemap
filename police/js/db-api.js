@@ -1,10 +1,12 @@
+'use strict';
+
 var DBApi = (function() {
     var headers = { 'x-apikey': '58da976b9b7aa194660910e5', 'Content-Type': 'application/json', 'Accept': 'application/json' }
     var calls = []
 
     function docall(args, success) {
         var prom = {}
-        call = function(complete) {
+        var call = function(complete) {
             return $.ajax({
                 url: 'https://police-7230.restdb.io/rest/{0}'.format(args.url),
                 headers: headers,

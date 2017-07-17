@@ -9,7 +9,6 @@ $(function() {
     // var ank1Url = useLocal  ? '../data/anketa1.csv?' + rand :  'https://docs.google.com/spreadsheets/d/1BfDEwci1YAcbQa-uSk8-ejSE6aTPgWRlIGnZ9Mm_cPc/pub?output=csv';
     // var ank2Url = useLocal  ? '../data/anketa2.csv?' + rand :  'https://docs.google.com/spreadsheets/d/1veV_YBTtjxK575FHg_u9sy_pOjCy9pPMXzon4NY1Vc4/pub?output=csv';
 
-
     function getSpb() {
         var city = 'spb';
         $.when($.getJSON("../data/{0}/poligoni_rayonov.geojson".format(city)),
@@ -313,7 +312,7 @@ $(function() {
 
     }
     
-    resolveDepartments('vo')
+   // resolveDepartments('vo')
 
     function resolveDepartments(city) {
         $.getJSON("../data/resolved/{0}/departments.json".format(city), function(data) {

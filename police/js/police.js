@@ -1,15 +1,14 @@
 'use strict';
 (function() {
     $(function() {
-        Core.init({ completed: ready })
+        setTimeout(function() {
+            Core.init({ completed: ready })
+        }, 0)
     })
 
     function ready() {
-        var cities = [
-            { name: 'Санкт-Петербург', coords: [59.939440, 30.302135], code: 'spb' },
-            { name: 'Москва', coords: [55.725045, 37.646961], code: 'msc' },
-            { name: 'Воронеж', coords: [51.694273, 39.335955], code: 'vo' },
-        ];
+        var cities = API.getCities();
+        console.log('ready', cities)
         var map, city;
         var regions, sectors, areas, persons, templates = Common.getTemplates(),
             initArgs, streets, departments, regionsDict;
@@ -33,14 +32,14 @@
         })
         loading(true)
 
-        Core.trigger('init', { templates: templates, cities : cities, location : location })
+        Core.trigger('init', { templates: templates, cities: cities, location: location })
 
         function load() {
             $('#btn-city-toggle').html(city.name)
-                //console.log(city.coords)
+            //console.log(city.coords)
             map.setCenter(city.coords)
             if (!window.ymaps) {
-                renderStaticHome(city.coords)
+                map.renderStaticHome(city.coords)
             }
             API.getAndWrapAll(city.code, function(args) {
                 args.city = city;
@@ -61,13 +60,14 @@
             })
         }
         var $cities = $('#city-popup').html(Mustache.render(templates.cities, cities)).find('li').on('click', function() {
-            changeCity($(this).index())  
+            changeCity($(this).index())
         })
+
         function changeCity(index, nostate) {
             if (city == cities[index]) return;
             city = cities[index];
             if (!nostate)
-                State.addState({ city : index })
+                State.addState({ city: index })
             load();
         }
         $('#btn-city-toggle').popup({ hideOnClick: true })
@@ -224,8 +224,8 @@
             })
         }
         Core.on('map-init', function() {
-            if (state.city!== undefined) {
-                changeCity(state.city, true) 
+            if (state.city !== undefined) {
+                changeCity(state.city, true)
                 return;
             }
             location(function(p) {
@@ -299,9 +299,9 @@
             mtimeout = setTimeout(function() { $mess.removeClass('shown') }, 3000)
         })
         window.onerror = function() {
-                Core.trigger('mess', { mess: 'Все совсем плохо. Ошибка в скриптах', error: true })
-            }
-            //console.log(getcolors())
+            Core.trigger('mess', { mess: 'Все совсем плохо. Ошибка в скриптах', error: true })
+        }
+        //console.log(getcolors())
     };
 })()
 // if (window.ymaps) {

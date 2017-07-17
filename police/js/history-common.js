@@ -1,6 +1,7 @@
+'use strict';
 $(function() {
     var $history = $('#history-list'),
-        uindex, actions;
+        uindex, actions, templates;
     Core.on('history.render', function(args) {
     	//console.log('history.render', args.actions)	
     	uindex = -1;
