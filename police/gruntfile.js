@@ -39,7 +39,7 @@ module.exports = function(grunt) {
                 files: {
                     'dist/js/main.js': ['js/common/*.js', 'js/*.js'],
                     'dist/js/common.js': ['js/common/*.js', 'js/api-types.js', 'js/api.js', 'js/db-api.js', 'js/history-api.js'],
-                    //'dist/js/libs.js': ['libs/*.js'],
+                    'dist/js/libs.js': ['libs/*.js'],
                     'dist/admin/js/admin.js': ['admin/js/*.js']
                 }
             }

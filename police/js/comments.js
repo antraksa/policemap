@@ -9,9 +9,12 @@ $(function() {
             city = args.city.code;
         })
 
+
+         
         function getUnapprovedComments() {
             if (!DBApi.getUnapprovedComments) return;
             DBApi.getUnapprovedComments(function(comments) {
+                if (!comments.length) return;
                 prepareComments(comments);
                 var $items = $comments.html(Mustache.render(templates.commentsPopup, comments)).find('.comment').on('click', function() {
                     $(this).toggleClass('expanded').siblings().removeClass('expanded');
@@ -20,8 +23,25 @@ $(function() {
                 $('#comments-toggle').on('click', function() {
                     $comments.toggleClass('expanded')
                 })
+                Notification.requestPermission( function(result) {
+                    if (result!='granted') return;   
+                    var mailNotification = new Notification("Policemap", {
+                        tag: "comments",
+                        body: "Есть {0} непросмотренных комментариев".format(comments.length),
+                        icon: getLogoAbsolutePath()
+                    });
+                    mailNotification.onerror = function(e) {
+                        console.warn('Не получилось отправить сообщение', e)
+                    }
+                });
 
             })
+        }
+        
+        function getLogoAbsolutePath() {
+            var pref =  (location.href.indexOf('admin') > 0) ? '../' : '';
+            var a = $('a').attr('href', pref + 'css/img/logo.png')[0];
+            return a.href
         }
 
         function initControls($items, hide) {
