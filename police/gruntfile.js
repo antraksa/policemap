@@ -6,8 +6,8 @@ module.exports = function(grunt) {
         scripts: {
             main: 'dist/js/main.js',
             admin: 'dist/admin/js/admin.js',
-            //libs: ['dist/js/libs.js', 'https://api-maps.yandex.ru/2.1/?lang=ru_RU']
-            libs: ['dist/js/libs.js']
+            libs: ['dist/js/libs.js', 'https://api-maps.yandex.ru/2.1/?lang=ru_RU']
+            // libs: ['dist/js/libs.js']
         },
         beautify: true,
         sections: {

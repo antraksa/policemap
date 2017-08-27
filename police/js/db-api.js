@@ -13,7 +13,7 @@ var DBApi = (function() {
                 method: args.method || 'GET',
                 data: args.data ? JSON.stringify(args.data) : null,
                 success: function(data) {
-                    console.log('call success', args, data)
+                    //console.log('call success', args, data)
                     if (success) success(data)
                 },
                 error: function() {
@@ -25,7 +25,7 @@ var DBApi = (function() {
                 }
             })
         }
-        console.log('call', args)
+        //console.log('call', args)
         calls.push(call)
         process()
         return {

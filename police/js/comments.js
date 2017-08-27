@@ -40,7 +40,7 @@ $(function() {
         
         function getLogoAbsolutePath() {
             var pref =  (location.href.indexOf('admin') > 0) ? '../' : '';
-            var a = $('a').attr('href', pref + 'css/img/logo.png')[0];
+            var a = $('<a>').attr('href', pref + 'css/img/logo.png')[0];
             return a.href
         }
 
@@ -114,7 +114,7 @@ $(function() {
             var reg = arg.region;
             if (!reg.comments) {
                 DBApi.getCommentsByTargetId(reg.region.number, city, function(comments) {
-                    console.warn('comments', comments)
+                    //console.warn('comments', comments)
                     prepareComments(comments)
                     reg.comments = comments;
                     renderRegionComments(reg)

@@ -75,7 +75,7 @@ $(function() {
         Core.trigger('history.actionAdded', { action: action })
     })
     Core.on('history.restore', function(args) {
-        console.log('restore history', actions)
+        //console.log('restore history', actions)
         actions = args.actions;
         if (actions.length) {
             actions.forEach(function(a) { setAction(a, a.val) })

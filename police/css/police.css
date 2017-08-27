@@ -407,7 +407,7 @@ body {height: 100%;position: relative;min-height: 100%;}
 .cur-address {/* background: rgba(255, 255, 255, 0.22); */line-height: 24px;font-size: 11px;padding: 0 10px;/* background: #d7dce1; */color: rgba(255, 255, 255, 0.7);}
 .cur-address b {color: #fff;font-weight: normal;}
 .user-layout .comment .btns { display: none !important }
-.y-icon {width: 30px; height: 30px; text-align: center; border-radius: 20px; background-color: #fff; text-align: center; background-size: 16px; background-repeat: no-repeat; background-position: center; border: 1px solid #00f; opacity: 0.4; }
+.y-icon {width: 30px;height: 30px;text-align: center;border-radius: 20px;background-color: #fff;text-align: center;background-size: 20px;background-repeat: no-repeat;background-position: center;border: 1px solid #00f;opacity: 0.4;z-index: 1000000;margin-left: -15px;margin-top: -15px;}
 .y-icon-department {width: 40px;height: 40px;background-size: 25px;}
 .y-icon-sector {width: 24px;height: 24px;background-size: 23px;}
 .y-icon.marked { opacity: 1 }

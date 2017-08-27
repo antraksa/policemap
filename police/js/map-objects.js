@@ -72,12 +72,12 @@ var ObjectWrapper = (function() {
     var rselected, dselected, sselected, hovered = {};
     
     function markPointOpacity(type, obj) {
-        //console.log('markPointOpacity', type, obj)
         if (obj && obj.place)
-             $('#point-icon-' + obj.number()).addClass('marked')
+            $('#point-icon-' + type + '-' + obj.number()).addClass('marked')
         var old = hovered[type];
-        if (old && old.place && old.place != obj.place)
-            $('#point-icon-' + old.number()).removeClass('marked')
+        if (old && old.place && old != obj) {
+            $('#point-icon-' + type + '-' + old.number()).removeClass('marked')
+        }
         hovered[type] = obj;
     }
 
@@ -92,9 +92,22 @@ var ObjectWrapper = (function() {
         var icon = obj.icon;
         if (!icon) icon = 'sheriff.png'; 
         var iconUrl = 'css/img/icons/' + icon;
-        if (isAdmin) iconUrl = '../' + iconUrl; 
+        var emptyUrl = 'css/img/empty.png';
+        if (isAdmin) {
+            iconUrl = '../' + iconUrl; 
+            emptyUrl = '../' + emptyUrl; 
+        }
         var regIcon = Mustache.render(templates.mapPoint, {icon : iconUrl, num : obj.number, type : type})
-        var regLayout = ymaps.templateLayoutFactory.createClass(regIcon);
+        var regLayout = ymaps.templateLayoutFactory.createClass(regIcon)
+        var args = {
+        build: function () {
+            this.constructor.superclass.build.call(this);
+            var $point = $('#point-icon-' + type + '-' + obj.number);
+            $point.bind('click', function() {
+                console.log(1)
+            })
+            console.log($point)
+        }}
         var place = new ymaps.Placemark(coords, {
             balloonContentHeader: obj.name,
             balloonContentBody: obj.addr,
@@ -103,8 +116,15 @@ var ObjectWrapper = (function() {
             iconContent: content, //если есть "Кол-во задержанных", то выводить их
             overlayFactory: 'default#interactiveGraphics'
         }, {
-            iconLayout: regLayout, hideIconOnBalloonOpen: false,
+            iconLayout: 'default#imageWithContent',
+            iconImageHref: emptyUrl,
+            iconImageSize: [40, 40],
+            iconImageOffset: [-20, -20],
+            iconContentOffset: [20, 20],
+            hideIconOnBalloonOpen: false,
+            iconContentLayout: regLayout
         });
+        //console.log(obj, type, coords, content)
         return place;
     }
     Core.on('map.click', function() { clearSelections() })
@@ -202,7 +222,7 @@ var ObjectWrapper = (function() {
             return ratesArr;
         },
         markSelected: function(val) {
-            this.markPointOpacity(true);
+            this.markPointOpacity(val);
             if (this.place && !val) this.place.balloon.close();
             if (val && this.pol) {
                 this.pol.options.set('strokeWidth', 4).set('zIndex', 11).set('strokeColor', '#444');
@@ -246,7 +266,7 @@ var ObjectWrapper = (function() {
             var place = constructPlace(dep, 'department', dep.coords);
             d.place = place;
             map.geoObjects.add(place);
-            place.events.add('click', function() { d.select(); })
+            place.events.add('click', function() { d.select(); console.log(1) })
         },
         select: function(focus, nostate) {
             var d = this;

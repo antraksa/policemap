@@ -8,7 +8,6 @@
 
     function ready() {
         var cities = API.getCities();
-        console.log('ready', cities)
         var map, city;
         var regions, sectors, areas, persons, templates = Common.getTemplates(),
             initArgs, streets, departments, regionsDict;
@@ -193,7 +192,7 @@
             renderMainList()
         })
         Core.on('history.changed', function(args) {
-            console.log('history changed', args)
+            //console.log('history changed', args)
             renderMainList()
             regions.forEach(function(r) { r.draw() })
         })
@@ -218,9 +217,11 @@
         function validateLayers() {
             layers.forEach(function(l) {
                 var m = l.map();
-                m.forEach(function(o) {
-                    if (!l.checked) o.show(false)
-                })
+                if (m) {
+                    m.forEach(function(o) {
+                        if (!l.checked) o.show(false)
+                    })
+                }
             })
         }
         Core.on('map-init', function() {
@@ -276,7 +277,7 @@
             }
         }
         Core.on('map-ready', function() {
-            setTimeout(function() { checkState() }, 1000)
+            setTimeout(checkState, 1000)
         })
         Core.on('popstate', function(args) {
             state = args.state;

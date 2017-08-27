@@ -2,7 +2,6 @@
 $(function() {
     Core.on('init', function(initArgs) {
         //Storage.set('police.history', null)
-        console.warn('initArgs', initArgs)
         var regions, _regions = {},
             anvalues, anfields, targets, meta,
             actions = Storage.get('police.history') || [],

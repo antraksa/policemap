@@ -15,7 +15,7 @@ var State = (function() {
         var changed = false;
         var oldstate = Common.clone(state)
 
-        console.warn(oldstate, args)
+      //  console.warn(oldstate, args)
 
         for (var key in args) {
             var sv = oldstate[key],
