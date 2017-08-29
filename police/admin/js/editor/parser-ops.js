@@ -321,7 +321,8 @@ $(function() {
             })
         })
     }
-    //prepareSectors('vo') 
+    
+    prepareSectors('msc') 
 
     function prepareSectors(city) {
         function parseOptions(data) {
@@ -339,8 +340,7 @@ $(function() {
             })
             pots.forEach(function(p) {
                 var street, pstr = p.streets;
-                console.log(p.streets)
-
+          
                 p.streets.forEach(function(s, i) {
                     var ind = 2;
                     if (s[2]) {
