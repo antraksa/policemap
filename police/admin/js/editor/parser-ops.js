@@ -15,8 +15,8 @@ $(function() {
                 $.getJSON("../data/{0}/tochki_otdelov.geojson".format(city)),
                 $.getJSON("../data/{0}/otdeleniya.geojson".format(city)),
                 $.get('../data/{0}/otdeleniya.csv?'.format(city) + rand),
-                $.get('../data/{0}/anketa1.csv?'.format(city) + rand),
-                $.get('../data/{0}/anketa2.csv?'.format(city) + rand),
+                $.get('../data/{0}/otkr.csv?'.format(city) + rand),
+                $.get('../data/{0}/dost.csv?'.format(city) + rand),
                 $.get('../data/{0}/departments.csv?'.format(city) + rand)
             )
             .done(function(a, b, c, c1, c2, c3, d) {
@@ -24,22 +24,23 @@ $(function() {
                 var potds = b[0].features;
                 var otds = c[0].features;
                 var oinfo = csv(c1[0]);
-                var ank1 = c2[0];
-                var ank2 = c3[0];
+                var ankOtkr = c2[0];
+                var ankDost = c3[0];
                 var deps = csv(d[0])
                 regions(city, {
                     mo: mo,
                     potds: potds,
                     otds: otds,
                     oinfo: oinfo,
-                    ank1: ank1,
-                    ank2: ank2,
+                    ankOtkr: ankOtkr,
+                    ankDost: ankDost,
                     deps: deps
                 })
             })
 
     }
     //getVo()
+    getSpb();
 
     function getVo() {
         var city = 'vo';
@@ -67,8 +68,8 @@ $(function() {
         var potds = args.potds;
         var otds = args.otds;
         var oinfo = args.oinfo;
-        var ank1 = args.ank1;
-        var ank2 = args.ank2;
+        var ankOtkr = args.ankOtkr;
+        var ankDost = args.ankDost;
         var deps = args.deps;
 
         var regions = [],
@@ -242,75 +243,63 @@ $(function() {
 
         console.log('departments', departments)
 
-        if (ank1 && ank2) {
-            parseAnketas(ank1, ank2)
+        if (ankOtkr && ankDost) {
+            parseAnketas(ankOtkr, ankDost)
         } else {
             console.log('нет файлов анкет');
             save('anvalues', city, [])
 
         }
-        // return;
-        save('regions', city, regions)
-        save('areas', city, areas)
-        save('departments', city, departments)
-        save('meta', city, { "data": { "published": {} } })
-    }
 
-    function parseAnketas(ank1, ank2) {
-        var anfields = [],
-            anvalues = {};
 
-        function parseAnk(ank, category) {
-            if (category == 'открытость') {
-                var questions = ank[2].slice(2);
-                var starts = ank[1].slice(2);
-                starts.forEach(function(a, i) {
-                        if (!a) starts[i] = starts[i - 1] || '';
-                    })
-                    //console.log(starts)
-                questions.forEach(function(q, i) {
-                    if (!q || !starts[i]) return
-                    questions[i] = (starts[i].replace(/\./g, ' ').trim() + ' ' + questions[i].replace(/\./g, ' ').trim())
-                })
-                ank.splice(1, 1);
-            } else {
-                var questions = ank[1].slice(2);
-            }
-            ank.slice(5).forEach(function(v) {
-                var name = getVal(v[0]);
-                var number = getv(v[1]),
-                    vals = anvalues[number];
-                if (!vals) vals = []
-                var r = _regions[number]; //regions.filter(function(r) { return r.name.indexOf(number) == 0})[0]
-                if (!r)
-                    console.warn('нет соответствия в отделениях:', name, number);
-                else {
-                    vals = vals.concat(v.slice(2).map(function(o) {
+        //return;
+        // save('regions', city, regions)
+        // save('areas', city, areas)
+        // save('departments', city, departments)
+        // save('meta', city, { "data": { "published": {} } })
+
+        function parseAnketas(ankOtkr, ankDost) {
+            var anfields = [],
+                anvalues = {};
+
+            function parseAnk(ank, category) {
+                console.log(category, ank);
+                var questions = ank[0].slice(2);
+                var weights = ank[1].slice(2);
+                var values = ank.slice(2);
+                values.forEach(function(v) {
+                    var name = getVal(v[0]);
+                    var number = getv(v[1]);
+                    var row = v.slice(2);
+
+                    var vals = anvalues[number];
+                    if (!vals) vals = []
+                    vals = vals.concat(row.map(function(o, i) {
                         o = o.toLowerCase()
                         return o == 'да' ? true : o == 'нет' ? false : null;
                     }))
+
+                    console.log(name, number, vals)
                     anvalues[number] = vals;
-                }
-            })
-            var cats = ank[4].slice(2);
-            var weights = ank[2].slice(2);
-            var fields = questions.map(function(f, i) {
-                var cat = cats[i] || cats[i - 1] || category
-                return { title: f, category: getv(cat), weight: parseInt(weights[i]) }
-            });
-            anfields = anfields.concat(fields)
+                })
+                var fields = questions.map(function(f, i) {
+                    return { title: f, category: category, weight: parseInt(weights[i]) }
+                });
+                anfields = anfields.concat(fields)
+            }
+            console.log('Парсим первую анкету')
+            parseAnk(csv(ankDost), 'доступность')
+            console.log('Парсим вторую анкету')
+            parseAnk(csv(ankOtkr), 'открытость')
+
+            console.log('Вопросы', anfields)
+            console.log('Ответы', anvalues)
+            save('anfields', city, { fields: anfields })
+            save('anvalues',city, anvalues)
+
         }
-        console.log('Парсим первую анкету')
-        parseAnk(csv(ank1), 'доступность')
-        console.log('Парсим вторую анкету')
-        parseAnk(csv(ank2), 'открытость')
-
-        console.log('Вопросы', anfields)
-        console.log('Ответы', anvalues)
-            //save('anfields', city, { fields: anfields })
-            //save('anvalues',city, anvalues)
-
     }
+
     
    // resolveDepartments('vo')
 
@@ -322,7 +311,7 @@ $(function() {
         })
     }
     
-    prepareSectors('msc') 
+    //prepareSectors('msc') 
 
     function prepareSectors(city) {
         function parseOptions(data) {

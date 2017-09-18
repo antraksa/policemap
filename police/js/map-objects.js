@@ -1,7 +1,8 @@
 'use strict'
 var ObjectWrapper = (function() {
     var isAdmin = (location.href.indexOf('admin') > 0);
-    var anfields, anvalues, map, markpoints = [], templates,
+    var anfields, anvalues, map, markpoints = [],
+        templates,
         regions, departments, meta;
 
     Core.on('init', function(initArgs) {
@@ -70,7 +71,7 @@ var ObjectWrapper = (function() {
         return geoCenter;
     }
     var rselected, dselected, sselected, hovered = {};
-    
+
     function markPointOpacity(type, obj) {
         if (obj && obj.place)
             $('#point-icon-' + type + '-' + obj.number()).addClass('marked')
@@ -88,26 +89,18 @@ var ObjectWrapper = (function() {
     }
 
     var regIconTemplate = '';
+
     function constructPlace(obj, type, coords, content) {
         var icon = obj.icon;
-        if (!icon) icon = 'sheriff.png'; 
+        if (!icon) icon = 'sheriff.png';
         var iconUrl = 'css/img/icons/' + icon;
         var emptyUrl = 'css/img/empty.png';
         if (isAdmin) {
-            iconUrl = '../' + iconUrl; 
-            emptyUrl = '../' + emptyUrl; 
+            iconUrl = '../' + iconUrl;
+            emptyUrl = '../' + emptyUrl;
         }
-        var regIcon = Mustache.render(templates.mapPoint, {icon : iconUrl, num : obj.number, type : type})
+        var regIcon = Mustache.render(templates.mapPoint, { icon: iconUrl, num: obj.number, type: type })
         var regLayout = ymaps.templateLayoutFactory.createClass(regIcon)
-        var args = {
-        build: function () {
-            this.constructor.superclass.build.call(this);
-            var $point = $('#point-icon-' + type + '-' + obj.number);
-            $point.bind('click', function() {
-                console.log(1)
-            })
-            console.log($point)
-        }}
         var place = new ymaps.Placemark(coords, {
             balloonContentHeader: obj.name,
             balloonContentBody: obj.addr,
@@ -266,7 +259,10 @@ var ObjectWrapper = (function() {
             var place = constructPlace(dep, 'department', dep.coords);
             d.place = place;
             map.geoObjects.add(place);
-            place.events.add('click', function() { d.select(); console.log(1) })
+            place.events.add('click', function() {
+                d.select();
+                console.log(1)
+            })
         },
         select: function(focus, nostate) {
             var d = this;
@@ -294,7 +290,7 @@ var ObjectWrapper = (function() {
             }
         },
         markSelected: function(val) {
-            this.markPointOpacity(true);
+            this.markPointOpacity(val);
             this.regions.forEach(function(r) { r.markSelected(val) })
             if (this.place) {
                 if (!val) this.place.balloon.close();
@@ -311,29 +307,32 @@ var ObjectWrapper = (function() {
             return this.department.number
         },
     }
-
+    var sectorPlace;
     function psector(s) {
         this.sector = s;
         this.name = s.name.capitalizeAll()
     }
     psector.prototype = {
-        draw: function() {
+        draw: function(cluster) {
+            //this.cluster = cluster;
+            var target = cluster || map.geoObjects;
             if (!map || !window.ymaps) return;
             var that = this;
             var s = this.sector;
-            if (s.place) map.geoObjects.remove(s.place);
+            if (s.place) target.remove(s.place);
             if (!s.coords) return
             var place = constructPlace(s, 'sector', s.coords);
             this.place = place;
             place.events.add('click', function() { that.select(true) })
-            map.geoObjects.add(place);
+            target.add(place);
         },
         select: function(focus, noRenderSector) {
             var s = this;
+            //console.log('select sector', focus, s)
             if (window.ymaps) {
                 if (focus && s.sector.coords) {
                     if (map) map.setCenter(s.sector.coords)
-                        //if (s.place)  s.place.balloon.open();
+                    //if (s.place)  s.place.balloon.open();
                 }
                 if (sselected) sselected.markSelected(false);
                 sselected = this.markSelected(true);
@@ -348,19 +347,43 @@ var ObjectWrapper = (function() {
             Core.trigger('sector.select', { sector: this, focus: focus })
         },
         show: function(val) {
-            if (this.place) this.place.options.set('visible', val)
+            if (this.place) this.place.options.set('visible', val);
+
+        },
+        markPointOpacity: function(val) {
+            if (window.ymaps) {
+                var s = this.sector;
+                if (sectorPlace) {
+                    map.geoObjects.remove(sectorPlace)
+                    sectorPlace = null;
+                }
+                if (val) {
+                    var place = constructPlace(s, 'super-sector', s.coords);
+                    map.geoObjects.add(place)
+                    sectorPlace = place;
+                } 
+                //markPointOpacity('sector', val ? this : null)
+            } else {
+                if (this.sector.coords)
+                    map.delayMarkPoint({ coords: this.sector.coords, preset: 'pmblm' })
+            }
         },
         markSelected: function(val) {
+            var that = this;
             if (window.ymaps) {
                 if (this.place) {
                     if (!val) this.place.balloon.close();
-                    this.place.options.set('visible', val)
                 }
+                that.markPointOpacity(val);
+
             } else {
                 if (this.sector.coords)
                     map.delayMarkPoint({ coords: this.sector.coords, preset: 'pmgrs' })
             }
             return this;
+        },
+        number: function() {
+            return this.sector.number
         }
     }
 
@@ -378,6 +401,41 @@ var ObjectWrapper = (function() {
             this.pol.options.set('visible', val)
         }
     }
+
+    function clusterize(objects, visible) {
+        var iconUrl = 'css/img/icons/sheriff.png';
+        if (isAdmin) {
+            iconUrl = '../' + iconUrl;
+            var clusterIcon = Mustache.render(templates.clusterPoint, { icon: iconUrl, type: 'sector' })
+            var layout = ymaps.templateLayoutFactory.createClass(clusterIcon)
+            var cluster = new ymaps.Clusterer({
+                groupByCoordinates: false,
+                clusterHideIconOnBalloonOpen: false,
+                clusterDisableClickZoom: true,
+                geoObjectHideIconOnBalloonOpen: false,
+                clusterIconLayout: layout,
+                clusterIconShape: {
+                    type: 'Rectangle',
+                    coordinates: [
+                        [0, 0],
+                        [20, 20]
+                    ]
+                }
+            });
+            cluster.options.set('hasBalloon', visible)
+             var createCluster = cluster.createCluster;
+            cluster.createCluster = function(center, geoObjects) {
+                var clusterPlacemark = ymaps.Clusterer.prototype.createCluster.call(this, center, geoObjects);
+                return clusterPlacemark;
+            }
+            objects.forEach(function(o, i) {
+                o.draw(cluster);
+            })
+            map.geoObjects.add(cluster);
+            return cluster;
+        }
+    }
+
     return {
         wrapRegion: function(r) {
             return new pregion(r)
@@ -390,6 +448,7 @@ var ObjectWrapper = (function() {
         },
         wrapDepartment: function(r) {
             return new pdepartment(r)
-        }
+        },
+        clusterize: clusterize
     }
 })()

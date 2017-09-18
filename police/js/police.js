@@ -50,7 +50,10 @@
                 regionsDict = args.regionsDict;
                 persons = args.persons;
                 initArgs = args;
-                initArgs.map = map;
+                args.sortRegions = sortRegions;
+                args.templates = templates;
+                args.map = map;
+                console.log('load', args)
                 Core.trigger('load', args)
                 renderMainList();
                 loadMap()
@@ -82,8 +85,9 @@
                 map.geoObjects.removeAll()
                 addObjects('areas');
                 addObjects('regions');
-                addObjects('sectors');
+                addObjects('sectors', true);
                 addObjects('departments');
+                console.log(mapobjects)
                 validateLayers()
             } else {
 
@@ -101,10 +105,14 @@
                     map.events.add('click', function(e) {
                         Core.trigger('map.click', { coords: e.get('coords') })
                     });
+                    map.events.add('boundschange', function(e) {
+                        Core.trigger('map.boundschange', {})
+                    })
                     Core.trigger('map-init', { map: map })
                 });
             } else {
                 map = createStatic();
+                console.log(map)
                 setTimeout(function() {
                     Core.trigger('map-init', { map: map })
                 }, 0)
@@ -206,13 +214,40 @@
             }
         }
 
-        function addObjects(oname) {
+        function addObjects(oname, clusterize) {
             mapobjects[oname] = []
-            initArgs[oname].forEach(function(o, i) {
-                o.draw();
-                mapobjects[oname].push(o)
-            })
+            if (clusterize) {
+                var isSectorsVisible = layers[3].checked;
+                var show = function(val) {
+                    var sheet = document.createElement('style')
+                    sheet.innerHTML = ".clusterIcon, .y-icon-sector {display:{0}}".format(val ? 'block' : 'none' );
+                    document.body.appendChild(sheet);
+                }
+                show(isSectorsVisible);
+                var cluster = ObjectWrapper.clusterize(initArgs[oname], isSectorsVisible);
+                mapobjects[oname].push({
+                    cluster: cluster,
+                    show: function() {
+                        var isSectorsVisible = layers[3].checked;
+                        show(isSectorsVisible);
+                        cluster.options.set('hasBalloon', isSectorsVisible)
+                    }
+                })
+
+            } else {
+                initArgs[oname].forEach(function(o, i) {
+                    o.draw();
+                    mapobjects[oname].push(o)
+                })
+            }
         }
+        Core.on('map.boundschange', function() {
+            var sectorsCluster = mapobjects['sectors'];
+            if (!sectorsCluster || !sectorsCluster[0]) return;
+            //sectorsCluster[0].show()
+            //setTimeout(sectorsCluster[0].show, 100)
+        })
+
 
         function validateLayers() {
             layers.forEach(function(l) {
@@ -302,6 +337,10 @@
         window.onerror = function() {
             Core.trigger('mess', { mess: 'Все совсем плохо. Ошибка в скриптах', error: true })
         }
+
+        $('.pane-toggle').on('click', function() {
+            $(this).parents('.pane').toggleClass('collapsed')
+        })
         //console.log(getcolors())
     };
 })()

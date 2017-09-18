@@ -16,6 +16,7 @@ module.exports = function(grunt) {
             map: 'html/map.html',
             comments: 'html/comments.html',
             anketa: 'html/anketa.html',
+            static: 'html/static.html',
         }
     }
     grunt.initConfig({
@@ -27,7 +28,7 @@ module.exports = function(grunt) {
             },
             target: {
                 files: {
-                    "dist/css/main.css": ['css/reset.css', 'css/style.css', 'css/police.css', 'css/view.css']
+                    "dist/css/main.css": ['css/reset.css', 'css/style.css', 'css/police.css', 'css/view.css', 'css/pages.css']
                 }
             }
         },
@@ -49,8 +50,10 @@ module.exports = function(grunt) {
                 files: [
                     { expand: true, src: ['css/fonts/**'], dest: 'dist/' },
                     { expand: true, src: ['css/img/**'], dest: 'dist/' },
+                    { expand: true, src: ['css/img/static.css'], dest: 'dist/' },
                     { expand: true, src: ['data/**'], dest: 'dist/' },
                     { expand: true, src: ['admin/php/**'], dest: 'dist/' },
+                    { expand: true, src: ['html/info/**'], dest: 'dist/' },
                 ],
             }
         },

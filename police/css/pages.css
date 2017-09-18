@@ -1,20 +1,21 @@
-body {
+body.pages  {
   font-family: 'Roboto';
   font-size: 16px;
   line-height: 25px;
   font-weight: 300;
 }
-.text-wrap {
+.pages .text-wrap {
   width:60%;
   margin:0 auto;
   padding: 30px 0 50px;
 }
-h1 {
+.pages h1 {
   margin-bottom: 40px;
+  font-size: 20px;
 }
-a {
+.pages a {
   color: #1d3854;
 }
-a:hover {
+.pages a:hover {
   text-decoration: none;
 }

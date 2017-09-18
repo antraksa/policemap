@@ -13,7 +13,6 @@ function createStatic() {
             this.render(c, zoom)
         },
         delayMarkPoint: function(p, zoom) {
-            return; //!!!!
             dpoints.push(p)
             if (dtimeout) return;
             dtimeout = setTimeout(function() {

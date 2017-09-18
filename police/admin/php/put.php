@@ -18,6 +18,8 @@ if ($key == 'anfields') {
 	$datafile = '../../data/sectors-parsed/'.$city.'/ment.json';
 }else if ($key == 'meta') {
 	$datafile = '../../data/resolved/'.$city.'/meta.json';
+}else if ($key == 'static-home') {
+	$datafile = '../../static-'.$city.'.html';
 }
 if (isset($datafile)) {
 	$data = $_POST['data'];

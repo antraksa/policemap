@@ -15,7 +15,7 @@ body, html {margin: 0;height: 100%;overflow: hidden;font-family: Tahoma, Geneva,
 
 a { cursor: pointer;  }
 b {font-weight: bold}
-nav {background: rgba(255, 255, 255, 0.11);overflow: hidden;}
+nav {background: rgba(255, 255, 255, 0.11);overflow: hidden;margin-left: 20px;}
 nav a {float: left;line-height: 38px;padding: 0 16px;color: rgba(255, 255, 255, 0.69);transition: background-color 0.3s ease-out;border-right: 1px solid rgba(255, 255, 255, 0.16);text-transform: uppercase;font-size: 11px;}
 nav a{ display: block }
 nav a:hover {color: #fff}
@@ -53,22 +53,24 @@ input[type="text"]:focus {/* background: #fff; */}
 body {height: 100%;position: relative;min-height: 100%;}
 .pane {transition: width 0.5s ease-out;box-sizing: border-box;height: 100%;}
 .pane.details {width: 400px;/* background: rgba(255, 255, 255, 0.2); */position: fixed;right: 0;z-index: 1;padding-top: 38px;overflow-y: auto;}
-.pane.results {transition: margin 0.5s ease-out;padding: 0;margin-left: 300px;margin-right: 400px;background: rgba(255, 255, 255, 0.8);overflow: visible;min-height: 100%;height: auto;position: relative;overflow: hidden;}
-.pane.toolbar {width: 300px;/* background: rgba(255, 255, 255, 0.2); */margin-right: 10px;position: fixed;/* padding-top: 20px; */z-index: 2;}
+.pane.results {transition: margin 0.5s ease-out;padding: 0;margin-left: 320px;margin-right: 400px;background: rgba(255, 255, 255, 0.8);overflow: visible;min-height: 100%;height: auto;position: relative;overflow: hidden;}
+.pane.toolbar {width: 320px;/* background: rgba(255, 255, 255, 0.2); */margin-right: 10px;position: fixed;/* padding-top: 20px; */z-index: 2;}
 .pane.toolbar .pane-cont {/* padding-top: 40px; */position: relative;height: 100%;box-sizing: border-box;padding: 0;}
 
 .pane-cont {padding: 10px;opacity: 1;transition: opacity 0.2s ease-out;}
-.pane.collapsed .pane-cont {opacity: 0; }
+.pane.collapsed .pane-cont {opacity: 0;}
 
-.pane-toggle {cursor: pointer;position: fixed;/* background: rgba(255, 255, 255, 0.23); */color: #fff;padding: 0 4px;line-height: 40px;white-space: nowrap;top: 0;width: 300px;box-sizing: border-box;z-index: 1;height: 40px;/* text-align: Center; */}
+.pane-toggle {cursor: pointer;position: fixed;background: #1b3046;color: rgba(255, 255, 255, 0.51);line-height: 40px;white-space: nowrap;top: 0;width: 20px;box-sizing: border-box;z-index: 1;height: 40px;/* text-align: Center; *//* left: 300px; */overflow: hidden;/* text-align: center; *//* font-size: 20px; */}
 .pane-toggle {transition: width 0.3s ease-out;display: block;}
 .pane-toggle b {font-family: arial;font-size: 12px;font-weight: normal;text-transform: uppercase;color: rgba(255, 255, 255, 0.73);}
 
 .pane-toggle i {font-size: 18px;line-height: 40px;color: rgba(255, 255, 255, 0.72);padding: 0px 10px;}
 .pane.details .pane-toggle {right: 0;width: 400px;background: rgba(255, 255, 255, 0.2);padding: 0;}
-.pane.collapsed {width: 0; margin: 0;}
-.pane.collapsed .pane-toggle{z-index: 1;width: 40px;background: rgba(255, 255, 255, 0.65);}
-.pane .pane-toggle .icon-angle-left {float: left;margin-right: 10px;cursor: pointer;display: none;}
+.pane.collapsed {width: 0;margin: 0;}
+.pane.collapsed .pane-toggle{z-index: 1000;/* width: 40px; *//* background: rgba(255, 255, 255, 0.65); */height: 72px;line-height: 72px;}
+.pane.collapsed .pane-toggle .angle-left {display: none}
+.pane .pane-toggle .angle-right {display: none;}
+.pane.collapsed .pane-toggle .angle-right {display: block;text-align: center;}
 .pane.collapsed .pane-toggle .icon-angle-left, .pane.collapsed .pane-toggle .icon-angle-right { display: none; }
 .pane.collapsed .pane-toggle .icon-search,
 .pane.collapsed .pane-toggle .icon-th-list {display: block;color: #555;}
@@ -100,7 +102,7 @@ body {height: 100%;position: relative;min-height: 100%;}
 .list-options .opt.focused + .opt-cont{/* width: 100%; */position: absolute;left: 0;right: 60px;z-index: 1;top: 0;}
 .list-options .opt-cont {/* width: 0; */overflow: hidden;}
 
-.search-toggle {cursor: pointer;display: none;}
+.search-toggle {cursor: pointer;/* display: none; */}
 .search-toggle i {padding-right: 4px}
 .search-toggle i:before{content: "\f106"; }
 .search-toggle.collapsed i:before{content: "\f107"; }
@@ -175,7 +177,7 @@ body {height: 100%;position: relative;min-height: 100%;}
 .sub-panel.edit-mode .editable {border: 1px solid #ccc;padding: 4px;color: #fff !important;}
 
 .details-tools {}
-.details-toggle {overflow: hidden;position: absolute;top: 0;left: 0;right: 0;/* background: rgba(255, 255, 255, 0.11); */}
+.details-toggle {overflow: hidden;position: absolute;top: 0;left: 0;right: 0;/* background: rgba(255, 255, 255, 0.11); */margin: 0;}
 
 
 .details .name {font-size: 14px;color: #fff;line-height: 16px;/* margin-bottom: 10px; */overflow:hidden;}
@@ -409,9 +411,12 @@ body {height: 100%;position: relative;min-height: 100%;}
 .user-layout .comment .btns { display: none !important }
 .y-icon {width: 30px;height: 30px;text-align: center;border-radius: 20px;background-color: #fff;text-align: center;background-size: 20px;background-repeat: no-repeat;background-position: center;border: 1px solid #00f;opacity: 0.4;z-index: 1000000;margin-left: -15px;margin-top: -15px;}
 .y-icon-department {width: 40px;height: 40px;background-size: 25px;}
-.y-icon-sector {width: 24px;height: 24px;background-size: 23px;}
-.y-icon.marked { opacity: 1 }
-.y-icon b {position: absolute;font-size: 9px;left: 0;padding: 4px 5px;font-weight: normal;color: #2020ff;width: 10px;text-align: center;}
-
+/*.y-icon-sector {width: 24px;height: 24px;background-size: 23px;}*/
+.y-icon.marked, .y-icon-super-sector { opacity: 1 }
+.y-icon-super-sector {background-color: #ffc7c5;}
+.y-icon b {position: absolute;font-size: 9px;left: -15px;padding: 4px 5px;font-weight: normal;color: #2020ff;width: 10px;text-align: center;}
+.clusterIcon.y-icon-sector b {font-weight: bold;color: #000;top: -4px;left: -9px;font-size: 11px;}
+.clusterIcon.y-icon-sector {background-position: center 0;}
 .logo {position: absolute;height: 70px;width: 210px;background: url('img/logo.png') no-repeat left;z-index: 1;background-size: auto 90%;background-color: rgba(255, 255, 255, 0.85);}
 .logo h1 {margin-left: 80px;font-size: 25px;font-family: Tahoma;font-weight: bold;line-height: 32px;color: #8e9caa;cursor: default;}
+.pane.toolbar.collapsed ~ .results .logo {margin: 0 20px;}

@@ -89,7 +89,8 @@ var API = (function() {
                     return ObjectWrapper.wrapArea(a)
                 })
                 var streets = {};
-                var sectors = sectors[0].map(function(sec) {
+                var sectors = sectors[0].map(function(sec, i) {
+                    sec.number = i;
                     sec.name = sec.name.toLowerCase();
                     var s = ObjectWrapper.wrapSector(sec)
                     // console.log('sec', sec)
@@ -154,11 +155,11 @@ var API = (function() {
             })
             return req;
         },
-        save: function(key, city, data, success, fail) {
-            $.post("php/put.php", { key: key, city: city, data: JSON.stringify(data) }, function(res) {
+        save: function(key, city, data, success, fail, noJSon) {
+            $.post("php/put.php", { key: key, city: city, data: noJSon ? data : JSON.stringify(data) }, function(res) {
                 if (!res.trim()) {
                     if (success) success()
-                    console.log('put success ', key, data, res)
+                    console.log('put success ', key, res)
                 } else {
                     console.warn('put fail ', key, data, res)
                     if (fail) fail()
