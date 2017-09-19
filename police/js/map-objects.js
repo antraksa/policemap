@@ -406,34 +406,35 @@ var ObjectWrapper = (function() {
         var iconUrl = 'css/img/icons/sheriff.png';
         if (isAdmin) {
             iconUrl = '../' + iconUrl;
-            var clusterIcon = Mustache.render(templates.clusterPoint, { icon: iconUrl, type: 'sector' })
-            var layout = ymaps.templateLayoutFactory.createClass(clusterIcon)
-            var cluster = new ymaps.Clusterer({
-                groupByCoordinates: false,
-                clusterHideIconOnBalloonOpen: false,
-                clusterDisableClickZoom: true,
-                geoObjectHideIconOnBalloonOpen: false,
-                clusterIconLayout: layout,
-                clusterIconShape: {
-                    type: 'Rectangle',
-                    coordinates: [
-                        [0, 0],
-                        [20, 20]
-                    ]
-                }
-            });
-            cluster.options.set('hasBalloon', visible)
-             var createCluster = cluster.createCluster;
-            cluster.createCluster = function(center, geoObjects) {
-                var clusterPlacemark = ymaps.Clusterer.prototype.createCluster.call(this, center, geoObjects);
-                return clusterPlacemark;
-            }
-            objects.forEach(function(o, i) {
-                o.draw(cluster);
-            })
-            map.geoObjects.add(cluster);
-            return cluster;
         }
+        var clusterIcon = Mustache.render(templates.clusterPoint, { icon: iconUrl, type: 'sector' })
+        var layout = ymaps.templateLayoutFactory.createClass(clusterIcon)
+        var cluster = new ymaps.Clusterer({
+            groupByCoordinates: false,
+            clusterHideIconOnBalloonOpen: false,
+            clusterDisableClickZoom: true,
+            geoObjectHideIconOnBalloonOpen: false,
+            clusterIconLayout: layout,
+            clusterIconShape: {
+                type: 'Rectangle',
+                coordinates: [
+                    [0, 0],
+                    [20, 20]
+                ]
+            }
+        });
+        cluster.options.set('hasBalloon', visible)
+         var createCluster = cluster.createCluster;
+        cluster.createCluster = function(center, geoObjects) {
+            var clusterPlacemark = ymaps.Clusterer.prototype.createCluster.call(this, center, geoObjects);
+            return clusterPlacemark;
+        }
+        objects.forEach(function(o, i) {
+            o.draw(cluster);
+        })
+        map.geoObjects.add(cluster);
+        return cluster;
+
     }
 
     return {

@@ -296,6 +296,14 @@ $(function() {
             console.log('Ответы', anvalues)
             save('anfields', city, { fields: anfields })
             save('anvalues',city, anvalues)
+            var meta = {
+                data:{published:{}}
+            }
+            var published = meta.data.published;
+            for (var key in anvalues) {
+                published[key] = true
+            }
+            save('meta',city, meta)
 
         }
     }
