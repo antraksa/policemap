@@ -417,6 +417,6 @@ body {height: 100%;position: relative;min-height: 100%;}
 .y-icon b {position: absolute;font-size: 9px;left: -15px;padding: 4px 5px;font-weight: normal;color: #2020ff;width: 10px;text-align: center;}
 .clusterIcon.y-icon-sector b {font-weight: bold;color: #000;top: -4px;left: -9px;font-size: 11px;}
 .clusterIcon.y-icon-sector {background-position: center 0;}
-.logo {position: absolute;height: 70px;width: 210px;background: url('img/logo.png') no-repeat left;z-index: 1;background-size: auto 90%;background-color: rgba(255, 255, 255, 0.85);}
+.logo {position: absolute;height: 70px;width: 210px;background: url('img/logo.png') no-repeat 6px 4px;z-index: 1;background-size: auto 90%;background-color: rgba(255, 255, 255, 0.85);}
 .logo h1 {margin-left: 80px;font-size: 25px;font-family: Tahoma;font-weight: bold;line-height: 32px;color: #8e9caa;cursor: default;}
 .pane.toolbar.collapsed ~ .results .logo {margin: 0 20px;}

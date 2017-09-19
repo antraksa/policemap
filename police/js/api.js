@@ -189,9 +189,9 @@ var API = (function() {
         },
         getCities: function() {
             return [
-                { name: 'Санкт-Петербург', coords: [59.939440, 30.302135], code: 'spb' },
-                { name: 'Москва', coords: [55.725045, 37.646961], code: 'msc' },
-                { name: 'Воронеж', coords: [51.694273, 39.335955], code: 'vo' },
+                { name: 'Санкт-Петербург', coords: [59.939440, 30.302135], code: 'spb', ind : 0 },
+                { name: 'Москва', coords: [55.725045, 37.646961], code: 'msc', ind : 1 },
+                { name: 'Воронеж', coords: [51.694273, 39.335955], code: 'vo', ind : 2 },
             ];
         }
     }

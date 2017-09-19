@@ -1,19 +1,21 @@
-<html>
-<head>
-<script type="text/javascript">
-var sw = window.screen.width;
-console.warn(sw);
-if (sw < 800) {
-	location.replace("mobile.html"); 
-} else {
-	location.replace("police.html"); 
-}
-</script>
-<noscript>
-<meta http-equiv="refresh" content="0; url=police.html"> 
-</noscript>
-</head>
-<body>
+<!DOCTYPE html>
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1">
+<meta charset="utf-8">
+<title> Policemap </title>
+<link href="css/static.css" rel="stylesheet" media="screen">
+<link href="css/style.css" rel="stylesheet" media="screen">
 
-</body>
-</html>
+
+<header>
+	<h1> Policemap </h1>
+	
+</header>
+<h3>
+	Это сайт карты полиции. <a class="full" href="police.html">Полная версия</a>
+</h3>
+
+<nav>
+	<a href="static-spb.html">Санкт-Петербург</a>
+	<a href="static-msc.html">Москва</a>
+	<a href="static-vo.html">Воронеж</a>
+</nav>

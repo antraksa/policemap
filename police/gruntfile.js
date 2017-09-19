@@ -49,8 +49,10 @@ module.exports = function(grunt) {
             main: {
                 files: [
                     { expand: true, src: ['css/fonts/**'], dest: 'dist/' },
+                    { expand: true, src: ['css/libs/**'], dest: 'dist/' },
                     { expand: true, src: ['css/img/**'], dest: 'dist/' },
-                    { expand: true, src: ['css/img/static.css'], dest: 'dist/' },
+                    { expand: true, src: ['css/static.css'], dest: 'dist/' },
+                    { expand: true, src: ['css/style.css'], dest: 'dist/' },
                     { expand: true, src: ['data/**'], dest: 'dist/' },
                     { expand: true, src: ['admin/php/**'], dest: 'dist/' },
                     { expand: true, src: ['html/info/**'], dest: 'dist/' },

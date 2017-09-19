@@ -57,17 +57,15 @@
             <u  class="number photo" style="background-image: url('{{photoLink}}')"> </u>
             <a class="name-link editable">{{name}}</a>
             <span  class="addr editable">{{addr}}</span>
-      <span class="tel-name">Дежурная часть:</span>
-      <div class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i> {{#tel}} <u>{{.}}</u> {{/tel}}</div>
-        </h1> 
-        {{#rate}}
+          <span class="tel-name">Дежурная часть:</span>
+          <div class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i> {{#tel}} <u>{{.}}</u> {{/tel}}</div>
+        </h1> {{#rate}}
         <div id="details-rate-toggle" class="btn-ank star-rate">
             <em class="lb">Рейтинг:  {{rate.fixed}}</em> {{#starRate}} {{^.}}
             <i class="icon-star_border srated{{rate.formatted}}"></i>{{/.}} {{#.}}
             <i class="icon-star srated{{rate.formatted}}"></i>{{/.}} {{/starRate}}
         </div>
-        {{/rate}} 
-        {{^rate}}
+        {{/rate}} {{^rate}}
         <div class="no-records">Рейтинг пока не опубликован</div>
         {{/rate}}
         <ul id="details-rate" class="rates">
@@ -100,13 +98,11 @@
             <a class="sub-item sub-active-item" target="_blank" href="#">
                 <span class="s-title">Отчет руководителя</span>
                 <span class="s-val">{{report}}</span>
-            </a>
-            {{/report}} {{#comm}}
+            </a> {{/report}} {{#comm}}
             <a class="sub-item sub-active-item" target="_blank" href="#">
                 <span class="s-title">Комментарии: </span>
                 <span class="s-val">{{comm}}</span>
-            </a>
-            {{/comm}}
+            </a> {{/comm}}
         </div>
         {{#press.length}}
         <div class="sectors sub-list">
@@ -114,8 +110,7 @@
             <a class="sub-item sub-active-item" target="_blank" href="{{1}}">
                 <span class="s-title">{{0}}</span>
                 <!-- <span  class="s-val">{{1}}</span> -->
-            </a>
-            {{/press}}
+            </a> {{/press}}
         </div>
         {{/press.length}} {{/region}}
         <div id="region-comments"></div>
@@ -217,8 +212,7 @@
             <a class="sub-item sub-active-item" target="_blank" href="#">
                 <span class="s-title">Комментарии: </span>
                 <span class="s-val">{{comm}}</span>
-            </a>
-            {{/comm}}
+            </a> {{/comm}}
         </div>
         {{/personName}} {{/department}} {{#regions.length}}
         <div class="sectors sub-list" id="dep-regions">

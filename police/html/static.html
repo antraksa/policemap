@@ -1,0 +1,53 @@
+<script data-template="staticList" type="text/template">
+    <!DOCTYPE html>
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1">
+    <meta charset="utf-8">
+    <title> Policemap </title>
+    <link href="css/static.css" rel="stylesheet" media="screen">
+    <link href="css/style.css" rel="stylesheet" media="screen">
+    {{#scripts}}
+        {{{.}}}
+    {{/scripts}}
+
+    <header>
+        <h1> Policemap </h1>
+    </header>
+    <h3>
+        Это сайт карты полиции для города {{city.name}}. <a class="full"  target="_blank" href="police.html">Полная версия</a>
+    </h3>
+
+    <div class="search">
+        <i class="icon-search fgc" id="btn-search"> </i>
+        <input type="text" placeholder="Поиск" id="txt-search">
+    </div>
+
+    <h2> Отделения  {{city.name}} </h2>
+    <ul class="regions" id="all-list">
+        {{#departments}}
+        <li class="head-item item overflow" data-dep-id="{{department.number}}"> 
+            <span class="title">
+                {{department.name}}
+            </span>
+        </li>
+        {{#regions}}
+
+        <li class="item published-{{anketaPublished}}" data-reg-id="{{region.number}}">
+            <a href="police.html?city={{city.ind}}&rowId={{ind}}" target="_blank">
+                <span title="{{name}}" class="title overflow"> {{region.name}}</span>
+                <div id="details-rate-toggle" class="btn-ank star-rate">
+                    <em class="lb">Рейтинг:  {{rate.fixed}}</em> {{#starRate}} {{^.}}
+                    <i class="icon-star_border srated{{rate.formatted}}"></i>{{/.}} {{#.}}
+                    <i class="icon-star srated{{rate.formatted}}"></i>{{/.}} {{/starRate}}
+                </div>
+                {{#region}}
+                <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i> {{#tel}} <u>{{.}}</u> {{/tel}}</span>
+                <span class="name"> {{personName}} </span>
+                <span class="rank"> {{personRank}} </span>
+                {{/region}}
+            </a>
+        </li>
+        {{/regions}} 
+        {{/departments}}
+
+    </ul>
+</script>
