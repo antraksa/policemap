@@ -6,8 +6,8 @@ $(function() {
         Core.on('load', function(args) {
             regionsDict = args.regionsDict;
             meta = args.meta;
-            anvalues = args.anvalues,
-                anfields = args.anfields;
+            anvalues = args.anvalues;
+            anfields = args.anfields;
         })
         Core.on('region.select', function(args) {
             if ($anketa.hasClass('shown'))
@@ -64,7 +64,15 @@ $(function() {
         $('#btn-anketa-save').on('click', function() {
             if (!$anketa.hasClass('edit-mode')) {
                 var num = curRegion.region.number;
-                Core.trigger('history.push', { type: 'anvalues', id: num, name: curRegion.region.name, old: curRegion.oldVals, val: Common.clone(vals), title: 'Анкета изменена'.format(num) })
+                Core.trigger('history.push', {
+                    type: 'anvalues',
+                    id: num,
+                    name: curRegion.region.name,
+                    old: curRegion.oldVals,
+                    val: Common.clone(vals),
+                    title: 'Анкета изменена'.format(num)
+
+                })
                 Core.trigger('mess', { mess: 'Данные для  <b>{0}</b> сохранены'.format(curRegion.region.name) })
                 curRegion.oldVals = null;
             } else {
@@ -156,6 +164,7 @@ $(function() {
                 var checked = $item.removeClass('empty').toggleClass('checked').hasClass('checked');
                 if (!curRegion.oldVals) {
                     curRegion.oldVals = (vals) ? Common.clone(vals) : null;
+                    curRegion.oldRates = Common.clone(curRegion.rates)
                     Core.trigger('region.updated', {})
                 }
                 vals[$item.attr('data-index')] = checked;
@@ -180,8 +189,33 @@ $(function() {
                 $(this).toggleClass('collapsed')
             })
             renderRates()
+            renderChart();
         }
         initWeightControl($('#new-question .weight'))
+
+        var $chart = $('#chart-cont'), chart;
+
+        function renderChart() {
+            var rateHistory = meta.rateHistory[curRegion.number()];
+            if (rateHistory) {
+                var dates = [], series = [[],[]];
+                for (var date  in rateHistory) {
+                    dates.push(date);
+                    var val = rateHistory[date];
+                    series[0].push(Number(val['открытость']))
+                    series[1].push(Number(val['доступность']))
+                }
+                dates.sort();
+                var labels = dates.map(function(d) { return new Date(Number(d)).format(); })
+                var options = {
+                };
+                console.log('draw chart', rateHistory, dates, labels, series)
+                $chart.show();
+                new Chartist.Bar('#rate-chart', { labels : labels, series : series}, options);
+            } else {
+                $chart.hide();
+            }
+        }
 
         function renderRates() {
             renderHeader()

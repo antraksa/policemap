@@ -24,7 +24,6 @@ $(function() {
                     tar: meta,
                     setVal: function(id, val) {
                         meta.data = val.data
-                        console.log('setAction', val, meta)
                     }
                 }
             }
@@ -74,10 +73,33 @@ $(function() {
         var $btnsave = $('#btn-save-server').on('click', function() {
             console.log('upload changes', actions)
             var calls = 0;
+            var rateChanged = false;
+            actions.forEach(function(a) {
+                if (a.type == 'anvalues') {
+                    rateChanged = true;
+                    var ratesHistory = meta.rateHistory[a.id];
+                    if (!ratesHistory) {
+                        ratesHistory = meta.rateHistory[a.id] = {}
+                    }
+                    var rates = {},
+                        oldRates = ObjectWrapper.calcRate(a.old).rates;
+                    for (var cat in oldRates) {
+                        rates[cat] = oldRates[cat].val.toFixed(2);
+                    }
+                    ratesHistory[a.date] =  rates;
+                }
+            })
+            if (rateChanged) {
+                API.save('meta', city.code, meta, function() {
+                    console.log('rates updated', meta.rateHistory)
+                })
+            }
+
             for (var key in targets) {
                 var t = targets[key]
                 //if (t.changed) {
                 calls++;
+
                 API.save(key, city.code, t.tar, function() {
                     calls--;
                     if (calls == 0) {

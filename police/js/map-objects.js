@@ -450,6 +450,7 @@ var ObjectWrapper = (function() {
         wrapDepartment: function(r) {
             return new pdepartment(r)
         },
-        clusterize: clusterize
+        clusterize: clusterize,
+        calcRate : calcRate
     }
 })()

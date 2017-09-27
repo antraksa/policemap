@@ -297,7 +297,7 @@ $(function() {
             save('anfields', city, { fields: anfields })
             save('anvalues',city, anvalues)
             var meta = {
-                data:{published:{}}
+                data:{published:{}, rateHistory : {}};
             }
             var published = meta.data.published;
             for (var key in anvalues) {
