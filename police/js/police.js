@@ -36,7 +36,7 @@
         function load() {
             $('#btn-city-toggle').html(city.name)
             //console.log(city.coords)
-            map.setCenter(city.coords)
+            map.setCenter(city.coords, city.z)
             if (!window.ymaps) {
                 map.renderStaticHome(city.coords)
             }
@@ -112,7 +112,6 @@
                 });
             } else {
                 map = createStatic();
-                console.log(map)
                 setTimeout(function() {
                     Core.trigger('map-init', { map: map })
                 }, 0)
@@ -340,6 +339,10 @@
 
         $('.pane-toggle').on('click', function() {
             $(this).parents('.pane').toggleClass('collapsed')
+            if (map) {
+                setTimeout(function() { map.container.fitToViewport() } , 700)
+                console.log('resized')
+            }
         })
         //console.log(getcolors())
     };

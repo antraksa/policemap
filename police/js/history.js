@@ -77,9 +77,9 @@ $(function() {
             actions.forEach(function(a) {
                 if (a.type == 'anvalues') {
                     rateChanged = true;
-                    var ratesHistory = meta.rateHistory[a.id];
+                    var ratesHistory = meta.data.rateHistory[a.id];
                     if (!ratesHistory) {
-                        ratesHistory = meta.rateHistory[a.id] = {}
+                        ratesHistory = meta.data.rateHistory[a.id] = {}
                     }
                     var rates = {},
                         oldRates = ObjectWrapper.calcRate(a.old).rates;

@@ -11,9 +11,9 @@ body, html {margin: 0;font-family: Tahoma, Geneva, sans-serif;font-size: 13px;}
 .regions .rank {color: rgba(255, 255, 255, 0.24);display: block;}
 .regions .item:hover {background: rgba(255, 255, 255, 0.3);}
 h1 {color: rgba(255, 255, 255, 0.65);text-transform: uppercase;margin: 0;}
-h3 { color: rgba(255, 255, 255, 0.85); }
+h3 {color: rgba(255, 255, 255, 0.85);overflow: hidden;}
 
-a.full {color: #ffa878;padding: 20px;}
+a.full {color: #ffa878;padding: 20px;display: block;background: rgba(255, 255, 255, 0.11);text-decoration: none;float: left;}
 .search {position: absolute;right: 20px;top: 20px;}
 .search  i{position: absolute;font-size: 20px;top: 8px;left: 8px;color: rgba(255, 255, 255, 0.41);}
 .search  input {background: rgba(255, 255, 255, 0.34);border: 0;line-height: 40px;padding: 0 20px;padding-left: 40px;color: #fff;}
@@ -28,6 +28,6 @@ body, html {margin: 0;font-family: Tahoma, Geneva, sans-serif;font-size: 13px;}
 .srated4 {color: #ceff00  !important;}
 .srated5 {color: #41ff00  !important;}
 
-nav {font-size: 20px;margin-top: 40px;}
-nav a{padding: 10px 20px;color: rgba(255, 255, 255, 0.58);background: rgba(255, 255, 255, 0.15);text-decoration: none;}
+nav {font-size: 20px;margin-top: 40px;overflow: hidden;}
+nav a{padding: 10px 20px;color: rgba(255, 255, 255, 0.58);background: rgba(255, 255, 255, 0.15);text-decoration: none;float: left;margin-bottom: 4px;margin-right: 4px;}
 nav a:hover { background: rgba(255, 255, 255, 0.3);}

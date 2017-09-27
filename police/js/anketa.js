@@ -3,6 +3,10 @@ $(function() {
     Core.on('init', function(initArgs) {
         var curRegion, categories, oldFields, vals, templates = initArgs.templates;
         var regionsDict, meta, anvalues, anfields;
+        if (location.href.indexOf('admin') > 0) {
+            var isAdmin = true;
+        }
+
         Core.on('load', function(args) {
             regionsDict = args.regionsDict;
             meta = args.meta;
@@ -10,11 +14,11 @@ $(function() {
             anfields = args.anfields;
         })
         Core.on('region.select', function(args) {
-            if ($anketa.hasClass('shown'))
+            if ($anketa.hasClass('shown')  && isAdmin)
                 renderAnketa(args.region)
         })
         Core.on('region-anketa.select', function(args) {
-            if (!curRegion || curRegion != args.region) {
+            if ((!curRegion || curRegion != args.region) && isAdmin) {
                 renderAnketa(args.region)
             }
             $anketa.addClass('shown');
@@ -196,6 +200,7 @@ $(function() {
         var $chart = $('#chart-cont'), chart;
 
         function renderChart() {
+            return;
             var rateHistory = meta.rateHistory[curRegion.number()];
             if (rateHistory) {
                 var dates = [], series = [[],[]];

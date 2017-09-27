@@ -1,18 +1,20 @@
 'use strict';
 $(function() {
 
-    Core.on('load', function(args) {
+    Core.on('map-ready', function(args) {
         var regions = args.regions,
             city = args.city,
             areas = args.areas,
             sectors = args.sectors;
         if (!sectors[0] || !regions[0]) return;
 
+
         if (window.ymaps && sectors[0].sector.regionId === undefined) {
             regions.forEach(function(r) {
                 var rdata = r.region;
                 r.sectors = []
                 sectors.forEach(function(s) {
+                    //console.log(r, s);
                     if (s.sector.regionId === undefined) s.sector.regionId = -1;
                     var coords = s.sector.coords;
                     if (!coords) return

@@ -39,8 +39,8 @@ $(function() {
             })
 
     }
-    //getVo()
-    getSpb();
+    getVo()
+    //getSpb();
 
     function getVo() {
         var city = 'vo';
@@ -110,6 +110,7 @@ $(function() {
                 _regions[num] = reg;
             }
             reg.name = name;
+            console.log(name, reg)
             reg.area = getVal(o[0]);
             reg.dep = getVal(o[1]);
             reg.addr = getv(o[4])
@@ -252,13 +253,13 @@ $(function() {
         }
 
 
-        //return;
-        // save('regions', city, regions)
-        // save('areas', city, areas)
-        // save('departments', city, departments)
+        save('regions', city, regions)
+        save('areas', city, areas)
+        save('departments', city, departments)
         // save('meta', city, { "data": { "published": {} } })
 
         function parseAnketas(ankOtkr, ankDost) {
+            return;
             var anfields = [],
                 anvalues = {};
 
@@ -297,7 +298,7 @@ $(function() {
             save('anfields', city, { fields: anfields })
             save('anvalues',city, anvalues)
             var meta = {
-                data:{published:{}, rateHistory : {}};
+                data:{published:{}, rateHistory : {}}
             }
             var published = meta.data.published;
             for (var key in anvalues) {
