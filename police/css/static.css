@@ -1,0 +1,33 @@
+body, html {margin: 0;font-family: Tahoma, Geneva, sans-serif;font-size: 13px;}
+body {padding: 20px;     background: #1d3854; color: #fff; font-size: 14px } 
+.regions {margin: 0;padding: 20px;display: flex;flex-wrap: wrap;background: rgba(255, 255, 255, 0.18);}
+.regions .item {list-style: none;margin: 0;/* flex-grow: 1; *//* min-width: 200px; */width: 200px;/* height: 100px; */background: rgba(255, 255, 255, 0.1);padding: 10px;margin: 1px; transition: background-color ease-out 0.5s} 
+.regions .sub-item:hover { background: rgba(255, 255, 255, 0.2) }
+.regions .item a {text-decoration: none;}
+.regions .head-item {width: 100%;/* height: 50px; */font-size: 16px;background: rgba(255, 255, 255, 0.14);/* line-height: 40px; */padding: 10px 0px;background: none;/* border-bottom: 1px solid rgba(255, 255, 255, 0.23); */}
+.regions .rate {float: left;width: 50px;height: 50px;line-height: 50px;text-align: center;font-size: 18px;margin-right: 10px;}
+.regions .title {text-decoration: none;cursor: pointer;display: block;color: #fff;font-size: 16px;}
+.regions .name {color: #fff; margin-top: 10px;display: block}
+.regions .rank {color: rgba(255, 255, 255, 0.24);display: block;}
+.regions .item:hover {background: rgba(255, 255, 255, 0.3);}
+h1 {color: rgba(255, 255, 255, 0.65);text-transform: uppercase;margin: 0;}
+h3 { color: rgba(255, 255, 255, 0.85); }
+
+a.full {color: #ffa878;padding: 20px;}
+.search {position: absolute;right: 20px;top: 20px;}
+.search  i{position: absolute;font-size: 20px;top: 8px;left: 8px;color: rgba(255, 255, 255, 0.41);}
+.search  input {background: rgba(255, 255, 255, 0.34);border: 0;line-height: 40px;padding: 0 20px;padding-left: 40px;color: #fff;}
+.tel {font-size: 12px;margin-top: 4px;display: block;color: rgba(255, 255, 255, 0.51);}
+.star-rate {margin: 10px 0 ;color:#fff;}
+.star-rate .lb {margin-right: 10px;font-size: 12px;font-style: normal;}
+.star-rate i{font-size: 16px;color: #e7e221;}
+.srated0 {color: #f00  !important; }
+.srated1 {color: #ff5c00  !important;}
+.srated2 {color: #ffa300  !important;}
+.srated3 {color: #fdff00 !important;}
+.srated4 {color: #ceff00  !important;}
+.srated5 {color: #41ff00  !important;}
+
+nav {font-size: 20px;margin-top: 40px;}
+nav a{padding: 10px 20px;color: rgba(255, 255, 255, 0.58);background: rgba(255, 255, 255, 0.15);text-decoration: none;}
+nav a:hover { background: rgba(255, 255, 255, 0.3);}
