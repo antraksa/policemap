@@ -191,7 +191,7 @@ var ObjectWrapper = (function() {
                         r.place.balloon.open();
                     }
                     if (map && r.pol) {
-                        map.setCenter(getCenter(r.pol))
+                        map.setCenter(getCenter(r.pol), 13)
                     }
                 } else {
                     r.markPointOpacity(true)
@@ -269,7 +269,7 @@ var ObjectWrapper = (function() {
             Core.trigger('department.select', { department: d })
             if (window.ymaps) {
                 if (focus) {
-                    if (map && d.place) map.setCenter(getCenter(d.place))
+                    if (map && d.place) map.setCenter(getCenter(d.place), 13)
                     clearSelections()
                     if (d.place) d.place.balloon.open();
                 }
@@ -328,10 +328,10 @@ var ObjectWrapper = (function() {
         },
         select: function(focus, noRenderSector) {
             var s = this;
-            //console.log('select sector', focus, s)
+            console.log('select sector', focus, s)
             if (window.ymaps) {
                 if (focus && s.sector.coords) {
-                    if (map) map.setCenter(s.sector.coords)
+                    if (map) map.setCenter(s.sector.coords,  15)
                     //if (s.place)  s.place.balloon.open();
                 }
                 if (sselected) sselected.markSelected(false);
@@ -429,6 +429,10 @@ var ObjectWrapper = (function() {
             var clusterPlacemark = ymaps.Clusterer.prototype.createCluster.call(this, center, geoObjects);
             return clusterPlacemark;
         }
+        cluster.events.add('click', function(e) {
+            map.setCenter(e.get('coords'), 14);
+        })
+
         objects.forEach(function(o, i) {
             o.draw(cluster);
         })

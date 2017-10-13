@@ -16,4 +16,6 @@ $(function() {
 			return (title.indexOf(q) >=0);
 		}).show();
 	})
+
+	var map = createStatic();
 })

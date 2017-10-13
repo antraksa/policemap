@@ -93,7 +93,11 @@
 
             }
             loading(false);
-            Core.trigger('map-ready', initArgs)
+            Core.trigger('map-ready', initArgs);
+            // setTimeout(function() { 
+            //     var url = $('#map').find('canvas')[0].toDataURL();
+            //     console.log(url);
+            // }, 2000)
         }
 
         createMap()
@@ -111,7 +115,7 @@
                     Core.trigger('map-init', { map: map })
                 });
             } else {
-                map = createStatic();
+                map = createStatic(true);
                 setTimeout(function() {
                     Core.trigger('map-init', { map: map })
                 }, 0)

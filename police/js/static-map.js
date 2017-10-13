@@ -1,6 +1,6 @@
 'use strict';
 
-function createStatic() {
+function createStatic(nomap) {
     var $map = $('#map'),
         dpoints = [],
         dtimeout;
@@ -13,6 +13,7 @@ function createStatic() {
             this.render(c, zoom)
         },
         delayMarkPoint: function(p, zoom) {
+            if (nomap) return;
             dpoints.push(p)
             if (dtimeout) return;
             dtimeout = setTimeout(function() {
@@ -38,6 +39,7 @@ function createStatic() {
             this.render(c, zoom, points)
         },
         render: function(c, zoom, points) {
+            if (nomap) return;
             console.warn('render', c, points);
             var url = 'https://static-maps.yandex.ru/1.x/?ll={0},{1}&l=map&';
             var pt = '';
