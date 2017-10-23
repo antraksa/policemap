@@ -1,7 +1,9 @@
-body, html {margin: 0;font-family: Tahoma, Geneva, sans-serif;font-size: 13px;}
+@import url('https://fonts.googleapis.com/css?family=Roboto+Condensed');
+
+body, html {margin: 0;font-family: Tahoma, Geneva, sans-serif;font-size: 13px;/* font-family: 'Roboto Condensed', sans-serif; */}
 body {
 padding: 20px;
-background: #233b54;
+background: #486e96;
 color: #fff;
 font-size: 14px;
 } 
@@ -20,28 +22,41 @@ body, html {margin: 0;font-family: Tahoma, Geneva, sans-serif;font-size: 13px;}
 .all {
 	position: absolute;
 	z-index: 1;
+	top: 0;
+	left: 0;
+	right: 0;
+	padding: 20px;
 }
-.regions {margin: 0;padding: 20px;display: flex;flex-wrap: wrap;background: rgba(255, 255, 255, 0.18);}
-.regions .item {list-style: none;margin: 0;flex-grow: 1;/* min-width: 200px; */width: 200px;/* height: 100px; */background: rgb(113, 129, 144);padding: 10px;margin: 1px;transition: background-color ease-out 0.5s;} 
-.regions .child-item:hover { background: rgba(255, 255, 255, 0.2) }
+.regions {margin: 0;padding: 20px;display: flex;flex-wrap: wrap;background: rgba(255, 255, 255, 0.18);/* box-sizing: border-box; *//* width: 100%; */margin: 0 -20px;}
+.regions .item {list-style: none;margin: 0;/* flex-grow: 1; */min-width: 160px;width: calc(20% - 22px);/* height: 100px; */background: rgba(255, 255, 255, 0.66);padding: 10px;margin: 0.5px;transition: background-color ease-out 0.5s;} 
+.regions .child-item:hover { background: rgba(255, 255, 255, 0.9) }
 .regions .item a {text-decoration: none;}
-.regions .head-item {width: 100%;/* height: 50px; */font-size: 16px;background: rgba(255, 255, 255, 0.14);/* line-height: 40px; */padding: 10px 0px;background: none;/* border-bottom: 1px solid rgba(255, 255, 255, 0.23); */}
+.regions .item * {color: rgba(35, 59, 84, 0.95);text-decoration: none;}
+.regions .head-item {width: 100%;/* height: 50px; */font-size: 16px;background: rgba(255, 255, 255, 0.14);/* line-height: 40px; */padding: 10px 0px;background: none;/* border-bottom: 1px solid rgba(255, 255, 255, 0.23); */color: #fff;  font-family: 'Roboto Condensed', sans-serif;}
 .regions .rate {float: left;width: 50px;height: 50px;line-height: 50px;text-align: center;font-size: 18px;margin-right: 10px;}
-.regions .title {text-decoration: none;cursor: pointer;display: block;color: #fff;font-size: 16px;}
-.regions .name {color: #fff; margin-top: 10px;display: block}
-.regions .rank {color: rgba(255, 255, 255, 0.24);display: block;}
+.regions .title {text-decoration: none;cursor: pointer;display: block;color: rgba(35, 59, 84, 0.64);font-size: 16px;font-weight: bold; font-family: 'Roboto Condensed', sans-serif;}
+.regions .head-item .title{ color: #fff;}
+.regions .name {/* color: #fff; */margin-top: 10px;display: block;font-size: 12px;}
+.regions .rank {color: rgba(35, 59, 84, 0.8);display: block;font-size: 12px;}
 .regions .head-item:hover .title{color: rgba(255, 255, 255, 0.6);}
-h1 {color: rgba(255, 255, 255, 0.65);text-transform: uppercase;margin: 0;line-height: 60px;padding-left: 60px;}
-h3 {color: rgba(255, 255, 255, 0.85);overflow: hidden;}
+h1 {color: rgba(255, 255, 255, 0.65);text-transform: uppercase;margin: 0;line-height: 60px;padding-left: 60px;  font-family: 'Roboto Condensed', sans-serif;}
+h3 {color: rgba(255, 255, 255, 0.85);overflow: hidden;  font-family: 'Roboto Condensed', sans-serif;}
+h2 { font-family: 'Roboto Condensed', sans-serif;}
 
-a.full {color: #ff823d;padding: 20px;/* display: block; */background: rgb(255, 255, 255);text-decoration: none;/* float: right; */font-size: 16px;line-height: 30px;margin-left: 20px;}
-.search {position: absolute;right: 20px;top: 20px;}
-.search  i{position: absolute;font-size: 20px;top: 8px;left: 8px;color: rgba(255, 255, 255, 0.41);}
-.search  input {background: rgba(255, 255, 255, 0.34);border: 0;line-height: 40px;padding: 0 20px;padding-left: 40px;color: #fff;}
-.tel {font-size: 12px;margin-top: 4px;display: block;color: rgba(255, 255, 255, 0.51);}
-.star-rate {margin: 10px 0 ;color:#fff;}
+.toolbar {position: absolute;right: 20px;top: 20px;min-width: 400px;overflow: hidden;}
+
+a.full {color: #fff;/* padding: 0 20px; */background: #ff823d;text-decoration: none;font-size: 16px;line-height: 40px;display: block;height: 40px;float: right;font-family: 'Roboto Condensed', sans-serif;width: 150px;text-align: center;}
+.search {
+    /* float: left; */
+    padding-right: 150px;
+    position: relative;
+}
+.search  i{position: absolute;font-size: 20px;top: 8px;left: 8px;color: #ccc;}
+.search  input {background: rgba(255, 255, 255, 0.72);border: 0;line-height: 40px;padding: 0 20px;padding-left: 40px;color: #fff;width: 100%;display: block;box-sizing: border-box;}
+.tel {font-size: 12px;margin-top: 4px;display: block;/* color: rgba(255, 255, 255, 0.51); */}
+.star-rate {margin: 10px 0;background: rgba(255, 255, 255, 0.79);margin: 10px -10px;padding: 2px 10px;}
 .star-rate .lb {margin-right: 10px;font-size: 12px;font-style: normal;}
-.star-rate i{font-size: 16px;color: #e7e221;}
+.star-rate i{font-size: 16px;color: #e7e221;width: 11px;display: inline-block;}
 .srated0 {color: #f00  !important; }
 .srated1 {color: #ff5c00  !important;}
 .srated2 {color: #ffa300  !important;}
@@ -51,6 +66,30 @@ body, html {margin: 0;font-family: Tahoma, Geneva, sans-serif;font-size: 13px;}
 
 header {overflow: hidden;}
 header img {float: left;/* background: #fff; */height: 60px;}
-nav {font-size: 20px;margin-top: 40px;overflow: hidden;display: flex;}
-nav a{padding: 10px 20px;color: rgba(255, 255, 255, 0.74);background: rgba(255, 255, 255, 0.15);text-decoration: none;margin-bottom: 4px;margin-right: 4px;flex-grow: 1;}
+nav {font-size: 25px;margin-top: 40px;overflow: hidden;display: flex;font-family: 'Roboto Condensed', sans-serif;}
+nav a{padding: 10px 20px;color: rgb(255, 255, 255);background: rgba(255, 255, 255, 0.2);text-decoration: none;margin-bottom: 4px;margin-right: 4px;flex-grow: 1;}
+nav .summary {
+	font-size: 12px;
+	float: right;
+}
 nav a:hover { background: rgba(255, 255, 255, 0.3);}
+
+@media screen and (max-width: 500px) {
+    body {
+        background-color: lightgreen;
+    }
+    .regions .item {
+    	flex-grow:1;
+    }
+    .toolbar {
+    	/* position: relative; */
+    	top: 0;
+    	width: 100%;
+    	right: 0;
+    	background: #fff;
+    	min-width: auto;
+    }
+    header {
+    	padding-top: 40px;
+    }
+}
