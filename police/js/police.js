@@ -35,8 +35,7 @@
 
         function load() {
             $('#btn-city-toggle').html(city.name)
-            //console.log(city.coords)
-            map.setCenter(city.coords, city.z)
+            Core.trigger('map.set-center', {coords : city.coords, zoom : city.z});
             if (!window.ymaps) {
                 map.renderStaticHome(city.coords)
             }
@@ -295,7 +294,10 @@
                 if (error) error()
             })
         }
-        Core.on('map.set-center', function() {})
+        Core.on('map.set-center', function(args) {
+            console.log('center', args)
+            map.setCenter(args.coords, args.zoom);
+        })
 
         function markCurrent(addr) {
             Core.trigger('map-click.resolved', { addr: addr });

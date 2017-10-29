@@ -20,7 +20,6 @@ module.exports = function(grunt) {
         }
     }
     grunt.initConfig({
-        //таск для конвертации less в css
         cssmin: {
             options: {
                 mergeIntoShorthands: false,
@@ -28,7 +27,7 @@ module.exports = function(grunt) {
             },
             target: {
                 files: {
-                    "dist/css/main.css": ['css/reset.css', 'css/style.css', 'css/police.css', 'css/view.css', 'css/pages.css']
+                    "dist/css/main.css": ['css/reset.css', 'css/style.css', 'css/police.css', 'css/view.css']
                 }
             }
         },
@@ -53,6 +52,7 @@ module.exports = function(grunt) {
                     { expand: true, src: ['css/img/**'], dest: 'dist/' },
                     { expand: true, src: ['css/static.css'], dest: 'dist/' },
                     { expand: true, src: ['css/style.css'], dest: 'dist/' },
+                    { expand: true, src: ['css/pages.css'], dest: 'dist/' },
                     { expand: true, src: ['data/**'], dest: 'dist/' },
                     { expand: true, src: ['admin/php/**'], dest: 'dist/' },
                     { expand: true, src: ['html/info/**'], dest: 'dist/' },

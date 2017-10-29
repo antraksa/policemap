@@ -48,8 +48,29 @@ var ObjectWrapper = (function() {
                 totalCount += count[cat];
                 total += all[cat];
             }
+
             return { totalRate: getRate(totalCount / total), rates: rates, notFull: notFull };
         }
+    }
+
+    function calcDynamicRate(preg) {
+        var rateHistory = meta.data.rateHistory[preg.number()];
+        if (!rateHistory) return;
+        var lastDate;
+        for (var date in rateHistory) {
+            if (!lastDate || date > lastDate) {
+                lastDate = date;
+            }
+        }
+        preg.lastRateUpdate = new Date(+lastDate);
+        var lr = rateHistory[lastDate], tr = 0, count = 0;
+        for (var key in lr) {
+            tr+=+lr[key];
+            count++;
+        }
+        preg.lastRate = getRate(tr/count);
+        preg.rateUp = preg.lastRate.val <  preg.rate.val;
+        console.log('calcDynamicRate',lastDate, lr, preg)
     }
 
     function getRateColor(r) {
@@ -158,8 +179,12 @@ var ObjectWrapper = (function() {
             }
         },
         clearStyle: function() {
-            if (this.pol)
-                this.pol.options.set('strokeWidth', 1).set('zIndex', 0).set('strokeColor', '#777');
+            if (this.pol) {
+                this.pol.options.set('strokeWidth', 1)
+                .set('zIndex', 0)
+                .set('strokeColor', '#777')
+                .set('fillColor', this.color);
+            }
         },
         calcRate: function() {
             var r = this;
@@ -179,6 +204,7 @@ var ObjectWrapper = (function() {
                 }
                 r.notFullRate = res.notFull;
             }
+            calcDynamicRate(this);
         },
         select: function(focus, nostate) {
             var r = this;
@@ -191,7 +217,7 @@ var ObjectWrapper = (function() {
                         r.place.balloon.open();
                     }
                     if (map && r.pol) {
-                        map.setCenter(getCenter(r.pol), 13)
+                        Core.trigger('map.set-center', {coords : getCenter(r.pol), zoom : 13})
                     }
                 } else {
                     r.markPointOpacity(true)
@@ -234,11 +260,12 @@ var ObjectWrapper = (function() {
         },
         markGroouped: function(val) {
             if (val && this.pol) {
-                this.pol.options.set('strokeWidth', 4).set('zIndex', 11).set('strokeColor', '#444');
+                //this.pol.options.set('strokeWidth', 4).set('zIndex', 11).set('strokeColor', '#444');
+                this.pol.options.set('fillColor', '#aaa');
             } else {
                 this.clearStyle()
             }
-            return this
+            return this;
         },
         show: function(val) {
             if (this.pol) this.pol.options.set('visible', val)
@@ -269,7 +296,9 @@ var ObjectWrapper = (function() {
             Core.trigger('department.select', { department: d })
             if (window.ymaps) {
                 if (focus) {
-                    if (map && d.place) map.setCenter(getCenter(d.place), 13)
+                    if (d.department.coords) {
+                        Core.trigger('map.set-center', {coords : d.department.coords, zoom : 13})
+                    }
                     clearSelections()
                     if (d.place) d.place.balloon.open();
                 }
@@ -291,7 +320,9 @@ var ObjectWrapper = (function() {
         },
         markSelected: function(val) {
             this.markPointOpacity(val);
-            this.regions.forEach(function(r) { r.markSelected(val) })
+            this.regions.forEach(function(r) { 
+                r.markGroouped(val) 
+            })
             if (this.place) {
                 if (!val) this.place.balloon.close();
             }
@@ -331,7 +362,7 @@ var ObjectWrapper = (function() {
             console.log('select sector', focus, s)
             if (window.ymaps) {
                 if (focus && s.sector.coords) {
-                    if (map) map.setCenter(s.sector.coords,  15)
+                    Core.trigger('map.set-center', {coords : s.sector.coords, zoom : 15});
                     //if (s.place)  s.place.balloon.open();
                 }
                 if (sselected) sselected.markSelected(false);
@@ -430,7 +461,7 @@ var ObjectWrapper = (function() {
             return clusterPlacemark;
         }
         cluster.events.add('click', function(e) {
-            map.setCenter(e.get('coords'), 14);
+            Core.trigger('map.set-center', {coords : e.get('coords').coords, zoom : 14});
         })
 
         objects.forEach(function(o, i) {

@@ -4,16 +4,12 @@
     <meta charset="utf-8">
     <title> Policemap </title>
     <link href="css/static.css" rel="stylesheet" media="screen">
-    <link href="css/style.css" rel="stylesheet" media="screen">  <script src="libs/jquery-2.1.3.min.js"></script>  <script src="js/static.js"></script>  <script src="js/static-map.js"></script> 
+    <link href="css/style.css" rel="stylesheet" media="screen">  <script src="libs/jquery-2.1.3.min.js"></script>  <script src="js/static/static.js"></script>  <script src="js/static/static-map.js"></script> 
     <div class="overlay">
     </div>
     <div class="all">
         <div class="toolbar">
             <a class="full"  target="_blank" href="police.html">Полная версия</a>
-            <div class="search">
-                <i class="icon-search fgc" id="btn-search"> </i>
-                <input type="text" placeholder="Поиск" id="txt-search">
-            </div>
         </div>    
         <header>
             <img src="css/img/logo.png" alt="Policemap">
@@ -25,1079 +21,1085 @@
             Это мобильная версия карты полиции для города Санкт-Петербург. 
         </h3>
         <h2> Отделения  Санкт-Петербург </h2>
-        <ul class="regions" id="all-list">
-            <li class="head-item item overflow" data-dep-id="0">
-                <span class="title">
-                ГУ МВД по СПб и ЛО
-            </span>
-            </li>
-            <li class="head-item item overflow" data-dep-id="1">
-                <span class="title">
-                УМВД России по Адмиралтейскому району Санкт-Петербурга
-            </span>
-            </li>
-            <li class="item child-item published-true" data-reg-id="1">
-                <a href="police.html?city=0&rowId=0" target="_blank">
-                <span title="" class="title overflow"> 1 отдел полиции</span>
-                <div id="details-rate-toggle" class="btn-ank star-rate">
-                    <em class="lb">Рейтинг:  2.5</em>   
-                    <i class="icon-star srated2"></i>   
-                    <i class="icon-star srated2"></i>  
-                    <i class="icon-star_border srated2"></i>   
-                    <i class="icon-star_border srated2"></i>   
-                    <i class="icon-star_border srated2"></i>  
-                </div>
-                <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 573-02-10</u> </span>
-                <span class="name"> Березин Юрий Витальевич </span>
-                <span class="rank"> подполковник полиции </span>
-            </a>
-            </li>
-            <li class="item child-item published-" data-reg-id="2">
-                <a href="police.html?city=0&rowId=43" target="_blank">
-                <span title="" class="title overflow"> 2 отдел полиции</span>
-                <div id="details-rate-toggle" class="btn-ank star-rate">
-                    <em class="lb">Рейтинг:  </em> 
-                </div>
-                <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 573-02-24</u> </span>
-                <span class="name"> Конюхов Феликс Николаевич </span>
-                <span class="rank"> подполковник полиции </span>
-            </a>
-            </li>
-            <li class="item child-item published-true" data-reg-id="38">
-                <a href="police.html?city=0&rowId=2" target="_blank">
-                <span title="" class="title overflow"> 38 отдел полиции</span>
-                <div id="details-rate-toggle" class="btn-ank star-rate">
-                    <em class="lb">Рейтинг:  1.6</em>   
-                    <i class="icon-star srated2"></i>   
-                    <i class="icon-star srated2"></i>  
-                    <i class="icon-star_border srated2"></i>   
-                    <i class="icon-star_border srated2"></i>   
-                    <i class="icon-star_border srated2"></i>  
-                </div>
-                <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 573-02-83</u> </span>
-                <span class="name"> Григорьев Александр Анатольевич </span>
-                <span class="rank"> ВРИО, подполковник полиции </span>
-            </a>
-            </li>
-            <li class="item child-item published-true" data-reg-id="77">
-                <a href="police.html?city=0&rowId=3" target="_blank">
-                <span title="" class="title overflow"> 77 отдел полиции</span>
-                <div id="details-rate-toggle" class="btn-ank star-rate">
-                    <em class="lb">Рейтинг:  1.1</em>   
-                    <i class="icon-star srated1"></i>  
-                    <i class="icon-star_border srated1"></i>   
-                    <i class="icon-star_border srated1"></i>   
-                    <i class="icon-star_border srated1"></i>   
-                    <i class="icon-star_border srated1"></i>  
-                </div>
-                <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 573-03-04</u> </span>
-                <span class="name"> Даминов Ильгиз Хасанзанович </span>
-                <span class="rank"> подполковник полиции </span>
-            </a>
-            </li>
-            <li class="head-item item overflow" data-dep-id="2">
-                <span class="title">
-                УМВД России по Василеостровскому району Санкт-Петербурга
-            </span>
-            </li>
-            <li class="item child-item published-true" data-reg-id="16">
-                <a href="police.html?city=0&rowId=4" target="_blank">
-                <span title="" class="title overflow"> 16 отдел полиции</span>
-                <div id="details-rate-toggle" class="btn-ank star-rate">
-                    <em class="lb">Рейтинг:  1.6</em>   
-                    <i class="icon-star srated2"></i>   
-                    <i class="icon-star srated2"></i>  
-                    <i class="icon-star_border srated2"></i>   
-                    <i class="icon-star_border srated2"></i>   
-                    <i class="icon-star_border srated2"></i>  
-                </div>
-                <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 573-04-87</u>  <u>(812) 305-02-16</u> </span>
-                <span class="name"> Данилов Сергей Евгеньевич </span>
-                <span class="rank"> ВРИО, подполковник полиции </span>
-            </a>
-            </li>
-            <li class="item child-item published-true" data-reg-id="30">
-                <a href="police.html?city=0&rowId=5" target="_blank">
-                <span title="" class="title overflow"> 30 отдел полиции</span>
-                <div id="details-rate-toggle" class="btn-ank star-rate">
-                    <em class="lb">Рейтинг:  1.7</em>   
-                    <i class="icon-star srated2"></i>   
-                    <i class="icon-star srated2"></i>  
-                    <i class="icon-star_border srated2"></i>   
-                    <i class="icon-star_border srated2"></i>   
-                    <i class="icon-star_border srated2"></i>  
-                </div>
-                <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 573-04-14</u>  <u>(812) 323-30-02</u> </span>
-                <span class="name"> Соловьев Николай Николаевич </span>
-                <span class="rank"> подполковник полиции </span>
-            </a>
-            </li>
-            <li class="item child-item published-" data-reg-id="37">
-                <a href="police.html?city=0&rowId=6" target="_blank">
-                <span title="" class="title overflow"> 37 отдел полиции</span>
-                <div id="details-rate-toggle" class="btn-ank star-rate">
-                    <em class="lb">Рейтинг:  </em> 
-                </div>
-                <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 573-04-34</u>  <u>(812) 356-37-02</u>  <u>(812) 573-04-34</u> </span>
-                <span class="name"> Аксенов Сергей Сергеевич </span>
-                <span class="rank"> майор полиции </span>
-            </a>
-            </li>
-            <li class="item child-item published-true" data-reg-id="60">
-                <a href="police.html?city=0&rowId=7" target="_blank">
-                <span title="" class="title overflow"> 60 отдел полиции</span>
-                <div id="details-rate-toggle" class="btn-ank star-rate">
-                    <em class="lb">Рейтинг:  1.4</em>   
-                    <i class="icon-star srated1"></i>  
-                    <i class="icon-star_border srated1"></i>   
-                    <i class="icon-star_border srated1"></i>   
-                    <i class="icon-star_border srated1"></i>   
-                    <i class="icon-star_border srated1"></i>  
-                </div>
-                <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 351-06-60</u> </span>
-                <span class="name"> Мишин Илья Владимирович </span>
-                <span class="rank"> подполковник полиции </span>
-            </a>
-            </li>
-            <li class="head-item item overflow" data-dep-id="3">
-                <span class="title">
-                УМВД России по Выборгскому району Санкт-Петербурга
-            </span>
-            </li>
-            <li class="item child-item published-" data-reg-id="19">
-                <a href="police.html?city=0&rowId=8" target="_blank">
-                <span title="" class="title overflow"> 19 отдел полиции</span>
-                <div id="details-rate-toggle" class="btn-ank star-rate">
-                    <em class="lb">Рейтинг:  </em> 
-                </div>
-                <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 550-19-02</u> </span>
-                <span class="name"> Григорьев Виталий Викторович </span>
-                <span class="rank"> полковник полиции </span>
-            </a>
-            </li>
-            <li class="item child-item published-" data-reg-id="20">
-                <a href="police.html?city=0&rowId=9" target="_blank">
-                <span title="" class="title overflow"> 20 отдел полиции</span>
-                <div id="details-rate-toggle" class="btn-ank star-rate">
-                    <em class="lb">Рейтинг:  </em> 
-                </div>
-                <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 542-20-02</u> </span>
-                <span class="name"> Малышев Алексанр Борисович </span>
-                <span class="rank"> подполковник полиции </span>
-            </a>
-            </li>
-            <li class="item child-item published-true" data-reg-id="36">
-                <a href="police.html?city=0&rowId=10" target="_blank">
-                <span title="" class="title overflow"> 36 отдел полиции</span>
-                <div id="details-rate-toggle" class="btn-ank star-rate">
-                    <em class="lb">Рейтинг:  0.8</em>   
-                    <i class="icon-star srated1"></i>  
-                    <i class="icon-star_border srated1"></i>   
-                    <i class="icon-star_border srated1"></i>   
-                    <i class="icon-star_border srated1"></i>   
-                    <i class="icon-star_border srated1"></i>  
-                </div>
-                <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 553-36-02</u>  <u>(812) 573-10-85</u> </span>
-                <span class="name"> Гаджиханов Расим Шабанович </span>
-                <span class="rank"> подполковник полиции </span>
-            </a>
-            </li>
-            <li class="item child-item published-true" data-reg-id="49">
-                <a href="police.html?city=0&rowId=11" target="_blank">
-                <span title="" class="title overflow"> 49 отделение полиции</span>
-                <div id="details-rate-toggle" class="btn-ank star-rate">
-                    <em class="lb">Рейтинг:  1.0</em>   
-                    <i class="icon-star srated1"></i>  
-                    <i class="icon-star_border srated1"></i>   
-                    <i class="icon-star_border srated1"></i>   
-                    <i class="icon-star_border srated1"></i>   
-                    <i class="icon-star_border srated1"></i>  
-                </div>
-                <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 573-11-18</u>  <u>(812) 594-84-10</u> </span>
-                <span class="name"> Дмитриенко Николай Владимирович </span>
-                <span class="rank"> майор полиции </span>
-            </a>
-            </li>
-            <li class="item child-item published-" data-reg-id="57">
-                <a href="police.html?city=0&rowId=12" target="_blank">
-                <span title="" class="title overflow"> 57 отдел полиции</span>
-                <div id="details-rate-toggle" class="btn-ank star-rate">
-                    <em class="lb">Рейтинг:  </em> 
-                </div>
-                <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 559-57-02</u> </span>
-                <span class="name"> Рарыкин Константин Николаевич </span>
-                <span class="rank"> подполковник полиции </span>
-            </a>
-            </li>
-            <li class="item child-item published-true" data-reg-id="58">
-                <a href="police.html?city=0&rowId=13" target="_blank">
-                <span title="" class="title overflow"> 58 отдел полиции</span>
-                <div id="details-rate-toggle" class="btn-ank star-rate">
-                    <em class="lb">Рейтинг:  0.8</em>   
-                    <i class="icon-star srated1"></i>  
-                    <i class="icon-star_border srated1"></i>   
-                    <i class="icon-star_border srated1"></i>   
-                    <i class="icon-star_border srated1"></i>   
-                    <i class="icon-star_border srated1"></i>  
-                </div>
-                <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 517-58-02</u> </span>
-                <span class="name"> Ильницкий Владимир Владимирович </span>
-                <span class="rank"> подполковник полиции </span>
-            </a>
-            </li>
-            <li class="item child-item published-" data-reg-id="59">
-                <a href="police.html?city=0&rowId=14" target="_blank">
-                <span title="" class="title overflow"> 59 отдел полиции</span>
-                <div id="details-rate-toggle" class="btn-ank star-rate">
-                    <em class="lb">Рейтинг:  </em> 
-                </div>
-                <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 517-59-02</u> </span>
-                <span class="name"> Данилевич Игорь Тадович </span>
-                <span class="rank"> подполковник полиции </span>
-            </a>
-            </li>
-            <li class="head-item item overflow" data-dep-id="4">
-                <span class="title">
-                УМВД России по Калининскому району Санкт-Петербурга
-            </span>
-            </li>
-            <li class="item child-item published-" data-reg-id="3">
-                <a href="police.html?city=0&rowId=15" target="_blank">
-                <span title="" class="title overflow"> 3 отдел полиции</span>
-                <div id="details-rate-toggle" class="btn-ank star-rate">
-                    <em class="lb">Рейтинг:  </em> 
-                </div>
-                <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 533-03-02</u> </span>
-                <span class="name"> Буров Сергей Валерьевич </span>
-                <span class="rank"> полковник полиции </span>
-            </a>
-            </li>
-            <li class="item child-item published-" data-reg-id="6">
-                <a href="police.html?city=0&rowId=16" target="_blank">
-                <span title="" class="title overflow"> 6 отдел полиции</span>
-                <div id="details-rate-toggle" class="btn-ank star-rate">
-                    <em class="lb">Рейтинг:  </em> 
-                </div>
-                <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 533-06-02</u> </span>
-                <span class="name"> Морозов Константин Владимирович (Кузин Артем Владимирович) </span>
-                <span class="rank"> полковник полиции </span>
-            </a>
-            </li>
-            <li class="item child-item published-true" data-reg-id="15">
-                <a href="police.html?city=0&rowId=17" target="_blank">
-                <span title="" class="title overflow"> 15 отдел полиции</span>
-                <div id="details-rate-toggle" class="btn-ank star-rate">
-                    <em class="lb">Рейтинг:  1.9</em>   
-                    <i class="icon-star srated2"></i>   
-                    <i class="icon-star srated2"></i>  
-                    <i class="icon-star_border srated2"></i>   
-                    <i class="icon-star_border srated2"></i>   
-                    <i class="icon-star_border srated2"></i>  
-                </div>
-                <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 531-15-02</u> </span>
-                <span class="name"> Ковалёв Андрей Рубенович </span>
-                <span class="rank"> полковник полиции </span>
-            </a>
-            </li>
-            <li class="item child-item published-true" data-reg-id="17">
-                <a href="police.html?city=0&rowId=18" target="_blank">
-                <span title="" class="title overflow"> 17 отдел полиции</span>
-                <div id="details-rate-toggle" class="btn-ank star-rate">
-                    <em class="lb">Рейтинг:  3.5</em>   
-                    <i class="icon-star srated4"></i>   
-                    <i class="icon-star srated4"></i>   
-                    <i class="icon-star srated4"></i>   
-                    <i class="icon-star srated4"></i>  
-                    <i class="icon-star_border srated4"></i>  
-                </div>
-                <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 559-95-48</u> </span>
-                <span class="name"> Гужва Евгений Анатольевич </span>
-                <span class="rank"> майор полиции </span>
-            </a>
-            </li>
-            <li class="item child-item published-true" data-reg-id="21">
-                <a href="police.html?city=0&rowId=19" target="_blank">
-                <span title="" class="title overflow"> 21 отдел полиции</span>
-                <div id="details-rate-toggle" class="btn-ank star-rate">
-                    <em class="lb">Рейтинг:  2.5</em>   
-                    <i class="icon-star srated2"></i>   
-                    <i class="icon-star srated2"></i>  
-                    <i class="icon-star_border srated2"></i>   
-                    <i class="icon-star_border srated2"></i>   
-                    <i class="icon-star_border srated2"></i>  
-                </div>
-                <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 545-21-02</u> </span>
-                <span class="name"> Андреев Вячеслав Николаевич </span>
-                <span class="rank"> подполковник полиции </span>
-            </a>
-            </li>
-            <li class="head-item item overflow" data-dep-id="5">
-                <span class="title">
-                УМВД России по Кировскому району Санкт-Петербурга
-            </span>
-            </li>
-            <li class="item child-item published-" data-reg-id="8">
-                <a href="police.html?city=0&rowId=20" target="_blank">
-                <span title="" class="title overflow"> 8 отдел полиции</span>
-                <div id="details-rate-toggle" class="btn-ank star-rate">
-                    <em class="lb">Рейтинг:  </em> 
-                </div>
-                <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 752-08-02</u> </span>
-                <span class="name"> Мироненков Виталий Евгеньевич </span>
-                <span class="rank"> полковник полиции </span>
-            </a>
-            </li>
-            <li class="item child-item published-" data-reg-id="31">
-                <a href="police.html?city=0&rowId=21" target="_blank">
-                <span title="" class="title overflow"> 31 отдел полиции</span>
-                <div id="details-rate-toggle" class="btn-ank star-rate">
-                    <em class="lb">Рейтинг:  </em> 
-                </div>
-                <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 252-07-02</u> </span>
-                <span class="name"> Кириченко Андрей Викторович </span>
-                <span class="rank"> полковник полиции </span>
-            </a>
-            </li>
-            <li class="item child-item published-true" data-reg-id="64">
-                <a href="police.html?city=0&rowId=22" target="_blank">
-                <span title="" class="title overflow"> 64 отдел полиции</span>
-                <div id="details-rate-toggle" class="btn-ank star-rate">
-                    <em class="lb">Рейтинг:  2.5</em>   
-                    <i class="icon-star srated3"></i>   
-                    <i class="icon-star srated3"></i>   
-                    <i class="icon-star srated3"></i>  
-                    <i class="icon-star_border srated3"></i>   
-                    <i class="icon-star_border srated3"></i>  
-                </div>
-                <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 573-14-64</u>  <u>(812) 757-64-02</u> </span>
-                <span class="name"> Смирнов Леонид Валерьевич </span>
-                <span class="rank"> полковник полиции </span>
-            </a>
-            </li>
-            <li class="head-item item overflow" data-dep-id="6">
-                <span class="title">
-                ОМВД России по Колпинскому району Санкт-Петербурга
-            </span>
-            </li>
-            <li class="item child-item published-" data-reg-id="39">
-                <a href="police.html?city=0&rowId=23" target="_blank">
-                <span title="" class="title overflow"> 39 отдел полиции</span>
-                <div id="details-rate-toggle" class="btn-ank star-rate">
-                    <em class="lb">Рейтинг:  </em> 
-                </div>
-                <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 464-02-02</u> </span>
-                <span class="name"> Шкурко Василий Владимирович </span>
-                <span class="rank"> подполковник полиции </span>
-            </a>
-            </li>
-            <li class="item child-item published-" data-reg-id="55">
-                <a href="police.html?city=0&rowId=24" target="_blank">
-                <span title="" class="title overflow"> 55 отдел полиции</span>
-                <div id="details-rate-toggle" class="btn-ank star-rate">
-                    <em class="lb">Рейтинг:  </em> 
-                </div>
-                <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 573-06-12</u>  <u>(812) 481-02-02</u> </span>
-                <span class="name"> Левашов Артем Валерьевич </span>
-                <span class="rank"> полковник полиции </span>
-            </a>
-            </li>
-            <li class="item child-item published-" data-reg-id="80">
-                <a href="police.html?city=0&rowId=25" target="_blank">
-                <span title="" class="title overflow"> 80 отдел полиции</span>
-                <div id="details-rate-toggle" class="btn-ank star-rate">
-                    <em class="lb">Рейтинг:  </em> 
-                </div>
-                <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 573-06-22</u> </span>
-                <span class="name"> Красавин Андрей Алексеевич </span>
-                <span class="rank"> ВРИО, капитан полиции </span>
-            </a>
-            </li>
-            <li class="head-item item overflow" data-dep-id="7">
-                <span class="title">
-                УМВД России по Красногвардейскому району Санкт-Петербурга
-            </span>
-            </li>
-            <li class="item child-item published-true" data-reg-id="13">
-                <a href="police.html?city=0&rowId=26" target="_blank">
-                <span title="" class="title overflow"> 13 отдел полиции</span>
-                <div id="details-rate-toggle" class="btn-ank star-rate">
-                    <em class="lb">Рейтинг:  1.5</em>   
-                    <i class="icon-star srated2"></i>   
-                    <i class="icon-star srated2"></i>  
-                    <i class="icon-star_border srated2"></i>   
-                    <i class="icon-star_border srated2"></i>   
-                    <i class="icon-star_border srated2"></i>  
-                </div>
-                <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 573-15-84</u> </span>
-                <span class="name"> Монин Артем Валерьевич </span>
-                <span class="rank"> полковник полиции </span>
-            </a>
-            </li>
-            <li class="item child-item published-" data-reg-id="22">
-                <a href="police.html?city=0&rowId=27" target="_blank">
-                <span title="" class="title overflow"> 22 отдел полиции</span>
-                <div id="details-rate-toggle" class="btn-ank star-rate">
-                    <em class="lb">Рейтинг:  </em> 
-                </div>
-                <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 573-16-06</u> </span>
-                <span class="name"> Каменщиков Никита Владимирович </span>
-                <span class="rank"> подполковник полиции </span>
-            </a>
-            </li>
-            <li class="item child-item published-" data-reg-id="26">
-                <a href="police.html?city=0&rowId=28" target="_blank">
-                <span title="" class="title overflow"> 26 отдел полиции</span>
-                <div id="details-rate-toggle" class="btn-ank star-rate">
-                    <em class="lb">Рейтинг:  </em> 
-                </div>
-                <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 573-16-13</u> </span>
-                <span class="name"> Барановский Анатолий Васильевич </span>
-                <span class="rank"> полковник полиции </span>
-            </a>
-            </li>
-            <li class="item child-item published-true" data-reg-id="52">
-                <a href="police.html?city=0&rowId=29" target="_blank">
-                <span title="" class="title overflow"> 52 отдел полиции</span>
-                <div id="details-rate-toggle" class="btn-ank star-rate">
-                    <em class="lb">Рейтинг:  1.5</em>   
-                    <i class="icon-star srated2"></i>   
-                    <i class="icon-star srated2"></i>  
-                    <i class="icon-star_border srated2"></i>   
-                    <i class="icon-star_border srated2"></i>   
-                    <i class="icon-star_border srated2"></i>  
-                </div>
-                <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 573-15-96</u> </span>
-                <span class="name"> Татаров Андрей Николаевич </span>
-                <span class="rank"> подполковник полиции </span>
-            </a>
-            </li>
-            <li class="item child-item published-true" data-reg-id="66">
-                <a href="police.html?city=0&rowId=30" target="_blank">
-                <span title="" class="title overflow"> 66 отдел полиции</span>
-                <div id="details-rate-toggle" class="btn-ank star-rate">
-                    <em class="lb">Рейтинг:  2.0</em>   
-                    <i class="icon-star srated2"></i>   
-                    <i class="icon-star srated2"></i>  
-                    <i class="icon-star_border srated2"></i>   
-                    <i class="icon-star_border srated2"></i>   
-                    <i class="icon-star_border srated2"></i>  
-                </div>
-                <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 573-16-20</u> </span>
-                <span class="name"> Татарских Вадим Борисович   (Федоров Александр Владимирович) </span>
-                <span class="rank"> полковник полиции </span>
-            </a>
-            </li>
-            <li class="head-item item overflow" data-dep-id="8">
-                <span class="title">
-                УМВД России по Красносельскому району Санкт-Петербурга
-            </span>
-            </li>
-            <li class="item child-item published-" data-reg-id="9">
-                <a href="police.html?city=0&rowId=31" target="_blank">
-                <span title="" class="title overflow"> 9 отдел полиции</span>
-                <div id="details-rate-toggle" class="btn-ank star-rate">
-                    <em class="lb">Рейтинг:  </em> 
-                </div>
-                <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 741-80-02</u> </span>
-                <span class="name"> Ерофеев Алексей Анатольевич </span>
-                <span class="rank"> полковник полиции </span>
-            </a>
-            </li>
-            <li class="item child-item published-true" data-reg-id="42">
-                <a href="police.html?city=0&rowId=32" target="_blank">
-                <span title="" class="title overflow"> 42 отдел полиции</span>
-                <div id="details-rate-toggle" class="btn-ank star-rate">
-                    <em class="lb">Рейтинг:  2.1</em>   
-                    <i class="icon-star srated2"></i>   
-                    <i class="icon-star srated2"></i>  
-                    <i class="icon-star_border srated2"></i>   
-                    <i class="icon-star_border srated2"></i>   
-                    <i class="icon-star_border srated2"></i>  
-                </div>
-                <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 573-55-27</u> </span>
-                <span class="name"> Бербасов Николай Михайлович </span>
-                <span class="rank"> подполковник полиции </span>
-            </a>
-            </li>
-            <li class="item child-item published-true" data-reg-id="54">
-                <a href="police.html?city=0&rowId=33" target="_blank">
-                <span title="" class="title overflow"> 54 отдел полиции</span>
-                <div id="details-rate-toggle" class="btn-ank star-rate">
-                    <em class="lb">Рейтинг:  2.3</em>   
-                    <i class="icon-star srated2"></i>   
-                    <i class="icon-star srated2"></i>  
-                    <i class="icon-star_border srated2"></i>   
-                    <i class="icon-star_border srated2"></i>   
-                    <i class="icon-star_border srated2"></i>  
-                </div>
-                <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 730-45-11</u>  <u>(812) 573-55-46</u> </span>
-                <span class="name"> Плетенец Андрей Алексеевич </span>
-                <span class="rank"> подполковник полиции </span>
-            </a>
-            </li>
-            <li class="item child-item published-true" data-reg-id="74">
-                <a href="police.html?city=0&rowId=34" target="_blank">
-                <span title="" class="title overflow"> 74 отдел полиции</span>
-                <div id="details-rate-toggle" class="btn-ank star-rate">
-                    <em class="lb">Рейтинг:  1.3</em>   
-                    <i class="icon-star srated1"></i>  
-                    <i class="icon-star_border srated1"></i>   
-                    <i class="icon-star_border srated1"></i>   
-                    <i class="icon-star_border srated1"></i>   
-                    <i class="icon-star_border srated1"></i>  
-                </div>
-                <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 573-55-63</u> </span>
-                <span class="name"> Сурмиевич Игорь Александрович </span>
-                <span class="rank"> подполковник полиции </span>
-            </a>
-            </li>
-            <li class="item child-item published-true" data-reg-id="82">
-                <a href="police.html?city=0&rowId=35" target="_blank">
-                <span title="" class="title overflow"> 82 отдел полиции</span>
-                <div id="details-rate-toggle" class="btn-ank star-rate">
-                    <em class="lb">Рейтинг:  2.2</em>   
-                    <i class="icon-star srated2"></i>   
-                    <i class="icon-star srated2"></i>  
-                    <i class="icon-star_border srated2"></i>   
-                    <i class="icon-star_border srated2"></i>   
-                    <i class="icon-star_border srated2"></i>  
-                </div>
-                <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 573-64-10</u> </span>
-                <span class="name"> Мишенин Владимир Александрович </span>
-                <span class="rank"> подполковник полиции </span>
-            </a>
-            </li>
-            <li class="item child-item published-" data-reg-id="84">
-                <a href="police.html?city=0&rowId=36" target="_blank">
-                <span title="" class="title overflow"> 84 отдел полиции</span>
-                <div id="details-rate-toggle" class="btn-ank star-rate">
-                    <em class="lb">Рейтинг:  </em> 
-                </div>
-                <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 573-64-32</u> </span>
-                <span class="name"> Патрушев Дмитрий Викторович </span>
-                <span class="rank"> подполковник полиции </span>
-            </a>
-            </li>
-            <li class="head-item item overflow" data-dep-id="9">
-                <span class="title">
-                ОМВД России по Кронштадтскому району Санкт-Петербурга
-            </span>
-            </li>
-            <li class="head-item item overflow" data-dep-id="10">
-                <span class="title">
-                ОМВД России по Курортному району Санкт-Петербурга
-            </span>
-            </li>
-            <li class="item child-item published-true" data-reg-id="50">
-                <a href="police.html?city=0&rowId=39" target="_blank">
-                <span title="" class="title overflow"> 50 отделение полиции</span>
-                <div id="details-rate-toggle" class="btn-ank star-rate">
-                    <em class="lb">Рейтинг:  1.5</em>   
-                    <i class="icon-star srated1"></i>  
-                    <i class="icon-star_border srated1"></i>   
-                    <i class="icon-star_border srated1"></i>   
-                    <i class="icon-star_border srated1"></i>   
-                    <i class="icon-star_border srated1"></i>  
-                </div>
-                <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 596-87-02</u> </span>
-                <span class="name"> Донцов Юрий Сергеевич </span>
-                <span class="rank"> майор полиции </span>
-            </a>
-            </li>
-            <li class="item child-item published-true" data-reg-id="81">
-                <a href="police.html?city=0&rowId=40" target="_blank">
-                <span title="" class="title overflow"> 81 отделение полиции</span>
-                <div id="details-rate-toggle" class="btn-ank star-rate">
-                    <em class="lb">Рейтинг:  2.8</em>   
-                    <i class="icon-star srated3"></i>   
-                    <i class="icon-star srated3"></i>   
-                    <i class="icon-star srated3"></i>  
-                    <i class="icon-star_border srated3"></i>   
-                    <i class="icon-star_border srated3"></i>  
-                </div>
-                <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 433-47-02</u> </span>
-                <span class="name"> Аскендеров Керим Вагифович </span>
-                <span class="rank"> подполковник полиции </span>
-            </a>
-            </li>
-            <li class="head-item item overflow" data-dep-id="11">
-                <span class="title">
-                УМВД России по Московскому району Санкт-Петербурга
-            </span>
-            </li>
-            <li class="item child-item published-" data-reg-id="29">
-                <a href="police.html?city=0&rowId=41" target="_blank">
-                <span title="" class="title overflow"> 29 отдел полиции</span>
-                <div id="details-rate-toggle" class="btn-ank star-rate">
-                    <em class="lb">Рейтинг:  </em> 
-                </div>
-                <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 573-47-71</u> </span>
-                <span class="name"> Шадиев Руслан Абдурашидович </span>
-                <span class="rank"> майор полиции </span>
-            </a>
-            </li>
-            <li class="item child-item published-" data-reg-id="33">
-                <a href="police.html?city=0&rowId=42" target="_blank">
-                <span title="" class="title overflow"> 33 отдел полиции</span>
-                <div id="details-rate-toggle" class="btn-ank star-rate">
-                    <em class="lb">Рейтинг:  </em> 
-                </div>
-                <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 573-47-73</u>  <u>(812) 378-67-48</u> </span>
-                <span class="name"> Волошин Михаил Юрьевич </span>
-                <span class="rank"> подполковник полиции </span>
-            </a>
-            </li>
-            <li class="item child-item published-true" data-reg-id="51">
-                <a href="police.html?city=0&rowId=85" target="_blank">
-                <span title="" class="title overflow"> 51 отдел полиции</span>
-                <div id="details-rate-toggle" class="btn-ank star-rate">
-                    <em class="lb">Рейтинг:  2.6</em>   
-                    <i class="icon-star srated3"></i>   
-                    <i class="icon-star srated3"></i>   
-                    <i class="icon-star srated3"></i>  
-                    <i class="icon-star_border srated3"></i>   
-                    <i class="icon-star_border srated3"></i>  
-                </div>
-                <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 573-47-74</u> </span>
-                <span class="name"> Праздничный Александр Александрович </span>
-                <span class="rank"> полковник полиции </span>
-            </a>
-            </li>
-            <li class="head-item item overflow" data-dep-id="12">
-                <span class="title">
-                УМВД России по Невскому району Санкт-Петербурга
-            </span>
-            </li>
-            <li class="item child-item published-" data-reg-id="10">
-                <a href="police.html?city=0&rowId=44" target="_blank">
-                <span title="" class="title overflow"> 10 отдел полиции</span>
-                <div id="details-rate-toggle" class="btn-ank star-rate">
-                    <em class="lb">Рейтинг:  </em> 
-                </div>
-                <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 560-02-02</u> </span>
-                <span class="name"> Поздняков Сергей Иванович </span>
-                <span class="rank"> майор полиции </span>
-            </a>
-            </li>
-            <li class="item child-item published-" data-reg-id="23">
-                <a href="police.html?city=0&rowId=45" target="_blank">
-                <span title="" class="title overflow"> 23 отдел полиции</span>
-                <div id="details-rate-toggle" class="btn-ank star-rate">
-                    <em class="lb">Рейтинг:  </em> 
-                </div>
-                <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 573-71-12</u> </span>
-                <span class="name"> Колонистов Сергей Валерьевич </span>
-                <span class="rank"> полковник полиции </span>
-            </a>
-            </li>
-            <li class="item child-item published-true" data-reg-id="24">
-                <a href="police.html?city=0&rowId=46" target="_blank">
-                <span title="" class="title overflow"> 24 отдел полиции</span>
-                <div id="details-rate-toggle" class="btn-ank star-rate">
-                    <em class="lb">Рейтинг:  3.6</em>   
-                    <i class="icon-star srated4"></i>   
-                    <i class="icon-star srated4"></i>   
-                    <i class="icon-star srated4"></i>   
-                    <i class="icon-star srated4"></i>  
-                    <i class="icon-star_border srated4"></i>  
-                </div>
-                <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 573-57-99</u> </span>
-                <span class="name"> Иванов Евгений Владимирович </span>
-                <span class="rank"> полковник полиции </span>
-            </a>
-            </li>
-            <li class="item child-item published-true" data-reg-id="32">
-                <a href="police.html?city=0&rowId=47" target="_blank">
-                <span title="" class="title overflow"> 32 отдел полиции</span>
-                <div id="details-rate-toggle" class="btn-ank star-rate">
-                    <em class="lb">Рейтинг:  2.7</em>   
-                    <i class="icon-star srated3"></i>   
-                    <i class="icon-star srated3"></i>   
-                    <i class="icon-star srated3"></i>  
-                    <i class="icon-star_border srated3"></i>   
-                    <i class="icon-star_border srated3"></i>  
-                </div>
-                <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 573-58-02</u> </span>
-                <span class="name"> Черняев Александр Борисович </span>
-                <span class="rank"> капитан полиции </span>
-            </a>
-            </li>
-            <li class="item child-item published-" data-reg-id="45">
-                <a href="police.html?city=0&rowId=48" target="_blank">
-                <span title="" class="title overflow"> 45 отдел полиции</span>
-                <div id="details-rate-toggle" class="btn-ank star-rate">
-                    <em class="lb">Рейтинг:  </em> 
-                </div>
-                <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 573-58-11</u>  <u>(812) 700-45-02</u> </span>
-                <span class="name"> Рошка Геннадий Иванович </span>
-                <span class="rank"> полковник полиции </span>
-            </a>
-            </li>
-            <li class="item child-item published-true" data-reg-id="70">
-                <a href="police.html?city=0&rowId=49" target="_blank">
-                <span title="" class="title overflow"> 70 отдел полиции</span>
-                <div id="details-rate-toggle" class="btn-ank star-rate">
-                    <em class="lb">Рейтинг:  1.3</em>   
-                    <i class="icon-star srated1"></i>  
-                    <i class="icon-star_border srated1"></i>   
-                    <i class="icon-star_border srated1"></i>   
-                    <i class="icon-star_border srated1"></i>   
-                    <i class="icon-star_border srated1"></i>  
-                </div>
-                <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 573-71-21</u> </span>
-                <span class="name"> Джураев Виталий Тошбаевич </span>
-                <span class="rank"> подполковник полиции </span>
-            </a>
-            </li>
-            <li class="item child-item published-" data-reg-id="75">
-                <a href="police.html?city=0&rowId=50" target="_blank">
-                <span title="" class="title overflow"> 75 отдел полиции</span>
-                <div id="details-rate-toggle" class="btn-ank star-rate">
-                    <em class="lb">Рейтинг:  </em> 
-                </div>
-                <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 573-71-11</u> </span>
-                <span class="name"> Грачев Павел Николаевич </span>
-                <span class="rank"> полковник полиции </span>
-            </a>
-            </li>
-            <li class="head-item item overflow" data-dep-id="13">
-                <span class="title">
-                УМВД России по Петроградскому району Санкт-Петербурга
-            </span>
-            </li>
-            <li class="item child-item published-true" data-reg-id="18">
-                <a href="police.html?city=0&rowId=51" target="_blank">
-                <span title="" class="title overflow"> 18 отдел полиции</span>
-                <div id="details-rate-toggle" class="btn-ank star-rate">
-                    <em class="lb">Рейтинг:  2.0</em>   
-                    <i class="icon-star srated2"></i>   
-                    <i class="icon-star srated2"></i>  
-                    <i class="icon-star_border srated2"></i>   
-                    <i class="icon-star_border srated2"></i>   
-                    <i class="icon-star_border srated2"></i>  
-                </div>
-                <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 573-45-98</u> </span>
-                <span class="name"> Смирнов Сергей Владимирович </span>
-                <span class="rank"> подполковник полиции </span>
-            </a>
-            </li>
-            <li class="item child-item published-" data-reg-id="43">
-                <a href="police.html?city=0&rowId=52" target="_blank">
-                <span title="" class="title overflow"> 43 отдел полиции</span>
-                <div id="details-rate-toggle" class="btn-ank star-rate">
-                    <em class="lb">Рейтинг:  </em> 
-                </div>
-                <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 573-44-24</u>  <u>(812) 232-43-02</u> </span>
-                <span class="name"> Краев Александр Николаевич </span>
-                <span class="rank"> подполковник </span>
-            </a>
-            </li>
-            <li class="item child-item published-true" data-reg-id="71">
-                <a href="police.html?city=0&rowId=53" target="_blank">
-                <span title="" class="title overflow"> 71 отдел полиции</span>
-                <div id="details-rate-toggle" class="btn-ank star-rate">
-                    <em class="lb">Рейтинг:  1.2</em>   
-                    <i class="icon-star srated1"></i>  
-                    <i class="icon-star_border srated1"></i>   
-                    <i class="icon-star_border srated1"></i>   
-                    <i class="icon-star_border srated1"></i>   
-                    <i class="icon-star_border srated1"></i>  
-                </div>
-                <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 573-46-13</u>  <u>(812) 230-71-02</u> </span>
-                <span class="name"> Башков Тимур Анатольевич </span>
-                <span class="rank"> майор </span>
-            </a>
-            </li>
-            <li class="head-item item overflow" data-dep-id="14">
-                <span class="title">
-                ОМВД России по Петродворцовому району Санкт-Петербурга
-            </span>
-            </li>
-            <li class="item child-item published-true" data-reg-id="46">
-                <a href="police.html?city=0&rowId=54" target="_blank">
-                <span title="" class="title overflow"> 46 отделение полиции</span>
-                <div id="details-rate-toggle" class="btn-ank star-rate">
-                    <em class="lb">Рейтинг:  2.4</em>   
-                    <i class="icon-star srated2"></i>   
-                    <i class="icon-star srated2"></i>  
-                    <i class="icon-star_border srated2"></i>   
-                    <i class="icon-star_border srated2"></i>   
-                    <i class="icon-star_border srated2"></i>  
-                </div>
-                <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 573-53-10</u> </span>
-                <span class="name"> Ботвин Владимир Владимирович </span>
-                <span class="rank"> подполковник полиции </span>
-            </a>
-            </li>
-            <li class="item child-item published-true" data-reg-id="85">
-                <a href="police.html?city=0&rowId=55" target="_blank">
-                <span title="" class="title overflow"> 85 отдел полиции</span>
-                <div id="details-rate-toggle" class="btn-ank star-rate">
-                    <em class="lb">Рейтинг:  2.2</em>   
-                    <i class="icon-star srated2"></i>   
-                    <i class="icon-star srated2"></i>  
-                    <i class="icon-star_border srated2"></i>   
-                    <i class="icon-star_border srated2"></i>   
-                    <i class="icon-star_border srated2"></i>  
-                </div>
-                <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 573-53-02</u> </span>
-                <span class="name"> Магеррамов Байрам Раваимович </span>
-                <span class="rank"> ВРИО, майор полиции </span>
-            </a>
-            </li>
-            <li class="head-item item overflow" data-dep-id="15">
-                <span class="title">
-                УМВД России по Приморскому району Санкт-Петербурга
-            </span>
-            </li>
-            <li class="item child-item published-true" data-reg-id="25">
-                <a href="police.html?city=0&rowId=56" target="_blank">
-                <span title="" class="title overflow"> 25 отдел полиции</span>
-                <div id="details-rate-toggle" class="btn-ank star-rate">
-                    <em class="lb">Рейтинг:  2.2</em>   
-                    <i class="icon-star srated2"></i>   
-                    <i class="icon-star srated2"></i>  
-                    <i class="icon-star_border srated2"></i>   
-                    <i class="icon-star_border srated2"></i>   
-                    <i class="icon-star_border srated2"></i>  
-                </div>
-                <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 344-08-00</u> </span>
-                <span class="name"> Смирнов Андрей Михайлович </span>
-                <span class="rank"> полковник </span>
-            </a>
-            </li>
-            <li class="item child-item published-true" data-reg-id="34">
-                <a href="police.html?city=0&rowId=57" target="_blank">
-                <span title="" class="title overflow"> 34 отдел полиции</span>
-                <div id="details-rate-toggle" class="btn-ank star-rate">
-                    <em class="lb">Рейтинг:  2.1</em>   
-                    <i class="icon-star srated2"></i>   
-                    <i class="icon-star srated2"></i>  
-                    <i class="icon-star_border srated2"></i>   
-                    <i class="icon-star_border srated2"></i>   
-                    <i class="icon-star_border srated2"></i>  
-                </div>
-                <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 573-60-28</u> </span>
-                <span class="name"> Назаров Кирилл Борисович </span>
-                <span class="rank"> майор полиции </span>
-            </a>
-            </li>
-            <li class="item child-item published-" data-reg-id="35">
-                <a href="police.html?city=0&rowId=58" target="_blank">
-                <span title="" class="title overflow"> 35 отдел полиции</span>
-                <div id="details-rate-toggle" class="btn-ank star-rate">
-                    <em class="lb">Рейтинг:  </em> 
-                </div>
-                <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 573-59-72</u> </span>
-                <span class="name"> Яванский Николай Николаевич </span>
-                <span class="rank"> полковник полиции </span>
-            </a>
-            </li>
-            <li class="item child-item published-" data-reg-id="44">
-                <a href="police.html?city=0&rowId=59" target="_blank">
-                <span title="" class="title overflow"> 44 отдел полиции</span>
-                <div id="details-rate-toggle" class="btn-ank star-rate">
-                    <em class="lb">Рейтинг:  </em> 
-                </div>
-                <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 573-59-90</u> </span>
-                <span class="name"> Панкевич Алексей Константинович </span>
-                <span class="rank"> Начальник ОП, полковник полиции </span>
-            </a>
-            </li>
-            <li class="item child-item published-true" data-reg-id="53">
-                <a href="police.html?city=0&rowId=60" target="_blank">
-                <span title="" class="title overflow"> 53 отдел полиции</span>
-                <div id="details-rate-toggle" class="btn-ank star-rate">
-                    <em class="lb">Рейтинг:  2.9</em>   
-                    <i class="icon-star srated3"></i>   
-                    <i class="icon-star srated3"></i>   
-                    <i class="icon-star srated3"></i>  
-                    <i class="icon-star_border srated3"></i>   
-                    <i class="icon-star_border srated3"></i>  
-                </div>
-                <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 348-48-02</u> </span>
-                <span class="name"> Ерёмин Евгений Дмитриевич </span>
-                <span class="rank"> полковник полиции </span>
-            </a>
-            </li>
-            <li class="item child-item published-" data-reg-id="86">
-                <a href="police.html?city=0&rowId=61" target="_blank">
-                <span title="" class="title overflow"> 86 отдел полиции</span>
-                <div id="details-rate-toggle" class="btn-ank star-rate">
-                    <em class="lb">Рейтинг:  </em> 
-                </div>
-                <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 573-60-00</u> </span>
-                <span class="name"> Чернышев Геннадий Геннадьевич </span>
-                <span class="rank"> подполковник </span>
-            </a>
-            </li>
-            <li class="head-item item overflow" data-dep-id="16">
-                <span class="title">
-                ОМВД России по Пушкинскому району Санкт-Петербурга
-            </span>
-            </li>
-            <li class="head-item item overflow" data-dep-id="17">
-                <span class="title">
-                УМВД России по Фрунзенскому району Санкт-Петербурга
-            </span>
-            </li>
-            <li class="item child-item published-" data-reg-id="5">
-                <a href="police.html?city=0&rowId=63" target="_blank">
-                <span title="" class="title overflow"> 5 отдел полиции</span>
-                <div id="details-rate-toggle" class="btn-ank star-rate">
-                    <em class="lb">Рейтинг:  </em> 
-                </div>
-                <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 766-11-02</u> </span>
-                <span class="name"> Турчин Андрей Павлович </span>
-                <span class="rank"> подполковник полиции </span>
-            </a>
-            </li>
-            <li class="item child-item published-" data-reg-id="7">
-                <a href="police.html?city=0&rowId=64" target="_blank">
-                <span title="" class="title overflow"> 7 отдел полиции</span>
-                <div id="details-rate-toggle" class="btn-ank star-rate">
-                    <em class="lb">Рейтинг:  </em> 
-                </div>
-                <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 776-72-02</u> </span>
-                <span class="name"> Бобров Алексей Михайлович </span>
-                <span class="rank"> полковник полиции </span>
-            </a>
-            </li>
-            <li class="item child-item published-" data-reg-id="12">
-                <a href="police.html?city=0&rowId=65" target="_blank">
-                <span title="" class="title overflow"> 12 отдел полиции</span>
-                <div id="details-rate-toggle" class="btn-ank star-rate">
-                    <em class="lb">Рейтинг:  </em> 
-                </div>
-                <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 360-40-02</u> </span>
-                <span class="name"> Павловец Андрей Валерьевич </span>
-                <span class="rank"> полковник полиции </span>
-            </a>
-            </li>
-            <li class="item child-item published-true" data-reg-id="14">
-                <a href="police.html?city=0&rowId=66" target="_blank">
-                <span title="" class="title overflow"> 14 отдел полиции</span>
-                <div id="details-rate-toggle" class="btn-ank star-rate">
-                    <em class="lb">Рейтинг:  2.4</em>   
-                    <i class="icon-star srated2"></i>   
-                    <i class="icon-star srated2"></i>  
-                    <i class="icon-star_border srated2"></i>   
-                    <i class="icon-star_border srated2"></i>   
-                    <i class="icon-star_border srated2"></i>  
-                </div>
-                <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 776-41-02</u> </span>
-                <span class="name"> Зеленков Федор Иванович </span>
-                <span class="rank"> полковник полиции </span>
-            </a>
-            </li>
-            <li class="item child-item published-true" data-reg-id="27">
-                <a href="police.html?city=0&rowId=67" target="_blank">
-                <span title="" class="title overflow"> 27 отдел полиции</span>
-                <div id="details-rate-toggle" class="btn-ank star-rate">
-                    <em class="lb">Рейтинг:  1.2</em>   
-                    <i class="icon-star srated1"></i>  
-                    <i class="icon-star_border srated1"></i>   
-                    <i class="icon-star_border srated1"></i>   
-                    <i class="icon-star_border srated1"></i>   
-                    <i class="icon-star_border srated1"></i>  
-                </div>
-                <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 360-04-02</u> </span>
-                <span class="name"> Поляков Виктор Сергеевич </span>
-                <span class="rank"> Начальник ОП, полковник полиции </span>
-            </a>
-            </li>
-            <li class="head-item item overflow" data-dep-id="18">
-                <span class="title">
-                УМВД России по Центральному району Санкт-Петербурга
-            </span>
-            </li>
-            <li class="item child-item published-true" data-reg-id="28">
-                <a href="police.html?city=0&rowId=68" target="_blank">
-                <span title="" class="title overflow"> 28 отдел полиции</span>
-                <div id="details-rate-toggle" class="btn-ank star-rate">
-                    <em class="lb">Рейтинг:  2.9</em>   
-                    <i class="icon-star srated3"></i>   
-                    <i class="icon-star srated3"></i>   
-                    <i class="icon-star srated3"></i>  
-                    <i class="icon-star_border srated3"></i>   
-                    <i class="icon-star_border srated3"></i>  
-                </div>
-                <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 573-50-58</u> </span>
-                <span class="name"> Шабанов Алексей Михайлович </span>
-                <span class="rank"> майор полиции </span>
-            </a>
-            </li>
-            <li class="item child-item published-true" data-reg-id="76">
-                <a href="police.html?city=0&rowId=69" target="_blank">
-                <span title="" class="title overflow"> 76 отдел полиции</span>
-                <div id="details-rate-toggle" class="btn-ank star-rate">
-                    <em class="lb">Рейтинг:  1.7</em>   
-                    <i class="icon-star srated2"></i>   
-                    <i class="icon-star srated2"></i>  
-                    <i class="icon-star_border srated2"></i>   
-                    <i class="icon-star_border srated2"></i>   
-                    <i class="icon-star_border srated2"></i>  
-                </div>
-                <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 573-49-10</u> </span>
-                <span class="name"> Данилов Сергей Евгеньевич </span>
-                <span class="rank"> подполковник полиции </span>
-            </a>
-            </li>
-            <li class="item child-item published-true" data-reg-id="78">
-                <a href="police.html?city=0&rowId=70" target="_blank">
-                <span title="" class="title overflow"> 78 отдел полиции</span>
-                <div id="details-rate-toggle" class="btn-ank star-rate">
-                    <em class="lb">Рейтинг:  2.1</em>   
-                    <i class="icon-star srated2"></i>   
-                    <i class="icon-star srated2"></i>  
-                    <i class="icon-star_border srated2"></i>   
-                    <i class="icon-star_border srated2"></i>   
-                    <i class="icon-star_border srated2"></i>  
-                </div>
-                <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 573-51-00</u> </span>
-                <span class="name"> Кубанцев Вадим Юрьевич </span>
-                <span class="rank"> подполковник полиции </span>
-            </a>
-            </li>
-            <li class="head-item item overflow" data-dep-id="19">
-                <span class="title">
-                Управление полиции на Петербургском метрополитене
-            </span>
-            </li>
-            <li class="head-item item overflow" data-dep-id="20">
-                <span class="title">
-                Санкт-Петербургское линейное управление МВД России на транспорте
-            </span>
-            </li>
-            <li class="head-item item overflow" data-dep-id="21">
-                <span class="title">
-                Санкт-Петербург-Балтийский линейный отдел МВД России на транспорте
-            </span>
-            </li>
-            <li class="head-item item overflow" data-dep-id="22">
-                <span class="title">
-                Санкт-Петербург-Витебский линейный отдел МВД России на транспорте
-            </span>
-            </li>
-            <li class="head-item item overflow" data-dep-id="23">
-                <span class="title">
-                Линейный отдел полиции на станции Санкт-Петербург-Ладожский
-            </span>
-            </li>
-            <li class="head-item item overflow" data-dep-id="24">
-                <span class="title">
-                Санкт-Петербург-Финляндский линейный отдел МВД России на транспорте
-            </span>
-            </li>
-            <li class="head-item item overflow" data-dep-id="25">
-                <span class="title">
-                Санкт-Петербургский линейный отдел МВД России на водном транспорте
-            </span>
-            </li>
-            <li class="head-item item overflow" data-dep-id="26">
-                <span class="title">
-                Линейный отдел МВД России в аэропорту Пулково
-            </span>
-            </li>
-        </ul>
+        <div class="list">
+            <div class="search">
+                <i class="icon-search fgc" id="btn-search"> </i>
+                <input type="text" placeholder="Поиск" id="txt-search">
+            </div>
+            <ul class="regions" id="all-list">
+                <li class="head-item item overflow" data-dep-id="0">
+                    <a class="title" href="police.html#city=0&rowId=0&type=department" target="_blank">
+                        ГУ МВД по СПб и ЛО
+                    </a>
+                </li>
+                <li class="head-item item overflow" data-dep-id="1">
+                    <a class="title" href="police.html#city=0&rowId=1&type=department" target="_blank">
+                        УМВД России по Адмиралтейскому району Санкт-Петербурга
+                    </a>
+                </li>
+                <li class="item child-item published-true" data-reg-id="1">
+                    <a href="police.html#city=0&rowId=0" target="_blank">
+                    <span title="" class="title overflow"> 1 отдел полиции</span>
+                    <div id="details-rate-toggle" class="btn-ank star-rate">
+                        <em class="lb rate-up-false">Рейтинг:  3.1</em>   
+                        <i class="icon-star srated3"></i>   
+                        <i class="icon-star srated3"></i>   
+                        <i class="icon-star srated3"></i>  
+                        <i class="icon-star_border srated3"></i>   
+                        <i class="icon-star_border srated3"></i>  
+                    </div>
+                    <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 573-02-10</u> </span>
+                    <span class="name"> Березин Юрий Витальевич </span>
+                    <span class="rank"> подполковник полиции </span>
+                </a>
+                </li>
+                <li class="item child-item published-" data-reg-id="2">
+                    <a href="police.html#city=0&rowId=43" target="_blank">
+                    <span title="" class="title overflow"> 2 отдел полиции</span>
+                    <div id="details-rate-toggle" class="btn-ank star-rate">
+                        <em class="lb rate-up-">Рейтинг:  </em> 
+                    </div>
+                    <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 573-02-24</u> </span>
+                    <span class="name"> Конюхов Феликс Николаевич </span>
+                    <span class="rank"> подполковник полиции </span>
+                </a>
+                </li>
+                <li class="item child-item published-true" data-reg-id="38">
+                    <a href="police.html#city=0&rowId=2" target="_blank">
+                    <span title="" class="title overflow"> 38 отдел полиции</span>
+                    <div id="details-rate-toggle" class="btn-ank star-rate">
+                        <em class="lb rate-up-">Рейтинг:  1.6</em>   
+                        <i class="icon-star srated2"></i>   
+                        <i class="icon-star srated2"></i>  
+                        <i class="icon-star_border srated2"></i>   
+                        <i class="icon-star_border srated2"></i>   
+                        <i class="icon-star_border srated2"></i>  
+                    </div>
+                    <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 573-02-83</u> </span>
+                    <span class="name"> Григорьев Александр Анатольевич </span>
+                    <span class="rank"> ВРИО, подполковник полиции </span>
+                </a>
+                </li>
+                <li class="item child-item published-true" data-reg-id="77">
+                    <a href="police.html#city=0&rowId=3" target="_blank">
+                    <span title="" class="title overflow"> 77 отдел полиции</span>
+                    <div id="details-rate-toggle" class="btn-ank star-rate">
+                        <em class="lb rate-up-true">Рейтинг:  1.1</em>   
+                        <i class="icon-star srated1"></i>  
+                        <i class="icon-star_border srated1"></i>   
+                        <i class="icon-star_border srated1"></i>   
+                        <i class="icon-star_border srated1"></i>   
+                        <i class="icon-star_border srated1"></i>  
+                    </div>
+                    <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 573-03-04</u> </span>
+                    <span class="name"> Даминов Ильгиз Хасанзанович </span>
+                    <span class="rank"> подполковник полиции </span>
+                </a>
+                </li>
+                <li class="head-item item overflow" data-dep-id="2">
+                    <a class="title" href="police.html#city=0&rowId=2&type=department" target="_blank">
+                        УМВД России по Василеостровскому району Санкт-Петербурга
+                    </a>
+                </li>
+                <li class="item child-item published-true" data-reg-id="16">
+                    <a href="police.html#city=0&rowId=4" target="_blank">
+                    <span title="" class="title overflow"> 16 отдел полиции</span>
+                    <div id="details-rate-toggle" class="btn-ank star-rate">
+                        <em class="lb rate-up-">Рейтинг:  1.6</em>   
+                        <i class="icon-star srated2"></i>   
+                        <i class="icon-star srated2"></i>  
+                        <i class="icon-star_border srated2"></i>   
+                        <i class="icon-star_border srated2"></i>   
+                        <i class="icon-star_border srated2"></i>  
+                    </div>
+                    <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 573-04-87</u>  <u>(812) 305-02-16</u> </span>
+                    <span class="name"> Данилов Сергей Евгеньевич </span>
+                    <span class="rank"> ВРИО, подполковник полиции </span>
+                </a>
+                </li>
+                <li class="item child-item published-true" data-reg-id="30">
+                    <a href="police.html#city=0&rowId=5" target="_blank">
+                    <span title="" class="title overflow"> 30 отдел полиции</span>
+                    <div id="details-rate-toggle" class="btn-ank star-rate">
+                        <em class="lb rate-up-">Рейтинг:  1.7</em>   
+                        <i class="icon-star srated2"></i>   
+                        <i class="icon-star srated2"></i>  
+                        <i class="icon-star_border srated2"></i>   
+                        <i class="icon-star_border srated2"></i>   
+                        <i class="icon-star_border srated2"></i>  
+                    </div>
+                    <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 573-04-14</u>  <u>(812) 323-30-02</u> </span>
+                    <span class="name"> Соловьев Николай Николаевич </span>
+                    <span class="rank"> подполковник полиции </span>
+                </a>
+                </li>
+                <li class="item child-item published-" data-reg-id="37">
+                    <a href="police.html#city=0&rowId=6" target="_blank">
+                    <span title="" class="title overflow"> 37 отдел полиции</span>
+                    <div id="details-rate-toggle" class="btn-ank star-rate">
+                        <em class="lb rate-up-">Рейтинг:  </em> 
+                    </div>
+                    <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 573-04-34</u>  <u>(812) 356-37-02</u>  <u>(812) 573-04-34</u> </span>
+                    <span class="name"> Аксенов Сергей Сергеевич </span>
+                    <span class="rank"> майор полиции </span>
+                </a>
+                </li>
+                <li class="item child-item published-true" data-reg-id="60">
+                    <a href="police.html#city=0&rowId=7" target="_blank">
+                    <span title="" class="title overflow"> 60 отдел полиции</span>
+                    <div id="details-rate-toggle" class="btn-ank star-rate">
+                        <em class="lb rate-up-">Рейтинг:  1.4</em>   
+                        <i class="icon-star srated1"></i>  
+                        <i class="icon-star_border srated1"></i>   
+                        <i class="icon-star_border srated1"></i>   
+                        <i class="icon-star_border srated1"></i>   
+                        <i class="icon-star_border srated1"></i>  
+                    </div>
+                    <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 351-06-60</u> </span>
+                    <span class="name"> Мишин Илья Владимирович </span>
+                    <span class="rank"> подполковник полиции </span>
+                </a>
+                </li>
+                <li class="head-item item overflow" data-dep-id="3">
+                    <a class="title" href="police.html#city=0&rowId=3&type=department" target="_blank">
+                        УМВД России по Выборгскому району Санкт-Петербурга
+                    </a>
+                </li>
+                <li class="item child-item published-" data-reg-id="19">
+                    <a href="police.html#city=0&rowId=8" target="_blank">
+                    <span title="" class="title overflow"> 19 отдел полиции</span>
+                    <div id="details-rate-toggle" class="btn-ank star-rate">
+                        <em class="lb rate-up-">Рейтинг:  </em> 
+                    </div>
+                    <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 550-19-02</u> </span>
+                    <span class="name"> Григорьев Виталий Викторович </span>
+                    <span class="rank"> полковник полиции </span>
+                </a>
+                </li>
+                <li class="item child-item published-" data-reg-id="20">
+                    <a href="police.html#city=0&rowId=9" target="_blank">
+                    <span title="" class="title overflow"> 20 отдел полиции</span>
+                    <div id="details-rate-toggle" class="btn-ank star-rate">
+                        <em class="lb rate-up-">Рейтинг:  </em> 
+                    </div>
+                    <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 542-20-02</u> </span>
+                    <span class="name"> Малышев Алексанр Борисович </span>
+                    <span class="rank"> подполковник полиции </span>
+                </a>
+                </li>
+                <li class="item child-item published-true" data-reg-id="36">
+                    <a href="police.html#city=0&rowId=10" target="_blank">
+                    <span title="" class="title overflow"> 36 отдел полиции</span>
+                    <div id="details-rate-toggle" class="btn-ank star-rate">
+                        <em class="lb rate-up-">Рейтинг:  0.8</em>   
+                        <i class="icon-star srated1"></i>  
+                        <i class="icon-star_border srated1"></i>   
+                        <i class="icon-star_border srated1"></i>   
+                        <i class="icon-star_border srated1"></i>   
+                        <i class="icon-star_border srated1"></i>  
+                    </div>
+                    <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 553-36-02</u>  <u>(812) 573-10-85</u> </span>
+                    <span class="name"> Гаджиханов Расим Шабанович </span>
+                    <span class="rank"> подполковник полиции </span>
+                </a>
+                </li>
+                <li class="item child-item published-true" data-reg-id="49">
+                    <a href="police.html#city=0&rowId=11" target="_blank">
+                    <span title="" class="title overflow"> 49 отделение полиции</span>
+                    <div id="details-rate-toggle" class="btn-ank star-rate">
+                        <em class="lb rate-up-">Рейтинг:  1.0</em>   
+                        <i class="icon-star srated1"></i>  
+                        <i class="icon-star_border srated1"></i>   
+                        <i class="icon-star_border srated1"></i>   
+                        <i class="icon-star_border srated1"></i>   
+                        <i class="icon-star_border srated1"></i>  
+                    </div>
+                    <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 573-11-18</u>  <u>(812) 594-84-10</u> </span>
+                    <span class="name"> Дмитриенко Николай Владимирович </span>
+                    <span class="rank"> майор полиции </span>
+                </a>
+                </li>
+                <li class="item child-item published-" data-reg-id="57">
+                    <a href="police.html#city=0&rowId=12" target="_blank">
+                    <span title="" class="title overflow"> 57 отдел полиции</span>
+                    <div id="details-rate-toggle" class="btn-ank star-rate">
+                        <em class="lb rate-up-">Рейтинг:  </em> 
+                    </div>
+                    <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 559-57-02</u> </span>
+                    <span class="name"> Рарыкин Константин Николаевич </span>
+                    <span class="rank"> подполковник полиции </span>
+                </a>
+                </li>
+                <li class="item child-item published-true" data-reg-id="58">
+                    <a href="police.html#city=0&rowId=13" target="_blank">
+                    <span title="" class="title overflow"> 58 отдел полиции</span>
+                    <div id="details-rate-toggle" class="btn-ank star-rate">
+                        <em class="lb rate-up-">Рейтинг:  0.8</em>   
+                        <i class="icon-star srated1"></i>  
+                        <i class="icon-star_border srated1"></i>   
+                        <i class="icon-star_border srated1"></i>   
+                        <i class="icon-star_border srated1"></i>   
+                        <i class="icon-star_border srated1"></i>  
+                    </div>
+                    <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 517-58-02</u> </span>
+                    <span class="name"> Ильницкий Владимир Владимирович </span>
+                    <span class="rank"> подполковник полиции </span>
+                </a>
+                </li>
+                <li class="item child-item published-" data-reg-id="59">
+                    <a href="police.html#city=0&rowId=14" target="_blank">
+                    <span title="" class="title overflow"> 59 отдел полиции</span>
+                    <div id="details-rate-toggle" class="btn-ank star-rate">
+                        <em class="lb rate-up-">Рейтинг:  </em> 
+                    </div>
+                    <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 517-59-02</u> </span>
+                    <span class="name"> Данилевич Игорь Тадович </span>
+                    <span class="rank"> подполковник полиции </span>
+                </a>
+                </li>
+                <li class="head-item item overflow" data-dep-id="4">
+                    <a class="title" href="police.html#city=0&rowId=4&type=department" target="_blank">
+                        УМВД России по Калининскому району Санкт-Петербурга
+                    </a>
+                </li>
+                <li class="item child-item published-" data-reg-id="3">
+                    <a href="police.html#city=0&rowId=15" target="_blank">
+                    <span title="" class="title overflow"> 3 отдел полиции</span>
+                    <div id="details-rate-toggle" class="btn-ank star-rate">
+                        <em class="lb rate-up-">Рейтинг:  </em> 
+                    </div>
+                    <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 533-03-02</u> </span>
+                    <span class="name"> Буров Сергей Валерьевич </span>
+                    <span class="rank"> полковник полиции </span>
+                </a>
+                </li>
+                <li class="item child-item published-" data-reg-id="6">
+                    <a href="police.html#city=0&rowId=16" target="_blank">
+                    <span title="" class="title overflow"> 6 отдел полиции</span>
+                    <div id="details-rate-toggle" class="btn-ank star-rate">
+                        <em class="lb rate-up-">Рейтинг:  </em> 
+                    </div>
+                    <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 533-06-02</u> </span>
+                    <span class="name"> Морозов Константин Владимирович (Кузин Артем Владимирович) </span>
+                    <span class="rank"> полковник полиции </span>
+                </a>
+                </li>
+                <li class="item child-item published-true" data-reg-id="15">
+                    <a href="police.html#city=0&rowId=17" target="_blank">
+                    <span title="" class="title overflow"> 15 отдел полиции</span>
+                    <div id="details-rate-toggle" class="btn-ank star-rate">
+                        <em class="lb rate-up-">Рейтинг:  1.9</em>   
+                        <i class="icon-star srated2"></i>   
+                        <i class="icon-star srated2"></i>  
+                        <i class="icon-star_border srated2"></i>   
+                        <i class="icon-star_border srated2"></i>   
+                        <i class="icon-star_border srated2"></i>  
+                    </div>
+                    <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 531-15-02</u> </span>
+                    <span class="name"> Ковалёв Андрей Рубенович </span>
+                    <span class="rank"> полковник полиции </span>
+                </a>
+                </li>
+                <li class="item child-item published-true" data-reg-id="17">
+                    <a href="police.html#city=0&rowId=18" target="_blank">
+                    <span title="" class="title overflow"> 17 отдел полиции</span>
+                    <div id="details-rate-toggle" class="btn-ank star-rate">
+                        <em class="lb rate-up-">Рейтинг:  3.5</em>   
+                        <i class="icon-star srated4"></i>   
+                        <i class="icon-star srated4"></i>   
+                        <i class="icon-star srated4"></i>   
+                        <i class="icon-star srated4"></i>  
+                        <i class="icon-star_border srated4"></i>  
+                    </div>
+                    <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 559-95-48</u> </span>
+                    <span class="name"> Гужва Евгений Анатольевич </span>
+                    <span class="rank"> майор полиции </span>
+                </a>
+                </li>
+                <li class="item child-item published-true" data-reg-id="21">
+                    <a href="police.html#city=0&rowId=19" target="_blank">
+                    <span title="" class="title overflow"> 21 отдел полиции</span>
+                    <div id="details-rate-toggle" class="btn-ank star-rate">
+                        <em class="lb rate-up-">Рейтинг:  2.5</em>   
+                        <i class="icon-star srated2"></i>   
+                        <i class="icon-star srated2"></i>  
+                        <i class="icon-star_border srated2"></i>   
+                        <i class="icon-star_border srated2"></i>   
+                        <i class="icon-star_border srated2"></i>  
+                    </div>
+                    <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 545-21-02</u> </span>
+                    <span class="name"> Андреев Вячеслав Николаевич </span>
+                    <span class="rank"> подполковник полиции </span>
+                </a>
+                </li>
+                <li class="head-item item overflow" data-dep-id="5">
+                    <a class="title" href="police.html#city=0&rowId=5&type=department" target="_blank">
+                        УМВД России по Кировскому району Санкт-Петербурга
+                    </a>
+                </li>
+                <li class="item child-item published-" data-reg-id="8">
+                    <a href="police.html#city=0&rowId=20" target="_blank">
+                    <span title="" class="title overflow"> 8 отдел полиции</span>
+                    <div id="details-rate-toggle" class="btn-ank star-rate">
+                        <em class="lb rate-up-">Рейтинг:  </em> 
+                    </div>
+                    <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 752-08-02</u> </span>
+                    <span class="name"> Мироненков Виталий Евгеньевич </span>
+                    <span class="rank"> полковник полиции </span>
+                </a>
+                </li>
+                <li class="item child-item published-" data-reg-id="31">
+                    <a href="police.html#city=0&rowId=21" target="_blank">
+                    <span title="" class="title overflow"> 31 отдел полиции</span>
+                    <div id="details-rate-toggle" class="btn-ank star-rate">
+                        <em class="lb rate-up-">Рейтинг:  </em> 
+                    </div>
+                    <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 252-07-02</u> </span>
+                    <span class="name"> Кириченко Андрей Викторович </span>
+                    <span class="rank"> полковник полиции </span>
+                </a>
+                </li>
+                <li class="item child-item published-true" data-reg-id="64">
+                    <a href="police.html#city=0&rowId=22" target="_blank">
+                    <span title="" class="title overflow"> 64 отдел полиции</span>
+                    <div id="details-rate-toggle" class="btn-ank star-rate">
+                        <em class="lb rate-up-">Рейтинг:  2.5</em>   
+                        <i class="icon-star srated3"></i>   
+                        <i class="icon-star srated3"></i>   
+                        <i class="icon-star srated3"></i>  
+                        <i class="icon-star_border srated3"></i>   
+                        <i class="icon-star_border srated3"></i>  
+                    </div>
+                    <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 573-14-64</u>  <u>(812) 757-64-02</u> </span>
+                    <span class="name"> Смирнов Леонид Валерьевич </span>
+                    <span class="rank"> полковник полиции </span>
+                </a>
+                </li>
+                <li class="head-item item overflow" data-dep-id="6">
+                    <a class="title" href="police.html#city=0&rowId=6&type=department" target="_blank">
+                        ОМВД России по Колпинскому району Санкт-Петербурга
+                    </a>
+                </li>
+                <li class="item child-item published-" data-reg-id="39">
+                    <a href="police.html#city=0&rowId=23" target="_blank">
+                    <span title="" class="title overflow"> 39 отдел полиции</span>
+                    <div id="details-rate-toggle" class="btn-ank star-rate">
+                        <em class="lb rate-up-">Рейтинг:  </em> 
+                    </div>
+                    <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 464-02-02</u> </span>
+                    <span class="name"> Шкурко Василий Владимирович </span>
+                    <span class="rank"> подполковник полиции </span>
+                </a>
+                </li>
+                <li class="item child-item published-" data-reg-id="55">
+                    <a href="police.html#city=0&rowId=24" target="_blank">
+                    <span title="" class="title overflow"> 55 отдел полиции</span>
+                    <div id="details-rate-toggle" class="btn-ank star-rate">
+                        <em class="lb rate-up-">Рейтинг:  </em> 
+                    </div>
+                    <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 573-06-12</u>  <u>(812) 481-02-02</u> </span>
+                    <span class="name"> Левашов Артем Валерьевич </span>
+                    <span class="rank"> полковник полиции </span>
+                </a>
+                </li>
+                <li class="item child-item published-" data-reg-id="80">
+                    <a href="police.html#city=0&rowId=25" target="_blank">
+                    <span title="" class="title overflow"> 80 отдел полиции</span>
+                    <div id="details-rate-toggle" class="btn-ank star-rate">
+                        <em class="lb rate-up-">Рейтинг:  </em> 
+                    </div>
+                    <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 573-06-22</u> </span>
+                    <span class="name"> Красавин Андрей Алексеевич </span>
+                    <span class="rank"> ВРИО, капитан полиции </span>
+                </a>
+                </li>
+                <li class="head-item item overflow" data-dep-id="7">
+                    <a class="title" href="police.html#city=0&rowId=7&type=department" target="_blank">
+                        УМВД России по Красногвардейскому району Санкт-Петербурга
+                    </a>
+                </li>
+                <li class="item child-item published-true" data-reg-id="13">
+                    <a href="police.html#city=0&rowId=26" target="_blank">
+                    <span title="" class="title overflow"> 13 отдел полиции</span>
+                    <div id="details-rate-toggle" class="btn-ank star-rate">
+                        <em class="lb rate-up-">Рейтинг:  1.5</em>   
+                        <i class="icon-star srated2"></i>   
+                        <i class="icon-star srated2"></i>  
+                        <i class="icon-star_border srated2"></i>   
+                        <i class="icon-star_border srated2"></i>   
+                        <i class="icon-star_border srated2"></i>  
+                    </div>
+                    <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 573-15-84</u> </span>
+                    <span class="name"> Монин Артем Валерьевич </span>
+                    <span class="rank"> полковник полиции </span>
+                </a>
+                </li>
+                <li class="item child-item published-" data-reg-id="22">
+                    <a href="police.html#city=0&rowId=27" target="_blank">
+                    <span title="" class="title overflow"> 22 отдел полиции</span>
+                    <div id="details-rate-toggle" class="btn-ank star-rate">
+                        <em class="lb rate-up-">Рейтинг:  </em> 
+                    </div>
+                    <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 573-16-06</u> </span>
+                    <span class="name"> Каменщиков Никита Владимирович </span>
+                    <span class="rank"> подполковник полиции </span>
+                </a>
+                </li>
+                <li class="item child-item published-" data-reg-id="26">
+                    <a href="police.html#city=0&rowId=28" target="_blank">
+                    <span title="" class="title overflow"> 26 отдел полиции</span>
+                    <div id="details-rate-toggle" class="btn-ank star-rate">
+                        <em class="lb rate-up-">Рейтинг:  </em> 
+                    </div>
+                    <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 573-16-13</u> </span>
+                    <span class="name"> Барановский Анатолий Васильевич </span>
+                    <span class="rank"> полковник полиции </span>
+                </a>
+                </li>
+                <li class="item child-item published-true" data-reg-id="52">
+                    <a href="police.html#city=0&rowId=29" target="_blank">
+                    <span title="" class="title overflow"> 52 отдел полиции</span>
+                    <div id="details-rate-toggle" class="btn-ank star-rate">
+                        <em class="lb rate-up-">Рейтинг:  1.5</em>   
+                        <i class="icon-star srated2"></i>   
+                        <i class="icon-star srated2"></i>  
+                        <i class="icon-star_border srated2"></i>   
+                        <i class="icon-star_border srated2"></i>   
+                        <i class="icon-star_border srated2"></i>  
+                    </div>
+                    <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 573-15-96</u> </span>
+                    <span class="name"> Татаров Андрей Николаевич </span>
+                    <span class="rank"> подполковник полиции </span>
+                </a>
+                </li>
+                <li class="item child-item published-true" data-reg-id="66">
+                    <a href="police.html#city=0&rowId=30" target="_blank">
+                    <span title="" class="title overflow"> 66 отдел полиции</span>
+                    <div id="details-rate-toggle" class="btn-ank star-rate">
+                        <em class="lb rate-up-">Рейтинг:  2.0</em>   
+                        <i class="icon-star srated2"></i>   
+                        <i class="icon-star srated2"></i>  
+                        <i class="icon-star_border srated2"></i>   
+                        <i class="icon-star_border srated2"></i>   
+                        <i class="icon-star_border srated2"></i>  
+                    </div>
+                    <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 573-16-20</u> </span>
+                    <span class="name"> Татарских Вадим Борисович   (Федоров Александр Владимирович) </span>
+                    <span class="rank"> полковник полиции </span>
+                </a>
+                </li>
+                <li class="head-item item overflow" data-dep-id="8">
+                    <a class="title" href="police.html#city=0&rowId=8&type=department" target="_blank">
+                        УМВД России по Красносельскому району Санкт-Петербурга
+                    </a>
+                </li>
+                <li class="item child-item published-" data-reg-id="9">
+                    <a href="police.html#city=0&rowId=31" target="_blank">
+                    <span title="" class="title overflow"> 9 отдел полиции</span>
+                    <div id="details-rate-toggle" class="btn-ank star-rate">
+                        <em class="lb rate-up-">Рейтинг:  </em> 
+                    </div>
+                    <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 741-80-02</u> </span>
+                    <span class="name"> Ерофеев Алексей Анатольевич </span>
+                    <span class="rank"> полковник полиции </span>
+                </a>
+                </li>
+                <li class="item child-item published-true" data-reg-id="42">
+                    <a href="police.html#city=0&rowId=32" target="_blank">
+                    <span title="" class="title overflow"> 42 отдел полиции</span>
+                    <div id="details-rate-toggle" class="btn-ank star-rate">
+                        <em class="lb rate-up-">Рейтинг:  2.1</em>   
+                        <i class="icon-star srated2"></i>   
+                        <i class="icon-star srated2"></i>  
+                        <i class="icon-star_border srated2"></i>   
+                        <i class="icon-star_border srated2"></i>   
+                        <i class="icon-star_border srated2"></i>  
+                    </div>
+                    <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 573-55-27</u> </span>
+                    <span class="name"> Бербасов Николай Михайлович </span>
+                    <span class="rank"> подполковник полиции </span>
+                </a>
+                </li>
+                <li class="item child-item published-true" data-reg-id="54">
+                    <a href="police.html#city=0&rowId=33" target="_blank">
+                    <span title="" class="title overflow"> 54 отдел полиции</span>
+                    <div id="details-rate-toggle" class="btn-ank star-rate">
+                        <em class="lb rate-up-">Рейтинг:  2.3</em>   
+                        <i class="icon-star srated2"></i>   
+                        <i class="icon-star srated2"></i>  
+                        <i class="icon-star_border srated2"></i>   
+                        <i class="icon-star_border srated2"></i>   
+                        <i class="icon-star_border srated2"></i>  
+                    </div>
+                    <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 730-45-11</u>  <u>(812) 573-55-46</u> </span>
+                    <span class="name"> Плетенец Андрей Алексеевич </span>
+                    <span class="rank"> подполковник полиции </span>
+                </a>
+                </li>
+                <li class="item child-item published-true" data-reg-id="74">
+                    <a href="police.html#city=0&rowId=34" target="_blank">
+                    <span title="" class="title overflow"> 74 отдел полиции</span>
+                    <div id="details-rate-toggle" class="btn-ank star-rate">
+                        <em class="lb rate-up-">Рейтинг:  1.3</em>   
+                        <i class="icon-star srated1"></i>  
+                        <i class="icon-star_border srated1"></i>   
+                        <i class="icon-star_border srated1"></i>   
+                        <i class="icon-star_border srated1"></i>   
+                        <i class="icon-star_border srated1"></i>  
+                    </div>
+                    <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 573-55-63</u> </span>
+                    <span class="name"> Сурмиевич Игорь Александрович </span>
+                    <span class="rank"> подполковник полиции </span>
+                </a>
+                </li>
+                <li class="item child-item published-true" data-reg-id="82">
+                    <a href="police.html#city=0&rowId=35" target="_blank">
+                    <span title="" class="title overflow"> 82 отдел полиции</span>
+                    <div id="details-rate-toggle" class="btn-ank star-rate">
+                        <em class="lb rate-up-">Рейтинг:  2.2</em>   
+                        <i class="icon-star srated2"></i>   
+                        <i class="icon-star srated2"></i>  
+                        <i class="icon-star_border srated2"></i>   
+                        <i class="icon-star_border srated2"></i>   
+                        <i class="icon-star_border srated2"></i>  
+                    </div>
+                    <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 573-64-10</u> </span>
+                    <span class="name"> Мишенин Владимир Александрович </span>
+                    <span class="rank"> подполковник полиции </span>
+                </a>
+                </li>
+                <li class="item child-item published-" data-reg-id="84">
+                    <a href="police.html#city=0&rowId=36" target="_blank">
+                    <span title="" class="title overflow"> 84 отдел полиции</span>
+                    <div id="details-rate-toggle" class="btn-ank star-rate">
+                        <em class="lb rate-up-">Рейтинг:  </em> 
+                    </div>
+                    <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 573-64-32</u> </span>
+                    <span class="name"> Патрушев Дмитрий Викторович </span>
+                    <span class="rank"> подполковник полиции </span>
+                </a>
+                </li>
+                <li class="head-item item overflow" data-dep-id="9">
+                    <a class="title" href="police.html#city=0&rowId=9&type=department" target="_blank">
+                        ОМВД России по Кронштадтскому району Санкт-Петербурга
+                    </a>
+                </li>
+                <li class="head-item item overflow" data-dep-id="10">
+                    <a class="title" href="police.html#city=0&rowId=10&type=department" target="_blank">
+                        ОМВД России по Курортному району Санкт-Петербурга
+                    </a>
+                </li>
+                <li class="item child-item published-true" data-reg-id="50">
+                    <a href="police.html#city=0&rowId=39" target="_blank">
+                    <span title="" class="title overflow"> 50 отделение полиции</span>
+                    <div id="details-rate-toggle" class="btn-ank star-rate">
+                        <em class="lb rate-up-">Рейтинг:  1.5</em>   
+                        <i class="icon-star srated1"></i>  
+                        <i class="icon-star_border srated1"></i>   
+                        <i class="icon-star_border srated1"></i>   
+                        <i class="icon-star_border srated1"></i>   
+                        <i class="icon-star_border srated1"></i>  
+                    </div>
+                    <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 596-87-02</u> </span>
+                    <span class="name"> Донцов Юрий Сергеевич </span>
+                    <span class="rank"> майор полиции </span>
+                </a>
+                </li>
+                <li class="item child-item published-true" data-reg-id="81">
+                    <a href="police.html#city=0&rowId=40" target="_blank">
+                    <span title="" class="title overflow"> 81 отделение полиции</span>
+                    <div id="details-rate-toggle" class="btn-ank star-rate">
+                        <em class="lb rate-up-">Рейтинг:  2.8</em>   
+                        <i class="icon-star srated3"></i>   
+                        <i class="icon-star srated3"></i>   
+                        <i class="icon-star srated3"></i>  
+                        <i class="icon-star_border srated3"></i>   
+                        <i class="icon-star_border srated3"></i>  
+                    </div>
+                    <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 433-47-02</u> </span>
+                    <span class="name"> Аскендеров Керим Вагифович </span>
+                    <span class="rank"> подполковник полиции </span>
+                </a>
+                </li>
+                <li class="head-item item overflow" data-dep-id="11">
+                    <a class="title" href="police.html#city=0&rowId=11&type=department" target="_blank">
+                        УМВД России по Московскому району Санкт-Петербурга
+                    </a>
+                </li>
+                <li class="item child-item published-" data-reg-id="29">
+                    <a href="police.html#city=0&rowId=41" target="_blank">
+                    <span title="" class="title overflow"> 29 отдел полиции</span>
+                    <div id="details-rate-toggle" class="btn-ank star-rate">
+                        <em class="lb rate-up-">Рейтинг:  </em> 
+                    </div>
+                    <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 573-47-71</u> </span>
+                    <span class="name"> Шадиев Руслан Абдурашидович </span>
+                    <span class="rank"> майор полиции </span>
+                </a>
+                </li>
+                <li class="item child-item published-" data-reg-id="33">
+                    <a href="police.html#city=0&rowId=42" target="_blank">
+                    <span title="" class="title overflow"> 33 отдел полиции</span>
+                    <div id="details-rate-toggle" class="btn-ank star-rate">
+                        <em class="lb rate-up-">Рейтинг:  </em> 
+                    </div>
+                    <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 573-47-73</u>  <u>(812) 378-67-48</u> </span>
+                    <span class="name"> Волошин Михаил Юрьевич </span>
+                    <span class="rank"> подполковник полиции </span>
+                </a>
+                </li>
+                <li class="item child-item published-true" data-reg-id="51">
+                    <a href="police.html#city=0&rowId=85" target="_blank">
+                    <span title="" class="title overflow"> 51 отдел полиции</span>
+                    <div id="details-rate-toggle" class="btn-ank star-rate">
+                        <em class="lb rate-up-">Рейтинг:  2.6</em>   
+                        <i class="icon-star srated3"></i>   
+                        <i class="icon-star srated3"></i>   
+                        <i class="icon-star srated3"></i>  
+                        <i class="icon-star_border srated3"></i>   
+                        <i class="icon-star_border srated3"></i>  
+                    </div>
+                    <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 573-47-74</u> </span>
+                    <span class="name"> Праздничный Александр Александрович </span>
+                    <span class="rank"> полковник полиции </span>
+                </a>
+                </li>
+                <li class="head-item item overflow" data-dep-id="12">
+                    <a class="title" href="police.html#city=0&rowId=12&type=department" target="_blank">
+                        УМВД России по Невскому району Санкт-Петербурга
+                    </a>
+                </li>
+                <li class="item child-item published-" data-reg-id="10">
+                    <a href="police.html#city=0&rowId=44" target="_blank">
+                    <span title="" class="title overflow"> 10 отдел полиции</span>
+                    <div id="details-rate-toggle" class="btn-ank star-rate">
+                        <em class="lb rate-up-">Рейтинг:  </em> 
+                    </div>
+                    <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 560-02-02</u> </span>
+                    <span class="name"> Поздняков Сергей Иванович </span>
+                    <span class="rank"> майор полиции </span>
+                </a>
+                </li>
+                <li class="item child-item published-" data-reg-id="23">
+                    <a href="police.html#city=0&rowId=45" target="_blank">
+                    <span title="" class="title overflow"> 23 отдел полиции</span>
+                    <div id="details-rate-toggle" class="btn-ank star-rate">
+                        <em class="lb rate-up-">Рейтинг:  </em> 
+                    </div>
+                    <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 573-71-12</u> </span>
+                    <span class="name"> Колонистов Сергей Валерьевич </span>
+                    <span class="rank"> полковник полиции </span>
+                </a>
+                </li>
+                <li class="item child-item published-true" data-reg-id="24">
+                    <a href="police.html#city=0&rowId=46" target="_blank">
+                    <span title="" class="title overflow"> 24 отдел полиции</span>
+                    <div id="details-rate-toggle" class="btn-ank star-rate">
+                        <em class="lb rate-up-">Рейтинг:  3.6</em>   
+                        <i class="icon-star srated4"></i>   
+                        <i class="icon-star srated4"></i>   
+                        <i class="icon-star srated4"></i>   
+                        <i class="icon-star srated4"></i>  
+                        <i class="icon-star_border srated4"></i>  
+                    </div>
+                    <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 573-57-99</u> </span>
+                    <span class="name"> Иванов Евгений Владимирович </span>
+                    <span class="rank"> полковник полиции </span>
+                </a>
+                </li>
+                <li class="item child-item published-true" data-reg-id="32">
+                    <a href="police.html#city=0&rowId=47" target="_blank">
+                    <span title="" class="title overflow"> 32 отдел полиции</span>
+                    <div id="details-rate-toggle" class="btn-ank star-rate">
+                        <em class="lb rate-up-">Рейтинг:  2.7</em>   
+                        <i class="icon-star srated3"></i>   
+                        <i class="icon-star srated3"></i>   
+                        <i class="icon-star srated3"></i>  
+                        <i class="icon-star_border srated3"></i>   
+                        <i class="icon-star_border srated3"></i>  
+                    </div>
+                    <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 573-58-02</u> </span>
+                    <span class="name"> Черняев Александр Борисович </span>
+                    <span class="rank"> капитан полиции </span>
+                </a>
+                </li>
+                <li class="item child-item published-" data-reg-id="45">
+                    <a href="police.html#city=0&rowId=48" target="_blank">
+                    <span title="" class="title overflow"> 45 отдел полиции</span>
+                    <div id="details-rate-toggle" class="btn-ank star-rate">
+                        <em class="lb rate-up-">Рейтинг:  </em> 
+                    </div>
+                    <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 573-58-11</u>  <u>(812) 700-45-02</u> </span>
+                    <span class="name"> Рошка Геннадий Иванович </span>
+                    <span class="rank"> полковник полиции </span>
+                </a>
+                </li>
+                <li class="item child-item published-true" data-reg-id="70">
+                    <a href="police.html#city=0&rowId=49" target="_blank">
+                    <span title="" class="title overflow"> 70 отдел полиции</span>
+                    <div id="details-rate-toggle" class="btn-ank star-rate">
+                        <em class="lb rate-up-">Рейтинг:  1.3</em>   
+                        <i class="icon-star srated1"></i>  
+                        <i class="icon-star_border srated1"></i>   
+                        <i class="icon-star_border srated1"></i>   
+                        <i class="icon-star_border srated1"></i>   
+                        <i class="icon-star_border srated1"></i>  
+                    </div>
+                    <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 573-71-21</u> </span>
+                    <span class="name"> Джураев Виталий Тошбаевич </span>
+                    <span class="rank"> подполковник полиции </span>
+                </a>
+                </li>
+                <li class="item child-item published-" data-reg-id="75">
+                    <a href="police.html#city=0&rowId=50" target="_blank">
+                    <span title="" class="title overflow"> 75 отдел полиции</span>
+                    <div id="details-rate-toggle" class="btn-ank star-rate">
+                        <em class="lb rate-up-">Рейтинг:  </em> 
+                    </div>
+                    <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 573-71-11</u> </span>
+                    <span class="name"> Грачев Павел Николаевич </span>
+                    <span class="rank"> полковник полиции </span>
+                </a>
+                </li>
+                <li class="head-item item overflow" data-dep-id="13">
+                    <a class="title" href="police.html#city=0&rowId=13&type=department" target="_blank">
+                        УМВД России по Петроградскому району Санкт-Петербурга
+                    </a>
+                </li>
+                <li class="item child-item published-true" data-reg-id="18">
+                    <a href="police.html#city=0&rowId=51" target="_blank">
+                    <span title="" class="title overflow"> 18 отдел полиции</span>
+                    <div id="details-rate-toggle" class="btn-ank star-rate">
+                        <em class="lb rate-up-">Рейтинг:  2.0</em>   
+                        <i class="icon-star srated2"></i>   
+                        <i class="icon-star srated2"></i>  
+                        <i class="icon-star_border srated2"></i>   
+                        <i class="icon-star_border srated2"></i>   
+                        <i class="icon-star_border srated2"></i>  
+                    </div>
+                    <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 573-45-98</u> </span>
+                    <span class="name"> Смирнов Сергей Владимирович </span>
+                    <span class="rank"> подполковник полиции </span>
+                </a>
+                </li>
+                <li class="item child-item published-" data-reg-id="43">
+                    <a href="police.html#city=0&rowId=52" target="_blank">
+                    <span title="" class="title overflow"> 43 отдел полиции</span>
+                    <div id="details-rate-toggle" class="btn-ank star-rate">
+                        <em class="lb rate-up-">Рейтинг:  </em> 
+                    </div>
+                    <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 573-44-24</u>  <u>(812) 232-43-02</u> </span>
+                    <span class="name"> Краев Александр Николаевич </span>
+                    <span class="rank"> подполковник </span>
+                </a>
+                </li>
+                <li class="item child-item published-true" data-reg-id="71">
+                    <a href="police.html#city=0&rowId=53" target="_blank">
+                    <span title="" class="title overflow"> 71 отдел полиции</span>
+                    <div id="details-rate-toggle" class="btn-ank star-rate">
+                        <em class="lb rate-up-">Рейтинг:  1.2</em>   
+                        <i class="icon-star srated1"></i>  
+                        <i class="icon-star_border srated1"></i>   
+                        <i class="icon-star_border srated1"></i>   
+                        <i class="icon-star_border srated1"></i>   
+                        <i class="icon-star_border srated1"></i>  
+                    </div>
+                    <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 573-46-13</u>  <u>(812) 230-71-02</u> </span>
+                    <span class="name"> Башков Тимур Анатольевич </span>
+                    <span class="rank"> майор </span>
+                </a>
+                </li>
+                <li class="head-item item overflow" data-dep-id="14">
+                    <a class="title" href="police.html#city=0&rowId=14&type=department" target="_blank">
+                        ОМВД России по Петродворцовому району Санкт-Петербурга
+                    </a>
+                </li>
+                <li class="item child-item published-true" data-reg-id="46">
+                    <a href="police.html#city=0&rowId=54" target="_blank">
+                    <span title="" class="title overflow"> 46 отделение полиции</span>
+                    <div id="details-rate-toggle" class="btn-ank star-rate">
+                        <em class="lb rate-up-">Рейтинг:  2.4</em>   
+                        <i class="icon-star srated2"></i>   
+                        <i class="icon-star srated2"></i>  
+                        <i class="icon-star_border srated2"></i>   
+                        <i class="icon-star_border srated2"></i>   
+                        <i class="icon-star_border srated2"></i>  
+                    </div>
+                    <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 573-53-10</u> </span>
+                    <span class="name"> Ботвин Владимир Владимирович </span>
+                    <span class="rank"> подполковник полиции </span>
+                </a>
+                </li>
+                <li class="item child-item published-true" data-reg-id="85">
+                    <a href="police.html#city=0&rowId=55" target="_blank">
+                    <span title="" class="title overflow"> 85 отдел полиции</span>
+                    <div id="details-rate-toggle" class="btn-ank star-rate">
+                        <em class="lb rate-up-">Рейтинг:  2.2</em>   
+                        <i class="icon-star srated2"></i>   
+                        <i class="icon-star srated2"></i>  
+                        <i class="icon-star_border srated2"></i>   
+                        <i class="icon-star_border srated2"></i>   
+                        <i class="icon-star_border srated2"></i>  
+                    </div>
+                    <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 573-53-02</u> </span>
+                    <span class="name"> Магеррамов Байрам Раваимович </span>
+                    <span class="rank"> ВРИО, майор полиции </span>
+                </a>
+                </li>
+                <li class="head-item item overflow" data-dep-id="15">
+                    <a class="title" href="police.html#city=0&rowId=15&type=department" target="_blank">
+                        УМВД России по Приморскому району Санкт-Петербурга
+                    </a>
+                </li>
+                <li class="item child-item published-true" data-reg-id="25">
+                    <a href="police.html#city=0&rowId=56" target="_blank">
+                    <span title="" class="title overflow"> 25 отдел полиции</span>
+                    <div id="details-rate-toggle" class="btn-ank star-rate">
+                        <em class="lb rate-up-">Рейтинг:  2.2</em>   
+                        <i class="icon-star srated2"></i>   
+                        <i class="icon-star srated2"></i>  
+                        <i class="icon-star_border srated2"></i>   
+                        <i class="icon-star_border srated2"></i>   
+                        <i class="icon-star_border srated2"></i>  
+                    </div>
+                    <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 344-08-00</u> </span>
+                    <span class="name"> Смирнов Андрей Михайлович </span>
+                    <span class="rank"> полковник </span>
+                </a>
+                </li>
+                <li class="item child-item published-true" data-reg-id="34">
+                    <a href="police.html#city=0&rowId=57" target="_blank">
+                    <span title="" class="title overflow"> 34 отдел полиции</span>
+                    <div id="details-rate-toggle" class="btn-ank star-rate">
+                        <em class="lb rate-up-">Рейтинг:  2.1</em>   
+                        <i class="icon-star srated2"></i>   
+                        <i class="icon-star srated2"></i>  
+                        <i class="icon-star_border srated2"></i>   
+                        <i class="icon-star_border srated2"></i>   
+                        <i class="icon-star_border srated2"></i>  
+                    </div>
+                    <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 573-60-28</u> </span>
+                    <span class="name"> Назаров Кирилл Борисович </span>
+                    <span class="rank"> майор полиции </span>
+                </a>
+                </li>
+                <li class="item child-item published-" data-reg-id="35">
+                    <a href="police.html#city=0&rowId=58" target="_blank">
+                    <span title="" class="title overflow"> 35 отдел полиции</span>
+                    <div id="details-rate-toggle" class="btn-ank star-rate">
+                        <em class="lb rate-up-">Рейтинг:  </em> 
+                    </div>
+                    <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 573-59-72</u> </span>
+                    <span class="name"> Яванский Николай Николаевич </span>
+                    <span class="rank"> полковник полиции </span>
+                </a>
+                </li>
+                <li class="item child-item published-" data-reg-id="44">
+                    <a href="police.html#city=0&rowId=59" target="_blank">
+                    <span title="" class="title overflow"> 44 отдел полиции</span>
+                    <div id="details-rate-toggle" class="btn-ank star-rate">
+                        <em class="lb rate-up-">Рейтинг:  </em> 
+                    </div>
+                    <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 573-59-90</u> </span>
+                    <span class="name"> Панкевич Алексей Константинович </span>
+                    <span class="rank"> Начальник ОП, полковник полиции </span>
+                </a>
+                </li>
+                <li class="item child-item published-true" data-reg-id="53">
+                    <a href="police.html#city=0&rowId=60" target="_blank">
+                    <span title="" class="title overflow"> 53 отдел полиции</span>
+                    <div id="details-rate-toggle" class="btn-ank star-rate">
+                        <em class="lb rate-up-">Рейтинг:  2.9</em>   
+                        <i class="icon-star srated3"></i>   
+                        <i class="icon-star srated3"></i>   
+                        <i class="icon-star srated3"></i>  
+                        <i class="icon-star_border srated3"></i>   
+                        <i class="icon-star_border srated3"></i>  
+                    </div>
+                    <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 348-48-02</u> </span>
+                    <span class="name"> Ерёмин Евгений Дмитриевич </span>
+                    <span class="rank"> полковник полиции </span>
+                </a>
+                </li>
+                <li class="item child-item published-" data-reg-id="86">
+                    <a href="police.html#city=0&rowId=61" target="_blank">
+                    <span title="" class="title overflow"> 86 отдел полиции</span>
+                    <div id="details-rate-toggle" class="btn-ank star-rate">
+                        <em class="lb rate-up-">Рейтинг:  </em> 
+                    </div>
+                    <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 573-60-00</u> </span>
+                    <span class="name"> Чернышев Геннадий Геннадьевич </span>
+                    <span class="rank"> подполковник </span>
+                </a>
+                </li>
+                <li class="head-item item overflow" data-dep-id="16">
+                    <a class="title" href="police.html#city=0&rowId=16&type=department" target="_blank">
+                        ОМВД России по Пушкинскому району Санкт-Петербурга
+                    </a>
+                </li>
+                <li class="head-item item overflow" data-dep-id="17">
+                    <a class="title" href="police.html#city=0&rowId=17&type=department" target="_blank">
+                        УМВД России по Фрунзенскому району Санкт-Петербурга
+                    </a>
+                </li>
+                <li class="item child-item published-" data-reg-id="5">
+                    <a href="police.html#city=0&rowId=63" target="_blank">
+                    <span title="" class="title overflow"> 5 отдел полиции</span>
+                    <div id="details-rate-toggle" class="btn-ank star-rate">
+                        <em class="lb rate-up-">Рейтинг:  </em> 
+                    </div>
+                    <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 766-11-02</u> </span>
+                    <span class="name"> Турчин Андрей Павлович </span>
+                    <span class="rank"> подполковник полиции </span>
+                </a>
+                </li>
+                <li class="item child-item published-" data-reg-id="7">
+                    <a href="police.html#city=0&rowId=64" target="_blank">
+                    <span title="" class="title overflow"> 7 отдел полиции</span>
+                    <div id="details-rate-toggle" class="btn-ank star-rate">
+                        <em class="lb rate-up-">Рейтинг:  </em> 
+                    </div>
+                    <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 776-72-02</u> </span>
+                    <span class="name"> Бобров Алексей Михайлович </span>
+                    <span class="rank"> полковник полиции </span>
+                </a>
+                </li>
+                <li class="item child-item published-" data-reg-id="12">
+                    <a href="police.html#city=0&rowId=65" target="_blank">
+                    <span title="" class="title overflow"> 12 отдел полиции</span>
+                    <div id="details-rate-toggle" class="btn-ank star-rate">
+                        <em class="lb rate-up-">Рейтинг:  </em> 
+                    </div>
+                    <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 360-40-02</u> </span>
+                    <span class="name"> Павловец Андрей Валерьевич </span>
+                    <span class="rank"> полковник полиции </span>
+                </a>
+                </li>
+                <li class="item child-item published-true" data-reg-id="14">
+                    <a href="police.html#city=0&rowId=66" target="_blank">
+                    <span title="" class="title overflow"> 14 отдел полиции</span>
+                    <div id="details-rate-toggle" class="btn-ank star-rate">
+                        <em class="lb rate-up-">Рейтинг:  2.4</em>   
+                        <i class="icon-star srated2"></i>   
+                        <i class="icon-star srated2"></i>  
+                        <i class="icon-star_border srated2"></i>   
+                        <i class="icon-star_border srated2"></i>   
+                        <i class="icon-star_border srated2"></i>  
+                    </div>
+                    <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 776-41-02</u> </span>
+                    <span class="name"> Зеленков Федор Иванович </span>
+                    <span class="rank"> полковник полиции </span>
+                </a>
+                </li>
+                <li class="item child-item published-true" data-reg-id="27">
+                    <a href="police.html#city=0&rowId=67" target="_blank">
+                    <span title="" class="title overflow"> 27 отдел полиции</span>
+                    <div id="details-rate-toggle" class="btn-ank star-rate">
+                        <em class="lb rate-up-">Рейтинг:  1.2</em>   
+                        <i class="icon-star srated1"></i>  
+                        <i class="icon-star_border srated1"></i>   
+                        <i class="icon-star_border srated1"></i>   
+                        <i class="icon-star_border srated1"></i>   
+                        <i class="icon-star_border srated1"></i>  
+                    </div>
+                    <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 360-04-02</u> </span>
+                    <span class="name"> Поляков Виктор Сергеевич </span>
+                    <span class="rank"> Начальник ОП, полковник полиции </span>
+                </a>
+                </li>
+                <li class="head-item item overflow" data-dep-id="18">
+                    <a class="title" href="police.html#city=0&rowId=18&type=department" target="_blank">
+                        УМВД России по Центральному району Санкт-Петербурга
+                    </a>
+                </li>
+                <li class="item child-item published-true" data-reg-id="28">
+                    <a href="police.html#city=0&rowId=68" target="_blank">
+                    <span title="" class="title overflow"> 28 отдел полиции</span>
+                    <div id="details-rate-toggle" class="btn-ank star-rate">
+                        <em class="lb rate-up-">Рейтинг:  2.9</em>   
+                        <i class="icon-star srated3"></i>   
+                        <i class="icon-star srated3"></i>   
+                        <i class="icon-star srated3"></i>  
+                        <i class="icon-star_border srated3"></i>   
+                        <i class="icon-star_border srated3"></i>  
+                    </div>
+                    <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 573-50-58</u> </span>
+                    <span class="name"> Шабанов Алексей Михайлович </span>
+                    <span class="rank"> майор полиции </span>
+                </a>
+                </li>
+                <li class="item child-item published-true" data-reg-id="76">
+                    <a href="police.html#city=0&rowId=69" target="_blank">
+                    <span title="" class="title overflow"> 76 отдел полиции</span>
+                    <div id="details-rate-toggle" class="btn-ank star-rate">
+                        <em class="lb rate-up-">Рейтинг:  1.7</em>   
+                        <i class="icon-star srated2"></i>   
+                        <i class="icon-star srated2"></i>  
+                        <i class="icon-star_border srated2"></i>   
+                        <i class="icon-star_border srated2"></i>   
+                        <i class="icon-star_border srated2"></i>  
+                    </div>
+                    <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 573-49-10</u> </span>
+                    <span class="name"> Данилов Сергей Евгеньевич </span>
+                    <span class="rank"> подполковник полиции </span>
+                </a>
+                </li>
+                <li class="item child-item published-true" data-reg-id="78">
+                    <a href="police.html#city=0&rowId=70" target="_blank">
+                    <span title="" class="title overflow"> 78 отдел полиции</span>
+                    <div id="details-rate-toggle" class="btn-ank star-rate">
+                        <em class="lb rate-up-">Рейтинг:  2.1</em>   
+                        <i class="icon-star srated2"></i>   
+                        <i class="icon-star srated2"></i>  
+                        <i class="icon-star_border srated2"></i>   
+                        <i class="icon-star_border srated2"></i>   
+                        <i class="icon-star_border srated2"></i>  
+                    </div>
+                    <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(812) 573-51-00</u> </span>
+                    <span class="name"> Кубанцев Вадим Юрьевич </span>
+                    <span class="rank"> подполковник полиции </span>
+                </a>
+                </li>
+                <li class="head-item item overflow" data-dep-id="19">
+                    <a class="title" href="police.html#city=0&rowId=19&type=department" target="_blank">
+                        Управление полиции на Петербургском метрополитене
+                    </a>
+                </li>
+                <li class="head-item item overflow" data-dep-id="20">
+                    <a class="title" href="police.html#city=0&rowId=20&type=department" target="_blank">
+                        Санкт-Петербургское линейное управление МВД России на транспорте
+                    </a>
+                </li>
+                <li class="head-item item overflow" data-dep-id="21">
+                    <a class="title" href="police.html#city=0&rowId=21&type=department" target="_blank">
+                        Санкт-Петербург-Балтийский линейный отдел МВД России на транспорте
+                    </a>
+                </li>
+                <li class="head-item item overflow" data-dep-id="22">
+                    <a class="title" href="police.html#city=0&rowId=22&type=department" target="_blank">
+                        Санкт-Петербург-Витебский линейный отдел МВД России на транспорте
+                    </a>
+                </li>
+                <li class="head-item item overflow" data-dep-id="23">
+                    <a class="title" href="police.html#city=0&rowId=23&type=department" target="_blank">
+                        Линейный отдел полиции на станции Санкт-Петербург-Ладожский
+                    </a>
+                </li>
+                <li class="head-item item overflow" data-dep-id="24">
+                    <a class="title" href="police.html#city=0&rowId=24&type=department" target="_blank">
+                        Санкт-Петербург-Финляндский линейный отдел МВД России на транспорте
+                    </a>
+                </li>
+                <li class="head-item item overflow" data-dep-id="25">
+                    <a class="title" href="police.html#city=0&rowId=25&type=department" target="_blank">
+                        Санкт-Петербургский линейный отдел МВД России на водном транспорте
+                    </a>
+                </li>
+                <li class="head-item item overflow" data-dep-id="26">
+                    <a class="title" href="police.html#city=0&rowId=26&type=department" target="_blank">
+                        Линейный отдел МВД России в аэропорту Пулково
+                    </a>
+                </li>
+            </ul>
+        </div>
     </div>

@@ -200,8 +200,7 @@ $(function() {
         var $chart = $('#chart-cont'), chart;
 
         function renderChart() {
-            return;
-            var rateHistory = meta.rateHistory[curRegion.number()];
+            var rateHistory = meta.data.rateHistory[curRegion.number()];
             if (rateHistory) {
                 var dates = [], series = [[],[]];
                 for (var date  in rateHistory) {
@@ -211,14 +210,15 @@ $(function() {
                     series[1].push(Number(val['доступность']))
                 }
                 dates.sort();
-                var labels = dates.map(function(d) { return new Date(Number(d)).format(); })
+                var labels = dates.map(function(d) { return new Date(Number(d)).fineFormat(); })
                 var options = {
                 };
                 console.log('draw chart', rateHistory, dates, labels, series)
                 $chart.show();
                 new Chartist.Bar('#rate-chart', { labels : labels, series : series}, options);
+                $anketa.addClass('charted');
             } else {
-                $chart.hide();
+                $anketa.removeClass('charted');
             }
         }
 

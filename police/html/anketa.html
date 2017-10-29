@@ -1,14 +1,15 @@
 <div id="anketa" class="anketa faded">
-    <div class ="chart-cont" id="rate-chart">
+    <div class="chart-cont" id="rate-chart">
     </div>
-    <div class="ank-header">
-        <div class="ank-tools">
-            <button id="btn-anketa-save" class="btn btn-save"> <i class="icon-check"></i> Сохранить </button>
-            <button class="btn btn-cancel" id="btn-anketa-cancel"> Отменить </button>
-        </div>
-        <div id="ank-header"></div>
-        <script data-template="ankHeader" type="text/template">
-            <h1 class="subject-title fgc">{{region.name }}  <b>Рейтинг: {{rate.fixed}}</b>  
+    <div class="ank-wrapper">
+        <div class="ank-header">
+            <div class="ank-tools">
+                <button id="btn-anketa-save" class="btn btn-save"> <i class="icon-check"></i> Сохранить </button>
+                <button class="btn btn-cancel" id="btn-anketa-cancel"> Отменить </button>
+            </div>
+            <div id="ank-header"></div>
+            <script data-template="ankHeader" type="text/template">
+                <h1 class="subject-title fgc">{{region.name }}  <b>Рейтинг: {{rate.fixed}}</b>  
                 {{^anketaPublished}}
                 <a class="btn-publish" id="btn-anketa-publish"> Опубликовать </a>
                 {{/anketaPublished}}
@@ -17,24 +18,25 @@
                 <a class="btn-publish" id="btn-anketa-depublish"> <i class="icon-close"></i> Не Публиковать </a>
                 {{/anketaPublished}}
             </h1>
-        </script>
-        <div class="new-template" id="new-question">
-            <button class="btn btn-add" id="btn-anketa-add"> <i class="icon-plus"></i> Добавить вопрос </button>
-            <input type="text" placeholder="Вес (1-5)" name="weight" class="weight">
-            <input type="text" id="new-question-cat" placeholder="Категория" name="category" class="cat">
-            <div id="cat-autocomplete" class="popup cat-autocomplete"></div>
-            <script data-template="anketaCategories" type="text/template">
-                {{#.}}
-                <li class=""><a>{{.}}</a></li>
-                {{/.}}
             </script>
-            <input type="text" placeholder="Текст вопроса" id="new-question-title" name="title" class="title">
+            <div class="new-template" id="new-question">
+                <button class="btn btn-add" id="btn-anketa-add"> <i class="icon-plus"></i> Добавить вопрос </button>
+                <input type="text" placeholder="Вес (1-5)" name="weight" class="weight">
+                <input type="text" id="new-question-cat" placeholder="Категория" name="category" class="cat">
+                <div id="cat-autocomplete" class="popup cat-autocomplete"></div>
+                <script data-template="anketaCategories" type="text/template">
+                    {{#.}}
+                    <li class=""><a>{{.}}</a></li>
+                    {{/.}}
+                </script>
+                <input type="text" placeholder="Текст вопроса" id="new-question-title" name="title" class="title">
+            </div>
+            <a class="btn-close" id="btn-anketa-close"> <i class="icon-close"></i> </a>
+            <a class="btn-edit" id="btn-anketa-edit" title="Редактировать вопросы"> <i class="icon-pencil"></i> </a>
         </div>
-        <a class="btn-close" id="btn-anketa-close"> <i class="icon-close"></i> </a>
-        <a class="btn-edit" id="btn-anketa-edit" title="Редактировать вопросы"> <i class="icon-pencil"></i> </a> 
-    </div>
-    <div class="ank-content">
-        <div id="ank-temp" class="ank-temp"></div>
+        <div class="ank-content">
+            <div id="ank-temp" class="ank-temp"></div>
+        </div>
     </div>
 </div>
 <script data-template="anketa" type="text/template">
@@ -63,5 +65,3 @@
 <script data-template="regRate" type="text/template">
     <span><b title="Рейтинг: {{fixed}}" class="ank-rate rated{{formatted}}">{{fixed}}</b></span>
 </script>
-
-

@@ -7,8 +7,8 @@ $(function() {
         })
         var scripts =  [
             '<script src="libs/jquery-2.1.3.min.js"></script>',
-            '<script src="js/static.js"></script>',
-            '<script src="js/static-map.js"></script>'
+            '<script src="js/static/static.js"></script>',
+            '<script src="js/static/static-map.js"></script>'
         ];
 
         [].slice.call(document.getElementsByTagName('script')).forEach(function(scr) {

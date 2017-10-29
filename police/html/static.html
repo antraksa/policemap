@@ -10,10 +10,6 @@
     <div class="all">
         <div class="toolbar">
             <a class="full"  target="_blank" href="police.html">Полная версия</a>
-            <div class="search">
-                <i class="icon-search fgc" id="btn-search"> </i>
-                <input type="text" placeholder="Поиск" id="txt-search">
-            </div>
         </div>    
         <header>
             <img src="css/img/logo.png" alt="Policemap">
@@ -25,30 +21,36 @@
             Это мобильная версия карты полиции для города {{city.name}}. 
         </h3>
         <h2> Отделения  {{city.name}} </h2>
-        <ul class="regions" id="all-list">
-            {{#departments}}
-            <li class="head-item item overflow" data-dep-id="{{department.number}}">
-                <span class="title">
-                {{department.name}}
-            </span>
-            </li>
-            {{#regions}}
-            <li class="item child-item published-{{anketaPublished}}" data-reg-id="{{region.number}}">
-                <a href="police.html?city={{city.ind}}&rowId={{ind}}" target="_blank">
-                <span title="{{name}}" class="title overflow"> {{region.name}}</span>
-                <div id="details-rate-toggle" class="btn-ank star-rate">
-                    <em class="lb">Рейтинг:  {{rate.fixed}}</em> {{#starRate}} {{^.}}
-                    <i class="icon-star_border srated{{rate.formatted}}"></i>{{/.}} {{#.}}
-                    <i class="icon-star srated{{rate.formatted}}"></i>{{/.}} {{/starRate}}
-                </div>
-                {{#region}}
-                <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i> {{#tel}} <u>{{.}}</u> {{/tel}}</span>
-                <span class="name"> {{personName}} </span>
-                <span class="rank"> {{personRank}} </span>
-                {{/region}}
-            </a>
-            </li>
-            {{/regions}} {{/departments}}
-        </ul>
+        <div class="list">
+            <div class="search">
+                <i class="icon-search fgc" id="btn-search"> </i>
+                <input type="text" placeholder="Поиск" id="txt-search">
+            </div>
+            <ul class="regions" id="all-list">
+                {{#departments}}
+                <li class="head-item item overflow" data-dep-id="{{department.number}}">
+                    <a class="title" href="police.html#city={{city.ind}}&rowId={{ind}}&type=department" target="_blank">
+                        {{department.name}}
+                    </a>
+                </li>
+                {{#regions}}
+                <li class="item child-item published-{{anketaPublished}}" data-reg-id="{{region.number}}">
+                    <a href="police.html#city={{city.ind}}&rowId={{ind}}" target="_blank">
+                    <span title="{{name}}" class="title overflow"> {{region.name}}</span>
+                    <div id="details-rate-toggle" class="btn-ank star-rate">
+                        <em class="lb rate-up-{{rateUp}}">Рейтинг:  {{rate.fixed}}</em> {{#starRate}} {{^.}}
+                        <i class="icon-star_border srated{{rate.formatted}}"></i>{{/.}} {{#.}}
+                        <i class="icon-star srated{{rate.formatted}}"></i>{{/.}} {{/starRate}}
+                    </div>
+                    {{#region}}
+                    <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i> {{#tel}} <u>{{.}}</u> {{/tel}}</span>
+                    <span class="name"> {{personName}} </span>
+                    <span class="rank"> {{personRank}} </span>
+                    {{/region}}
+                </a>
+                </li>
+                {{/regions}} {{/departments}}
+            </ul>
+        </div>
     </div>
 </script>
