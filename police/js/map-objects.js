@@ -54,6 +54,7 @@ var ObjectWrapper = (function() {
     }
 
     function calcDynamicRate(preg) {
+        if (!meta.data.rateHistory) return;
         var rateHistory = meta.data.rateHistory[preg.number()];
         if (!rateHistory) return;
         var lastDate;
@@ -128,7 +129,6 @@ var ObjectWrapper = (function() {
             balloonContentFooter: obj.tel,
             hintContent: obj.name,
             iconContent: content, 
-            hasBalloon : type == 'sector',
             overlayFactory: 'default#interactiveGraphics'
         }, {
             iconLayout: 'default#imageWithContent',
@@ -137,6 +137,7 @@ var ObjectWrapper = (function() {
             iconImageOffset: [-20, -20],
             iconContentOffset: [20, 20],
             hideIconOnBalloonOpen: false,
+            openBalloonOnClick : type == 'sector',
             iconContentLayout: regLayout
         });
         //console.log(obj, type, coords, content)
