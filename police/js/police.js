@@ -86,7 +86,6 @@
                 addObjects('regions');
                 addObjects('sectors', true);
                 addObjects('departments');
-                console.log(mapobjects)
                 validateLayers()
             } else {
 
@@ -106,7 +105,7 @@
                 ymaps.ready(function() {
                     map = new ymaps.Map('map', { controls: ["zoomControl"], zoom: 12, center: [59.948814, 30.309640] }, { suppressMapOpenBlock: true });
                     map.events.add('click', function(e) {
-                        Core.trigger('map.click', { coords: e.get('coords') })
+                        //Core.trigger('map.click', { coords: e.get('coords') })
                     });
                     map.events.add('boundschange', function(e) {
                         Core.trigger('map.boundschange', {})
@@ -296,6 +295,10 @@
         }
         Core.on('map.set-center', function(args) {
             console.log('center', args)
+            if (!args.coords) {
+                console.log('wrong coords', args)
+                return;
+            }
             map.setCenter(args.coords, args.zoom);
         })
 

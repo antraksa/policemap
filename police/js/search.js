@@ -73,11 +73,10 @@ $(function() {
         $('#btn-locate').on('click', function() {
             location(function(p) {
                 searchPoint(p)
-                resolvePoint(p)
             })
         })
         Core.on('map.click', function(args) {
-            resolvePoint(args.coords)
+            //resolvePoint(args.coords)
         })
 
         function searchPoint(pos) {
@@ -85,14 +84,15 @@ $(function() {
             if (!map) return;
             for (var i = 0; i < regions.length; i++) {
                 var r = regions[i];
-                if (r.pol && r.pol.geometry.contains(pos)) {
-                    r.render()
+                if (r.pol && r.contains(pos)) {
+                    r.select(true)
+                    resolvePoint(pos, r)
                     return;
                 }
             }
         }
 
-        function resolvePoint(p) {
+        function resolvePoint(p, parentRegion) {
             markCurrent()
             API.resolvePoint(city, p, function(addr) {
                 if (!addr[0]) return;
@@ -103,10 +103,11 @@ $(function() {
                 var strres = search(streets, pq, function(o) {
                     if (o) return o.name
                 })
-                // console.log(addr[0].name, strres[0])
-                if (strres[0]) {
-                    var sec = strres[0].item.sector;
-                    sec.select(false, true)
+                for (var i = 0; i < strres.length; i++) {
+                    var sec = strres[i].item.sector;
+                    if (parentRegion.contains(sec.coords())) {
+                        sec.select(true);
+                    }
                 }
             })
         }

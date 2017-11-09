@@ -53,8 +53,9 @@
 </div>
 <script data-template="region" type="text/template">
     <div class="cur-address"></div>
-    {{#region}}
+    
     <div class="details-wrap">
+        {{#region}}
         <h1 class="name">
             <q  class="area">{{area}}</q>
             <u  class="number photo" style="background-image: url('{{photoLink}}')"> </u>
@@ -62,15 +63,19 @@
             <span  class="addr editable">{{addr}}</span>
           <span class="tel-name">Дежурная часть:</span>
           <div class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i> {{#tel}} <u>{{.}}</u> {{/tel}}</div>
-        </h1> {{#rate}}
+        </h1> 
+        {{#rate}}
         <div id="details-rate-toggle" class="btn-ank star-rate">
             <em class="lb">Рейтинг:  {{rate.fixed}}</em> {{#starRate}} {{^.}}
             <i class="icon-star_border srated{{rate.formatted}}"></i>{{/.}} {{#.}}
             <i class="icon-star srated{{rate.formatted}}"></i>{{/.}} {{/starRate}}
         </div>
-        {{/rate}} {{^rate}}
+        {{/rate}} 
+        {{^rate}}
         <div class="no-records">Рейтинг пока не опубликован</div>
         {{/rate}}
+        {{/region}}
+
         <ul id="details-rate" class="rates">
             {{#getRates}}
             <li class="overflow" title="{{category}}"><b class="ank-rate rated{{rate.formatted}}">{{rate.fixed}}</b>{{category}}</li>
@@ -115,7 +120,8 @@
                 <!-- <span  class="s-val">{{1}}</span> -->
             </a> {{/press}}
         </div>
-        {{/press.length}} {{/region}}
+        {{/press.length}} 
+        {{/region}}
         <div id="region-comments"></div>
         <div class="sectors more sub-list" id="region-more">
             <h6 class="sub-header">Подробнее</h6>
@@ -178,7 +184,7 @@
             </ul>
         </div>
     </div>
-    {{/region}}
+
 </script>
 <script data-template="department" type="text/template">
     <div class="cur-address" id="cur-address"></div>

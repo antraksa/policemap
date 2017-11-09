@@ -123,11 +123,12 @@ var ObjectWrapper = (function() {
         var regIcon = Mustache.render(templates.mapPoint, { icon: iconUrl, num: obj.number, type: type })
         var regLayout = ymaps.templateLayoutFactory.createClass(regIcon)
         var place = new ymaps.Placemark(coords, {
-            balloonContentHeader: obj.name,
+            balloonContentHeader: obj.fullName || obj.name,
             balloonContentBody: obj.addr,
             balloonContentFooter: obj.tel,
             hintContent: obj.name,
-            iconContent: content, //если есть "Кол-во задержанных", то выводить их
+            iconContent: content, 
+            hasBalloon : type == 'sector',
             overlayFactory: 'default#interactiveGraphics'
         }, {
             iconLayout: 'default#imageWithContent',
@@ -160,8 +161,8 @@ var ObjectWrapper = (function() {
             pol.events.add('mouseenter', function(e) { r.hover(true) })
             pol.events.add('mouseleave', function(e) { r.hover(false) })
             pol.events.add('click', function(e) {
-                Core.trigger('map.click', { coords: e.get('coords') })
-                setTimeout(function() { r.select(); }, 1)
+                //Core.trigger('map.click', { coords: e.get('coords') })
+                setTimeout(function() { r.select(true); }, 1)
             })
             map.geoObjects.add(pol);
             r.pol = pol;
@@ -213,18 +214,15 @@ var ObjectWrapper = (function() {
             Core.trigger('region.select', { region: r })
             if (window.ymaps) {
                 if (focus) {
-                    if (r.place) {
-                        r.place.balloon.open();
-                    }
-                    if (map && r.pol) {
-                        Core.trigger('map.set-center', {coords : getCenter(r.pol), zoom : 13})
-                    }
+                    var coords = r.region.point ? r.region.point.coords : getCenter(r.pol); 
+                    Core.trigger('map.set-center', {coords : coords, zoom : 13})
+                    
                 } else {
                     r.markPointOpacity(true)
                 }
                 rselected = r.markSelected(true);
             } else {
-                if (this.region.point && this.region.point.coords && focus)
+                if (r.region.point && r.region.point.coords && focus)
                     map.markPoint({ coords: this.region.point.coords, preset: 'pmlbm' })
             }
             if (!nostate) State.addState({ type: 'region', rowId: r.ind })
@@ -242,9 +240,9 @@ var ObjectWrapper = (function() {
         },
         markSelected: function(val) {
             this.markPointOpacity(val);
-            if (this.place && !val) this.place.balloon.close();
+            //if (this.place && !val) this.place.balloon.close();
             if (val && this.pol) {
-                this.pol.options.set('strokeWidth', 4).set('zIndex', 11).set('strokeColor', '#444');
+                this.pol.options.set('strokeWidth', 2).set('zIndex', 11).set('strokeColor', '#444');
             } else {
                 this.clearStyle()
             }
@@ -272,6 +270,9 @@ var ObjectWrapper = (function() {
         },
         render: function(ank) {
             Core.trigger('region.select', { region: this, ank: ank })
+        },
+        contains : function(p) {
+            return this.pol.geometry.contains(p)
         }
     }
 
@@ -288,7 +289,6 @@ var ObjectWrapper = (function() {
             map.geoObjects.add(place);
             place.events.add('click', function() {
                 d.select();
-                console.log(1)
             })
         },
         select: function(focus, nostate) {
@@ -300,7 +300,7 @@ var ObjectWrapper = (function() {
                         Core.trigger('map.set-center', {coords : d.department.coords, zoom : 13})
                     }
                     clearSelections()
-                    if (d.place) d.place.balloon.open();
+                    //if (d.place) d.place.balloon.open();
                 }
                 if (dselected) dselected.markSelected(false)
                 dselected = d.markSelected(true);
@@ -341,7 +341,8 @@ var ObjectWrapper = (function() {
     var sectorPlace;
     function psector(s) {
         this.sector = s;
-        this.name = s.name.capitalizeAll()
+        this.name = s.name.capitalizeAll();
+        s.fullName = this.name;
     }
     psector.prototype = {
         draw: function(cluster) {
@@ -357,13 +358,12 @@ var ObjectWrapper = (function() {
             place.events.add('click', function() { that.select(true) })
             target.add(place);
         },
-        select: function(focus, noRenderSector) {
+        select: function(focus, noSelectSector) {
             var s = this;
             console.log('select sector', focus, s)
             if (window.ymaps) {
                 if (focus && s.sector.coords) {
                     Core.trigger('map.set-center', {coords : s.sector.coords, zoom : 15});
-                    //if (s.place)  s.place.balloon.open();
                 }
                 if (sselected) sselected.markSelected(false);
                 sselected = this.markSelected(true);
@@ -371,7 +371,7 @@ var ObjectWrapper = (function() {
                 if (this.sector.coords && focus)
                     map.markPoint({ coords: this.sector.coords, preset: 'pmgrs' })
             }
-            if (!noRenderSector && s.region) s.region.render();
+            if (!noSelectSector && s.region) s.region.select();
             s.render(focus)
         },
         render: function(focus) {
@@ -415,6 +415,9 @@ var ObjectWrapper = (function() {
         },
         number: function() {
             return this.sector.number
+        },
+        coords : function() {
+            return this.sector.coords
         }
     }
 
@@ -424,7 +427,7 @@ var ObjectWrapper = (function() {
             if (!map || !window.ymaps) return;
             var a = this.area;
             if (a.pol) map.geoObjects.remove(a.pol);
-            var pol = new ymaps.Polygon([a.coords, []], { hintContent: a.name }, { zIndex: 0, strokeOpacity: 0.7, fillOpacity: 0, strokeColor: '#592167', strokeWidth: 2 });
+            var pol = new ymaps.Polyline(a.coords, { hintContent: a.name }, { zIndex: 0, strokeOpacity: 0.7, fillOpacity: 0, strokeColor: '#592167', strokeWidth: 2 });
             this.pol = pol;
             map.geoObjects.add(pol);
         },
@@ -461,7 +464,7 @@ var ObjectWrapper = (function() {
             return clusterPlacemark;
         }
         cluster.events.add('click', function(e) {
-            Core.trigger('map.set-center', {coords : e.get('coords').coords, zoom : 14});
+            Core.trigger('map.set-center', {coords : e.get('coords'), zoom : 14});
         })
 
         objects.forEach(function(o, i) {

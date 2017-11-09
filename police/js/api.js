@@ -103,6 +103,9 @@ var API = (function() {
                             snum.numbers.push({ number: n, sector: s })
                         })
                     })
+                    if (sec.regionId) {
+                        s.region = _regs[sec.regionId];   
+                    }
                     return s;
                 })
                 var sort = function(a, b) {

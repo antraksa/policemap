@@ -36,6 +36,7 @@ $(function() {
                 })
             if (!department) return;
             if (department.department.photo) initFoto($ddetails)
+            initPanels($ddetails)
             console.log('select department', department)
         }
         Core.on('details.clear', function(args) {
@@ -84,14 +85,18 @@ $(function() {
             $('#details-rate-toggle').on('click', function() {
                 $('#details-rate').toggleClass('expanded')
             })
-            $('#region-more, #department-more, #sector-more').on('click', function() {
+            Core.trigger('details.rendered', { region: region, $rdetails: $rdetails })
+            if (rdata.photo) initFoto($rdetails)
+            initPanels($rdetails)
+        }
+
+        function initPanels($cont) {
+            $cont.find('.more').on('click', function() {
                 $(this).toggleClass('expanded')
                 $('.pane.details').animate({
                     scrollTop: $(this).offset().top + 1000
                 }, 500);
             })
-            Core.trigger('details.rendered', { region: region, $rdetails: $rdetails })
-            if (rdata.photo) initFoto($rdetails)
         }
 
         function initFoto($cont) {
@@ -113,7 +118,6 @@ $(function() {
             if (!sector) return;
             if (focus)
                 $dtoggle.eq(2).trigger('click')
-            console.log('select sector', sector)
             $('#sector-reg-link').on('click', function() {
                 if (sector.region)
                     sector.region.select(true)
@@ -123,6 +127,7 @@ $(function() {
                 if (sector.region && sector.region.department)
                     sector.region.department.select(true)
             })
+            initPanels($sdetails)
         }
 
         function edit(region, val) {
