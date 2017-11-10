@@ -4,125 +4,156 @@
     <meta charset="utf-8">
     <title> Policemap </title>
     <link href="css/static.css" rel="stylesheet" media="screen">
-    <link href="css/style.css" rel="stylesheet" media="screen">
-        <script src="libs/jquery-2.1.3.min.js"></script>
-        <script src="js/static.js"></script>
-
-    <header>
-        <h1> Policemap </h1>
-    </header>
-    <h3>
-        <div>
-            Это сайт карты полиции для города Воронеж. 
-        </div>
-        <a class="full"  target="_blank" href="police.html">Полная версия</a>
-    </h3>
-
-    <div class="search">
-        <i class="icon-search fgc" id="btn-search"> </i>
-        <input type="text" placeholder="Поиск" id="txt-search">
+    <link href="css/style.css" rel="stylesheet" media="screen">  <script src="libs/jquery-2.1.3.min.js"></script>  <script src="js/static/static.js"></script>  <script src="js/static/static-map.js"></script> 
+    <div class="overlay">
     </div>
-
-    <h2> Отделения  Воронеж </h2>
-    <ul class="regions" id="all-list">
-        <li class="head-item item overflow" data-dep-id="0"> 
-            <span class="title">
-                Главное управление МВД России по Воронежской области
-            </span>
-        </li>
-        <li class="head-item item overflow" data-dep-id="1"> 
-            <span class="title">
-                Управление МВД России по городу Воронежу
-            </span>
-        </li>
-
-        <li class="item published-" data-reg-id="1">
-            <a href="police.html?city=2&rowId=6" target="_blank">
-                <span title="" class="title overflow"> 1 отдел полиции</span>
-                <div id="details-rate-toggle" class="btn-ank star-rate">
-                    <em class="lb">Рейтинг:  </em> 
-                </div>
-                <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(473) 222-80-62</u>  <u>(473) 222-80-83</u>  <u>(473) 260‑07-13</u> </span>
-                <span class="name"> Пустовалов Сергей Васильевич </span>
-                <span class="rank"> Полковник полиции </span>
-            </a>
-        </li>
-
-        <li class="item published-" data-reg-id="2">
-            <a href="police.html?city=2&rowId=2" target="_blank">
-                <span title="" class="title overflow"> 2 отдел полиции</span>
-                <div id="details-rate-toggle" class="btn-ank star-rate">
-                    <em class="lb">Рейтинг:  </em> 
-                </div>
-                <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(473) 221-02-90</u>  <u>(473) 246-13-07</u>  <u>(473) 221-07-97</u> </span>
-                <span class="name"> Сторожев Валерий Иванович </span>
-                <span class="rank"> Полковник полиции </span>
-            </a>
-        </li>
-
-        <li class="item published-" data-reg-id="3">
-            <a href="police.html?city=2&rowId=3" target="_blank">
-                <span title="" class="title overflow"> 3 отдел полиции</span>
-                <div id="details-rate-toggle" class="btn-ank star-rate">
-                    <em class="lb">Рейтинг:  </em> 
-                </div>
-                <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(473) 249-90-75</u> </span>
-                <span class="name"> Аверкиев Николай Александрович </span>
-                <span class="rank"> Полковник полиции </span>
-            </a>
-        </li>
-
-        <li class="item published-" data-reg-id="4">
-            <a href="police.html?city=2&rowId=4" target="_blank">
-                <span title="" class="title overflow"> 4 отдел полиции</span>
-                <div id="details-rate-toggle" class="btn-ank star-rate">
-                    <em class="lb">Рейтинг:  </em> 
-                </div>
-                <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(473) 221-26-31</u> </span>
-                <span class="name"> Полежаев Алексей Иванович </span>
-                <span class="rank"> Полковник полиции </span>
-            </a>
-        </li>
-
-        <li class="item published-" data-reg-id="5">
-            <a href="police.html?city=2&rowId=5" target="_blank">
-                <span title="" class="title overflow"> 5 отдел полиции</span>
-                <div id="details-rate-toggle" class="btn-ank star-rate">
-                    <em class="lb">Рейтинг:  </em> 
-                </div>
-                <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(473) 269-68-51</u>  <u>(473) 278-62-78</u> </span>
-                <span class="name"> Тимофеев Владимир Егорович </span>
-                <span class="rank"> Полковник полиции </span>
-            </a>
-        </li>
-
-        <li class="item published-" data-reg-id="6">
-            <a href="police.html?city=2&rowId=12" target="_blank">
-                <span title="" class="title overflow"> 6 отдел полиции</span>
-                <div id="details-rate-toggle" class="btn-ank star-rate">
-                    <em class="lb">Рейтинг:  </em> 
-                </div>
-                <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(473) 269-69-00</u>  <u>(473) 251-16-02</u>  <u>(473) 252-36-00</u> </span>
-                <span class="name"> Рогозин Александр Иванович </span>
-                <span class="rank"> Полковник полиции </span>
-            </a>
-        </li>
-
-        <li class="item published-" data-reg-id="7">
-            <a href="police.html?city=2&rowId=7" target="_blank">
-                <span title="" class="title overflow"> 7 отдел полиции</span>
-                <div id="details-rate-toggle" class="btn-ank star-rate">
-                    <em class="lb">Рейтинг:  </em> 
-                </div>
-                <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(473) 268-72-55</u>  <u>(473) 268-57-98</u>  <u>(473) 268-72-43</u> </span>
-                <span class="name"> Бунеев Сергей Николаевич </span>
-                <span class="rank"> Полковник полиции </span>
-            </a>
-        </li>
-        <li class="head-item item overflow" data-dep-id="2"> 
-            <span class="title">
-                Юго-Восточное линейное управление МВД России на транспорте
-            </span>
-        </li>
-
-    </ul>
+    <div class="all">
+        <div class="toolbar">
+            <a class="full"  target="_blank" href="police.html">Полная версия</a>
+        </div>    
+        <header>
+            <img src="css/img/logo.png" alt="Policemap">
+            <h1>
+                Policemap 
+            </h1>
+        </header>
+        <h3>
+            Это мобильная версия карты полиции для города Воронеж. 
+        </h3>
+        <h2> Отделения  Воронеж </h2>
+        <div class="list">
+            <div class="search">
+                <i class="icon-search fgc" id="btn-search"> </i>
+                <input type="text" placeholder="Поиск" id="txt-search">
+            </div>
+            <ul class="regions" id="all-list">
+                <li class="head-item item overflow" data-dep-id="0">
+                    <a class="title" href="police.html#city=2&rowId=0&type=department" target="_blank">
+                        Главное управление МВД России по Воронежской области
+                    </a>
+                </li>
+                <li class="head-item item overflow" data-dep-id="1">
+                    <a class="title" href="police.html#city=2&rowId=1&type=department" target="_blank">
+                        Управление МВД России по городу Воронежу
+                    </a>
+                </li>
+                <li class="item child-item published-true" data-reg-id="1">
+                    <a href="police.html#city=2&rowId=6&type=region" target="_blank">
+                    <span title="" class="title overflow"> 1 отдел полиции</span>
+                    <div id="details-rate-toggle" class="btn-ank star-rate">
+                        <em class="lb rate-up-">Рейтинг:  1.2</em>   
+                        <i class="icon-star srated1"></i>  
+                        <i class="icon-star_border srated1"></i>   
+                        <i class="icon-star_border srated1"></i>   
+                        <i class="icon-star_border srated1"></i>   
+                        <i class="icon-star_border srated1"></i>  
+                    </div>
+                    <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(473) 222-80-62</u>  <u>(473) 222-80-83</u>  <u>(473) 260‑07-13</u> </span>
+                    <span class="name"> Пустовалов Сергей Васильевич </span>
+                    <span class="rank"> Полковник полиции </span>
+                </a>
+                </li>
+                <li class="item child-item published-true" data-reg-id="2">
+                    <a href="police.html#city=2&rowId=2&type=region" target="_blank">
+                    <span title="" class="title overflow"> 2 отдел полиции</span>
+                    <div id="details-rate-toggle" class="btn-ank star-rate">
+                        <em class="lb rate-up-">Рейтинг:  2.8</em>   
+                        <i class="icon-star srated3"></i>   
+                        <i class="icon-star srated3"></i>   
+                        <i class="icon-star srated3"></i>  
+                        <i class="icon-star_border srated3"></i>   
+                        <i class="icon-star_border srated3"></i>  
+                    </div>
+                    <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(473) 221-02-90</u>  <u>(473) 246-13-07</u>  <u>(473) 221-07-97</u> </span>
+                    <span class="name"> Сторожев Валерий Иванович </span>
+                    <span class="rank"> Полковник полиции </span>
+                </a>
+                </li>
+                <li class="item child-item published-true" data-reg-id="3">
+                    <a href="police.html#city=2&rowId=3&type=region" target="_blank">
+                    <span title="" class="title overflow"> 3 отдел полиции</span>
+                    <div id="details-rate-toggle" class="btn-ank star-rate">
+                        <em class="lb rate-up-">Рейтинг:  0.9</em>   
+                        <i class="icon-star srated1"></i>  
+                        <i class="icon-star_border srated1"></i>   
+                        <i class="icon-star_border srated1"></i>   
+                        <i class="icon-star_border srated1"></i>   
+                        <i class="icon-star_border srated1"></i>  
+                    </div>
+                    <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(473) 249-90-75</u> </span>
+                    <span class="name"> Аверкиев Николай Александрович </span>
+                    <span class="rank"> Полковник полиции </span>
+                </a>
+                </li>
+                <li class="item child-item published-true" data-reg-id="4">
+                    <a href="police.html#city=2&rowId=4&type=region" target="_blank">
+                    <span title="" class="title overflow"> 4 отдел полиции</span>
+                    <div id="details-rate-toggle" class="btn-ank star-rate">
+                        <em class="lb rate-up-">Рейтинг:  3.0</em>   
+                        <i class="icon-star srated3"></i>   
+                        <i class="icon-star srated3"></i>   
+                        <i class="icon-star srated3"></i>  
+                        <i class="icon-star_border srated3"></i>   
+                        <i class="icon-star_border srated3"></i>  
+                    </div>
+                    <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(473) 221-26-31</u> </span>
+                    <span class="name"> Полежаев Алексей Иванович </span>
+                    <span class="rank"> Полковник полиции </span>
+                </a>
+                </li>
+                <li class="item child-item published-true" data-reg-id="5">
+                    <a href="police.html#city=2&rowId=5&type=region" target="_blank">
+                    <span title="" class="title overflow"> 5 отдел полиции</span>
+                    <div id="details-rate-toggle" class="btn-ank star-rate">
+                        <em class="lb rate-up-">Рейтинг:  0.3</em>  
+                        <i class="icon-star_border srated0"></i>   
+                        <i class="icon-star_border srated0"></i>   
+                        <i class="icon-star_border srated0"></i>   
+                        <i class="icon-star_border srated0"></i>   
+                        <i class="icon-star_border srated0"></i>  
+                    </div>
+                    <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(473) 269-68-51</u>  <u>(473) 278-62-78</u> </span>
+                    <span class="name"> Тимофеев Владимир Егорович </span>
+                    <span class="rank"> Полковник полиции </span>
+                </a>
+                </li>
+                <li class="item child-item published-true" data-reg-id="6">
+                    <a href="police.html#city=2&rowId=12&type=region" target="_blank">
+                    <span title="" class="title overflow"> 6 отдел полиции</span>
+                    <div id="details-rate-toggle" class="btn-ank star-rate">
+                        <em class="lb rate-up-">Рейтинг:  0.6</em>   
+                        <i class="icon-star srated1"></i>  
+                        <i class="icon-star_border srated1"></i>   
+                        <i class="icon-star_border srated1"></i>   
+                        <i class="icon-star_border srated1"></i>   
+                        <i class="icon-star_border srated1"></i>  
+                    </div>
+                    <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(473) 269-69-00</u>  <u>(473) 251-16-02</u>  <u>(473) 252-36-00</u> </span>
+                    <span class="name"> Рогозин Александр Иванович </span>
+                    <span class="rank"> Полковник полиции </span>
+                </a>
+                </li>
+                <li class="item child-item published-true" data-reg-id="7">
+                    <a href="police.html#city=2&rowId=7&type=region" target="_blank">
+                    <span title="" class="title overflow"> 7 отдел полиции</span>
+                    <div id="details-rate-toggle" class="btn-ank star-rate">
+                        <em class="lb rate-up-">Рейтинг:  0.3</em>  
+                        <i class="icon-star_border srated0"></i>   
+                        <i class="icon-star_border srated0"></i>   
+                        <i class="icon-star_border srated0"></i>   
+                        <i class="icon-star_border srated0"></i>   
+                        <i class="icon-star_border srated0"></i>  
+                    </div>
+                    <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i>  <u>(473) 268-72-55</u>  <u>(473) 268-57-98</u>  <u>(473) 268-72-43</u> </span>
+                    <span class="name"> Бунеев Сергей Николаевич </span>
+                    <span class="rank"> Полковник полиции </span>
+                </a>
+                </li>
+                <li class="head-item item overflow" data-dep-id="2">
+                    <a class="title" href="police.html#city=2&rowId=2&type=department" target="_blank">
+                        Юго-Восточное линейное управление МВД России на транспорте
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>

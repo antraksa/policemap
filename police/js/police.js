@@ -92,10 +92,6 @@
             }
             loading(false);
             Core.trigger('map-ready', initArgs);
-            // setTimeout(function() { 
-            //     var url = $('#map').find('canvas')[0].toDataURL();
-            //     console.log(url);
-            // }, 2000)
         }
 
         createMap()
@@ -356,22 +352,3 @@
         //console.log(getcolors())
     };
 })()
-// if (window.ymaps) {
-//     if (cp) map.geoObjects.remove(cp);
-//     if (!p) return;
-//     map.setCenter(p)
-//     cp = new ymaps.Placemark(p, {
-//         iconCaption: addr || '...',
-//         hintContent: addr || '...'
-//     }, {
-//         preset: 'islands#redCircleDotIconWithCaption',
-//         iconColor: '#f00'
-//     });
-//     clearTimeout(curTimeout)
-//     curTimeout = setTimeout(function() {
-//         if (cp) map.geoObjects.remove(cp);
-//     }, 3000)
-//     map.geoObjects.add(cp);
-// } else if (p) {
-//     map.markPoint({ coords: p, preset: 'flag' })
-// }

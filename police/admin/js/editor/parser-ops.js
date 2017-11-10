@@ -14,7 +14,7 @@ $(function() {
         $.when($.getJSON("../data/{0}/poligoni_rayonov.geojson".format(city)),
                 $.getJSON("../data/{0}/tochki_otdelov.geojson".format(city)),
                 $.getJSON("../data/{0}/otdeleniya.geojson".format(city)),
-                $.get('../data/{0}/otdeleniya.csv?'.format(city) + rand),
+                $.get('../data/{0}/regions.csv?'.format(city) + rand),
                 $.get('../data/{0}/otkr.csv?'.format(city) + rand),
                 $.get('../data/{0}/dost.csv?'.format(city) + rand),
                 $.get('../data/{0}/departments.csv?'.format(city) + rand)
@@ -39,25 +39,33 @@ $(function() {
             })
 
     }
-    getVo()
-    //getSpb();
+    //getVo()
+    getSpb();
 
     function getVo() {
         var city = 'vo';
         $.when(
                 //$.getJSON("../data/{0}/tochki_otdelov.geojson".format(city)),
                 $.getJSON("../data/{0}/otdeleniya.geojson".format(city)),
-                $.get('../data/{0}/otdeleniya.csv?'.format(city) + rand),
-                $.get('../data/{0}/departments.csv?'.format(city) + rand)
+                $.get('../data/{0}/regions.csv?'.format(city) + rand),
+                $.get('../data/{0}/departments.csv?'.format(city) + rand),
+                $.get('../data/{0}/otkr.csv?'.format(city) + rand),
+                $.get('../data/{0}/dost.csv?'.format(city) + rand),
             )
-            .done(function(a, b, c) {
+            .done(function(a, b, c, d1, d2) {
                 var otds = a[0].features;
                 var oinfo = csv(b[0]);
-                var deps = csv(c[0])
+                var deps = csv(c[0]);
+                var ankOtkr = d1[0];
+                var ankDost = d2[0];
+
                 regions(city, {
                     otds: otds,
                     oinfo: oinfo,
-                    deps: deps
+                    deps: deps,
+                    ankOtkr: ankOtkr,
+                    ankDost: ankDost,
+
                 })
             })
 
@@ -110,7 +118,7 @@ $(function() {
                 _regions[num] = reg;
             }
             reg.name = name;
-            console.log(name, reg)
+            console.log(name, o)
             reg.area = getVal(o[0]);
             reg.dep = getVal(o[1]);
             reg.addr = getv(o[4])
@@ -133,7 +141,7 @@ $(function() {
                 })
             }
             reg.photo = getv(o[16]);
-            if (getv(o[17]).indexOf('http') >= 0)
+            if (o[17] && getv(o[17]).indexOf('http') >= 0)
                 reg.report = getv(o[17]);
             reg.comm = getv(o[18]);
             reg.icon = getv(o[21]);
@@ -259,7 +267,6 @@ $(function() {
         // save('meta', city, { "data": { "published": {} } })
 
         function parseAnketas(ankOtkr, ankDost) {
-            return;
             var anfields = [],
                 anvalues = {};
 
