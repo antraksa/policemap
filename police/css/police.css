@@ -417,6 +417,7 @@ body {height: 100%;position: relative;min-height: 100%;}
 .comment-form .btns { text-align: right; margin-top: 10px }
 .comment-form textarea:focus, .comment-form input:focus { background: #fff ;}
 .btn.btn-primary {background: #ff7945;color: #fff;}
+[required]::after {content: ' *';color: red;}
 
 .cur-address {/* background: rgba(255, 255, 255, 0.22); */line-height: 24px;font-size: 11px;padding: 0 10px;/* background: #d7dce1; */color: rgba(255, 255, 255, 0.7);}
 .cur-address b {color: #fff;font-weight: normal;}

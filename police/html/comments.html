@@ -8,7 +8,7 @@
         <li class="comment">
             <div class="head" title="{{name}}">
                 <h6>{{region.region.name}} ({{city}})</h6>
-            {{name}} 
+            {{name}}
             <b class="date">{{createdDate}}</b></div>
             <div class="body" title="{{text}}">{{text}}
                 <div class="btns">
@@ -42,10 +42,10 @@
         </ul>
         <div class="comment-form">
             <form onsubmit="return false">
-                <input type="text" name="" placeholder="Ваше имя" id="region-comment-name" required>
-                <input type="email" name="email" placeholder="Ваше email" id="region-comment-email">
-                <textarea id="region-comment-text" placeholder="Оставьте свой отзыв" rows="4" required></textarea>
-                <div class="tip"> <i class="icon-info"></i> Ваш отзыв пройдет премодерацию </div>
+                <input type="text" name="" placeholder="Ваше имя" id="region-comment-name" >
+                <input type="email" name="email" placeholder="Ваше email (обязательное поле)" id="region-comment-email" required>
+                <textarea id="region-comment-text" placeholder="Оставьте свой отзыв (обязательное поле)" rows="4" required></textarea>
+                <div class="tip"> <i class="icon-info"></i> Ваш отзыв пройдет премодерацию. E-mail не будет опубликован. </div>
                 <div class="btns">
                     <button id="region-comment-submit" type="submit" class="btn btn-primary btn-accept"> Отправить</button>
                 </div>

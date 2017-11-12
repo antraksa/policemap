@@ -3,6 +3,7 @@ body.pages  {
   font-size: 16px;
   line-height: 25px;
   font-weight: 300;
+  overflow: scroll;
 }
 .pages .text-wrap {
   width:60%;
@@ -18,4 +19,7 @@ body.pages  {
 }
 .pages a:hover {
   text-decoration: none;
+}
+.pages p {
+  margin-bottom: 1em;
 }

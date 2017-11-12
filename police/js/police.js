@@ -17,7 +17,7 @@
             return mapobjects[this.id]
         }
         var layers = [
-            { id: 'areas', name: 'Муниципальные округа', map: getMapObjects, checked: false },
+            { id: 'areas', name: 'Административные районы', map: getMapObjects, checked: false },
             { id: 'departments', name: 'ОУМВД', map: getMapObjects, checked: true },
             { id: 'regions', name: 'ОП', map: getMapObjects, checked: true },
             { id: 'sectors', name: 'Участковые ', map: getMapObjects, checked: false }
