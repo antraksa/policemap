@@ -1,5 +1,5 @@
 .bgc {background: #205e62;}
-
+.all {     overflow: hidden;    height: 100%;}
 .parser .toolbar {width: 250px;}
 .mt .btn, .mt-toggle{display: block;margin-bottom: 1px;background: rgba(255, 243, 119, 0.68);font-size: 11px;border-radius: 0;}
 .mt-toggle, .mt {

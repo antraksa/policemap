@@ -267,7 +267,12 @@ var ObjectWrapper = (function() {
             return this;
         },
         show: function(val) {
-            if (this.pol) this.pol.options.set('visible', val)
+            if (this.pol) {
+                this.pol.options.set('visible', val)
+            }
+            if (this.place) {
+                this.place.options.set('visible', val)
+            }
         },
         render: function(ank) {
             Core.trigger('region.select', { region: this, ank: ank })

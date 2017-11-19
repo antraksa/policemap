@@ -39,25 +39,26 @@ $(function() {
             })
 
     }
-    //getVo()
-    getSpb();
+    getVo()
+    //getSpb();
 
     function getVo() {
         var city = 'vo';
         $.when(
-                //$.getJSON("../data/{0}/tochki_otdelov.geojson".format(city)),
                 $.getJSON("../data/{0}/otdeleniya.geojson".format(city)),
                 $.get('../data/{0}/regions.csv?'.format(city) + rand),
                 $.get('../data/{0}/departments.csv?'.format(city) + rand),
                 $.get('../data/{0}/otkr.csv?'.format(city) + rand),
                 $.get('../data/{0}/dost.csv?'.format(city) + rand),
+                $.getJSON("../data/{0}/tochki_otdelov.geojson".format(city)),
             )
-            .done(function(a, b, c, d1, d2) {
+            .done(function(a, b, c, d1, d2, e) {
                 var otds = a[0].features;
                 var oinfo = csv(b[0]);
                 var deps = csv(c[0]);
                 var ankOtkr = d1[0];
                 var ankDost = d2[0];
+                var potds = e[0].features;
 
                 regions(city, {
                     otds: otds,
@@ -65,6 +66,7 @@ $(function() {
                     deps: deps,
                     ankOtkr: ankOtkr,
                     ankDost: ankDost,
+                    potds : potds,
 
                 })
             })
@@ -79,6 +81,8 @@ $(function() {
         var ankOtkr = args.ankOtkr;
         var ankDost = args.ankDost;
         var deps = args.deps;
+
+        console.log('parse all', args)
 
         var regions = [],
             region_points = [],
@@ -118,7 +122,6 @@ $(function() {
                 _regions[num] = reg;
             }
             reg.name = name;
-            console.log(name, o)
             reg.area = getVal(o[0]);
             reg.dep = getVal(o[1]);
             reg.addr = getv(o[4])
@@ -163,24 +166,7 @@ $(function() {
             var coords = convertCoords(o.geometry.coordinates[0][0]);
             rn.coords = rn.coords ? rn.coords.concat(coords) : coords;
         }
-        if (potds) {
-            for (var i = 0; i < potds.length; i++) {
-                var po = potds[i];
-
-                //console.log(po)
-                var num = po.properties.number;
-                var name = o.properties.name;
-                if (!num && name) num = parseInt(name);
-                var r = _regions[num];
-                if (!r) {
-                    console.warn('кривая точка отделения', po.properties)
-                    continue;
-                }
-                r.point = { coords: convertCoords([po.geometry.coordinates])[0] }
-            }
-        } else {
-            console.warn('Нет файла geojson с точками отделений')
-        }
+       
         if (mo) {
             for (var i = 0; i < mo.length; i++) {
                 var o = mo[i];
@@ -196,7 +182,7 @@ $(function() {
             console.warn('Нет файла geojson с мунициальными округами')
         }
 
-        var departments = []
+        var departments = [], _deps = {}
         deps = deps.splice(1)
 
         for (var i = 0; i < deps.length; i++) {
@@ -247,23 +233,50 @@ $(function() {
                 comm: getv(d[23]),
                 icon: getv(d[25]),
             }
+            _deps[num] = dep;
             departments.push(dep)
+        }
+
+         if (potds) {
+            for (var i = 0; i < potds.length; i++) {
+                var po = potds[i];
+
+                var num = po.properties.iconCaption || po.properties.number;
+                if (!num) {
+                    console.warn('кривая номер  ', po.properties)
+                    continue;
+                }
+                var isDep = (num.indexOf('У') == 0 || num=='ГУ');
+                var tar = isDep ? _deps[num] : _regions[num];
+                if (!tar) {
+                    console.warn('кривая точка ', num, po.properties)
+                    continue;
+                }
+                if (isDep) {
+                    tar.coords = convertCoords([po.geometry.coordinates])[0];
+                } else {
+                    tar.point = { coords: convertCoords([po.geometry.coordinates])[0] };
+                }
+            }
+        } else {
+            console.warn('Нет файла geojson с точками отделений')
         }
 
         console.log('departments', departments)
 
-        if (ankOtkr && ankDost) {
-            parseAnketas(ankOtkr, ankDost)
-        } else {
-            console.log('нет файлов анкет');
-            save('anvalues', city, [])
+        // if (ankOtkr && ankDost) {
+        //     parseAnketas(ankOtkr, ankDost)
+        // } else {
+        //     console.log('нет файлов анкет');
+        //     save('anvalues', city, [])
 
-        }
+        // }
 
 
         save('regions', city, regions)
-        save('areas', city, areas)
+        //save('areas', city, areas)
         save('departments', city, departments)
+
         // save('meta', city, { "data": { "published": {} } })
 
         function parseAnketas(ankOtkr, ankDost) {
@@ -317,7 +330,8 @@ $(function() {
     }
 
     
-   // resolveDepartments('vo')
+    //resolveDepartments('vo')
+    //resolveDepartments('spb')
 
     function resolveDepartments(city) {
         $.getJSON("../data/resolved/{0}/departments.json".format(city), function(data) {

@@ -79,6 +79,9 @@ body {height: 100%;position: relative;min-height: 100%;}
 .pane .pane-toggle .icon-th-list { display: none; }
 .pane.collapsed .pane-toggle b { display: none; }
 
+.hello-mess {position: absolute;transition: opacity ease-out 0.5s;background: #fffbc8;padding: 4px 10px;width: 229px;line-height: 17px;right: 5px;top: 40px;box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);opacity: 0;visibility: hidden;z-index: 1;}
+.shown { opacity: 1; visibility : visible}
+
 .loadable { /*transition: filter 1s ease-out; filter: grayscale(0) opacity(1) */ }
 .loading {/*filter: grayscale(1) opacity(0.5)*/}
 /*.loading:before {content: '';top:0;left: 0;right: 0;bottom: 0; background: #fff; position: absolute;z-index: 1;opacity: 0.4;}

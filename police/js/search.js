@@ -22,6 +22,11 @@ $(function() {
             city = args.city;
         })
 
+        $('#search-msg').addClass('shown').on('click', function() {
+            $(this).removeClass('shown')
+        });
+        setTimeout(function() { $('#search-msg').removeClass('shown'); }, 10000)
+
         var $txtSearch = $('#txt-search')
             .on('focus', function() { this.select() })
             .on('change', function(e, args) {

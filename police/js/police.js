@@ -22,13 +22,24 @@
             { id: 'regions', name: 'ОП', map: getMapObjects, checked: true },
             { id: 'sectors', name: 'Участковые ', map: getMapObjects, checked: false }
         ]
-        $('#layers').html(Mustache.render(templates.layers, layers)).find('li').on('click', function() {
-            var index = $(this).toggleClass('checked').index();
-            var layer = layers[index];
-            layer.checked = $(this).hasClass('checked')
-            var m = layer.map();
-            if (m) m.forEach(function(o) { o.show(layer.checked) })
-        })
+        function initLayers() {
+            var lastChecked = JSON.parse(localStorage['checkedLayers']);
+            if (lastChecked) {
+                layers.forEach(function(l,i) {
+                    l.checked =  !!lastChecked[i];
+                })
+            }
+            $('#layers').html(Mustache.render(templates.layers, layers)).find('li').on('click', function() {
+                var index = $(this).toggleClass('checked').index();
+                var layer = layers[index];
+                layer.checked = $(this).hasClass('checked')
+                var m = layer.map();
+                if (m) m.forEach(function(o) { o.show(layer.checked) })
+                localStorage['checkedLayers'] = JSON.stringify(layers.map(function(l) { return l.checked; }));
+            })
+        }
+        initLayers()
+
         loading(true)
 
         Core.trigger('init', { templates: templates, cities: cities, location: location })
@@ -69,6 +80,7 @@
             city = cities[index];
             if (!nostate)
                 State.addState({ city: index })
+            localStorage['currentCityCode'] = index;
             load();
         }
         $('#btn-city-toggle').popup({ hideOnClick: true })
@@ -260,6 +272,11 @@
             if (state.city !== undefined) {
                 changeCity(state.city, true)
                 return;
+            }
+            var storedCity = localStorage['currentCityCode'];
+            if (storedCity) {
+                changeCity(storedCity, true)
+                return;   
             }
             location(function(p) {
                 var nearest;

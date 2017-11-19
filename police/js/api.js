@@ -92,6 +92,7 @@ var API = (function() {
                 var sectors = sectors[0].map(function(sec, i) {
                     sec.number = i;
                     sec.name = sec.name.toLowerCase();
+                    sec.tel = sec.tel.filter(function(t) { return !!t });
                     var s = ObjectWrapper.wrapSector(sec)
                     // console.log('sec', sec)
                     //console.log(sec.coords)
