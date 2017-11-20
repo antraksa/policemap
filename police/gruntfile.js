@@ -56,6 +56,8 @@ module.exports = function(grunt) {
                     { expand: true, src: ['data/**'], dest: 'dist/' },
                     { expand: true, src: ['admin/php/**'], dest: 'dist/' },
                     { expand: true, src: ['html/info/**'], dest: 'dist/' },
+                    { expand: true, src: ['js/static/**'], dest: 'dist/' },
+                    { expand: true, src: ['libs/**'], dest: 'dist/' },
                 ],
             }
         },

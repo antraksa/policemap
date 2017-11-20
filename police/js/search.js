@@ -1,5 +1,9 @@
 'use strict';
 $(function() {
+    // $.get('https://formalist.info/server/police', function() {
+        
+    // })
+
     Core.on('init', function(initArgs) {
         var sectors,
             areas,

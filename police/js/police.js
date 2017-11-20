@@ -23,6 +23,7 @@
             { id: 'sectors', name: 'Участковые ', map: getMapObjects, checked: false }
         ]
         function initLayers() {
+            if (!localStorage['checkedLayers']) return;
             var lastChecked = JSON.parse(localStorage['checkedLayers']);
             if (lastChecked) {
                 layers.forEach(function(l,i) {
