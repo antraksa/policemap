@@ -33,7 +33,6 @@ var State = (function() {
     function pushState(_state) {
         state = _state;
         var url = '#' + Common.uriEncode(state);
-        //console.log('push', state)
         history.pushState(state, '', url);
 
     }

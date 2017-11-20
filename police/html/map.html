@@ -33,7 +33,6 @@
 </script>
 <script data-template="autocomplete" type="text/template">
 	{{#.}}
-		{{#data.length}}
 		<h3> {{title }}</h3>
 		<ul>
 			{{#data}}
@@ -42,8 +41,12 @@
 				<u>{{item.locationName}} </u>
 			</li>
 			{{/data}}
+			{{^data}}
+				<li class="no-records">
+					Ничего не нашлось
+				</li>
+			{{/data}}
 		</ul>
-		{{/data.length}}
 	{{/.}}
 </script>
 <div class="map-tools">

@@ -149,7 +149,6 @@
                 if (q != prevQ) {
                     qtimeout = setTimeout(function() {
                         apireq = apicall(q, function(_data) {
-                            //console.log('_data', _data)
                             data = _data //.slice(0, 10);
                             dopos()
                             render()
@@ -201,12 +200,14 @@
 
         function triggerChange($row) {
             if (data) {
+                var q = $this.val();
                 var txt = $row.find('a').text().trim()
                 $this.val(txt);
                 $this.trigger('change', [{
                     label: txt,
                     $row: $row,
-                    data: data
+                    data: data,
+                    query : q,
                         //item : data[$row.index()]
                 }])
                 clearTimeout(ptimeout)
@@ -223,6 +224,12 @@
                 hoveredRow.siblings().removeClass('hovered')
             }
         }
+        $this.data('autocomplete', {
+            search : function(q) {
+                $this.val(q);
+                check.call($this[0]);
+            }
+        })
         return this;
     }
     $.fn.blink = function(timeout) {

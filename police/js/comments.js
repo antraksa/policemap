@@ -50,12 +50,12 @@ $(function() {
                     accept = $this.hasClass('btn-accept'),
                     id = $this.attr('data-comment-id');
                 DBApi.acceptComment(id, accept, function() {
-                    $this.parents('.comment').slideUp(300, function() {
+                    //$this.parents('.comment').slideUp(300, function() {
                         if (hide) {
                             $(this).remove()
                             if (!$items.find('.comment').length) $comments.remove()
                         }
-                    })
+                    //})
                 })
             })
 

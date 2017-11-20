@@ -7,6 +7,7 @@
     <link href="css/style.css" rel="stylesheet" media="screen"> {{#scripts}} {{{.}}} {{/scripts}}
     <div class="overlay">
     </div>
+    <input type="hidden" id="city-ind" value="{{city.ind}}">
     <div class="all">
         <div class="toolbar">
             <a class="full"  target="_blank" href="police.html">Полная версия</a>
@@ -21,10 +22,12 @@
             Это мобильная версия карты полиции для города {{city.name}}. 
         </h3>
         <h2> Отделения  {{city.name}} </h2>
+
         <div class="list">
             <div class="search">
-                <i class="icon-search fgc" id="btn-search"> </i>
-                <input type="text" placeholder="Поиск" id="txt-search">
+                <i class="icon-search fgc"> </i>
+                <input type="text" placeholder="Адрес, Номер отдела или ФИО" id="txt-search">
+                <button  id="btn-search">Поиск</button>
             </div>
             <ul class="regions" id="all-list">
                 {{#departments}}

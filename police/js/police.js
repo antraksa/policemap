@@ -320,8 +320,9 @@
         }
 
         function checkState() {
+            if (!state) return;
             console.log('state check', state)
-            if (state && state.rowId >= 0 && state.type) {
+            if (state.rowId >= 0 && state.type) {
                 console.warn('restore', state)
                 if (state.type == 'department') {
                     var dep = departments[state.rowId];
@@ -330,6 +331,12 @@
                     var reg = regions[state.rowId];
                     if (reg) reg.select(true, true)
                 }
+            }
+            if (state.query) {
+                Core.trigger('map.search', { query : state.query });
+                //delete state.query;
+                //State.addState(state)
+
             }
         }
         Core.on('map-ready', function() {

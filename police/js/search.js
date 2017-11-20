@@ -57,6 +57,7 @@ $(function() {
                     } else if (dsind == 5) { //person
                         o.select(true)
                     }
+                    State.addState({query : args.query})
                 }
             })
 
@@ -82,6 +83,11 @@ $(function() {
         })
         Core.on('map.click', function(args) {
             //resolvePoint(args.coords)
+        }) 
+        Core.on('map.search', function(args) {
+            var q = args.query;
+            console.log('map.search', q);
+            autocomplete.search(q);
         })
 
         function searchPoint(pos) {
@@ -142,7 +148,7 @@ $(function() {
             return res.slice(0, 5);
         }
 
-        $txtSearch.autocomplete($('#search-popup'), templates.autocomplete, function(q, success) {
+        var autocomplete = $txtSearch.autocomplete($('#search-popup'), templates.autocomplete, function(q, success) {
             if (!q) return;
             var pq = parseQuery(q);
             var regres = search(regions, pq, function(o) {
@@ -169,12 +175,13 @@ $(function() {
                 { title: 'Начальники', type: 'persons', dsindex: 4, data: perres },
                 { title: 'ОУМВД', type: 'departments', dsindex: 5, data: depres },
             ]
+            console.log('res', res)
             success(res)
             //console.log(res)
             return API.resolveAddr(city, q, function(data) {
                 data.forEach(function(d) { yres.push({ name: d.name, item: d }) })
                 success(res)
             })
-        })
+        }).data('autocomplete')
     })
 })

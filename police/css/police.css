@@ -132,6 +132,7 @@ body {height: 100%;position: relative;min-height: 100%;}
 .autocomplete h3 {line-height: 30px;color: #777;padding: 0 10px;font-weight: bold;}
 .search-autocomplete.popup li{padding-left: 30px;}
 .search-autocomplete.popup li.type-sectors a, .search-autocomplete.popup li.type-persons a{text-transform: capitalize;}
+.search-autocomplete.popup li.no-records { color: #ccc}
 
 
 .checkbox-list li{
