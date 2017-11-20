@@ -20,7 +20,7 @@ nav a {float: left;line-height: 38px;padding: 0 16px;color: rgba(255, 255, 255, 
 nav a{ display: block }
 nav a:hover {color: #fff}
 nav a.selected {background: rgba(255, 255, 255, 0.8);color: #000;}
-nav a.btn-menu {float: right;font-size: 14px;padding: 0 16px;/* position: absolute; */}
+nav a.btn-menu {border-right: 0;/* float: right; *//* font-size: 14px; *//* padding: 0 16px; *//* position: absolute; */}
 .btn {border-radius: 2px;line-height: 30px;padding: 0 20px;/* color: #fff; */border-width: 1px;cursor: pointer;border-style: none;box-sizing: border-box;height: 30px;background: rgba(255, 255, 255, 0.7);}
 .btn:active {opacity: 0.8  }
 .btn:hover {opacity: 0.9  }
@@ -96,6 +96,9 @@ body {height: 100%;position: relative;min-height: 100%;}
 .map-tools .tool-btn {float: left;width: 30px;height: 30px;line-height: 30px;background: rgba(255, 255, 255, 0.66);border-radius: 2px;text-align: center;font-size: 16px;margin-right: 4px;box-shadow: 0 0 10px rgba(0, 0, 0, 0.38);}
 .map-tools a:hover { opacity: 0.8 }
 .map-tools .city-toggle {width: 100px;font-size: 12px;padding: 0 10px;}
+#btn-locate {
+    background: #ff823d;
+}
 .toolbar .search{position: relative;/* background: rgba(255, 255, 255, 0.8); */margin: 0;width: 100%;/* top: 37px; */box-shadow: none;}
 .toolbar .search input[type="text"] {padding-right: 60px;}
 .toolbar .list-toolbar { position: relative; }
@@ -157,7 +160,7 @@ body {height: 100%;position: relative;min-height: 100%;}
 .mess {position: absolute;bottom: 0;left: 0;line-height: 30px;background: rgba(144, 236, 96, 0.65);z-index: 20;right: 0;text-align: center;}
 .mess:before { display: block; width: 20px; height:20px; border-radius: 30px; background: #c00  }
 .mess.warn {background: rgba(253, 255, 0, 0.79);}
-.mess.error {background: rgba(253, 0 , 0, 0.79); color: #fff }
+.mess.error {background: rgba(253, 0 , 0, 0.79);color: #fff;display: none;}
 
 
 @media screen and (max-width: 1350px) {
@@ -249,6 +252,17 @@ body {height: 100%;position: relative;min-height: 100%;}
 .details .info-link:first-of-type {/* border-top: 1px solid rgba(255, 255, 255, 0.28) */}
 .details .info-link p {font-size: 11px;line-height: 16px;padding: 10px;padding-top: 0;color: rgba(255, 255, 255, 0.7);}
 .details .info-link h2 {cursor: pointer;}
+.details .info-link:hover {background: rgba(255, 255, 255, 0.16);}
+.details .info-first {
+    cursor: default!important;
+    line-height: 1.5em;
+    margin-top: 0;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    background: rgba(255, 255, 255, 0.16);
+    /* background: rgba(255, 255, 255, 0.8); */
+    /* color: #000; */
+}
 
 .details .more {height: 20px;cursor: pointer;}
 .details .more ul {max-height: 0;overflow: hidden;}

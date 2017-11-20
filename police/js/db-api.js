@@ -8,7 +8,7 @@ var DBApi = (function() {
         var prom = {}
         var call = function(complete) {
             return $.ajax({
-                url: 'https://police-7230.restdb.io/rest/{0}'.format(args.url),
+                url: 'https://formalist.info/server/{0}'.format(args.url),
                 headers: headers,
                 method: args.method || 'GET',
                 data: args.data ? JSON.stringify(args.data) : null,
@@ -44,11 +44,11 @@ var DBApi = (function() {
             setTimeout(process, 500);
             return;
         }
-        clearTimeout(ltimeout); 
+        clearTimeout(ltimeout);
         locked = true;
         call(function() {
             calls.splice(calls.indexOf(call), 1)
-            ltimeout = setTimeout(function() {locked = false; }, 2000) 
+            ltimeout = setTimeout(function() {locked = false; }, 2000)
             process()
         })
     }

@@ -2,33 +2,43 @@
     <!DOCTYPE html>
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1">
     <meta charset="utf-8">
-    <title> Policemap </title>
+    <link rel="shortcut icon" type="image/png" sizes="16x16" href="favicon-16x16.png" >
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <title>Карта полиции / {{city.name}}</title>
     <link href="css/static.css" rel="stylesheet" media="screen">
     <link href="css/style.css" rel="stylesheet" media="screen"> {{#scripts}} {{{.}}} {{/scripts}}
+    <link href="css/pages.css" rel="stylesheet" media="screen">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400" rel="stylesheet">
+    <body class="pages static">
     <div class="overlay">
     </div>
     <input type="hidden" id="city-ind" value="{{city.ind}}">
     <div class="all">
-        <div class="toolbar">
-            <a class="full"  target="_blank" href="police.html">Полная версия</a>
-        </div>    
         <header>
-            <img src="css/img/logo.png" alt="Policemap">
-            <h1>
-                Policemap 
-            </h1>
-        </header>
-        <h3>
-            Это мобильная версия карты полиции для города {{city.name}}. 
-        </h3>
-        <h2> Отделения  {{city.name}} </h2>
+        	<a href="/" title="На главную"><img src="css/img/logo.png" alt="Policemap">
+            <h1>Карта полиции</h1></a>
+            <h3>
+              <a class="full">Открыть карту</a>
+                <div class="hidden">
+                  <a class="full" href="police.html#city=2">Воронеж</a>
+                  <a class="full" href="police.html#city=0">Санкт-Петербург</a>
+                  <a class="full" href="police.html#city=1">Москва</a>
+                </div>
 
-        <div class="list">
+            </h3>
             <div class="search">
-                <i class="icon-search fgc"> </i>
-                <input type="text" placeholder="Адрес, Номер отдела или ФИО" id="txt-search">
-                <button  id="btn-search">Поиск</button>
+              <i class="icon-search fgc"> </i>
+              <input type="text" placeholder="Адрес, Номер отдела или ФИО" id="txt-search">
+              <button  id="btn-search">Поиск</button>
             </div>
+        </header>
+
+        <div class="bread"><a href="/">Все города</a> / <span>Все подразделения города {{city.name}}</span></div>
+
+        <div class="text">
+          <p>Нажмите на подразделение, чтобы открыть его на карте, оставить комментарий или узнать больше о рейтинге.</p>
+        </div>
+        <div class="list">
             <ul class="regions" id="all-list">
                 {{#departments}}
                 <li class="head-item item overflow" data-dep-id="{{department.number}}">
@@ -57,3 +67,4 @@
         </div>
     </div>
 </script>
+</body>

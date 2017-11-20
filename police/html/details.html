@@ -8,7 +8,7 @@
     <a class="t-area tab-toggle">Руководство</a>
     <a class="t-region tab-toggle">Отдел (ОВД)</a>
     <a class="t-sector tab-toggle">Участковый</a>
-    <a id="btn-main-menu" class="selected btn-menu tab-toggle"> <i class="icon-th-list"></i> </a>
+    <a id="btn-main-menu" class="selected btn-menu tab-toggle"> Инфо<!--i class="icon-th-list"></i--> </a>
     <!-- <div class="details-tools tools">
         <button class="btn btn-edit"> <i class="icon-pencil"></i> </button>
         <button class="btn btn-save"> <i class="icon-check"></i> </button>
@@ -27,6 +27,10 @@
     <div id="sector-details" class="sub-panel "></div>
     <div id="main-info" class="main-info sub-panel   shown">
         <ul id="main-info-list" class="info-list">
+
+	         <li class="info-link info-first sub-header">
+             <h2>Чтобы найти участкового, введите адрес в строке поиска. Для получения информации о подразделении, выберите точку или область на карте</h2>
+           </li>
             <li class="info-link" data-link="html/info/about.html">
                 <h2>О проекте </h2>
             </li>
@@ -53,7 +57,7 @@
 </div>
 <script data-template="region" type="text/template">
     <div class="cur-address"></div>
-    
+
     <div class="details-wrap">
         {{#region}}
         <h1 class="name">
@@ -63,14 +67,14 @@
             <span  class="addr editable">{{addr}}</span>
           <span class="tel-name">Дежурная часть:</span>
           <div class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i> {{#tel}} <u>{{.}}</u> {{/tel}}</div>
-        </h1> 
+        </h1>
         {{#rate}}
         <div id="details-rate-toggle" class="btn-ank star-rate">
             <em class="lb">Рейтинг:  {{rate.fixed}}</em> {{#starRate}} {{^.}}
             <i class="icon-star_border srated{{rate.formatted}}"></i>{{/.}} {{#.}}
             <i class="icon-star srated{{rate.formatted}}"></i>{{/.}} {{/starRate}}
         </div>
-        {{/rate}} 
+        {{/rate}}
         {{^rate}}
         <div class="no-records">Рейтинг пока не опубликован</div>
         {{/rate}}
@@ -120,7 +124,7 @@
                 <!-- <span  class="s-val">{{1}}</span> -->
             </a> {{/press}}
         </div>
-        {{/press.length}} 
+        {{/press.length}}
         {{/region}}
         <div id="region-comments"></div>
         <div class="sectors more sub-list" id="region-more">
