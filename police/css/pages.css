@@ -14,7 +14,7 @@ body.pages  {
   margin-bottom: 40px;
   font-size: 20px;
 }
-.pages a {
+.pages .text-wrap a {
   color: #1d3854;
 }
 .pages a:hover {
@@ -23,3 +23,44 @@ body.pages  {
 .pages p {
   margin-bottom: 1em;
 }
+.static h1 {
+    display: inline-block;
+    padding-left: 20px;
+    margin-bottom: 0;
+}
+.static h3 {
+    display: inline-block;
+    /* position: absolute; */
+    float: right;
+    right: 50px;
+    margin-top: 10px;
+    width: 200px;
+    z-index: 555;
+    /* top: 20px; */
+}
+.static .about {
+  display: inline-block;
+  /* width: auto; */
+}
+.static .text-wrap {
+    margin-left: 5px;
+    /* background: rgba(255, 255, 255, 0.2); */
+    /* float: left; */
+    width: 80%;
+    max-width: 990px;
+}
+.pages .text-wrap nav .link {
+    padding: 20px;
+    color: #1d3854;
+}
+.pages .text-wrap nav span a {padding: 0;/* color: #fff; */background: none;text-decoration: underline;}
+.pages .text-wrap nav span a:hover {text-decoration: none;}
+nav .item{display: block;}
+.static .hidden {
+  display: none;
+}
+.static h3:hover div.hidden {display: block;}
+a.full:hover {background: #1b3046;}
+.bread{margin-top: -5px;margin-bottom: 30px;margin-left: 65px;font-size: 14px;}
+.bread a {color:#fff;}
+.text {margin-top: 60px;}
