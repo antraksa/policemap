@@ -241,7 +241,7 @@ body {height: 100%;position: relative;min-height: 100%;}
 .details .contacts {margin-top: 10px;/* border: 1px solid rgba(255, 255, 255, 0.22); *//* padding: 4px 10px; */overflow: hidden;}
 .details .sub-header {display: block;line-height: 26px;background: rgba(255, 255, 255, 0.5);padding: 0 10px;margin-top: 10px;}
 .details .hot-line {color: rgb(255, 153, 153);/* font-size: 13px; */}
-.details .real-hot-line {color: rgba(255, 255, 255, 0.75);font-size: 12px;line-height: 16px;}
+.details .real-hot-line {color: rgba(255, 255, 255, 0.75);font-size: 12px;line-height: 16px;margin-bottom: 10px;}
 .details .real-hot-line a {color: rgba(255, 255, 255, 0.75);}
 .details .sub-panel { display: none }
 .details .sub-panel.shown { display: block; }
