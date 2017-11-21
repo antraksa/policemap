@@ -23,12 +23,13 @@
             { id: 'sectors', name: 'Участковые ', map: getMapObjects, checked: false }
         ]
         function initLayers() {
-            if (!localStorage['checkedLayers']) return;
-            var lastChecked = JSON.parse(localStorage['checkedLayers']);
-            if (lastChecked) {
-                layers.forEach(function(l,i) {
-                    l.checked =  !!lastChecked[i];
-                })
+            if (localStorage['checkedLayers']) {
+                var lastChecked = JSON.parse(localStorage['checkedLayers']);
+                if (lastChecked) {
+                    layers.forEach(function(l,i) {
+                        l.checked =  !!lastChecked[i];
+                    })
+                }
             }
             $('#layers').html(Mustache.render(templates.layers, layers)).find('li').on('click', function() {
                 var index = $(this).toggleClass('checked').index();
