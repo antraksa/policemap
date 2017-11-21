@@ -1,7 +1,7 @@
 'use strict';
 $(function() {
     // $.get('https://formalist.info/server/police', function() {
-        
+
     // })
 
     Core.on('init', function(initArgs) {
@@ -87,7 +87,7 @@ $(function() {
         })
         Core.on('map.click', function(args) {
             //resolvePoint(args.coords)
-        }) 
+        })
         Core.on('map.search', function(args) {
             var q = args.query;
             console.log('map.search', q);
@@ -173,11 +173,11 @@ $(function() {
             var yres = []
             var res = [
                 //{ title: 'Карта', type: 'map', dsindex: 0, data: yres },
+                { title: 'Управления полиции', type: 'departments', dsindex: 5, data: depres },
                 { title: 'Отделения', type: 'regions', dsindex: 1, data: regres },
                 { title: 'Адрес', type: 'addrs', dsindex: 2, data: strres },
                 { title: 'Участковые', type: 'sectors', dsindex: 3, data: secres },
                 { title: 'Начальники', type: 'persons', dsindex: 4, data: perres },
-                { title: 'ОУМВД', type: 'departments', dsindex: 5, data: depres },
             ]
             console.log('res', res)
             success(res)
