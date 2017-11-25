@@ -252,6 +252,8 @@ body {height: 100%;position: relative;min-height: 100%;}
 .details .info-link:first-of-type {/* border-top: 1px solid rgba(255, 255, 255, 0.28) */}
 .details .info-link p {font-size: 11px;line-height: 16px;padding: 10px;padding-top: 0;color: rgba(255, 255, 255, 0.7);}
 .details .info-link h2 {cursor: pointer;}
+.details .info-link a {color: rgba(255, 255, 255, 0.85); text-decoration:none;}
+.details .info-link a:hover {color: rgba(255, 255, 255, 0.85); text-decoration:none;}
 .details .info-link:hover {background: rgba(255, 255, 255, 0.16);}
 .details .info-first {
     cursor: default!important;
