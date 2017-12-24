@@ -39,8 +39,8 @@ $(function() {
             })
 
     }
-    getVo()
-    //getSpb();
+    //getVo()
+    getSpb();
 
     function getVo() {
         var city = 'vo';
@@ -263,6 +263,7 @@ $(function() {
         }
 
         console.log('departments', departments)
+        console.log('regions', regions)
 
         // if (ankOtkr && ankDost) {
         //     parseAnketas(ankOtkr, ankDost)
@@ -275,7 +276,7 @@ $(function() {
 
         save('regions', city, regions)
         //save('areas', city, areas)
-        save('departments', city, departments)
+        //save('departments', city, departments)
 
         // save('meta', city, { "data": { "published": {} } })
 
@@ -315,8 +316,8 @@ $(function() {
 
             console.log('Вопросы', anfields)
             console.log('Ответы', anvalues)
-            save('anfields', city, { fields: anfields })
-            save('anvalues',city, anvalues)
+            //save('anfields', city, { fields: anfields })
+            //save('anvalues',city, anvalues)
             var meta = {
                 data:{published:{}, rateHistory : {}}
             }
@@ -324,7 +325,7 @@ $(function() {
             for (var key in anvalues) {
                 published[key] = true
             }
-            save('meta',city, meta)
+            //save('meta',city, meta)
 
         }
     }
