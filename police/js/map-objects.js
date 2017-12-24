@@ -148,7 +148,7 @@ var ObjectWrapper = (function() {
         hover: function(val) {
             if (rselected != this) {
                 this.pol.options.set('fillOpacity', val ? 0.5 : 0.3);
-                this.pol.options.set('zIndex', val ? 11 : 10);
+                //this.pol.options.set('zIndex', val ? 11 : 10);
             }
         },
         draw: function() {
@@ -157,13 +157,13 @@ var ObjectWrapper = (function() {
             if (r.pol) map.geoObjects.remove(r.pol);
             var reg = r.region;
             if (!reg.coords || !reg.coords.length) return;
-            var pol = new ymaps.Polygon([reg.coords, []], { hintContent: reg.name }, { zIndex: 10, fillOpacity: 0.3, fillColor: r.color });
+            var pol = new ymaps.Polygon([reg.coords, []], { hintContent: reg.name }, { zIndex: 0, fillOpacity: 0.3, fillColor: r.color });
             map.geoObjects.add(pol);
             pol.events.add('mouseenter', function(e) { r.hover(true) })
             pol.events.add('mouseleave', function(e) { r.hover(false) })
             pol.events.add('click', function(e) {
                 //Core.trigger('map.click', { coords: e.get('coords') })
-                setTimeout(function() { r.select(true); }, 1)
+                setTimeout(function() { r.select(true); }, 100)
             })
             map.geoObjects.add(pol);
             r.pol = pol;
@@ -243,7 +243,9 @@ var ObjectWrapper = (function() {
             this.markPointOpacity(val);
             //if (this.place && !val) this.place.balloon.close();
             if (val && this.pol) {
-                this.pol.options.set('strokeWidth', 2).set('zIndex', 11).set('strokeColor', '#444');
+                this.pol.options.set('strokeWidth', 2)
+                //.set('zIndex', 11)
+                .set('strokeColor', '#444');
             } else {
                 this.clearStyle()
             }
@@ -278,7 +280,7 @@ var ObjectWrapper = (function() {
             Core.trigger('region.select', { region: this, ank: ank })
         },
         contains : function(p) {
-            return this.pol.geometry.contains(p)
+            return this.pol && this.pol.geometry.contains(p)
         }
     }
 
@@ -363,6 +365,7 @@ var ObjectWrapper = (function() {
             this.place = place;
             place.events.add('click', function() { that.select(true) })
             target.add(place);
+            return place;
         },
         select: function(focus, noSelectSector) {
             var s = this;
@@ -449,17 +452,31 @@ var ObjectWrapper = (function() {
         }
         var clusterIcon = Mustache.render(templates.clusterPoint, { icon: iconUrl, type: 'sector' })
         var layout = ymaps.templateLayoutFactory.createClass(clusterIcon)
+         var customBalloonContentLayout = ymaps.templateLayoutFactory.createClass([
+                '<ul class=list>',
+                '{% for geoObject in properties.geoObjects %}',
+                    '<li><a href=# data-placemarkid="{{ geoObject.placemarkId }}" class="sector-balloon-item">{{ geoObject.properties.balloonContentHeader|raw }}</a></li>',
+                '{% endfor %}',
+                '</ul>'
+            ].join(''));
+        $(document).on( "click", "a.sector-balloon-item", function() {
+            var sector = objects[$(this).data().placemarkid];
+            sector.render(true);
+            
+        });
+
         var cluster = new ymaps.Clusterer({
             groupByCoordinates: false,
             clusterHideIconOnBalloonOpen: false,
             clusterDisableClickZoom: true,
             geoObjectHideIconOnBalloonOpen: false,
+            clusterBalloonContentLayout: customBalloonContentLayout,
             clusterIconLayout: layout,
             clusterIconShape: {
                 type: 'Rectangle',
                 coordinates: [
-                    [0, 0],
-                    [20, 20]
+                    [-30, -30],
+                    [30, 30]
                 ]
             }
         });
@@ -474,7 +491,7 @@ var ObjectWrapper = (function() {
         })
 
         objects.forEach(function(o, i) {
-            o.draw(cluster);
+            o.draw(cluster).placemarkId = i;
         })
         map.geoObjects.add(cluster);
         return cluster;

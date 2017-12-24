@@ -44,8 +44,7 @@ $(function() {
                         ind = $row.index(),
                         o = ds.data[ind].item;
                     if (dsind == 0) { //yandex addr
-                        map.setCenter(o.coords)
-                        markCurrent(o.name, o.coords)
+                        selectInPoint(o.coords);
                     } else if (dsind == 2) { //sector streets
                         o.sector.select(true)
                         API.resolveAddr(city, o.name, function(data) {
@@ -127,6 +126,24 @@ $(function() {
             })
         }
 
+        function selectInPoint(p) {
+            console.log('selectInPoint', p)
+            // for (var i = 0; i < sectors.length; i++) {
+            //     var sec = sectors[i];
+            //     if (sec.region.contains(p)) {
+            //         sec.select(true);
+            //         return;
+            //     }
+            // }
+            for (var i = 0; i < regions.length; i++) {
+                var r = regions[i];
+                if (r.contains(p)) {
+                    r.select(true);
+                    break;
+                }
+            }
+        }
+
         function search(arr, ws, fname) {
             var res = []
             arr.forEach(function(o) {
@@ -172,19 +189,26 @@ $(function() {
             })
             var yres = []
             var res = [
-                //{ title: 'Карта', type: 'map', dsindex: 0, data: yres },
                 { title: 'Управления полиции', type: 'departments', dsindex: 5, data: depres },
                 { title: 'Отделения', type: 'regions', dsindex: 1, data: regres },
                 { title: 'Адрес', type: 'addrs', dsindex: 2, data: strres },
                 { title: 'Участковые', type: 'sectors', dsindex: 3, data: secres },
                 { title: 'Начальники', type: 'persons', dsindex: 4, data: perres },
+                { title: 'Карта', type: 'map', dsindex: 0, data: yres },
             ]
+
             console.log('res', res)
-            success(res)
+            if (depres.length) {
+                success(res)
+                //return;
+            }
+
             //console.log(res)
             return API.resolveAddr(city, q, function(data) {
-                data.forEach(function(d) { yres.push({ name: d.name, item: d }) })
+                data.forEach(function(d) { yres.push({ name: d.name, item: d }) });
+
                 success(res)
+                console.log('resolve yandex', q)
             })
         }).data('autocomplete')
     })

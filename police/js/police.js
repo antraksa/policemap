@@ -101,6 +101,7 @@
                 addObjects('sectors', true);
                 addObjects('departments');
                 validateLayers()
+                //console.log('mapobjects', mapobjects)
             } else {
 
             }
