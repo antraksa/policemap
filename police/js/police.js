@@ -18,8 +18,8 @@
         }
         var layers = [
             { id: 'areas', name: 'Административные районы', map: getMapObjects, checked: false },
-            { id: 'departments', name: 'ОУМВД', map: getMapObjects, checked: true },
-            { id: 'regions', name: 'ОП', map: getMapObjects, checked: true },
+            { id: 'departments', name: 'Управления полиции', map: getMapObjects, checked: true },
+            { id: 'regions', name: 'Отделения полиции', map: getMapObjects, checked: true },
             { id: 'sectors', name: 'Участковые ', map: getMapObjects, checked: false }
         ]
         function initLayers() {
@@ -279,7 +279,7 @@
             var storedCity = localStorage['currentCityCode'];
             if (storedCity) {
                 changeCity(storedCity, true)
-                return;   
+                return;
             }
             location(function(p) {
                 var nearest;
