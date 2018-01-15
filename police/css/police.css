@@ -132,7 +132,7 @@ body {height: 100%;position: relative;min-height: 100%;}
 .city-popup {width: 154px;}
 .checkbox-list {overflow: hidden;}
 .autocomplete {left: 0;top: 0;background: rgba(255, 255, 255, 1);width: 250px;display: block;border-radius: 0;}
-.search-autocomplete {right: 0;left: initial;top: 0;margin: 4px;margin-top: 38px;}
+.search-autocomplete {right: 0;left: initial;top: 0;margin: 4px;margin-top: 38px;max-height: 100%;}
 .autocomplete h3 {line-height: 30px;color: #777;padding: 0 10px;font-weight: bold;}
 .search-autocomplete.popup li{padding-left: 30px;}
 .search-autocomplete.popup li.type-sectors a, .search-autocomplete.popup li.type-persons a{text-transform: capitalize;}

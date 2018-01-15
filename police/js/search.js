@@ -70,12 +70,12 @@ $(function() {
 
         function parseQuery(q) {
             var pq = q.toLowerCase().split(/[\s,]+/);
-            var numbers = pq.map(function(s) {
-                return parseInt(s)
-            }) //.filter(function(s) { return !!s})
-            pq.forEach(function(p, i) {
-                if (numbers[i]) pq[i] = (numbers[i]);
-            })
+            // var numbers = pq.map(function(s) {
+            //     return parseInt(s)
+            // }) //.filter(function(s) { return !!s})
+            // pq.forEach(function(p, i) {
+            //     if (numbers[i]) pq[i] = (numbers[i]);
+            // })
             //return pq.concat(numbers)
             return pq;
         }
@@ -151,16 +151,19 @@ $(function() {
                     rate = 0;
                 var s = fname(o);
                 if (!s) return;
-                var slc = s.toLowerCase();
+                var pq = parseQuery(s.toLowerCase());
+
                 ws.forEach(function(w) {
-                    w = w + '';
-                    var ind = slc.indexOf(w);
+                    var ind = pq.indexOf(w);
                     if (ind >= 0) {
                         matches.push({ w: w, ind: ind })
-                        rate+=w.length
+                        rate+=2
                     }
-                    if (ind == 0) rate+=w.length;
-                    if (slc == w) rate+=w.length;
+                    if (ind == 0) rate+=2;
+                    pq.forEach(function(q) {
+                        if (q.indexOf(w)>=0) rate+=1;
+                        if (w==q) rate+=1;
+                    })
                 })
                 if (matches.length > 0) {
                     res.push({ name: s, matches: matches, rate: rate, item: o })
@@ -169,9 +172,12 @@ $(function() {
             res.sort(function(a, b) {
                 return b.rate - a.rate
             })
-            //console.warn(res);
             return res.slice(0, 5);
         }
+
+        //for TEST search
+        //var res = search([ 'река Фонтанки 134',  'река Фонтанки 33', 'река Фонтанки 15', 'река Фонтанки 155'], parseQuery('Фонтанки 15'), function(o) { return o})
+        //console.log('search!', res)
 
         var autocomplete = $txtSearch.autocomplete($('#search-popup'), templates.autocomplete, function(q, success) {
             if (!q) return;
@@ -196,9 +202,9 @@ $(function() {
                 { title: 'Управления полиции', type: 'departments', dsindex: 5, data: depres },
                 { title: 'Отделения', type: 'regions', dsindex: 1, data: regres },
                 { title: 'Адрес', type: 'addrs', dsindex: 2, data: strres },
+                { title: 'Карта', type: 'map', dsindex: 0, data: yres },
                 { title: 'Участковые', type: 'sectors', dsindex: 3, data: secres },
                 { title: 'Начальники', type: 'persons', dsindex: 4, data: perres },
-                { title: 'Карта', type: 'map', dsindex: 0, data: yres },
             ]
 
             console.log('res', res)
