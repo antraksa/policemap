@@ -17,6 +17,22 @@ var ObjectWrapper = (function() {
         meta = args.meta;
     })
 
+    var tmpPoint;
+    Core.on('map-click.resolved', function(args) {
+        if (!args.coords) {
+            if (tmpPoint) map.geoObjects.remove(tmpPoint)
+            tmpPoint = null;
+        } else  {
+            var tmpObj = {number : function() { return 'tmp-point'; }};
+            tmpPoint = constructPlace(tmpObj, 'tmp-point', args.coords);
+            tmpObj.place = tmpPoint;
+            map.geoObjects.add(tmpPoint);
+            //markPointOpacity('tmp-point', tmpObj)
+        }
+      
+        console.log('map-click.resolved', args)
+    });
+
     function pregion(r) {
         this.region = r;
     }
@@ -24,6 +40,7 @@ var ObjectWrapper = (function() {
     function getRate(rate) {
         return (rate) ? { val: rate, formatted: Math.round(rate * 5), fixed: (rate * 5).toFixed(1) } : { val: 0, formatted: '', fixed: '' }
     }
+
 
     function calcRate(vals) {
         if (vals && vals.length > 0) {
@@ -115,6 +132,7 @@ var ObjectWrapper = (function() {
     function constructPlace(obj, type, coords, content) {
         var icon = obj.icon;
         if (!icon) icon = 'sheriff.png';
+        if (type=='tmp-point') icon = 'arrested.png';
         var iconUrl = 'css/img/icons/' + icon;
         var emptyUrl = 'css/img/empty.png';
         if (isAdmin) {
@@ -372,7 +390,7 @@ var ObjectWrapper = (function() {
             console.log('select sector', focus, s)
             if (window.ymaps) {
                 if (focus && s.sector.coords) {
-                    Core.trigger('map.set-center', {coords : s.sector.coords, zoom : 15});
+                    Core.trigger('map.set-center', {coords : s.sector.coords, zoom : 13});
                 }
                 if (sselected) sselected.markSelected(false);
                 sselected = this.markSelected(true);

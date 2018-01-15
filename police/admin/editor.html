@@ -22,6 +22,16 @@
 <body class="bgc parser">
     <div class="all">
         <div class="pane toolbar bgc">
+            <div class="cities" id="cities"> </div>
+            <script data-template="cities" type="text/template">
+                <a class="city-toggle" id="city-toggle"> {{city.name}} </a>
+                <div class=" popup city-popup">
+                    {{#cities}}
+                    <a class="city"> {{name}} </a>
+                    {{/cities}}
+                </div>
+            </script>
+            
             <a  class="btn mt-toggle" href="police.html"> <i class="icon-angle-left"></i> Назад на карту </a>
             <nav id="types-toggle" class="dash-toggle">
             </nav>
