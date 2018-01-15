@@ -64,8 +64,8 @@ $(function() {
                 }
             })
 
-        function markCurrent(addr) {
-            Core.trigger('map-click.resolved', { addr: addr });
+        function markCurrent(addr, coords) {
+            Core.trigger('map-click.resolved', { addr: addr, coords : coords });
         }
 
         function parseQuery(q) {
@@ -153,12 +153,15 @@ $(function() {
                 if (!s) return;
                 var slc = s.toLowerCase();
                 ws.forEach(function(w) {
+                    w = w + '';
                     var ind = slc.indexOf(w);
-                    if (ind >= 0) matches.push({ w: w, ind: ind })
-                    if (ind == 0) rate++;
+                    if (ind >= 0) {
+                        matches.push({ w: w, ind: ind })
+                        rate+=w.length
+                    }
+                    if (ind == 0) rate+=w.length;
                 })
                 if (matches.length > 0) {
-                    rate += matches.length;
                     res.push({ name: s, matches: matches, rate: rate, item: o })
                 }
             })

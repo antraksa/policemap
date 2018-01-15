@@ -15,7 +15,7 @@ body, html {margin: 0;height: 100%;overflow: hidden;font-family: Tahoma, Geneva,
 
 a { cursor: pointer;  }
 b {font-weight: bold}
-nav {background: rgba(255, 255, 255, 0.11);overflow: hidden;margin-left: 20px;}
+nav {background: rgba(255, 255, 255, 0.11);overflow: hidden;/* margin-left: 20px; */}
 nav a {float: left;line-height: 38px;padding: 0 16px;color: rgba(255, 255, 255, 0.69);transition: background-color 0.3s ease-out;border-right: 1px solid rgba(255, 255, 255, 0.16);text-transform: uppercase;font-size: 11px;}
 nav a{ display: block }
 nav a:hover {color: #fff}
@@ -98,6 +98,7 @@ body {height: 100%;position: relative;min-height: 100%;}
 .map-tools .city-toggle {width: 100px;font-size: 12px;padding: 0 10px;}
 #btn-locate {
     background: #ff823d;
+    color: #fff;
 }
 .toolbar .search{position: relative;/* background: rgba(255, 255, 255, 0.8); */margin: 0;width: 100%;/* top: 37px; */box-shadow: none;}
 .toolbar .search input[type="text"] {padding-right: 60px;}
@@ -445,7 +446,9 @@ body {height: 100%;position: relative;min-height: 100%;}
 .y-icon {width: 30px;height: 30px;text-align: center;border-radius: 20px;background-color: #fff;text-align: center;background-size: 20px;background-repeat: no-repeat;background-position: center;border: 1px solid #00f;opacity: 0.4;z-index: 1000000;margin-left: -15px;margin-top: -15px;}
 .y-icon-department {width: 40px;height: 40px;background-size: 25px;}
 /*.y-icon-sector {width: 24px;height: 24px;background-size: 23px;}*/
-.y-icon.marked, .y-icon-super-sector { opacity: 1 }
+.y-icon.marked, .y-icon-super-sector, .y-icon-tmp-point { opacity: 1 }
+.y-icon-tmp-point {background-color: rgba(255, 255, 0, 0.5411764705882353);}
+
 .y-icon-super-sector {background-color: #ffc7c5;}
 .y-icon b {position: absolute;font-size: 9px;left: -15px;padding: 4px 5px;font-weight: normal;color: #2020ff;width: 10px;text-align: center;}
 .clusterIcon.y-icon-sector b {font-weight: bold;color: #000;top: -4px;left: -9px;font-size: 11px;}

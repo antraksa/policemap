@@ -325,13 +325,15 @@
         <h6 class="sub-header">Участковый обслуживает адреса</h6>
         <ul class="streets ">
             {{#streets}}
-            <li class="street ">
+            {{#numbers.length}}
+            <li class="street">
                 <h4 class="title">{{name}}</h4>
                 <div class="numbers ">
                     {{#numbers}}
                     <span>{{.}}</span> {{/numbers}}
                 </div>
             </li>
+            {{/numbers.length}}
             {{/streets}}
         </ul>
         {{#region}}

@@ -144,7 +144,7 @@ $(function() {
                 })
             }
             reg.photo = getv(o[16]);
-            if (o[17] && getv(o[17]).indexOf('http') >= 0)
+            if (o[17])
                 reg.report = getv(o[17]);
             reg.comm = getv(o[18]);
             reg.icon = getv(o[21]);
