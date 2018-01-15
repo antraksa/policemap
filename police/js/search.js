@@ -160,6 +160,7 @@ $(function() {
                         rate+=w.length
                     }
                     if (ind == 0) rate+=w.length;
+                    if (slc == w) rate+=w.length;
                 })
                 if (matches.length > 0) {
                     res.push({ name: s, matches: matches, rate: rate, item: o })

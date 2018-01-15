@@ -184,7 +184,7 @@ $(function() {
 
         var departments = [], _deps = {}
         deps = deps.splice(1)
-
+        console.log('_regions', _regions)
         for (var i = 0; i < deps.length; i++) {
             var d = deps[i],
                 num = getv(d[1]),
@@ -194,9 +194,9 @@ $(function() {
                 continue;
             }
             //console.log(d[3].split(','))
-            var dregs = d[4].split(',').map(function(o) {
-                var rnum = parseInt(o)
-                if (rnum >= 0) {
+            var dregs = d[4].split(',').map(function(rnum) {
+                rnum = rnum.trim();
+                if (rnum) {
                     if (_regions[rnum]) {
                         _regions[rnum].departmentNumber = num;
                     } else {
@@ -274,7 +274,7 @@ $(function() {
         // }
 
 
-        save('regions', city, regions)
+        //save('regions', city, regions)
         //save('areas', city, areas)
         //save('departments', city, departments)
 

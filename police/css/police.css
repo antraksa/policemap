@@ -15,7 +15,7 @@ body, html {margin: 0;height: 100%;overflow: hidden;font-family: Tahoma, Geneva,
 
 a { cursor: pointer;  }
 b {font-weight: bold}
-nav {background: rgba(255, 255, 255, 0.11);overflow: hidden;/* margin-left: 20px; */}
+nav {background: rgba(255, 255, 255, 0.11);overflow: hidden;margin-left: 20px;}
 nav a {float: left;line-height: 38px;padding: 0 16px;color: rgba(255, 255, 255, 0.69);transition: background-color 0.3s ease-out;border-right: 1px solid rgba(255, 255, 255, 0.16);text-transform: uppercase;font-size: 11px;}
 nav a{ display: block }
 nav a:hover {color: #fff}

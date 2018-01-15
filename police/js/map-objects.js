@@ -145,7 +145,7 @@ var ObjectWrapper = (function() {
             balloonContentHeader: obj.fullName || obj.name,
             balloonContentBody: obj.addr,
             balloonContentFooter: obj.tel,
-            hintContent: obj.name,
+            hintContent: (type == 'sector') ? '' : obj.name,
             iconContent: content, 
             overlayFactory: 'default#interactiveGraphics'
         }, {
