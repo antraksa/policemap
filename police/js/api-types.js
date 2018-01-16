@@ -5,9 +5,15 @@ $(function() {
             'ds': 'regions',
             "title": "ОП",
             "fields": [{
+              'title': 'ID',
                 "name": "number",
-                "edit": true,
+                "edit": false,
                 "key": true,
+                "width": "60px"
+            }, {
+              'title': 'Фото',
+                "name": "photo",
+                "edit": true,
                 "width": "60px"
             }, {
                 'title': 'Название',
@@ -15,9 +21,9 @@ $(function() {
                 "edit": true,
                 "width": "150px"
             }, {
-                'title': 'ОУФМС',
+                'title': 'Подчиняется',
                 "name": "departmentNumber",
-                "edit": true,
+                "edit": false,
                 "width": "60px",
                 'popup' : 'departments'
             },{
@@ -85,7 +91,7 @@ $(function() {
             'name': 'department',
             "fields": [{
                 "name": "number",
-                "edit": true,
+                "edit": false,
                 "width": "80px",
                 "key": true,
                 'title': 'Номер'
@@ -124,6 +130,7 @@ $(function() {
                 "width": "150px",
                 'title': 'Телефон'
             }, {
+              "title": "Адрес Яндекс",
                 "name": "raddr",
                 "edit": false,
             },{
@@ -132,30 +139,10 @@ $(function() {
                 "width": "150px",
                 'title': 'Фото'
             }, {
-                "name": "priemnaya",
-                "edit": true,
-                'title': 'Фото',
-                 "width": "150px",
-            },{
                 "name": "reports",
                 "edit": true,
                 "width": "150px",
                 'title': 'Отчеты'
-            }, {
-                "name": "sovet",
-                "edit": true,
-                'title': 'Общественный совет',
-                 "width": "150px",
-            },{
-                "name": "usb",
-                "edit": true,
-                'title': 'УСБ',
-                 "width": "150px",
-            },{
-                "name": "onk",
-                "edit": true,
-                'title': 'ОНК',
-                 "width": "150px",
             }, {
                 "name": "coords",
                 "edit": false,
@@ -166,37 +153,41 @@ $(function() {
             'ds': 'sectors',
             'name': 'sector',
             "fields": [{
-                "name": "photo",
-                "edit": true,
-                "width": "150px"
-            }, {
+                "title": "ФИО",
                 "name": "name",
                 "edit": true,
                 "width": "150px"
             }, {
+              "title": "Звание",
                 "name": "rank",
                 "edit": true,
                 "width": "150px"
             }, {
+              "title": "Телефон",
                 "name": "tel",
                 "edit": true,
                 "width": "200px"
             }, {
-                "name": "addr",
-                "edit": true,
-                "width": "200px"
-            }, {
-                "name": "streets",
-                "edit": true,
-                "width": "150px"
-            }, {
+              "title": "Время работы",
                 "name": "time",
                 "edit": true,
                 "width": "200px"
             }, {
+              "title": "Адреса",
+                "name": "streets",
+                "edit": false,
+                "width": "150px"
+            }, {
+              "title": "Адрес с мвд.рф",
+                "name": "addr",
+                "edit": false,
+                "width": "200px"
+            }, {
+              "title": "Адрес Яндекс",
                 "name": "raddr",
                 "edit": false
             }, {
+              "title": "Координаты",
                 "name": "coords",
                 "edit": false
             }]
