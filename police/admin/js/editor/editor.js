@@ -30,7 +30,7 @@ $(function() {
             console.warn(args)
             var datas = args, renderSaveButtons;
             var typearr = [];
-            
+
             var state = State.getState()
 
             var ti = 0;
@@ -48,7 +48,7 @@ $(function() {
                     if (state && Number(state.rowId) >= 0) {
                         var $item = $veditor.find('[data-item-ind="{0}"]'.format(state.rowId));
                         $item.addClass('current').siblings().removeClass('current');
-                        $item.scrollTo()
+                        //$item.scrollTo()
                     }
                 }
             }).eq(state && state.type ? types[state.type].index : 0).trigger('click', {});
