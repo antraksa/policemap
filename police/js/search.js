@@ -45,6 +45,7 @@ $(function() {
                         o = ds.data[ind].item;
                     if (dsind == 0) { //yandex addr
                         selectInPoint(o.coords);
+                        markCurrent(o.name, o.coords)
                     } else if (dsind == 2) { //sector streets
                         o.sector.select(true)
                         API.resolveAddr(city, o.name, function(data) {
