@@ -15,12 +15,13 @@ if ($key == 'anfields') {
 }else if ($key == 'departments') {
 	$datafile = '../../data/resolved/'.$city.'/departments.json';
 }else if ($key == 'sectors-parsed') {
-	$datafile = '../../data/sectors-parsed/'.$city.'/ment.json';
+	$datafile = '../../data/sectors-parsed/ment-'.$city.'.json';
 }else if ($key == 'meta') {
 	$datafile = '../../data/resolved/'.$city.'/meta.json';
 }else if ($key == 'static-home') {
 	$datafile = '../../static-'.$city.'.html';
 }
+
 if (isset($datafile)) {
 	$data = $_POST['data'];
 	file_put_contents($datafile, $data);

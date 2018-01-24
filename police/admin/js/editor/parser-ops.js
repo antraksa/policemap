@@ -40,7 +40,7 @@ $(function() {
 
     }
     //getVo()
-    getSpb();
+    //getSpb();
 
     function getVo() {
         var city = 'vo';
@@ -342,7 +342,7 @@ $(function() {
         })
     }
     
-    //prepareSectors('msc') 
+    //prepareSectors('spb') 
 
     function prepareSectors(city) {
         function parseOptions(data) {
@@ -495,15 +495,16 @@ $(function() {
                 if (!$list.length) {
                     console.log('complete')
                         //download('ment{0}).json'.format(sub), res)
-                    save('sectors-parsed-' + city, res)
+                    save('sectors-parsed', city, res)
                     return
                 }
                 $list.each(function() {
                     var $this = $(this)
-                    var $photo = $this.find('img');
-                    if ($photo[0]) {
+                    
+                    var rank = $this.find('.sl-item-subtitle').text().trim()
+                    if (rank) {
+                        var $photo = $this.find('img');
                         var name = $this.find('.sl-item-title b').eq(0).text().trim()
-                        var rank = $this.find('.sl-item-subtitle').text().trim()
                         var $b = $this.find('.open-map').prevAll('b');
                         var tel = [],
                             addr;
@@ -535,19 +536,19 @@ $(function() {
     }
 
     function convertCheckedSectors() {
-        $.getJSON('../data/ment-spb-checked-all.json', function(data) {
+        //$.getJSON('../data/ment-spb-checked-all.json', function(data) {
+        $.getJSON('../data/resolved/spb/sectors.json', function(data) {
             data.forEach(function(s) {
                     var streets = []
-                    if (s.check != '1') {
-                        if (s.check == '') {
-                            s.fail = true;
-                        } else {
-                            s.coords = s.ncoords;
-                            s.raddr = s.check;
-                        }
-                    }
+                    // if (s.check != '1') {
+                    //     if (s.check == '') {
+                    //         s.fail = true;
+                    //     } else {
+                    //         s.coords = s.ncoords;
+                    //         s.raddr = s.check;
+                    //     }
+                    // }
                     s.photo = s.photo.replace('//static.mvd.ru/upload/site79/document_district/', '')
-                    console.log(s.photo)
                     delete s.check;
                     delete s.ncoords;
                     s.streets.forEach(function(s) {
@@ -564,11 +565,11 @@ $(function() {
 
 
                 })
-                //console.log(data)
+                console.log(data)
             API.save('sectors', 'spb', data)
         })
     }
-    // convertCheckedSectors();
+    convertCheckedSectors();
 
     function download(name, data, nojson) {
         var pom = document.createElement('a');

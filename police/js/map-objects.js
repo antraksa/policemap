@@ -509,7 +509,8 @@ var ObjectWrapper = (function() {
         })
 
         objects.forEach(function(o, i) {
-            o.draw(cluster).placemarkId = i;
+            var p = o.draw(cluster);
+            if (p) p.placemarkId = i;
         })
         map.geoObjects.add(cluster);
         return cluster;
