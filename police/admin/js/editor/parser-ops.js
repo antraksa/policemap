@@ -360,7 +360,9 @@ $(function() {
             })
             pots.forEach(function(p) {
                 var street, pstr = p.streets;
-          
+                // if (p.name.toLowerCase().indexOf('желудков')>=0) {
+                //     console.log(p)
+                // }
                 p.streets.forEach(function(s, i) {
                     var ind = 2;
                     if (s[2]) {
@@ -569,7 +571,7 @@ $(function() {
             API.save('sectors', 'spb', data)
         })
     }
-    convertCheckedSectors();
+    //convertCheckedSectors();
 
     function download(name, data, nojson) {
         var pom = document.createElement('a');
