@@ -413,10 +413,10 @@ $(function() {
                         os.forEach(function(sec) {
                             if (s.raddr != sec.raddr) {
                                 console.log('replace', '"' +  sec.raddr + '"', s.raddr);
+                                sec.raddr = s.raddr
                             }
                             console.log('replace', '"' +  sec.coords + '"', [s['ncoords/0'], s['ncoords/1']]);
-                            //sec.coords = [s['ncoords/0'], s['ncoords/1']];
-                            //sec.raddr = s.raddr
+                            sec.coords = [s['ncoords/0'], s['ncoords/1']];
                         })
                     }  else {
                         console.warn('не нашел', key, s);
