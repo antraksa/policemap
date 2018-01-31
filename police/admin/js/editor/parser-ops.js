@@ -384,38 +384,51 @@ $(function() {
         })
     }
 
+// сычев сергей александровичСанкт-Петербург (г), , 1-й Рабфаковский (пер), 9/1
+
+// сычев сергей александровичСанкт-Петербург (г), , 1-й Рабфаковский (пер), 9/1 
+
     function validateSectors() {
         $.getJSON("../data/resolved/spb/sectors.json", function(rsectors) {
             var map = {};
-
-            $.getJSON("../data/ment-spb-main-checked.json", function(sectors) {
+            rsectors.forEach(function(s, i)  {
+                var key = (s.name + s.addr).trim().toLowerCase();
+                if (s.photo)
+                    s.photo = s.photo.replace('//static.mvd.ru/upload/site79/document_district/', '')
+                var os = map[key];
+                if (!os) {
+                    map[key] = [s];
+                } else {
+                    os.push(s)
+                }
+            })
+            window.supermap = map;
+            $.getJSON("../data/spb/ment-spb-main-checked.json", function(csectors) {
                 var sects = []
-                sectors.forEach(function(s, i) {
-                        //console.log(rsectors[i].name, sectors[i].name )
-                        var sec = {
-                            addr: s.addr,
-                            raddr: s.raddr,
-                            name: s.name,
-                            rank: s.rank,
-                            photo: s.photo,
-                            time: s.time,
-                            tel: []
-                        }
-                        if (s['ncoords/0']) {
-                            sec.coords = [s['ncoords/0'], s['ncoords/1']]
-                        } else {
-                            sec.coords = [s['coords/0'], s['coords/1']]
-                        }
-                        if (s['tel/0']) sec.tel.push(s['tel/0'])
-                        if (s['tel/1']) sec.tel.push(s['tel/1'])
-                        if (s['tel/2']) sec.tel.push(s['tel/2'])
-                            //console.log(sec)
-                    })
-                    //save('sectors', sectors)
+                csectors.forEach(function(s, i) {
+                    if (!s['ncoords/0']) return;
+                    var key = (s.name + s.addr).trim().toLowerCase();
+                    var os = map[key];
+                    if (os) {
+                        os.forEach(function(sec) {
+                            if (s.raddr != sec.raddr) {
+                                console.log('replace', '"' +  sec.raddr + '"', s.raddr);
+                            }
+                            console.log('replace', '"' +  sec.coords + '"', [s['ncoords/0'], s['ncoords/1']]);
+                            //sec.coords = [s['ncoords/0'], s['ncoords/1']];
+                            //sec.raddr = s.raddr
+                        })
+                    }  else {
+                        console.warn('не нашел', key, s);
+                        
+                    }
+                })
+                save('sectors', 'spb', rsectors)
+                console.log('rsectors', rsectors)
             })
         })
     }
-    //validateSectors()
+    validateSectors()
 
     function resolveSectors(pots, success) {
         var ind = 0;
@@ -537,40 +550,40 @@ $(function() {
         parse()
     }
 
-    function convertCheckedSectors() {
-        //$.getJSON('../data/ment-spb-checked-all.json', function(data) {
-        $.getJSON('../data/resolved/spb/sectors.json', function(data) {
-            data.forEach(function(s) {
-                    var streets = []
-                    // if (s.check != '1') {
-                    //     if (s.check == '') {
-                    //         s.fail = true;
-                    //     } else {
-                    //         s.coords = s.ncoords;
-                    //         s.raddr = s.check;
-                    //     }
-                    // }
-                    s.photo = s.photo.replace('//static.mvd.ru/upload/site79/document_district/', '')
-                    delete s.check;
-                    delete s.ncoords;
-                    s.streets.forEach(function(s) {
-                        if (s.name) {
-                            var sn = { name: s.name, numbers: [] }
-                            streets.push(sn);
-                            if (!s.numbers) return;
-                            s.numbers.forEach(function(n) {
-                                if (n) sn.numbers.push(n)
-                            })
-                        }
-                    })
-                    s.streets = streets;
+    // function convertCheckedSectors() {
+    //     //$.getJSON('../data/ment-spb-checked-all.json', function(data) {
+    //     $.getJSON('../data/resolved/spb/sectors.json', function(data) {
+    //         data.forEach(function(s) {
+    //                 var streets = []
+    //                 // if (s.check != '1') {
+    //                 //     if (s.check == '') {
+    //                 //         s.fail = true;
+    //                 //     } else {
+    //                 //         s.coords = s.ncoords;
+    //                 //         s.raddr = s.check;
+    //                 //     }
+    //                 // }
+    //                 s.photo = s.photo.replace('//static.mvd.ru/upload/site79/document_district/', '')
+    //                 delete s.check;
+    //                 delete s.ncoords;
+    //                 s.streets.forEach(function(s) {
+    //                     if (s.name) {
+    //                         var sn = { name: s.name, numbers: [] }
+    //                         streets.push(sn);
+    //                         if (!s.numbers) return;
+    //                         s.numbers.forEach(function(n) {
+    //                             if (n) sn.numbers.push(n)
+    //                         })
+    //                     }
+    //                 })
+    //                 s.streets = streets;
 
 
-                })
-                console.log(data)
-            API.save('sectors', 'spb', data)
-        })
-    }
+    //             })
+    //             console.log(data)
+    //         API.save('sectors', 'spb', data)
+    //     })
+    // }
     //convertCheckedSectors();
 
     function download(name, data, nojson) {
