@@ -166,7 +166,7 @@ $(function() {
             var coords = convertCoords(o.geometry.coordinates[0][0]);
             rn.coords = rn.coords ? rn.coords.concat(coords) : coords;
         }
-       
+
         if (mo) {
             for (var i = 0; i < mo.length; i++) {
                 var o = mo[i];
@@ -330,7 +330,7 @@ $(function() {
         }
     }
 
-    
+
     //resolveDepartments('vo')
     //resolveDepartments('spb')
 
@@ -341,8 +341,8 @@ $(function() {
             })
         })
     }
-    
-    //prepareSectors('spb') 
+
+    //prepareSectors('spb')
 
     function prepareSectors(city) {
         function parseOptions(data) {
@@ -386,7 +386,7 @@ $(function() {
 
 // сычев сергей александровичСанкт-Петербург (г), , 1-й Рабфаковский (пер), 9/1
 
-// сычев сергей александровичСанкт-Петербург (г), , 1-й Рабфаковский (пер), 9/1 
+// сычев сергей александровичСанкт-Петербург (г), , 1-й Рабфаковский (пер), 9/1
 
     function validateSectors() {
         $.getJSON("../data/resolved/spb/sectors.json", function(rsectors) {
@@ -411,16 +411,16 @@ $(function() {
                     var os = map[key];
                     if (os) {
                         os.forEach(function(sec) {
-                            if (s.raddr != sec.raddr) {
-                                console.log('replace', '"' +  sec.raddr + '"', s.raddr);
-                                sec.raddr = s.raddr
+                            if (s.check != sec.raddr) {
+                                console.log('replace addr', '"' +  sec.raddr + '"', s.check);
+                                sec.raddr = s.check
                             }
                             console.log('replace', '"' +  sec.coords + '"', [s['ncoords/0'], s['ncoords/1']]);
                             sec.coords = [s['ncoords/0'], s['ncoords/1']];
                         })
                     }  else {
                         console.warn('не нашел', key, s);
-                        
+
                     }
                 })
                 save('sectors', 'spb', rsectors)
@@ -515,7 +515,7 @@ $(function() {
                 }
                 $list.each(function() {
                     var $this = $(this)
-                    
+
                     var rank = $this.find('.sl-item-subtitle').text().trim()
                     if (rank) {
                         var $photo = $this.find('img');
