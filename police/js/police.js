@@ -348,6 +348,7 @@
         Core.on('popstate', function(args) {
             state = args.state;
             checkState()
+            $('.pane-toggle').click()
         })
 
         function yresolve(q, success) {

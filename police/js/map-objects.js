@@ -29,7 +29,7 @@ var ObjectWrapper = (function() {
             map.geoObjects.add(tmpPoint);
             //markPointOpacity('tmp-point', tmpObj)
         }
-      
+
         console.log('map-click.resolved', args)
     });
 
@@ -146,7 +146,7 @@ var ObjectWrapper = (function() {
             balloonContentBody: obj.addr,
             balloonContentFooter: obj.tel,
             hintContent: (type == 'sector') ? '' : obj.name,
-            iconContent: content, 
+            iconContent: content,
             overlayFactory: 'default#interactiveGraphics'
         }, {
             iconLayout: 'default#imageWithContent',
@@ -233,9 +233,9 @@ var ObjectWrapper = (function() {
             Core.trigger('region.select', { region: r })
             if (window.ymaps) {
                 if (focus) {
-                    var coords = r.region.point ? r.region.point.coords : getCenter(r.pol); 
+                    var coords = r.region.point ? r.region.point.coords : getCenter(r.pol);
                     Core.trigger('map.set-center', {coords : coords, zoom : 13})
-                    
+
                 } else {
                     r.markPointOpacity(true)
                 }
@@ -346,8 +346,8 @@ var ObjectWrapper = (function() {
         },
         markSelected: function(val) {
             this.markPointOpacity(val);
-            this.regions.forEach(function(r) { 
-                r.markGroouped(val) 
+            this.regions.forEach(function(r) {
+                r.markGroouped(val)
             })
             if (this.place) {
                 if (!val) this.place.balloon.close();
@@ -419,7 +419,7 @@ var ObjectWrapper = (function() {
                     var place = constructPlace(s, 'super-sector', s.coords);
                     map.geoObjects.add(place)
                     sectorPlace = place;
-                } 
+                }
                 //markPointOpacity('sector', val ? this : null)
             } else {
                 if (this.sector.coords)
@@ -480,7 +480,7 @@ var ObjectWrapper = (function() {
         $(document).on( "click", "a.sector-balloon-item", function() {
             var sector = objects[$(this).data().placemarkid];
             sector.render(true);
-            
+
         });
 
         var cluster = new ymaps.Clusterer({

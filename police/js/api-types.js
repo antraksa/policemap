@@ -185,11 +185,13 @@ $(function() {
             }, {
               "title": "Адрес Яндекс",
                 "name": "raddr",
-                "edit": false
+                "width": "200px",
+                "edit": true
             }, {
               "title": "Координаты",
                 "name": "coords",
-                "edit": false
+                "width": "200px",
+                "edit": true
             }]
         }
     }
