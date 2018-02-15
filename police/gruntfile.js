@@ -64,7 +64,7 @@ module.exports = function(grunt) {
         },
         htmlbuild: {
             dist: {
-                src: ['*.html', 'admin/*.html'],
+                src: ['*.html'],
                 dest: 'dist/',
                 options: options
             },
