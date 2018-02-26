@@ -23,7 +23,8 @@ $(function() {
         Core.on('department.select', function(args) {
             args.department.markPointOpacity(true);
             renderDepartment(args.department)
-            $dtoggle.eq(0).trigger('click')
+            $dtoggle.eq(0).trigger('click');
+            $('body').addClass('mobile-details-view')
         })
         var curDepartment, curRegion, curSector;
 
@@ -49,7 +50,8 @@ $(function() {
         Core.on('region.select', function(args) {
             renderRegion(args.region);
             renderSector({});
-            $dtoggle.eq(1).trigger('click')
+            $dtoggle.eq(1).trigger('click');
+            $('body').addClass('mobile-details-view')
         })
 
         $('#main-info-list').find('[data-link]').on('click', function() {
@@ -111,6 +113,7 @@ $(function() {
 
         Core.on('sector.select', function(args) {
             renderSector(args.sector, args.focus);
+            $('body').addClass('mobile-details-view');
         })
 
         function renderSector(sector, focus) {
