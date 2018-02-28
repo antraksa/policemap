@@ -1,0 +1,31 @@
+<html>
+<head>
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400" rel="stylesheet">
+<link href="../../css/pages.css" rel="stylesheet">
+<link href="../../css/main.css" rel="stylesheet">
+<script src='https://www.google.com/recaptcha/api.js'></script>
+
+</head>
+<body class="pages">
+  <div class="text-wrap">
+    <h1>Напишите нам</h1>
+    <p>Мы рады любым письмам, но в особенности пожеланиям по улучшению нашего сервиса. Если у вас есть идеи, чем мы можем дополнить функционал карты, как улучшить интерфейс или какую информацию добавить, заметили ошибку в данных или работе сервиса, пожалуйста, пишите. Также вы можете здесь сообщить о нарушениях в работе полиции или другую важную информацию.</p>
+<p>Вы также можете написать на e-mail policemap.ru@gmail.com</p>
+    <div class="pages-form">
+            <form id="contactForm" method="post" action="contact.php">
+                <textarea id="contact-message" name="message" placeholder="О чем вы хотите нам сообщить? Введите текст сообщения"></textarea>
+                <input type="text" name="name" placeholder="Ваше имя (необязательно)" id="contact-name">
+                <input type="text" name="contact" placeholder="Ваши контакты (необязательно)" id="contact-getback">
+                <div class="tip"> <i class="icon-info"></i>Укажите адрес электронной почты или другой контакт если хотите, чтобы мы смогли вам ответить</div>
+                <label for="Captcha" class="captcha-label tip">Подтвердите, что Вы не робот:</label>
+                <div class="g-recaptcha" data-sitekey="6Letl0kUAAAAAN_VN1br2RUBf1AN4_tGnQkWesMq"></div>
+
+                <div class="btns">
+                    <button id="contactButton" class="btn btn-primary" type="submit">Отправить</button>
+                </div>
+            </form>
+        </div>
+  </div>
+
+</body>
+</html>
