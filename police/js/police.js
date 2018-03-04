@@ -49,9 +49,6 @@
         function load() {
             $('#btn-city-toggle').html(city.name)
             Core.trigger('map.set-center', {coords : city.coords, zoom : city.z});
-            if (!window.ymaps) {
-                map.renderStaticHome(city.coords)
-            }
             API.getAndWrapAll(city.code, function(args) {
                 args.city = city;
                 sectors = args.sectors;
@@ -103,7 +100,7 @@
                 validateLayers()
                 //console.log('mapobjects', mapobjects)
             } else {
-
+                map.renderStaticHome()
             }
             loading(false);
             Core.trigger('map-ready', initArgs);

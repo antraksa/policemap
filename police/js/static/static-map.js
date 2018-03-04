@@ -1,19 +1,28 @@
 'use strict';
 
-function createStatic(nomap) {
+function createStatic() {
     var $map = $('#map'),
         dpoints = [],
+        city,
+        regions,
+        departments,
         dtimeout;
-    $map.on('click', function() {
+    $('#mobile-map-toggle').on('click', function() {
         $('body').addClass('mobile-details-view')
     })
+    Core.on('load', function(args) {
+        regions = args.regions;
+        city = args.city;
+        departments = args.departments;
+        console.log('load static', args)
+    })
+
     var map = {
         setCenter: function(c, zoom) {
             if (!zoom) zoom = 10;
             this.render(c, zoom)
         },
         delayMarkPoint: function(p, zoom) {
-            if (nomap) return;
             dpoints.push(p)
             if (dtimeout) return;
             dtimeout = setTimeout(function() {
@@ -39,8 +48,6 @@ function createStatic(nomap) {
             this.render(c, zoom, points)
         },
         render: function(c, zoom, points) {
-            if (nomap) return;
-            console.warn('render', c, points);
             var url = 'https://static-maps.yandex.ru/1.x/?ll={0},{1}&l=map&';
             var pt = '';
             if (points) {
@@ -52,13 +59,13 @@ function createStatic(nomap) {
                 })
                 pt = pt.substr(0, pt.length - 1)
             }
-            if (zoom) {
-                url += 'z={0}&'.format(zoom)
-            }
-            $map.css('background-image', 'url({0})'.format(url.format(c[1], c[0], zoom) + pt))
+            url += 'z={0}&'.format(zoom || 15)
+            url = 'url({0})'.format(url.format(c[1], c[0], zoom) + pt);
+            console.warn('render', url);
+            $map.css('background-image', url)
         },
-        renderStaticHome : function (c) {
-            return;
+        renderStaticHome : function () {
+            console.log('renderStaticHome', city, regions);
             var rp = regions.filter(function(r) {
                 return r.region.point
             }).map(function(r) {
@@ -75,7 +82,7 @@ function createStatic(nomap) {
                     preset: 'pmbls'
                 }
             }) //    .slice(0,5)
-            map.markPoints(c, dp.concat(rp))
+            map.markPoints(city.coords)
         }
     };
     return map;
