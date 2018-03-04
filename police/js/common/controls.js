@@ -169,16 +169,21 @@
         var $this = $(this);
         //$qpopup.appendTo('body')
         $this.on('change keyup', function(e, args) {
-            clear()
+            clear();
             if (args) return;
             if (e.keyCode && e.keyCode == 13) {
                 if (hoveredRow) {
                     triggerChange(hoveredRow);
                     $qpopup.addClass('collapsed');
                 }
+                if (options.preventKeyPress) {
+                    check.call(this);    
+                }
                 return;
             }
-            check.call(this);
+            if (!options.preventKeyPress) {
+                check.call(this);
+            }
         }).on('blur', function() {
             setTimeout(function() { $qpopup.addClass('collapsed'); }, 300)
             clear()
@@ -226,8 +231,15 @@
         }
         $this.data('autocomplete', {
             search : function(q) {
-                $this.val(q);
+                if (q) {
+                    $this.val(q);
+                }
                 check.call($this[0]);
+            }, empty : function() {
+                clear();
+                $this.val('');
+                $qpopup.empty();
+                $this[0].focus();
             }
         })
         return this;

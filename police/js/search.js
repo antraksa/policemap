@@ -1,9 +1,5 @@
 'use strict';
 $(function() {
-    // $.get('https://formalist.info/server/police', function() {
-
-    // })
-
     Core.on('init', function(initArgs) {
         var sectors,
             areas,
@@ -13,7 +9,9 @@ $(function() {
             persons,
             city,
             templates = initArgs.templates,
-            location = initArgs.location;
+            locate = initArgs.location;
+
+        var isMobile = window.location.href.indexOf('mobile.html') > 0;
 
         Core.on('load', function(args) {
             sectors = args.sectors;
@@ -43,24 +41,22 @@ $(function() {
                         })[0],
                         ind = $row.index(),
                         o = ds.data[ind].item;
-                    if (dsind == 0) { //yandex addr
-                        selectInPoint(o.coords);
-                        markCurrent(o.name, o.coords)
-                    } else if (dsind == 2) { //sector streets
-                        o.sector.select(true)
-                        API.resolveAddr(city, o.name, function(data) {
-                            var d = data[0];
-                            if (d) markCurrent(d.name, d.coords)
-                        })
+                    if (dsind == 2) { //streets
+                        if (o.isYandex) {
+                            selectInPoint(o.coords);
+                            markCurrent(o.name, o.coords)
+                        } else {
+                            o.sector.select(true)
+                            API.resolveAddr(city, o.name, function(data) {
+                                var d = data[0];
+                                if (d) markCurrent(d.name, d.coords)
+                            })
+                        }
                     } else if (dsind == 1) { //region
                         o.select(true)
                     } else if (dsind == 3) { //sector
-                        o.select(true)
-                    } else if (dsind == 4) { //person
-                        o.location.select(true)
-                    } else if (dsind == 5) { //person
-                        o.select(true)
-                    }
+                        (o.location || o).select(true)
+                    } 
                     State.addState({query : args.query})
                 }
             })
@@ -81,7 +77,7 @@ $(function() {
             return pq;
         }
         $('#btn-locate').on('click', function() {
-            location(function(p) {
+            locate(function(p) {
                 searchPoint(p)
             })
         })
@@ -92,6 +88,13 @@ $(function() {
             var q = args.query;
             console.log('map.search', q);
             autocomplete.search(q);
+        })
+
+        $('#btn-search').on('click', function() {
+            autocomplete.search();
+        }) 
+        $('#btn-search-empty').on('click', function() {
+            autocomplete.empty();
         })
 
         function searchPoint(pos) {
@@ -179,16 +182,20 @@ $(function() {
         //for TEST search
         //var res = search([ 'река Фонтанки 134',  'река Фонтанки 33', 'река Фонтанки 15', 'река Фонтанки 155'], parseQuery('Фонтанки 15'), function(o) { return o})
         //console.log('search!', res)
-
         var autocomplete = $txtSearch.autocomplete($('#search-popup'), templates.autocomplete, function(q, success) {
             if (!q) return;
             var pq = parseQuery(q);
+
+
             var regres = search(regions, pq, function(o) {
                 return o.region.name
             })
-            var depres = search(departments, pq, function(o) {
+            var depgres = search(departments, pq, function(o) {
                 return o.department.name
             })
+
+            var otdres = regres.splice(0, 3).concat(depgres.splice(0, 3))
+
             var secres = search(sectors, pq, function(o) {
                 return o.sector.name
             })
@@ -198,29 +205,27 @@ $(function() {
             var perres = search(persons, pq, function(o) {
                 if (o) return o.name
             })
-            var yres = []
+
+            var peapledres = perres.splice(0, 3).concat(secres.splice(0, 3))
             var res = [
-                { title: 'Управления полиции', type: 'departments', dsindex: 5, data: depres },
-                { title: 'Отделения', type: 'regions', dsindex: 1, data: regres },
-                { title: 'Адрес', type: 'addrs', dsindex: 2, data: strres },
-                { title: 'Карта', type: 'map', dsindex: 0, data: yres },
-                { title: 'Участковые', type: 'sectors', dsindex: 3, data: secres },
-                { title: 'Начальники', type: 'persons', dsindex: 4, data: perres },
+                { title: 'Отделения', dsindex: 1, data: otdres },
+                { title: 'Адрес', dsindex:  2, type: 'addrs', data: strres },
+                { title: 'Люди', dsindex: 3, type: 'persons', data: peapledres },
             ]
 
             console.log('res', res)
-            if (depres.length) {
-                success(res)
-                //return;
-            }
-
+            success(res)
+            
             //console.log(res)
             return API.resolveAddr(city, q, function(data) {
-                data.forEach(function(d) { yres.push({ name: d.name, item: d }) });
-
-                success(res)
-                console.log('resolve yandex', q)
+                console.log('resolve yandex', q, data)
+                var d = data[0];
+                if (d) {
+                    d.isYandex = true;
+                    strres.push({ name: d.name, item: d})
+                    success(res)
+                }
             })
-        }).data('autocomplete')
+        }, { preventKeyPress : isMobile }).data('autocomplete')
     })
 })
