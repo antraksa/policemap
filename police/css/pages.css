@@ -64,3 +64,12 @@ a.full:hover {background: #1b3046;}
 .bread{margin-top: -5px;margin-bottom: 30px;margin-left: 65px;font-size: 14px;}
 .bread a {color:#fff;}
 .text {margin-top: 60px;}
+
+.pages-form {background: #1d3854; padding:20px; max-width: 500px;}
+.pages-form textarea, .pages-form input {font-size: 16px;width:100%; margin-bottom: 5px;padding: 10px;}
+.pages-form textarea {min-height: 200px;}
+.pages-form .tip {
+  font-size: 10px;
+color: rgba(255,255,255,.46);
+margin-top: 4px;
+}
