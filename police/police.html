@@ -16,7 +16,7 @@
 
 
 <!-- build:remove -->
-<script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
+<!-- <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script> -->
 <script src="libs/jquery-2.1.3.min.js"></script>
 <script src="libs/mustache.js"></script>
 <!-- <script src="libs/chartist.min.js"></script> -->
@@ -24,6 +24,7 @@
 <script src="js/common/common.js"></script>
 <script src="js/common/core.js"></script>
 <script src="js/map-objects.js"></script>
+<script src="js/static/static-map.js"></script>
 <script src="js/api.js"></script>
 <script src="js/db-api.js"></script>
 <script src="js/police.js"></script>
@@ -31,7 +32,6 @@
 <script src="js/details.js"></script>
 <script src="js/comments.js"></script>
 <script src="js/search.js"></script>
-<script src="js/static-map.js"></script>
 <script src="js/static/metrika.js"></script>
 <noscript><div><img src="https://mc.yandex.ru/watch/46355028" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-108418867-1"></script>
@@ -42,7 +42,11 @@
 <!-- build:script main --><!-- /build -->
 
 <body class="bgc user-layout">
-	<div data-include="html/toolbar.html" class="pane toolbar collapsed">
+	<div data-include="html/home.html">
+		<!-- build:section home--><!-- /build -->
+	</div>
+
+	<div data-include="html/toolbar.html" class="pane toolbar">
 		<!-- build:section toolbar--><!-- /build -->
 	</div>
 	<div data-include="html/details.html" class="pane details">

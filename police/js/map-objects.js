@@ -109,16 +109,22 @@ var ObjectWrapper = (function() {
         var geoCenter = map.options.get('projection').fromGlobalPixels(pixelCenter, map.getZoom());
         return geoCenter;
     }
-    var rselected, dselected, sselected, hovered = {};
+    var rselected, dselected, sselected, objSelected = {};
 
     function markPointOpacity(type, obj) {
         if (obj && obj.place)
             $('#point-icon-' + type + '-' + obj.number()).addClass('marked')
-        var old = hovered[type];
+        var old = objSelected[type];
         if (old && old.place && old != obj) {
             $('#point-icon-' + type + '-' + old.number()).removeClass('marked')
         }
-        hovered[type] = obj;
+        objSelected[type] = obj;
+    }
+
+    function markPointHovered(type, obj, val) {
+        if (obj) {
+            $('#point-icon-' + type + '-' + obj.number).toggleClass('hovered', val)
+        }
     }
 
     function clearSelections() {
@@ -158,6 +164,8 @@ var ObjectWrapper = (function() {
             openBalloonOnClick : type == 'sector',
             iconContentLayout: regLayout
         });
+        place.events.add('mouseenter', function(e) { markPointHovered(type, obj, true) })
+        place.events.add('mouseleave', function(e) { markPointHovered(type, obj, false) })
         //console.log(obj, type, coords, content)
         return place;
     }
@@ -469,7 +477,13 @@ var ObjectWrapper = (function() {
             iconUrl = '../' + iconUrl;
         }
         var clusterIcon = Mustache.render(templates.clusterPoint, { icon: iconUrl, type: 'sector' })
-        var layout = ymaps.templateLayoutFactory.createClass(clusterIcon)
+        var layout = ymaps.templateLayoutFactory.createClass(clusterIcon, {
+             build: function () {
+                layout.superclass.build.call(this);
+                $(this._element).children().eq(0).attr('id', 'point-cluster-' + this._data.properties.myId);
+                //console.log(this._data)
+            },
+        })
          var customBalloonContentLayout = ymaps.templateLayoutFactory.createClass([
                 '<ul class=list>',
                 '{% for geoObject in properties.geoObjects %}',
@@ -498,12 +512,30 @@ var ObjectWrapper = (function() {
                 ]
             }
         });
+
+   
+
+        cluster.events.add('mouseenter', function(e) { 
+            var tar = e.get('target');
+            //console.log('clusterer', cluster)
+            //console.log(tar, tar.properties.myId);
+            console.log($('#point-cluster-'+ tar.properties.myId)[0])
+        }) 
+        cluster.events.add('mouseleave', function(e) { 
+            var tar = e.get('target');
+            $('#point-cluster-'+ tar.properties.myId).removeClass('hovered')
+        })
+
         cluster.options.set('hasBalloon', visible)
-         var createCluster = cluster.createCluster;
+        var createCluster = cluster.createCluster;
+        var clusterIndex = 0;
         cluster.createCluster = function(center, geoObjects) {
             var clusterPlacemark = ymaps.Clusterer.prototype.createCluster.call(this, center, geoObjects);
+            //console.log('createCluster', clusterPlacemark);
+            clusterPlacemark.properties.myId = clusterIndex++;
             return clusterPlacemark;
         }
+        
         cluster.events.add('click', function(e) {
             Core.trigger('map.set-center', {coords : e.get('coords'), zoom : 14});
         })

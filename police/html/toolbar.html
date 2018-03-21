@@ -1,34 +1,22 @@
-<h3 class="search-toggle pane-toggle"> 
-    <span class="angle-left">&#12296;</span> 
-    <span class="angle-right">&#12297;</span> 
-    
-</h3>
 <div class="pane-cont">
-    <nav id="dash-toggle" class="dash-toggle">
-        <a>Слои</a>
-        <a class="selected">Отделения</a>
-        <div class="btns shown" >
-            <button id="opt-toggle-view" title="Группировать" class="btn"> <i class="icon-th-list"></i> </a>
-            <button id="opt-toggle-sort" title="Сортировать по названию / рейтингу" class="btn" > <i class="icon-sort-amount-asc"></i></a>
-        </div>
-        <a id="changes-toggle" class="history-btn"> Изменения </a>
-        <div id="history-btns" class="btns">
-            <button id="btn-save-server" title="Загрузить на сервер" class="btn btn-save"> <i class="icon-cloud-upload"></i></button>
-            <button id="btn-clear-changes" title="Отменить все Изменения" class="btn btn-clear"> <i class="icon-close"></i></button>
-        </div>
-        <!-- <button id="btn-switch-view" class="btn btn-switch"> </button> -->
-    </nav>
-<!--     <div class="list-toolbar">
-            <div class="search">
-                <input type="text" id="txt-dep-search" class="txt-search" placeholder="Номер, название или ФИО" name="">
-                <i class="icon-search fgc" id="btn-search"> </i>
-            </div>
-            <div class="list-options" >
-                <a id="opt-toggle-view" class="opt icon-th-list"></a>
-                <a id="opt-toggle-sort" class="opt icon-sort-amount-asc"></a>
-            </div>
-        </div>
-        <ul id="main-list" ></ul> -->
+    <div class="btns shown" >
+        <button id="opt-toggle-view" title="Группировать" class="btn"> <i class="icon-th-list"></i> </a>
+        <button id="opt-toggle-sort" title="Сортировать по названию / рейтингу" class="btn" > <i class="icon-sort-amount-asc"></i></a>
+    </div>
+
+
+    <a id="changes-toggle" class="history-btn"> Изменения </a>
+    <div id="history-btns" class="btns">
+        <button id="btn-save-server" title="Загрузить на сервер" class="btn btn-save"> <i class="icon-cloud-upload"></i></button>
+        <button id="btn-clear-changes" title="Отменить все Изменения" class="btn btn-clear"> <i class="icon-close"></i></button>
+    </div>
+
+    <a id="btn-city-toggle" class="tool-btn city-toggle" title="Выбор города"> </a>
+    <ul id="city-popup" class="popup city-popup"> </ul>
+    <script data-template="cities" type="text/template">
+        {{#.}} <li><a>{{name}} </a> </li> {{/.}}
+    </script>
+
     <ul id="layers" class=" dash-panel checkbox-list"> </ul>
     <ul class="dash-panel main-list shown" id="main-list"></ul>
     <ul id="history-list" class="dash-panel history-list"></ul>

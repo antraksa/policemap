@@ -1,5 +1,4 @@
-<a href="https://policemap.ru"><div title="Карта  полиции" class="logo">
-</div></a>
+
 <div id="photo-large" class="photo-large">
     <i class="icon-close btn-close"></i>
     <div id="photo-large-img"></div>
@@ -15,12 +14,7 @@
 	Чтобы найти участкового, введите адрес в строке поиска. Для получения информации о подразделении, выберите точку или область на карте
 </div>
 <div id="mess" class="mess faded"></div>
-<div class="search">
-    <input type="text" id="txt-search" class="txt-search" value="" placeholder="Адрес, Номер отдела или ФИО " name="">
-    <i class="icon-search fgc" id="btn-search"> </i>
-    <i class="icon-close" id="btn-search-empty"> </i>
-</div>
-<div id="search-popup" class="popup search-autocomplete  autocomplete collapsed "> </div>
+
 <script data-template="mapPoint" type="text/template">
         <div class="y-icon y-icon-{{type}}" id="point-icon-{{type}}-{{num}}" style="background-image:url({{icon}})">
             <!-- <b>$[properties.iconContent]<b>  -->
@@ -28,33 +22,9 @@
 
 </script>
 <script data-template="clusterPoint" type="text/template">
-    <div class="clusterIcon y-icon y-icon-{{type}}" id="point-cluster-" style="background-image:url({{icon}})">
-        <b>$[properties.geoObjects.length]<b>
+    <div class="clusterIcon y-icon y-icon-{{type}}" style="background-image:url({{icon}})">
+        <b>$[properties.iconContent] <b>
     </div>
 </script>
-<script data-template="autocomplete" type="text/template">
-	{{#.}}
-		<h3> {{title }}</h3>
-		<ul>
-			{{#data}}
-			<li class="capitalize type-{{type}}" data-dsindex = "{{dsindex}}" title="{{name}} {{item.locationName}}">
-				<a class="name">{{name}}</a>
-				<u>{{item.locationName}} </u>
-			</li>
-			{{/data}}
-			{{^data}}
-				<li class="no-records">
-					Ничего не нашлось
-				</li>
-			{{/data}}
-		</ul>
-	{{/.}}
-</script>
-<div class="map-tools">
-	<a id="btn-locate" class="tool-btn locate icon-location" title="Определить местоположение"></a>
-	<a id="btn-city-toggle" class="tool-btn city-toggle" title="Выбор города"> </a>
-	<ul id="city-popup" class="popup city-popup"> </ul>
-	<script data-template="cities" type="text/template">
-		{{#.}} <li><a>{{name}} </a> </li> {{/.}}
-	</script>
-</div>
+
+
