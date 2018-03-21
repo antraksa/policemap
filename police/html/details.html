@@ -1,6 +1,8 @@
 <a class="back-to-map" id="back-to-map" title=" Назад на карту">
     <i class="icon-compass"></i>
 </a>
+
+<a class="icon-close btn-close" id="btn-details-hide"></a>
 <script data-template="curAddress" type="text/template">
     {{#addr}} Адрес <b>{{addr}}</b> обслуживается: {{/addr}}
 </script>
@@ -13,6 +15,7 @@
 </nav> -->
 
 
+
 <nav class="main-nav bgc" id="main-nav">
     <a local-url href="">Паблик</a>
     <a local-url href="admin/">Админка</a>
@@ -23,35 +26,6 @@
     <div id="department-details" class="sub-panel "></div>
     <div id="region-details" class="sub-panel"></div>
     <div id="sector-details" class="sub-panel "></div>
-    <div id="main-info" class="main-info sub-panel   shown">
-        <ul id="main-info-list" class="info-list">
-
-	         <li class="info-link info-first sub-header">
-             <h2>Чтобы найти участкового, введите адрес в строке поиска. Для получения информации о подразделении, выберите точку или область на карте</h2>
-           </li>
-            <li class="info-link" data-link="html/info/about.html">
-                <h2>О проекте </h2>
-            </li>
-            <li class="info-link" data-link="html/info/no-content.html">
-                <h2>Как пользоваться картой</h2>
-            </li>
-            <li class="info-link" data-link="html/info/how-to-rate.html">
-                <h2>Как формируется рейтинг </h2>
-            </li>
-            <li class="info-link">
-                <h2><a href="http://policemap.tilda.ws/documents" target="_blank">Частые вопросы о полиции</a></h2>
-            </li>
-            <li class="info-link" data-link="html/info/no-content.html">
-                <h2>Обратная связь</h2>
-            </li>
-            <li class="info-link" data-link="html/info/support.html">
-                <h2>Поддержать прооект</h2>
-            </li>
-        </ul>
-
-        <a local-url href="index.html" class="static-home">Домашняя страница проекта</a>
-
-    </div>
 </div>
 <script data-template="region" type="text/template">
     <div class="cur-address"></div>

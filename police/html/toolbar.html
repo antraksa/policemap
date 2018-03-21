@@ -1,15 +1,15 @@
 <div class="pane-cont">
-    <div class="btns shown" >
-        <button id="opt-toggle-view" title="Группировать" class="btn"> <i class="icon-th-list"></i> </a>
-        <button id="opt-toggle-sort" title="Сортировать по названию / рейтингу" class="btn" > <i class="icon-sort-amount-asc"></i></a>
+    <div class="btns toolbar-btns shown" >
+        <a id="opt-toggle-view" title="Группировать" class="btn btn-icon"> <i class="icon-th-list"></i> </a>
+        <a id="opt-toggle-sort" title="Сортировать по названию / рейтингу" class="btn btn-icon" > <i class="icon-sort-amount-asc"></i></a>
     </div>
 
 
-    <a id="changes-toggle" class="history-btn"> Изменения </a>
+    <!-- <a id="changes-toggle" class="history-btn"> Изменения </a>
     <div id="history-btns" class="btns">
         <button id="btn-save-server" title="Загрузить на сервер" class="btn btn-save"> <i class="icon-cloud-upload"></i></button>
         <button id="btn-clear-changes" title="Отменить все Изменения" class="btn btn-clear"> <i class="icon-close"></i></button>
-    </div>
+    </div> -->
 
     <a id="btn-city-toggle" class="tool-btn city-toggle" title="Выбор города"> </a>
     <ul id="city-popup" class="popup city-popup"> </ul>
@@ -46,7 +46,7 @@
         {{#regions}}
         <li class="item published-{{anketaPublished}}" data-reg-id="{{region.number}}">
             {{#oldVals.length}} <i title="Не сохранено" class="icon-pencil">  </i> {{/oldVals.length}}
-            <b class="rate rated{{rate.formatted}}" title="Рейтинг: {{rate.fixed}}">  {{rate.formatted}}</b>
+            <b class="rate rated{{rate.formatted}}" title="Рейтинг: {{rate.fixed}}"> </b>
             <u title="{{region.name}}" class="overflow rate-up-{{rateUp}}"> {{region.name}}</u>
         </li>
         {{/regions}} {{/.}}
@@ -55,8 +55,8 @@
         {{#.}}
         <li class="item single-item published-{{anketaPublished}}" data-reg-id="{{region.number}}">
             {{#oldVals.length}} <i title="Не сохранено" class="icon-pencil">  </i> {{/oldVals.length}}
-            <b class="rate rated{{rate.formatted}} " title="Рейтинг: {{rate.{{fixed}}}}"> {{rate.formatted}}</b>
-            <u title="{{region.name}}" class="overflow rate-up-{{rateUp}}"> <em>{{region.number}}</em> {{region.name}}</u>
+            <b class="rate rated{{rate.formatted}} " title="Рейтинг: {{rate.{{fixed}}}}"> </b>
+            <u title="{{region.name}}" class="overflow rate-up-{{rateUp}}"> {{region.name}}</u>
         </li>
         {{/.}}
     </script>

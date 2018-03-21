@@ -6,9 +6,8 @@ body.pages  {
   overflow: scroll;
 }
 .pages .text-wrap {
-  width:60%;
   margin:0 auto;
-  padding: 30px 0 50px;
+  padding: 30px 50px;
 }
 .pages h1 {
   margin-bottom: 40px;

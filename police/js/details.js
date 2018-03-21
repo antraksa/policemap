@@ -23,7 +23,7 @@ $(function() {
         Core.on('department.select', function(args) {
             args.department.markPointOpacity(true);
             renderDepartment(args.department)
-            $dtoggle.eq(0).trigger('click');
+            toggleType('department')
             $('body').addClass('mobile-details-view')
         })
         var curDepartment, curRegion, curSector;
@@ -44,13 +44,13 @@ $(function() {
             renderRegion();
             renderSector();
             renderDepartment();
-            $dtoggle.eq(3).trigger('click')
+            toggleType()
         })
 
         Core.on('region.select', function(args) {
             renderRegion(args.region);
             renderSector({});
-            $dtoggle.eq(1).trigger('click');
+            toggleType('region')
             $('body').addClass('mobile-details-view')
         })
 
@@ -119,8 +119,9 @@ $(function() {
         function renderSector(sector, focus) {
             $sdetails.html(Mustache.render(templates.sector, sector))
             if (!sector) return;
-            if (focus)
-                $dtoggle.eq(2).trigger('click')
+            if (focus) {
+                toggleType('sector')
+            }
             $('#sector-reg-link').on('click', function() {
                 if (sector.region)
                     sector.region.select(true)
@@ -146,10 +147,16 @@ $(function() {
                 region.draw();
             }
         }
-        var $dtoggle = $('#details-toggle .tab-toggle').on('click', function() {
-            $(this).addClass('selected').siblings().removeClass('selected');
-            $details.children().eq($(this).index()).addClass('shown').siblings().removeClass('shown')
-        })
+        
+        function toggleType(type) {
+            if (type) {
+                $('#{0}-details'.format(type)).addClass('shown').siblings().removeClass('shown')
+                $('#pane-details').removeClass('collapsed')
+            } else  {
+                //$('#details').children().removeClass('shown')
+                $('#pane-details').addClass('collapsed')
+            }
+        }
 
         // $('#btn-main-menu').on('click', function() {
         //     $(this).toggleClass('selected');
@@ -159,6 +166,9 @@ $(function() {
 
         $('#back-to-map').on('click', function() {
             $('body').removeClass('mobile-details-view')
+        })
+        $('#btn-details-hide').on('click', function() {
+            $('#pane-details').addClass('collapsed')
         })
 
         Core.on('map-click.resolved', function(args) {
