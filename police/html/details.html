@@ -33,9 +33,9 @@
     <div class="details-wrap">
         {{#region}}
         <h1 class="name">
+            <a class="name-link editable">{{name}}</a>
             <q  class="area">{{area}}</q>
             <u  class="number photo" style="background-image: url('{{photoLink}}')"> </u>
-            <a class="name-link editable">{{name}}</a>
             <span  class="addr editable">{{addr}}</span>
           <span class="tel-name">Дежурная часть:</span>
           <div class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i> {{#tel}} <u>{{.}}</u> {{/tel}}</div>
@@ -63,7 +63,7 @@
         {{#region}}
         <div class="contacts">
             <div class="real-hot-line" title="Горячая линия о нарушениях"> <span class="hot-line"><i class="icon-phone"></i> {{hotLine}}</span> - горячая линия о нарушениях</div>
-            <a class="hot-line" title="Подать заявление через электронную приёмную" href="https://78.xn--b1aew.xn--p1ai/request_main" target="_blank">Отправить обращение</a><div class="real-hot-line">для составления обращения воспользуйтесь <a title="Составить обращение о нарушениях" href="#">Конструктором обращений</a></div>
+            <a class="hot-line btn" title="Подать заявление через электронную приёмную" href="https://78.xn--b1aew.xn--p1ai/request_main" target="_blank">Отправить обращение</a><div class="real-hot-line">для составления обращения воспользуйтесь <a title="Составить обращение о нарушениях" href="#">Конструктором обращений</a></div>
         </div>
         {{#personName}}
         <h6 class="sub-header">Начальник </h6>

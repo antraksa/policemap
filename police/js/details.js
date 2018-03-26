@@ -154,7 +154,7 @@ $(function() {
                 $('#pane-details').removeClass('collapsed')
             } else  {
                 //$('#details').children().removeClass('shown')
-                $('#pane-details').addClass('collapsed')
+                //$('#pane-details').addClass('collapsed')
             }
         }
 

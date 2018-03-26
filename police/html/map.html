@@ -30,7 +30,18 @@
 </script>
 
 <div class="legend">
-	
-</div>
+	<a class="toggle"> <i class="icon-angle-down"></i> <i class="icon-angle-up"></i> Обзначения  </a>
 
+    <div class="cols">
+        
+        <div class="col">
+            <ul id="layers" class="layers-list"> </ul>
+            <script data-template="layers" type="text/template">
+                {{#.}}
+                <li title="{{desc}}" class="switch {{#checked}} checked {{/checked}}"> <i class="check"></i> <b class="line"></b>  {{name}}</li>
+                {{/.}}
+            </script>
+        </div>
+    </div>
+</div>
 

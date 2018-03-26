@@ -17,14 +17,9 @@
         {{#.}} <li><a>{{name}} </a> </li> {{/.}}
     </script>
 
-    <ul id="layers" class=" dash-panel checkbox-list"> </ul>
     <ul class="dash-panel main-list shown" id="main-list"></ul>
     <ul id="history-list" class="dash-panel history-list"></ul>
-    <script data-template="layers" type="text/template">
-        {{#.}}
-        <li title="{{desc}}" class="{{#checked}} checked {{/checked}}"><i class="icon-check"></i> {{name}}</li>
-        {{/.}}
-    </script>
+    
     <script data-template="history" type="text/template">
         {{#.}}
         <li class="item">
