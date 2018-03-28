@@ -132,7 +132,7 @@ var ObjectWrapper = (function() {
     function constructPlace(obj, type, coords, content) {
         var icon = obj.icon;
         if (!icon) icon = 'sheriff.png';
-        if (type=='tmp-point') icon = 'arrested.png';
+        if (type=='tmp-point') icon = 'placeicon.png'; 
         var iconUrl = 'css/img/icons/' + icon;
         var emptyUrl = 'css/img/empty.png';
         if (isAdmin) {
