@@ -87,6 +87,12 @@ $(function() {
             $('#details-rate-toggle').on('click', function() {
                 $('#details-rate').toggleClass('expanded')
             })
+            $('#details-rate').find('[data-link]').on('click', function() {
+                var link = $(this).attr('data-link');
+                if (isAdmin) link = '../' + link;
+                $('#info-holder-iframe').attr('src', link)
+                $('#info-holder').addClass('expanded')
+            })
             Core.trigger('details.rendered', { region: region, $rdetails: $rdetails })
             if (rdata.photo) initFoto($rdetails)
             initPanels($rdetails)
