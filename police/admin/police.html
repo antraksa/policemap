@@ -12,7 +12,7 @@
 <!-- build:style main --><!-- /build -->
 
 <!-- build:remove -->
-<script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
+<!-- <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script> -->
 <script src="../libs/jquery-2.1.3.min.js"></script>
 <script src="../libs/mustache.js"></script>
 <script src="../libs/chartist.min.js"></script>
@@ -39,23 +39,28 @@
 <!-- build:script main --><!-- /build -->
 <!-- build:script admin --><!-- /build -->
 
+
 <body class="bgc admin-layout">
+	<div data-include="../html/home.html">
+		<!-- build:section home--><!-- /build -->
+	</div>
+
 	<div data-include="../html/toolbar.html" class="pane toolbar">
 		<!-- build:section toolbar--><!-- /build -->
 	</div>
-	<div data-include="../html/details.html" class="pane details"> 
+	<div data-include="../html/details.html" class="pane details collapsed" id="pane-details">
 		<!-- build:section details--><!-- /build -->
-	</div> 
-	<div data-include="../html/map.html" class="pane results"  id="pane-results" > 
+	</div>
+	<div data-include="../html/map.html" class="pane results"  id="pane-results" >
 		<!-- build:section map--><!-- /build -->
-	</div> 
-	<div data-include="../html/comments.html" class="comments-section">
-		<!-- build:section comments--><!-- /build -->
+	</div>
+	<div data-include="../html/static.html">
+		<!-- build:section static--><!-- /build -->
 	</div> 
 	<div data-include="../html/anketa.html">
 		<!-- build:section anketa--><!-- /build -->
 	</div> 
-	<div data-include="../html/static.html">
-		<!-- build:section static--><!-- /build -->
-	</div> 
+	<div data-include="../html/comments.html" class="comments-section">
+		<!-- build:section comments--><!-- /build -->
+	</div>
 </body>

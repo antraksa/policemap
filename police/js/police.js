@@ -47,7 +47,8 @@
         Core.trigger('init', { templates: templates, cities: cities, location: location })
 
         function load() {
-            $('#btn-city-toggle').html(city.name)
+            $('#btn-city-toggle').html(city.name);
+            $('#pane-details').addClass('collapsed')
             Core.trigger('map.set-center', {coords : city.coords, zoom : city.z});
             API.getAndWrapAll(city.code, function(args) {
                 args.city = city;
@@ -191,16 +192,32 @@
                 d.select(true)
             })
         }
+
+        function clearSectorInline() {
+            $('#sector-inline').remove();
+        }
+
         Core.on('region.select', function(args) {
             var $sel = $mlist.find('[data-reg-id="{0}"]'.format(args.region.number()))
             $sel.addClass('selected').siblings().removeClass('selected')
-            if ($sel[0]) $sel.scrollTo()
+            if ($sel[0]) $sel.scrollTo();
+            clearSectorInline();
         })
+
+        Core.on('region.showSector', function(args) {
+            clearSectorInline();
+            var $reg = $mlist.find('[data-reg-id="{0}"]'.format(args.region.number())).removeClass('selected');
+            $reg.append(Mustache.render(templates.sectorInline, args));
+
+            console.log('showSector', args)
+        })
+
         Core.on('department.select', function(args) {
             if (args.nofocus) return;
             var $sel = $mlist.find('[data-dep-id="{0}"]'.format(args.department.number()))
             $sel.addClass('selected').siblings().removeClass('selected')
-            if ($sel[0]) $sel.scrollTo()
+            if ($sel[0]) $sel.scrollTo();
+            clearSectorInline()
         })
         var selected;
         Core.on('region.updated', function(args) {
@@ -366,7 +383,9 @@
         window.onerror = function() {
             Core.trigger('mess', { mess: 'Все совсем плохо. Ошибка в скриптах', error: true })
         }
-
+        $('#legend-toggle').on('click', function() {
+            $(this).parent().toggleClass('collapsed')
+        })
         $('.pane-toggle').on('click', function() {
             $(this).parents('.pane').toggleClass('collapsed')
             if (map) {

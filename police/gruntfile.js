@@ -11,6 +11,7 @@ module.exports = function(grunt) {
         },
         beautify: true,
         sections: {
+            home : 'html/toolbar.html',
             toolbar: 'html/toolbar.html',
             details: 'html/details.html',
             map: 'html/map.html',

@@ -5,20 +5,22 @@
     </div>
 
 
-    <!-- <a id="changes-toggle" class="history-btn"> Изменения </a>
-    <div id="history-btns" class="btns">
-        <button id="btn-save-server" title="Загрузить на сервер" class="btn btn-save"> <i class="icon-cloud-upload"></i></button>
-        <button id="btn-clear-changes" title="Отменить все Изменения" class="btn btn-clear"> <i class="icon-close"></i></button>
-    </div> -->
+      <div class="current-city">
+        
+        <a id="btn-city-toggle" class="tool-btn city-toggle" title="Выбор города"> </a>
+        <ul id="city-popup" class="popup city-popup"> </ul>
+        <script data-template="cities" type="text/template">
+            {{#.}} <li><a>{{name}} </a> </li> {{/.}}
+        </script>
+        
+    </div>
 
-    <a id="btn-city-toggle" class="tool-btn city-toggle" title="Выбор города"> </a>
-    <ul id="city-popup" class="popup city-popup"> </ul>
-    <script data-template="cities" type="text/template">
-        {{#.}} <li><a>{{name}} </a> </li> {{/.}}
-    </script>
+    <div class="">
+        
+    </div>
+    <ul id="history-list" class="history-list"></ul>
 
     <ul class="dash-panel main-list shown" id="main-list"></ul>
-    <ul id="history-list" class="dash-panel history-list"></ul>
     
     <script data-template="history" type="text/template">
         {{#.}}
@@ -31,9 +33,16 @@
         </li>
         {{/.}}
         {{^.}}
-            <li  class="no-records"> Пока еще нет</li>
+            <li  class="no-records"> Пока еще нет изменений</li>
         {{/.}}
 
+    </script>
+
+    <script data-template="sectorInline" type="text/template">
+        <div id="sector-inline" class="sector-inline" title=">Участковый: {{sector.name}} ">
+            <span class="i-sector"></span>
+            {{sector.name}}
+        </div>
     </script>
     <script data-template="departmensList" type="text/template">
         {{#.}}
@@ -43,6 +52,7 @@
             {{#oldVals.length}} <i title="Не сохранено" class="icon-pencil">  </i> {{/oldVals.length}}
             <b class="rate rated{{rate.formatted}}" title="Рейтинг: {{rate.fixed}}"> </b>
             <u title="{{region.name}}" class="overflow rate-up-{{rateUp}}"> {{region.name}}</u>
+            
         </li>
         {{/regions}} {{/.}}
     </script>

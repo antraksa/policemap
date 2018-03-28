@@ -136,10 +136,12 @@ var ObjectWrapper = (function() {
     var regIconTemplate = '';
 
     function constructPlace(obj, type, coords, content) {
-        var icon = obj.icon;
-        if (!icon) icon = 'sheriff.png';
-        if (type=='tmp-point') icon = 'arrested.png';
-        var iconUrl = 'css/img/icons/' + icon;
+        // var icon = obj.icon;
+        // if (!icon) icon = 'sheriff.png';
+        // if (type=='tmp-point') icon = 'arrested.png';
+
+        var icon = '{0}-30x30.svg'.format(type);
+        var iconUrl = 'css/img/icons/new/' + icon;
         var emptyUrl = 'css/img/empty.png';
         if (isAdmin) {
             iconUrl = '../' + iconUrl;
@@ -294,6 +296,9 @@ var ObjectWrapper = (function() {
             }
             return this;
         },
+        showSector : function(s) {
+            Core.trigger('region.showSector', {sector : s, region : this });
+        },
         show: function(val) {
             if (this.pol) {
                 this.pol.options.set('visible', val)
@@ -375,6 +380,8 @@ var ObjectWrapper = (function() {
     var sectorPlace;
     function psector(s) {
         this.sector = s;
+        this.locationName = 'Участковый';
+                   
         this.name = s.name.capitalizeAll();
         s.fullName = this.name;
     }
@@ -406,7 +413,10 @@ var ObjectWrapper = (function() {
                 if (this.sector.coords && focus)
                     map.markPoint({ coords: this.sector.coords, preset: 'pmgrs' })
             }
-            if (!noSelectSector && s.region) s.region.select();
+            if (!noSelectSector && s.region) {
+                s.region.select();
+                s.region.showSector(s)
+            }
             s.render(focus)
         },
         render: function(focus) {
@@ -472,7 +482,7 @@ var ObjectWrapper = (function() {
     }
 
     function clusterize(objects, visible) {
-        var iconUrl = 'css/img/icons/sheriff.png';
+        var iconUrl = 'css/img/icons/new/sector.svg';
         if (isAdmin) {
             iconUrl = '../' + iconUrl;
         }
@@ -519,7 +529,7 @@ var ObjectWrapper = (function() {
             var tar = e.get('target');
             //console.log('clusterer', cluster)
             //console.log(tar, tar.properties.myId);
-            console.log($('#point-cluster-'+ tar.properties.myId)[0])
+            $('#point-cluster-'+ tar.properties.myId).addClass('hovered')
         }) 
         cluster.events.add('mouseleave', function(e) { 
             var tar = e.get('target');
