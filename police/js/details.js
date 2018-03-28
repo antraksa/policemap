@@ -59,6 +59,7 @@ $(function() {
             if (isAdmin) link = '../' + link;
             $('#info-holder-iframe').attr('src', link)
             $('#info-holder').addClass('expanded')
+            $('body').removeClass('mobile-details-view')
         })
 
         function renderRegion(region) {
@@ -92,6 +93,7 @@ $(function() {
                 if (isAdmin) link = '../' + link;
                 $('#info-holder-iframe').attr('src', link)
                 $('#info-holder').addClass('expanded')
+                $('body').removeClass('mobile-details-view');
             })
             Core.trigger('details.rendered', { region: region, $rdetails: $rdetails })
             if (rdata.photo) initFoto($rdetails)
@@ -115,6 +117,7 @@ $(function() {
         $('#photo-large .btn-close, #info-holder .btn-close').on('click', function() {
             $('#photo-large').removeClass('expanded')
             $('#info-holder').removeClass('expanded')
+            $('body').addClass('mobile-details-view');
         })
 
         Core.on('sector.select', function(args) {
