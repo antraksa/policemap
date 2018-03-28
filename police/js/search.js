@@ -56,7 +56,7 @@ $(function() {
                         o.select(true)
                     } else if (dsind == 3) { //sector
                         (o.location || o).select(true)
-                    } 
+                    }
                     State.addState({query : args.query})
                 }
             })
@@ -92,7 +92,7 @@ $(function() {
 
         $('#btn-search').on('click', function() {
             autocomplete.search();
-        }) 
+        })
         $('#btn-search-empty').on('click', function() {
             autocomplete.empty();
         })
@@ -208,14 +208,14 @@ $(function() {
 
             var peapledres = perres.splice(0, 3).concat(secres.splice(0, 3))
             var res = [
-                { title: 'Отделения', dsindex: 1, data: otdres },
-                { title: 'Адрес', dsindex:  2, type: 'addrs', data: strres },
-                { title: 'Люди', dsindex: 3, type: 'persons', data: peapledres },
+                { title: 'Подразделения', dsindex: 1, data: otdres },
+                { title: 'Адреса', dsindex:  2, type: 'addrs', data: strres },
+                { title: 'Сотрудники', dsindex: 3, type: 'persons', data: peapledres },
             ]
 
             console.log('res', res)
             success(res)
-            
+
             //console.log(res)
             return API.resolveAddr(city, q, function(data) {
                 console.log('resolve yandex', q, data)

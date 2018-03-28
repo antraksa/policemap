@@ -138,6 +138,7 @@ body {height: 100%;position: relative;min-height: 100%;}
 .search-autocomplete.popup li{padding-left: 30px;}
 .search-autocomplete.popup li.type-sectors a, .search-autocomplete.popup li.type-persons a{text-transform: capitalize;}
 .search-autocomplete.popup li.no-records { color: #ccc}
+.search-autocomplete.popup li.type-addrs:last-of-type a::before {float:  left;content: url('img/icons/yandex.png');padding-top:  5px;padding-right:  5px;}
 
 
 .checkbox-list li{
@@ -459,4 +460,4 @@ body {height: 100%;position: relative;min-height: 100%;}
 .logo h1 {margin-left: 80px;font-size: 18px;font-family: Tahoma;font-weight: bold;line-height: 24px;color: #8e9caa;cursor: default;}
 .pane.toolbar.collapsed ~ .results .logo {margin: 0 20px;}
 
-.static-home {position: absolute; right: 10px; bottom: 10px; color: rgba(255, 255, 255, 0.57); }
+.static-home {position: absolute; right: 10px; bottom: 10px; color: rgba(255, 255, 255, 0.5
