@@ -39,7 +39,7 @@ $(function() {
             Core.trigger('history.render', { actions: actions, $history: $history, templates: templates })
         }
         Core.on('history.rendered', function() {
-            $('#changes-toggle').toggleClass('has-changes', actions.length > 0)
+            $('body').toggleClass('history-has-changes', actions.length > 0)
         })
         Core.on('history.setAction', function(args) {
             var tar = targets[args.action.type];

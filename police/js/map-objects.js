@@ -140,8 +140,8 @@ var ObjectWrapper = (function() {
         // if (!icon) icon = 'sheriff.png';
         // if (type=='tmp-point') icon = 'arrested.png';
 
-        var icon = '{0}-30x30.svg'.format(type);
-        var iconUrl = 'css/img/icons/new/' + icon;
+        var icon = '{0}.svg'.format(type);
+        var iconUrl = 'css/img/icons/geo/' + icon;
         var emptyUrl = 'css/img/empty.png';
         if (isAdmin) {
             iconUrl = '../' + iconUrl;
@@ -482,7 +482,7 @@ var ObjectWrapper = (function() {
     }
 
     function clusterize(objects, visible) {
-        var iconUrl = 'css/img/icons/new/sector.svg';
+        var iconUrl = 'css/img/icons/geo/sector.svg';
         if (isAdmin) {
             iconUrl = '../' + iconUrl;
         }
