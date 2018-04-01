@@ -6,11 +6,9 @@ body {
   /* height:  100%; */
   /* position:  relative; */
 }
-body * {  -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
--moz-box-sizing: border-box;    /* Firefox, other Gecko */
-box-sizing: border-box;         /* Opera/IE 8+ */
-transition: all 0.1ms ease-out;
-transition: background-color 0.3ms ease-out;
+body * {-webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */-moz-box-sizing: border-box;    /* Firefox, other Gecko */box-sizing: border-box;         /* Opera/IE 8+ */transition: all 0.1ms ease-out;transition: background-color 2ms ease-out;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 .right {float:right;}
 .left {float:left;}
@@ -46,7 +44,7 @@ a:hover {color: #fff;text-decoration:  none;}
 
 .container {width: 100%;position: relative;}
 .home-map {width:33%;/* position:  relative; */}
-.home-map div {background-image: url(img/home-map.png);background-repeat: no-repeat;background-size: auto 100%;background-position: right top;background-position:  no-repeat;position: absolute;width: 33%;height: 100%;}
+.home-map div {background-image: url(img/home-map-2.jpg);background-repeat: no-repeat;background-size: auto 100%;background-position: left top;background-position:  no-repeat;position: absolute;width: 33%;height: 100%;}
 .home-info{width:67%;background-color: #a9d1e5;padding: 50px 50px 0 50px;position:  relative;}
 .logo-wrap > * {display: inline-block;}
 .logo-wrap h1 {max-width: 200px;color:#fff;text-decoration: none;letter-spacing:  1px;padding-left:  10px;font-size:  30px;}
@@ -75,11 +73,25 @@ nav > a {margin-left: 30px;}
 
 footer {width: 100%;padding: 20px 50px;background-color: #62355a;color: #fff;}
 
+.pad-inner{padding:20px 50px;}
+.inner .donate {width: 250px;margin-top: 9px;}
+.inner #main-menu {position: relative;/* left: 0; */right: auto;text-align:  left;}
+.inner header {background-color: #a9d1e5;background-image: url(img/header-map.jpg);background-repeat:  no-repeat;background-position: right top;background-size: 400px;}
+.inner .logo-wrap {width:30%;display:  inline-block;vertical-align:  middle;}
+.inner .menu-wrap {width: 70%;}
+.inner .logo {float:  left;}
+.logo-title {font-family: 'Russo One', sans-serif;font-size: 22px;line-height:  55px;font-weight: 300;text-transform:  uppercase;margin-left: 20px;}
+.logo-wrap a {text-decoration: none;color:#fff;line-height: 55px;display: block;text-align:  left;vertical-align:  middle;}
+
+.sidebar {width: 30%;}
+.content {width: 70%;}
+
+
 @media screen and (min-width: 1550px) {
     .home-info {padding: 100px 100px 50px 100px;}
-    #main-menu {right: 100px;}
+    #home #main-menu {right: 100px;}
 }
 @media screen and (min-width: 1850px) {
     .home-info {padding: 150px 150px 100px 150px;}
-    #main-menu {right: 150px;}
+    #home #main-menu {right: 150px;}
 }
