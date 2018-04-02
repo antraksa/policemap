@@ -58,16 +58,7 @@ $(function() {
             var link = $(this).attr('data-link');
             if (isAdmin) link = '../' + link;
             $('#info-holder').addClass('expanded')
-            $('#info-holder-iframe').attr('src', link).load(function(){
-        $('#info-holder-iframe').contents().find('head').append('<link href="../../css/pages.css" rel="stylesheet" type="text/css" />');
-    });
-            // $("#info-holder-iframe").contents().find("head").append($("<link href='../../css/pages.css' rel='stylesheet'>"));
-            // $(document.getElementById('info-holder-iframe').contentWindow.document).ready(function() {
-            // //   console.log('window ready', $(this));
-            //        var $head = $('#info-holder-iframe').contents().find('head')
-            //        console.log($head);
-            //       $head.append($("<link href='../../css/pages.css' rel='stylesheet'>"));
-            //  });
+            $('#info-holder-iframe').attr('src', link)
         })
 
         function renderRegion(region) {
@@ -161,7 +152,7 @@ $(function() {
             if (type) {
                 $('#{0}-details'.format(type)).addClass('shown').siblings().removeClass('shown')
                 $('#pane-details').removeClass('collapsed')
-            } else  {
+            } else {
                 //$('#details').children().removeClass('shown')
                 //$('#pane-details').addClass('collapsed')
             }

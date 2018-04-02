@@ -1,5 +1,7 @@
-body.pages  {
-  font-family: 'Roboto';
+@import url('https://fonts.googleapis.com/css?family=Roboto+Condensed');
+
+.pages  {
+  font-family: 'Roboto Condensed';
   font-size: 16px;
   line-height: 25px;
   font-weight: 300;
