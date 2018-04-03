@@ -4,5 +4,5 @@
  ?>
  <div class="text">
    <p>Возникли вопросы или пожелания - напишите нам!</p>
-   <a class="contact btn">Задать вопрос</a>
+   <a class="contact btn" href="contact-us.php">Задать вопрос</a>
  </div>

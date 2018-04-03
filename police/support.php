@@ -4,11 +4,11 @@
   <?php
     require_once("php/head.php");
    ?>
-<title>О проекте</title>
-<meta name="description" content="Карта полиции помогает найти участкового, отдел полиции или УМВД по адресу" />
-<link rel="canonical" href="https://policemap.ru/about" />
+<title>Поддержать проект</title>
+<meta name="description" content="Поддержите Карту полиции, сделав пожертвование" />
+<link rel="canonical" href="https://policemap.ru/support" />
 </head>
-  <body id="about" class="pages static all inner">
+  <body id="support" class="pages static all inner">
     <div class="container">
 
       <?php
@@ -22,7 +22,7 @@
         </div>
         <div class="pad-inner content right">
           <?php
-          $html = file_get_contents('html/info/about.html');
+          $html = file_get_contents('html/info/support.html');
           echo $html;
           ?>
         </div>

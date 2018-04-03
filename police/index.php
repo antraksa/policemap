@@ -4,9 +4,11 @@
   <?php
     require_once("php/head.php");
    ?>
-<title>Карта полиции</title>
+<title>Карта полиции: все поразделения полиции на карте</title>
+<meta name="description" content="Карта подразделений полиции поможет найти участкового, определить границы отдела полиции и иерархию подчинения" />
+<link rel="canonical" href="https://policemap.ru/" />
 </head>
-  <body id="home" class="pages static all">
+  <body id="index" class="pages static all">
     <div class="container">
       <div class="home-map right">
         <div></div>
@@ -30,7 +32,7 @@
             </div>
             <div class="text-wrap useful-links">
               <h2>Проекту нужны:</h2>
-              <ul>
+              <ul class="dashed">
                 <li><a>Волонтёры</a></li>
                 <li><a>Координаторы проекта в регионах</a></li>
               </ul>
@@ -42,7 +44,7 @@
         <div class="nav-wrap right">
 
           <div class="clear">&nbsp;</div>
-          <a class="donate btn">Поддержать Проект</a>
+          <a href="support.php" class="donate btn">Поддержать Проект</a>
           <?php
           require_once("php/leftsidebar.php");
           ?>

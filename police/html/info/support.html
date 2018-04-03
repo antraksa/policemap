@@ -1,13 +1,10 @@
-<html>
-<head>
-<link href="https://fonts.googleapis.com/css?family=Roboto:300,400" rel="stylesheet">
+
 <link href="../../css/pages.css" rel="stylesheet">
 <link href="../../css/main.css" rel="stylesheet">
 <script src="https://widget.cloudpayments.ru/bundles/cloudpayments"></script>
 
-</head>
-<body class="pages">
-  <div class="text-wrap">
+
+  <div class="text-wrap pages">
     <h1>Поддержать "Карту полиции"</h1>
     <p>Ваша поддержка важна для нас</p>
     <div class="comment-form pages-form">
@@ -15,7 +12,7 @@
                 <input type="number" name="" placeholder="Сумма в рублях" id="donate-amount">
                 <input type="email" name="email" placeholder="Ваше email (необязательно)" id="donate-email">
                 <div class="btns">
-                    <button id="payButton" class="btn btn-primary btn-accept" type="submit">Поддержать</button>
+                    <button id="payButton" class="btn btn-primary btn-accept contact" type="submit">Поддержать</button>
                 </div>
             </form>
         </div>
@@ -47,5 +44,3 @@
       };
       $("#payButton").on("click", payHandler); //кнопка "Оплатить"
   </script>
-</body>
-</html>

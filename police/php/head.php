@@ -8,3 +8,4 @@
 <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,700,900|Russo+One&amp;subset=cyrillic" rel="stylesheet">
 <link rel="shortcut icon" type="image/png" sizes="16x16" href="favicon-16x16.png" >
 <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<script src="libs/jquery-2.1.3.min.js"></script>

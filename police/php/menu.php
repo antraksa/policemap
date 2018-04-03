@@ -1,6 +1,6 @@
 <nav id="main-menu">
-  <a href="/about.html">Главная</a>
-  <a href="/about.html">О проекте</a>
-  <a href="/about.html">Как пользоваться</a>
+  <a href="index.php">Главная</a>
+  <a href="about.php">О проекте</a>
+  <a href="how-to-use.php">Как пользоваться</a>
   <a href="http://policemap.tilda.ws/documents" target="_blank">FAQ о полиции</a>
 </nav>
