@@ -384,7 +384,8 @@
             Core.trigger('mess', { mess: 'Все совсем плохо. Ошибка в скриптах', error: true })
         }
         $('#legend-toggle').on('click', function() {
-            $(this).parent().toggleClass('collapsed')
+            $(this).parent().toggleClass('collapsed');
+            $('body').toggleClass('legend-collapsed');
         })
         $('.pane-toggle').on('click', function() {
             $(this).parents('.pane').toggleClass('collapsed')

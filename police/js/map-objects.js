@@ -130,7 +130,12 @@ var ObjectWrapper = (function() {
     function clearSelections() {
         if (dselected) dselected.markSelected(false)
         if (rselected) rselected.markSelected(false)
-        if (sselected) sselected.markSelected(false)
+        if (sselected) sselected.markSelected(false);
+        console.log('clearSelections');
+        if (tmpPoint) {
+            map.geoObjects.remove(tmpPoint)
+            tmpPoint = null;
+        } 
     }
 
     var regIconTemplate = '';
