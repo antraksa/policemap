@@ -169,6 +169,7 @@ $(function() {
         })
         $('#btn-details-hide').on('click', function() {
             $('#pane-details').addClass('collapsed')
+            Core.trigger('map.resized', {});
         })
 
         Core.on('map-click.resolved', function(args) {

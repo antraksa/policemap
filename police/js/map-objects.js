@@ -176,7 +176,7 @@ var ObjectWrapper = (function() {
         //console.log(obj, type, coords, content)
         return place;
     }
-    Core.on('map.click', function() { clearSelections() })
+    //Core.on('map.click', function() { clearSelections() })
     pregion.prototype = {
         hover: function(val) {
             if (rselected != this) {

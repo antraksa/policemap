@@ -207,7 +207,12 @@
         Core.on('region.showSector', function(args) {
             clearSectorInline();
             var $reg = $mlist.find('[data-reg-id="{0}"]'.format(args.region.number())).removeClass('selected');
-            $reg.append(Mustache.render(templates.sectorInline, args));
+            var $sec = $(Mustache.render(templates.sectorInline, args)).on('click', function(e) {
+                e.stopPropagation();
+                args.sector.render(true);
+            });
+            $reg.append($sec);
+
 
             console.log('showSector', args)
         })
@@ -386,14 +391,20 @@
         $('#legend-toggle').on('click', function() {
             $(this).parent().toggleClass('collapsed');
             $('body').toggleClass('legend-collapsed');
+            resizeMap();
         })
         $('.pane-toggle').on('click', function() {
             $(this).parents('.pane').toggleClass('collapsed')
+            resizeMap();
+        })
+
+        Core.on('map.resized', resizeMap);
+
+        function resizeMap() {
             if (map) {
                 setTimeout(function() { map.container.fitToViewport() } , 700)
-                console.log('resized')
             }
-        })
+        }
         //console.log(getcolors())
     };
 })()
