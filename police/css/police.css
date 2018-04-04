@@ -224,12 +224,12 @@ body {height: 100%;position: relative;min-height: 100%;}
 .details .photo, .photo-large {background-repeat: no-repeat;background-size: cover;cursor: pointer;background-position: center;}
 .photo-large, .info-holder {visibility: hidden;opacity: 0;background-color: #fff;position: fixed;position: relative;transition: opacity 0.5s ease-out,  visiblity 0s 0.5s;}
 .photo-large {background-color: rgba(29, 56, 84, 0.63);}
-.photo-large.expanded , .info-holder.expanded {position: fixed;top: 0;left: 0;right: 0;bottom: 0;z-index: 10;transition: opacity 0.5s ease-out;background-color: #ffffff75;visibility: visible;opacity: 1;padding: 20px 0;}
+.photo-large.expanded , .info-holder.expanded {position: fixed;top: 60px;left: 0;right: 0;bottom: 0;z-index: 10;transition: opacity 0.5s ease-out;/* background-color: #ffffff75; */visibility: visible;opacity: 1;padding: 20px 0;}
 .photo-large .icon-close, .info-holder .icon-close{cursor: pointer;position: absolute;top: 0;font-size: 30px;width: 50px;height: 50px;z-index: 1;/* background: rgba(255, 255, 255, 0.54); */text-align: center;line-height: 40px;color: #000;right: 0;padding: 20px;}
 .photo-large > div {position: absolute;top: 50px;left: 50px;right: 50px;bottom: 50px;background-repeat: no-repeat;background-size: contain;background-position: center;}
 .info-holder {}
-.info-holder .info-cont {background:#fff;width: 70%;height: calc(100% - 200px);box-sizing: border-box;margin: 100px auto;position: relative;}
-.info-holder iframe{width: 100%;height: 100%;display: block;margin: 0 auto;color : rgba(255, 255, 255, 0.85);}
+.info-holder .info-cont {background:#fff;/* width: 70%; */height: 100%;box-sizing: border-box;/* margin: 100px auto; */position: relative;}
+.info-holder iframe{width: 100%;height: 100%;display: block;padding: 0px 100px 0px 250px;box-sizing:  border-box;color : rgba(255, 255, 255, 0.85);}
 
 .details .btn-ank { cursor: pointer; }
 .details .back {display: block;background: rgba(255, 255, 255, 0.23);line-height: 30px;padding: 0 10px;color: #fff;font-size: 12px;margin-top: 10px;}
@@ -546,4 +546,4 @@ body {height: 100%;position: relative;min-height: 100%;}
 
 .i-region  {background-image: url('img/icons/new/region-30x30.svg'); }
 .i-sector  {background-image: url('img/icons/new/sector-30x30.svg'); }
-.i-department  {background-image: url('img/icons/new/department-30x30.svg'); }
+.i-department  {background-image: url('img/icons/new/department-30x30.svg')

@@ -33,8 +33,8 @@
             <div class="text-wrap useful-links">
               <h2>Проекту нужны:</h2>
               <ul class="dashed">
-                <li><a>Волонтёры</a></li>
-                <li><a>Координаторы проекта в регионах</a></li>
+                <li><a href="support.php">Волонтёры</a></li>
+                <li><a href="support.php">Координаторы проекта в регионах</a></li>
               </ul>
             </div>
         </div>

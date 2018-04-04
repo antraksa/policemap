@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,700,900|Russo+One&amp;subset=cyrillic');
+
 body {
   font-family: 'Roboto', sans-serif;
   font-size: 15px;
@@ -97,7 +99,7 @@ form > * {width: 100%;}
 textarea, input {
     border:  0;
     background-color:  #d9edf7;
-    padding:  30px;
+    padding: 20px 30px;
     color:  #4b7898;
     font-size:  14px;
     margin-bottom:  20px;
