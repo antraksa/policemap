@@ -85,7 +85,7 @@ footer {width: 100%;padding: 20px 50px;background-color: #62355a;color: #fff;}
 .inner .logo-wrap {width:30%;display:  inline-block;vertical-align:  middle;}
 .inner .menu-wrap {width: 70%;}
 .inner .logo {float:  left;}
-.logo-title {font-family: 'Russo One', sans-serif;font-size: 22px;line-height:  55px;font-weight: 300;text-transform:  uppercase;margin-left: 20px;}
+.logo-title {font-family: 'Russo One', sans-serif;font-size: 22px;line-height: 55px;font-weight: 300;text-transform:  uppercase;margin-left: 20px;margin-top: 5px;}
 .logo-wrap a {text-decoration: none;color:#fff;line-height: 55px;display: block;text-align:  left;vertical-align:  middle;}
 
 .sidebar {width: 30%;}
@@ -114,6 +114,75 @@ form textarea {height: 200px;}
 }
 #contactButton, #payButton {width: auto;min-width:  300px;font-size:  15px;font-family:  'Roboto', sans-serif;font-weight: 700;cursor:  pointer;border: 0;}
 
+
+@media screen and (max-width: 1400px) {
+  .inner h3 {font-size: 22px;}
+}
+@media screen and (max-width: 1265px) {
+  .inner .cities .link {padding: 20px;}
+  .inner #main-menu {/* left: -100px; */}
+}
+@media screen and (max-width: 1205px) {
+  h3 {   font-size:  22px; }
+  .home-info { padding: 30px 30px 0 30px;}
+  #index #main-menu { right: 30px;   margin-top:  0px; }
+  .logo-wrap h1 { font-size:  26px; }
+  #index .logo {width:50px;}
+  .nav-wrap {margin-top: 25px;}
+  nav > a {margin-left: 15px;}
+  .pad-inner {padding: 20px 30px;}
+  .inner .cities {margin-top: 20px;vertical-align:  t;}
+  .inner .text-wrap {margin-top: 0px;}
+  .inner #main-menu {left:0;margin-top:  18px;}
+  nav > a {font-size: 14px;}
+
+}
+@media screen and (max-width: 1040px) {
+  body {font-size: 14px;}
+  .about .text-wrap p {margin-left: 0;}
+  .logo-wrap h1 {font-size: 22px;}
+  .inner h3 {font-size: 18px;}
+  .inner #main-menu {left: -50px;margin-top: 15px;}
+  .logo-title {display: block;margin-left:60px;line-height: 25px;/* font-size:  18px; */}
+  .inner .logo {margin-top: -5px;}
+  .header-inner .pad-inner {padding: 10px 30px;}
+  .inner h1 {font-size: 22px;}
+  .inner .text-wrap p, .inner .text-wrap ul, .inner .text-wrap p, .inner .text-wrap form {margin-left: 0px;font-size: 14px;}
+  .inner .donate {width: 180px;margin-top: 5px;}
+}
+@media screen and (max-width: 925px) {
+  .home-info {width: 100%;}
+  .home-map{display: none;}
+  .sidebar, .content {width: 100%;}
+  .inner .logo-wrap, .inner .menu-wrap {width:auto;}
+  .inner .donate {/* float: right; */}
+  .inner #main-menu {position: relative;left: -15px;/* display:  inline; *//* vertical-align:  middle; *//* line-height: 50px; */}
+  .logo-title {display: none;}
+  .inner header {background-image: none;}
+  .inner .cities .link {width: 33%;display:  inline-block;vertical-align: top;}
+  .pad-inner .text {width: 30%;margin:  0 auto;}
+  .pad-inner, .header-inner .pad-inner {padding: 10px 20px;}
+  .inner .text-wrap {padding: 10px 0;}
+}
+@media screen and (max-width: 725px) {
+  h3 {font-size: 18px;}
+  .inner .cities .link, .pad-inner .text {width: 100%;}
+  .content {padding-top: 30px;}
+  .inner .menu-wrap {width: 88%;display:  inline-block;word-wrap: break-word;}
+  .inner .logo-wrap  {width: 10%;}
+  .inner #main-menu {display: block;vertical-align: middle;margin:  0;word-wrap: break-word;white-space: nowrap;/* float: left; *//* position:  absolute; *//* left: 70px; */}
+  nav > a {/* display: inline; *//* line-height:  50px; *//* font-size:  11px; */float:  left;margin-top:  6px;}
+  .inner .donate {width: 115px;margin-top:  0;float:  right;font-size:  11px;}
+  #main-menu {width: 70%;}
+}
+@media screen and (max-width: 600px) {
+  .logo-wrap h1 {display: none;}
+  .about.left, .nav-wrap.right {float: left;width:100%;max-width: none;}
+}
+@media screen and (max-width: 460px) {
+  body, nav > a {font-size: 12px;}
+
+}
 @media screen and (min-width: 1550px) {
     .home-info {padding: 100px 100px 50px 100px;}
     #index #main-menu {right: 100px;}
