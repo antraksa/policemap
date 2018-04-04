@@ -1,3 +1,5 @@
 .user-layout .pane.results {/* margin-left: 0; */height: calc(100% - 60px);}
 .user-layout .history-btns { display: none }
 .user-layout .changes { display: none }
+.user-layout .main-list{height: calc(100% - 40px);}
+.user-layout .history-list {display: none}

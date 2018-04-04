@@ -170,6 +170,7 @@ $(function() {
         $('#btn-details-hide').on('click', function() {
             $('#pane-details').addClass('collapsed')
             Core.trigger('map.resized', {});
+            console.log(123)
         })
 
         Core.on('map-click.resolved', function(args) {

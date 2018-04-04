@@ -67,7 +67,7 @@ body {height: 100%;position: relative;min-height: 100%;}
 .pane-toggle i {font-size: 18px;line-height: 40px;color: rgba(255, 255, 255, 0.72);padding: 0px 10px;}
 .pane.details .pane-toggle {right: 0;width: 400px;background: rgba(255, 255, 255, 0.2);padding: 0;}
 .pane.details .btn-close {position: absolute;right: 0;font-size: 16px;width: 40px;line-height: 34px;text-align: center;color: #ffffff8a;}
-.pane.collapsed {width: 0;margin: 0;}
+.pane.collapsed {width: 0 !important;margin: 0;}
 .pane.collapsed .pane-toggle{z-index: 1000;/* width: 40px; *//* background: rgba(255, 255, 255, 0.65); */height: 72px;line-height: 72px;}
 .pane.collapsed .pane-toggle .angle-left {display: none}
 .pane .pane-toggle .angle-right {display: none;}
@@ -283,7 +283,7 @@ body {height: 100%;position: relative;min-height: 100%;}
 .dash-toggle a.has-changes {color: #ffa878;}
 .dash-toggle a.has-changes:after {content: '*'}
 
-.dash-panel {height: calc(100% - 38px);overflow: auto;position: relative;}
+.dash-panel {height: calc(100% - 140px);overflow: auto;position: relative;}
 .dash-panel {display: none;}
 .dash-panel.shown { display: block }
 .main-list {
@@ -316,7 +316,7 @@ body {height: 100%;position: relative;min-height: 100%;}
 .history-btns .btn {margin-right: 4px}
 .history-has-changes .history-btns {display: block;display: flex;padding: 4px;}
 
-.history-list {overflow: hidden;/* position: relative; */background: #a22a29;}
+.history-list {overflow: hidden;/* position: relative; */background: #a22a29;height: 100px;}
 .history-list .item{padding: 4px;background: rgba(255, 255, 255, 0.05);font-size: 11px;border-bottom: 1px solid rgba(255, 255, 255, 0.16);padding-right: 44px;overflow: hidden;position: relative;}
 .history-list .name {color: #fff;margin-bottom: 6px;height: 11px;}
 .history-list .date {float: right;color: rgba(255, 255, 255, 0.66);}
@@ -494,6 +494,7 @@ body {height: 100%;position: relative;min-height: 100%;}
     background: #62365A;
     padding-top: 15px;
     box-sizing: border-box;
+    /* position: relative; */
 }
 
 .home nav{
@@ -503,7 +504,7 @@ body {height: 100%;position: relative;min-height: 100%;}
 
 .home .donate{}
 
-.home .locate{}
+.home .locate{padding: 0 10px;}
 .home .right{
     float: right;
 }
