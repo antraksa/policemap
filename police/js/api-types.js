@@ -74,12 +74,8 @@ $(function() {
                 "name": "press",
                 "edit": true,
                 "width": "400px",
-                "template": "{{#.}} <div>{{0}},<i>{{1}}</i>;</div>{{/.}}",
-                'convert': function(o) {
-                    return trim(o.split(';')).map(function(a) {
-                        return trim(a.split(','))
-                    })
-                }
+                "template": "{{#.}} <div>{{0}} $<i>{{1}}</i>;</div>{{/.}}",
+                editTemplate : 'edit-news-template'
             }, {
                 "name": "point",
                 "edit": false

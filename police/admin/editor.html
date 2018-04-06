@@ -6,10 +6,9 @@
 <link href="../css/style.css" rel="stylesheet" media="screen">
 <link href="../css/police.css" rel="stylesheet" media="screen">
 <!-- /build -->
-
-<!-- build:style main --><!-- /build -->
+<!-- build:style main -->
+<!-- /build -->
 <link href="../css/editor.css" rel="stylesheet" media="screen">
-
 <!-- build:remove -->
 <script src="../libs/jquery-2.1.3.min.js"></script>
 <script src="../libs/mustache.js"></script>
@@ -21,10 +20,10 @@
 <script src="../js/history-common.js"></script>
 <script src="js/editor/editor.js"></script>
 <!-- /build -->
-
-<!-- build:script libs --><!-- /build -->
-<!-- build:script editor --><!-- /build -->
-
+<!-- build:script libs -->
+<!-- /build -->
+<!-- build:script editor -->
+<!-- /build -->
 <style type="text/css">
 </style>
 
@@ -36,16 +35,14 @@
                 <a class="city-toggle" id="city-toggle"> {{city.name}} </a>
                 <div class=" popup city-popup">
                     {{#cities}}
-                    <a class="city"> {{name}} </a>
-                    {{/cities}}
+                    <a class="city"> {{name}} </a> {{/cities}}
                 </div>
             </script>
-            
-            <a  class="btn mt-toggle" href="police.html"> <i class="icon-angle-left"></i> Назад на карту </a>
+            <a class="btn mt-toggle" href="police.html"> <i class="icon-angle-left"></i> Назад на карту </a>
             <nav id="types-toggle" class="dash-toggle">
             </nav>
             <script data-template="types" type="text/template">
-               <!--  <div class="types-btns clear">
+                <!--  <div class="types-btns clear">
                     <button id="btn-add" class="btn btn-edit"><i class="icon-plus"></i></button>
                 </div> -->
                 {{#.}}
@@ -74,6 +71,28 @@
         </div>
         <div id="values-editor" class="pane values">
         </div>
+        <div id="edit-news-template" class="news-dialog dialog edit-mode">
+            <ul class="news" id="edit-news">
+            </ul>
+            <div class="btns">
+                <button type="button" id="btn-news-cancel" class="btn btn-cancel"> Отмена </button>
+                <button type="button" id="btn-news-save" class="btn btn-save"> Сохранить </button>
+            </div>
+        </div>
+        <script data-template="editNews" type="text/template">
+            {{#.}}
+            <li>
+                <div class="read-only">
+                    <i class="remove icon-close"></i>
+                    <span class="val">{{0}}</span> <a class="val">{{1}}</a>
+                </div>
+                <div class="edit-mode">
+                    <input type="text" value="{{0}}" placeholder="Новость">
+                    <input type="text" value="{{1}}" placeholder="Ссылка">
+                </div>
+            </li>
+            {{/.}}
+        </script>
         <script data-template="popup" type="text/template">
             <ul class="popup cell-popup">
                 {{#.}}
@@ -85,8 +104,7 @@
             <div class="bgc table-header">
                 <div class="flex">
                     {{#fields}}
-                    <a class="cell header-cell overflow" style="width: {{width}}">{{title}}</a> 
-                    {{/fields}}
+                    <a class="cell header-cell overflow" style="width: {{width}}">{{title}}</a> {{/fields}}
                 </div>
             </div>
             <div class="table-body">
@@ -95,9 +113,8 @@
                     <div class="row-btns clear">
                         <a class="btn-delete icon-close fgc"></a>
                     </div>
-             
                     {{#cells}}
-                    <div data-field-ind="{{ind}}" id ="tb-cell-{{itemInd}}-{{ind}}" {{^field.popup}} contenteditable {{/field.popup }} class="cell table-cell {{#field.key}}cell-key{{/field.key}}" style="width: {{width}}">{{{text}}}</div>
+                    <div data-field-ind="{{ind}}" id="tb-cell-{{itemInd}}-{{ind}}" {{^field.popup}}{{^field.editTemplate}} contenteditable {{/field.editTemplate}}{{/field.popup }} class="cell table-cell {{#field.key}}cell-key{{/field.key}}" style="width: {{width}}">{{{text}}}</div>
                     {{/cells}}
                 </div>
                 {{/items}}

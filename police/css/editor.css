@@ -34,7 +34,7 @@
 .item.current .cell{background: rgba(255, 255, 255, 0.9);overflow-y: auto;max-height: 100px;}
 .item.current .cell.edited {background: #fff;box-shadow: 0 0 5px rgba(0, 0, 0, 0.31);}
 .history-list ul {overflow-y:auto;bottom: 40px;position: absolute;right: 0;left: 0;top: 68px;}
-.cell div { margin: 4px 0 }
+.cell div {margin-bottom: 4px;border-bottom: 1px solid #ffffffdb;padding-bottom: 4px;}
 .cell i { color: #777 }
 .table-header .header-cell{padding: 10px;color: rgba(255, 255, 255, 0.9);text-transform: uppercase;font-size: 11px;}
 .table-body {padding-top: 36px;/* position: absolute; *//* overflow: auto; *//* background: rgba(255, 255, 255, 0.46); */}
@@ -42,3 +42,26 @@
 .city-toggle, .city-popup a {font-size: 12px;padding: 0 10px;line-height: 30px;background: rgba(255, 255, 255, 0.58);display: block;}
 .city-popup {width: 250px;margin: 0;}
 .parser .cell-popup {display: block;margin-left: 52px;margin-top: -5px;overflow: auto;max-height: 182px;width: 251px;}
+
+.dialog {position: fixed;background: #8b3d4b;display: none;top: 100px;left: calc(50% - 150px);width: 300px;padding: 20px;}
+.news-dialog input{margin: 4px 0;}
+.news {/* padding: 10px; */max-height: 300px;overflow: hidden;overflow-y: auto;}
+.news li .edit-mode { display: none }
+.news li.selected {background-color: #ffffffd6;}
+.news li.selected .read-only { display: none }
+.news li.selected .edit-mode { display: block }
+.news-dialog .btns {padding: 10px 0;}
+.news-dialog .btn { float: right; margin-left: 4px  }
+.news li {
+	cursor: pointer;
+	margin-bottom: 1px;
+	padding: 10px;
+	overflow: hidden;
+	background: #ffffffb8;
+}
+.news .remove {float: right;padding: 10px;background: #ffffff73;margin-left: 10px;}
+.news li a{
+    margin-top: 7px;
+    display: block;
+    text-decoration: underline;
+}

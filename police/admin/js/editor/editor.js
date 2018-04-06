@@ -9,6 +9,7 @@ $(function() {
         templates = Common.getTemplates();
     var cities = API.getCities(),
         city = cities[0];
+    
 
     function renderCities() {
         $('#cities').html(Mustache.render(templates.cities, { cities: cities, city: city })).find('.city').on('click', function() {
@@ -27,10 +28,10 @@ $(function() {
         console.log('load', city)
 
         API.all(city.code, function(args) {
+       
             console.warn(args)
             var datas = args, renderSaveButtons;
             var typearr = [];
-
             var state = State.getState()
 
             var ti = 0;
@@ -91,8 +92,11 @@ $(function() {
                             field = fields[ind],
                             rowind = $item.index(),
                             cell = items[rowind].cells[ind];
+
+
                         $item.addClass('current').siblings().removeClass('current');
-                        State.addState({ rowId: items[rowind].itemInd, type: type.name })
+                        State.addState({ rowId: items[rowind].itemInd, type: type.name });
+
                         if (field.popup) {
                             $this.addClass('edited');
                             var popup = datas[field.popup];
@@ -104,9 +108,15 @@ $(function() {
                                 e.stopPropagation()
                             })
                         }
+
+                        if (field.editTemplate) {
+                            $('#' + field.editTemplate).data('init')(cell);
+                        }
                     })
                     .on('focus', function() {
-                        var $this = $(this).addClass('edited')
+                        var $this = $(this).addClass('edited');
+                        var ind = Number($this.attr('data-field-ind')),
+                            field = fields[ind];
                         $this.data('oldtext', $this.text().trim())
                     })
                     .on('blur', function() {
@@ -181,8 +191,48 @@ $(function() {
                         render(type)
                     })
                 }
+
+
+                $('#edit-news-template').data('init', function(cell) {
+                    var $this = $('#edit-news-template').show();
+                    var original = JSON.parse(JSON.stringify(cell.item.press)); 
+                    console.log(this,original)
+                    $('#edit-news').html(Mustache.render(templates.editNews, cell.item.press)).find('li').each(function() {
+                        var ind = $(this).index(), item = cell.item.press[ind];
+                        var $li = $(this);
+                        
+                        $li.find('input').on('change', function() {
+                            var iind = $(this).index();
+                            var val = $(this).val();
+                            cell.item.press[ind][iind] = val;
+                            $li.find('.val').eq(iind).html(val)
+                            console.log('change', $(this).val(), ind, iind)
+                        })
+                        
+                        $li.find('.remove').on('click', function(e) {
+                            cell.item.press.splice(ind, 1);
+                            $li.remove();
+                            e.stopPropagation();
+                        });
+                        $li.on('click', function( ) {
+                            $li.addClass('selected').siblings().removeClass('selected');
+                        })
+                    })
+                    $('#btn-news-save')[0].onclick = function() {
+                        $this.hide();
+                        changeCell(cell, cell.item.press)
+                    }
+                    $('#btn-news-cancel')[0].onclick = function() {
+                        $this.hide();
+                        cell.item.press = original;
+                    }
+                    console.log('init', cell);
+                })
+
+
                 loading(false)
             }
+
 
             function mapTarget(target, fields) {
                 return target.map(function(o, i) {

@@ -22,8 +22,8 @@ var ObjectWrapper = (function() {
         if (!args.coords) {
             if (tmpPoint) map.geoObjects.remove(tmpPoint)
             tmpPoint = null;
-        } else  {
-            var tmpObj = {number : function() { return 'tmp-point'; }};
+        } else {
+            var tmpObj = {};
             tmpPoint = constructPlace(tmpObj, 'tmp-point', args.coords);
             tmpObj.place = tmpPoint;
             map.geoObjects.add(tmpPoint);
@@ -81,14 +81,16 @@ var ObjectWrapper = (function() {
             }
         }
         preg.lastRateUpdate = new Date(+lastDate);
-        var lr = rateHistory[lastDate], tr = 0, count = 0;
+        var lr = rateHistory[lastDate],
+            tr = 0,
+            count = 0;
         for (var key in lr) {
-            tr+=+lr[key];
+            tr += +lr[key];
             count++;
         }
-        preg.lastRate = getRate(tr/count);
-        preg.rateUp = preg.lastRate.val <  preg.rate.val;
-        console.log('calcDynamicRate',lastDate, lr, preg)
+        preg.lastRate = getRate(tr / count);
+        preg.rateUp = preg.lastRate.val < preg.rate.val;
+        console.log('calcDynamicRate', lastDate, lr, preg)
     }
 
     function getRateColor(r) {
@@ -109,21 +111,34 @@ var ObjectWrapper = (function() {
         var geoCenter = map.options.get('projection').fromGlobalPixels(pixelCenter, map.getZoom());
         return geoCenter;
     }
-    var rselected, dselected, sselected, objSelected = {};
+    var rselected, dselected, sselected, objSelected = {},
+        doSelect;
 
     function markPointOpacity(type, obj) {
-        if (obj && obj.place)
-            $('#point-icon-' + type + '-' + obj.number()).addClass('marked')
-        var old = objSelected[type];
-        if (old && old.place && old != obj) {
-            $('#point-icon-' + type + '-' + old.number()).removeClass('marked')
+        if (doSelect) {
+            doSelect();
         }
-        objSelected[type] = obj;
+        if (obj && obj.place) {
+            doSelect = function(val) {
+                var $p = $('#point-icon-' + type + '-' + obj.number()).addClass('marked');
+                var iconUrl = (val ? 'css/img/icons/geo/{0}-selected.svg' : 'css/img/icons/geo/{0}.svg').format(type);
+                $p.css('background-image', 'url({0})'.format(iconUrl));
+            }
+            doSelect(true);
+        }
+        // var old = objSelected[type];
+        // if (old && old.place && old != obj) {
+        //     $p = $('#point-icon-' + type + '-' + old.number()).removeClass('marked')
+        //     var iconUrl = 'css/img/icons/geo/{0}.svg'.format(type);
+        //     $p.css('background-image', 'url({0})'.format(iconUrl))
+        // }
+
+        // objSelected[type] = obj;
     }
 
     function markPointHovered(type, obj, val) {
         if (obj) {
-            $('#point-icon-' + type + '-' + obj.number).toggleClass('hovered', val)
+            var $p = $('#point-icon-' + type + '-' + obj.number).toggleClass('hovered', val);
         }
     }
 
@@ -131,11 +146,10 @@ var ObjectWrapper = (function() {
         if (dselected) dselected.markSelected(false)
         if (rselected) rselected.markSelected(false)
         if (sselected) sselected.markSelected(false);
-        console.log('clearSelections');
         if (tmpPoint) {
             map.geoObjects.remove(tmpPoint)
             tmpPoint = null;
-        } 
+        }
     }
 
     var regIconTemplate = '';
@@ -145,8 +159,7 @@ var ObjectWrapper = (function() {
         // if (!icon) icon = 'sheriff.png';
         // if (type=='tmp-point') icon = 'arrested.png';
 
-        var icon = '{0}.svg'.format(type);
-        var iconUrl = 'css/img/icons/geo/' + icon;
+        var iconUrl = 'css/img/icons/geo/{0}.svg'.format(type);
         var emptyUrl = 'css/img/empty.png';
         if (isAdmin) {
             iconUrl = '../' + iconUrl;
@@ -168,7 +181,7 @@ var ObjectWrapper = (function() {
             iconImageOffset: [-20, -20],
             iconContentOffset: [20, 20],
             hideIconOnBalloonOpen: false,
-            openBalloonOnClick : type == 'sector',
+            openBalloonOnClick: type == 'sector',
             iconContentLayout: regLayout
         });
         place.events.add('mouseenter', function(e) { markPointHovered(type, obj, true) })
@@ -216,9 +229,9 @@ var ObjectWrapper = (function() {
         clearStyle: function() {
             if (this.pol) {
                 this.pol.options.set('strokeWidth', 1)
-                .set('zIndex', 0)
-                .set('strokeColor', '#777')
-                .set('fillColor', this.color);
+                    .set('zIndex', 0)
+                    .set('strokeColor', '#777')
+                    .set('fillColor', this.color);
             }
         },
         calcRate: function() {
@@ -249,7 +262,7 @@ var ObjectWrapper = (function() {
             if (window.ymaps) {
                 if (focus) {
                     var coords = r.region.point ? r.region.point.coords : getCenter(r.pol);
-                    Core.trigger('map.set-center', {coords : coords, zoom : 13})
+                    Core.trigger('map.set-center', { coords: coords, zoom: 13 })
 
                 } else {
                     r.markPointOpacity(true)
@@ -277,8 +290,8 @@ var ObjectWrapper = (function() {
             //if (this.place && !val) this.place.balloon.close();
             if (val && this.pol) {
                 this.pol.options.set('strokeWidth', 2)
-                //.set('zIndex', 11)
-                .set('strokeColor', '#444');
+                    //.set('zIndex', 11)
+                    .set('strokeColor', '#444');
             } else {
                 this.clearStyle()
             }
@@ -301,8 +314,8 @@ var ObjectWrapper = (function() {
             }
             return this;
         },
-        showSector : function(s) {
-            Core.trigger('region.showSector', {sector : s, region : this });
+        showSector: function(s) {
+            Core.trigger('region.showSector', { sector: s, region: this });
         },
         show: function(val) {
             if (this.pol) {
@@ -315,7 +328,7 @@ var ObjectWrapper = (function() {
         render: function(ank) {
             Core.trigger('region.select', { region: this, ank: ank })
         },
-        contains : function(p) {
+        contains: function(p) {
             return this.pol && this.pol.geometry.contains(p)
         }
     }
@@ -341,7 +354,7 @@ var ObjectWrapper = (function() {
             if (window.ymaps) {
                 if (focus) {
                     if (d.department.coords) {
-                        Core.trigger('map.set-center', {coords : d.department.coords, zoom : 13})
+                        Core.trigger('map.set-center', { coords: d.department.coords, zoom: 13 })
                     }
                     clearSelections()
                     //if (d.place) d.place.balloon.open();
@@ -383,10 +396,11 @@ var ObjectWrapper = (function() {
         },
     }
     var sectorPlace;
+
     function psector(s) {
         this.sector = s;
         this.locationName = 'Участковый';
-                   
+
         this.name = s.name.capitalizeAll();
         s.fullName = this.name;
     }
@@ -410,7 +424,7 @@ var ObjectWrapper = (function() {
             console.log('select sector', focus, s)
             if (window.ymaps) {
                 if (focus && s.sector.coords) {
-                    Core.trigger('map.set-center', {coords : s.sector.coords, zoom : 13});
+                    Core.trigger('map.set-center', { coords: s.sector.coords, zoom: 13 });
                 }
                 if (sselected) sselected.markSelected(false);
                 sselected = this.markSelected(true);
@@ -466,7 +480,7 @@ var ObjectWrapper = (function() {
         number: function() {
             return this.sector.number
         },
-        coords : function() {
+        coords: function() {
             return this.sector.coords
         }
     }
@@ -493,20 +507,20 @@ var ObjectWrapper = (function() {
         }
         var clusterIcon = Mustache.render(templates.clusterPoint, { icon: iconUrl, type: 'sector' })
         var layout = ymaps.templateLayoutFactory.createClass(clusterIcon, {
-             build: function () {
+            build: function() {
                 layout.superclass.build.call(this);
                 $(this._element).children().eq(0).attr('id', 'point-cluster-' + this._data.properties.myId);
                 //console.log(this._data)
             },
         })
-         var customBalloonContentLayout = ymaps.templateLayoutFactory.createClass([
-                '<ul class=list>',
-                '{% for geoObject in properties.geoObjects %}',
-                    '<li><a href=# data-placemarkid="{{ geoObject.placemarkId }}" class="sector-balloon-item">{{ geoObject.properties.balloonContentHeader|raw }}</a></li>',
-                '{% endfor %}',
-                '</ul>'
-            ].join(''));
-        $(document).on( "click", "a.sector-balloon-item", function() {
+        var customBalloonContentLayout = ymaps.templateLayoutFactory.createClass([
+            '<ul class=list>',
+            '{% for geoObject in properties.geoObjects %}',
+            '<li><a href=# data-placemarkid="{{ geoObject.placemarkId }}" class="sector-balloon-item">{{ geoObject.properties.balloonContentHeader|raw }}</a></li>',
+            '{% endfor %}',
+            '</ul>'
+        ].join(''));
+        $(document).on("click", "a.sector-balloon-item", function() {
             var sector = objects[$(this).data().placemarkid];
             sector.render(true);
 
@@ -528,17 +542,17 @@ var ObjectWrapper = (function() {
             }
         });
 
-   
 
-        cluster.events.add('mouseenter', function(e) { 
+
+        cluster.events.add('mouseenter', function(e) {
             var tar = e.get('target');
             //console.log('clusterer', cluster)
             //console.log(tar, tar.properties.myId);
-            $('#point-cluster-'+ tar.properties.myId).addClass('hovered')
-        }) 
-        cluster.events.add('mouseleave', function(e) { 
+            $('#point-cluster-' + tar.properties.myId).addClass('hovered')
+        })
+        cluster.events.add('mouseleave', function(e) {
             var tar = e.get('target');
-            $('#point-cluster-'+ tar.properties.myId).removeClass('hovered')
+            $('#point-cluster-' + tar.properties.myId).removeClass('hovered')
         })
 
         cluster.options.set('hasBalloon', visible)
@@ -550,9 +564,9 @@ var ObjectWrapper = (function() {
             clusterPlacemark.properties.myId = clusterIndex++;
             return clusterPlacemark;
         }
-        
+
         cluster.events.add('click', function(e) {
-            Core.trigger('map.set-center', {coords : e.get('coords'), zoom : 14});
+            Core.trigger('map.set-center', { coords: e.get('coords'), zoom: 14 });
         })
 
         objects.forEach(function(o, i) {
@@ -578,6 +592,6 @@ var ObjectWrapper = (function() {
             return new pdepartment(r)
         },
         clusterize: clusterize,
-        calcRate : calcRate
+        calcRate: calcRate
     }
 })()

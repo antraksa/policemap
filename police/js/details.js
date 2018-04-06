@@ -151,7 +151,12 @@ $(function() {
         function toggleType(type) {
             if (type) {
                 $('#{0}-details'.format(type)).addClass('shown').siblings().removeClass('shown')
-                $('#pane-details').removeClass('collapsed')
+                var $pd = $('#pane-details');
+                if ($pd.hasClass('collapsed')) {
+                    Core.trigger('map.resized', {});
+                    $pd.removeClass('collapsed');
+                }
+
             } else {
                 //$('#details').children().removeClass('shown')
                 //$('#pane-details').addClass('collapsed')
