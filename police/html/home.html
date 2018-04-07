@@ -1,21 +1,26 @@
 <div class="home">
-	<a href="https://policemap.ru" class="logo" title="Карта  полиции" >
-	</a>
-	<a href="" class="mail-to"> <i class="icon-mail"></i></a>
+	<div class="left">
+		<a href="." class="logo" title="Карта полиции" >
+			Карта полиции
+		</a>
+		<a data-link="html/info/contact-us.html" class="mail-to"></a>
+	</div>
 	<nav id="main-info-list">
-		<a data-link="html/info/about.html">Главная</a>
-		<a data-link="html/info/about-2.html">О проекте</a>
-		<a href="http://policemap.tilda.ws/documents" target="_blank">пользоваться</a>
+		<a href="." title="На главную страницу Карты полиции">Главная</a>
+		<a data-link="html/info/about.html" title="О проекте Карта полиции">О проекте</a>
+		<a data-link="html/info/how-to-use.html" title="Как пользоваться Картой полиции">Как пользоваться</a>
+		<a data-link="html/info/how-to-rate.html" title="Как формируется рейтинг">Как формируется рейтинг</a>
+		<a href="http://policemap.tilda.ws/documents"  title="Частые вопросы о полиции" target="_blank">FAQ о полиции</a>
 	</nav>
 
 	<div class="right">
 		<div class="search">
-		    <input type="text" id="txt-search" class="txt-search" value="" placeholder="Адрес, Номер отдела или ФИО " name="">
+		    <input type="text" id="txt-search" class="txt-search" value="" placeholder="Введите адрес, номер отдела или ФИО " name="">
 		    <i class="icon-search fgc" id="btn-search"> </i>
 		    <i class="icon-close" id="btn-search-empty"> </i>
 		</div>
 		<div id="search-popup" class="popup search-autocomplete  autocomplete collapsed "> </div>
-		<a class="donate btn">Поддержать Проект</a>
+		<a class="donate btn" data-link="html/info/support.html">Поддержать Проект</a>
 		<a id="btn-locate" class="btn locate icon-location" title="Определить местоположение"></a>
 	</div>
 </div>

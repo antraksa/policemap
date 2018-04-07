@@ -47,7 +47,7 @@
         Core.trigger('init', { templates: templates, cities: cities, location: location })
 
         function load() {
-            $('#btn-city-toggle').html(city.name);
+            $('#btn-city-toggle').html(city.name + '<i class="icon-angle-down"></i>');
             $('#pane-details').addClass('collapsed')
             Core.trigger('map.set-center', {coords : city.coords, zoom : city.z});
             API.getAndWrapAll(city.code, function(args) {

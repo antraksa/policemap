@@ -6,7 +6,7 @@
 
 
       <div class="current-city">
-        
+
         <a id="btn-city-toggle" class="tool-btn city-toggle" title="Выбор города"> </a>
         <ul id="city-popup" class="popup city-popup"> </ul>
         <script data-template="cities" type="text/template">
@@ -21,7 +21,7 @@
     <ul id="history-list" class="history-list"></ul>
 
     <ul class="dash-panel main-list shown" id="main-list"></ul>
-    
+
     <script data-template="history" type="text/template">
         {{#.}}
         <li class="item">
@@ -52,7 +52,7 @@
             {{#oldVals.length}} <i title="Не сохранено" class="icon-pencil">  </i> {{/oldVals.length}}
             <b class="rate rated{{rate.formatted}}" title="Рейтинг: {{rate.fixed}}"> </b>
             <u title="{{region.name}}" class="rate-up-{{rateUp}}"> {{region.name}}</u>
-            
+
         </li>
         {{/regions}} {{/.}}
     </script>

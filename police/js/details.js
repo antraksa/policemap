@@ -54,7 +54,7 @@ $(function() {
             $('body').addClass('mobile-details-view')
         })
 
-        $('#main-info-list').find('[data-link]').on('click', function() {
+        $('.home').find('[data-link]').on('click', function() {
             var link = $(this).attr('data-link');
             if (isAdmin) link = '../' + link;
             $('#info-holder').addClass('expanded')

@@ -161,31 +161,34 @@
     <div class="details-wrap">
         {{#department}}
         <h1 class="name">
-            <u  class="number photo" style="background-image: url('{{photoLink}}')"> </u>
             <a class="editable name-link">{{name}}</a>
-            <span  class="addr editable">{{addr}}</span>
-      <div class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i> {{#tel}} <u>{{.}}</u>{{/tel}}(дежурная часть)</div>
 
         </h1>
         <div class="contacts">
-            <div class="url">
-                <a href="{{url}}" class="url" target="_blank"> {{url}}</a> <b class="bull"></b>
-                <a href="mailto:{{email}}" class="url"> <i class="icon-email"></i> {{email}}</a>
-            </div>
-            <div class="real-hot-line" title="Горячая линия о нарушениях"> <span class="hot-line"><i class="icon-phone"></i> {{regions.0.region.hotLine}}</span> - горячая линия о нарушениях</div>
-            <a class="hot-line" title="Подать заявление через электронную приёмную" href="{{priemnaya}}" target="_blank">Отправить обращение</a><div class="real-hot-line">для составления обращения воспользуйтесь <a title="Составить обращение о нарушениях" href="#">Конструктором обращений</a></div>
+          <div class="clearfix">
+            <u  class="number photo" style="background-image: url('{{photoLink}}')"> </u>
+            <span  class="addr editable">{{addr}}</span>
+            <div class="tel " title="Телефон дежурной части"><div>Дежурная часть:</div> <div><span></span> {{#tel}} <u>{{.}}</u>{{/tel}}</div></div>
+              <div class="url clearfix">
+                  <div><a href="{{url}}" class="url" target="_blank"> {{url}}</a></div>
+                  <div><a href="mailto:{{email}}" class="url"> <i class="icon-email"></i> {{email}}</a></div>
+              </div>
+          </div>
+            <div class="real-hot-line" title="Горячая линия о нарушениях"> <span class="hot-line">{{regions.0.region.hotLine}}</span> - горячая линия о нарушениях</div>
+            <a class="hot-line btn" title="Подать заявление через электронную приёмную" href="{{priemnaya}}" target="_blank">Отправить обращение</a>
+            <div class="real-hot-line obr">для составления обращения воспользуйтесь <a class="url" title="Составить обращение о нарушениях" href="https://formalist.info/partners/?user=5a3687975163f15af17255c8" target="_blank">Конструктором обращений</a></div>
         </div>
         {{#personName}}
         <h6 class="sub-header">Начальник </h6>
         <div class="sub-details">
             <h1 class="name"> {{personName}} </h1>
             <div class="rank"> {{personRank}} </div>
-            <div class="tel"><span class="prop-title">Записаться на прием:</span> <i class="icon-phone"></i> {{personTel}}</div>
+            <div class="tel"><div class="prop-title">Записаться на прием:</div><div><span></span><u>{{personTel}}</u></div></div>
             {{#rukReports}}
-            <a class="sub-item sub-active-item url" target="_blank" href="{{rukReports}}"> Отчеты руководителя за 2016 год </a> {{/rukReports}} {{^rukReports}}
+            <a class="sub-item url" target="_blank" href="{{rukReports}}"> Отчеты руководителя за 2016 год </a> {{/rukReports}} {{^rukReports}}
             <div class="no-records  ">Отчеты руководителя не опубликованы</div>
             {{/rukReports}} {{#uchReports}}
-            <a class="sub-item sub-active-item url" target="_blank" href="{{uchReports}}">Отчеты участковых за за 2016 год</a> {{/uchReports}} {{^uchReports}}
+            <a class="sub-item url" target="_blank" href="{{uchReports}}">Отчеты участковых за за 2016 год</a> {{/uchReports}} {{^uchReports}}
             <div class="no-records">Отчеты участковых не опубликованы</div>
             {{/uchReports}} {{#comm}}
             <a class="sub-item sub-active-item" target="_blank" href="#">
@@ -207,25 +210,25 @@
         </div>
         {{/regions.length}} {{#department}}
         <div class="sub-list more" id="department-more">
-            <h6 class="sub-header">Подробнее</h6>
+            <h6 class="sub-header">Больше информации <i class="icon-angle-down"></i></h6>
             <ul>
                 {{#prokName}}
                 <li class="sub-item">
                     <div class="s-title">Контакты прокуратуры</div>
                     <div class="s-val">{{prokName}}</div>
                     <div class="s-val">{{prokAddr}}</div>
-                    <div class="s-val tel"><i class="icon-phone"></i>{{prokTel}} (дежурный прокурор)</div>
-                    <a class="s-val hot-line" title="Подать заявление в прокуратуру через электронную приёмную" href="{{prokPriemnaya}}" target="_blank">Обратиться в прокуратуру</a><span class="s-val"> (электронная приемная)</span>
+                    <div class="s-val tel"><span></span><u>{{prokTel}}</u> (дежурный прокурор)</div>
+                    <div><a class="s-val hot-line url" title="Подать заявление в прокуратуру через электронную приёмную" href="{{prokPriemnaya}}" target="_blank">Обратиться в прокуратуру</a><span class="s-val"> (электронная приемная)</span></div>
                 </li>
                 {{/prokName}} {{#bezop}}
                 <li class="sub-item">
-                    <span class="s-title">Собственная безопасность</span>
+                    <div class="s-title">Собственная безопасность</div>
                     <span class="s-val">{{bezop}}</span>
                 </li>
                 {{/bezop}} {{#sovet}}
                 <li class="sub-item">
-                    <span class="s-title">Общественный совет</span>
-                    <span class="s-val">{{sovet}}</span>
+                    <div class="s-title">Общественный совет</div>
+                    <div class="s-val">{{sovet}}</div>
                 </li>
                 {{/sovet}}
                 <div style="display:none;">
@@ -233,7 +236,7 @@
                 <li class="sub-item">
                     <div class="s-title">{{contact.name}}</div>
                     <div class="s-val">{{contact.addr}}</div>
-                    <div class="s-val tel"><i class="icon-phone"></i>{{contact.tel}}</div>
+                    <div class="s-val tel"><span></span><u>{{contact.tel}}</u></div>
                     <div class="url">
                       {{#contact.site}}
                         <a href="{{site}}" class="url s-val" target="_blank">{{contact.site}}</a> <b class="bull"></b>
