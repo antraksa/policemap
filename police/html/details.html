@@ -35,35 +35,37 @@
         <h1 class="name">
             <a class="name-link editable">{{name}}</a>
             <q  class="area">{{area}}</q>
+        </h1>
+        <div class="contacts">
+          <div class="clearfix">
             <u  class="number photo" style="background-image: url('{{photoLink}}')"> </u>
             <span  class="addr editable">{{addr}}</span>
-          <span class="tel-name">Дежурная часть:</span>
-          <div class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i> {{#tel}} <u>{{.}}</u> {{/tel}}</div>
-        </h1>
-        {{#rate}}
-        <div id="details-rate-toggle" class="btn-ank star-rate">
-            <em class="lb">Рейтинг:  {{rate.fixed}}</em> {{#starRate}} {{^.}}
-            <i class="icon-star_border srated{{rate.formatted}}"></i>{{/.}} {{#.}}
-            <i class="icon-star srated{{rate.formatted}}"></i>{{/.}} {{/starRate}}
-        </div>
-        {{/rate}}
-        {{^rate}}
-        <div class="no-records">Рейтинг пока не опубликован</div>
-        {{/rate}}
-        {{/region}}
 
-        <ul id="details-rate" class="rates">
-            {{#getRates}}
-            <li class="overflow" title="{{category}}"><b class="ank-rate rated{{rate.formatted}}">{{rate.fixed}}</b>{{category}}</li>
-            {{/getRates}} {{^getRates}}
-            <li class="no-records"> Нет рейтинга </li>
-            {{/getRates}}
-            <li class="info"><a class="sub-item sub-active-item" href="#" title="Как формируется рейтинг?"><span class="s-title">Как формируется рейтинг?</span></a></li>
-        </ul>
+            <div class="tel " title="Телефон дежурной части"><div class="tel-name">Дежурная часть:</div> <span></span> {{#tel}} <u>{{.}}</u> {{/tel}}</div>
+            {{#rate}}
+            <div id="details-rate-toggle" class="btn-ank star-rate">
+                <em class="lb">Рейтинг:  {{rate.fixed}}</em> {{#starRate}} {{^.}}
+                <i class="icon-star_border srated{{rate.formatted}}"></i>{{/.}} {{#.}}
+                <i class="icon-star srated{{rate.formatted}}"></i>{{/.}} {{/starRate}}
+            </div>
+            {{/rate}}
+            {{^rate}}
+            <div class="no-records">Рейтинг пока не опубликован</div>
+            {{/rate}}
+            {{/region}}
+
+            <ul id="details-rate" class="rates">
+                {{#getRates}}
+                <li class="overflow" title="{{category}}"><b class="ank-rate rated{{rate.formatted}}">{{rate.fixed}}</b>{{category}}</li>
+                {{/getRates}} {{^getRates}}
+                <li class="no-records"> Нет рейтинга </li>
+                {{/getRates}}
+                <li class="info"><a class="sub-item sub-active-item" href="#" title="Как формируется рейтинг?"><span class="s-title">Как формируется рейтинг?</span></a></li>
+            </ul>
+          </div>
         {{#region}}
-        <div class="contacts">
-            <div class="real-hot-line" title="Горячая линия о нарушениях"> <span class="hot-line"><i class="icon-phone"></i> {{hotLine}}</span> - горячая линия о нарушениях</div>
-            <a class="hot-line btn" title="Подать заявление через электронную приёмную" href="https://78.xn--b1aew.xn--p1ai/request_main" target="_blank">Отправить обращение</a><div class="real-hot-line">для составления обращения воспользуйтесь <a title="Составить обращение о нарушениях" href="#">Конструктором обращений</a></div>
+            <div class="real-hot-line" title="Горячая линия о нарушениях"> <span class="hot-line">{{hotLine}}</span> - горячая линия о нарушениях</div>
+            <a class="hot-line btn" title="Подать заявление через электронную приёмную" href="https://78.xn--b1aew.xn--p1ai/request_main" target="_blank">Отправить обращение</a><div class="real-hot-line obr">для составления обращения воспользуйтесь <a title="Составить обращение о нарушениях" class="url" href="https://formalist.info/partners/?user=5a3687975163f15af17255c8">Конструктором обращений</a></div>
         </div>
         {{#personName}}
         <h6 class="sub-header">Начальник </h6>
@@ -71,27 +73,29 @@
             <h1 class="name"> {{personName}} </h1>
             <h2 class="rank"> {{personRank}} </h2>
             <div class="desc"><span class="prop-title">Принимает посетителей:</span> {{personTime}}</div>
-            <h3 class="tel"><span class="prop-title">Записаться на прием:</span> <i class="icon-phone"></i> {{personTel}}</h3> {{#personTime}}
+            <h3 class="tel"><div class="prop-title">Записаться на прием:</div><span></span><u>{{personTel}}</u></h3> {{#personTime}}
             <p class="tip"> Актуальное время приёма может отличаться от указанного, для записи уточняйте график по телефону</p>
             {{/personTime}}
         </div>
         {{/personName}}
         <h6 class="sub-header">Деятельность ОВД</h6>
-        <div>
+        <div class="sub-details">
+          <div>
             {{#report}}
             <div class="sub-item" target="_blank" href="#">
-                <span class="s-title">Отчет руководителя</span>
-                <span class="s-val">{{report}}</span>
+              <span class="">Отчет руководителя</span>
+              <div class="s-val">{{report}}</div>
             </div> {{/report}} {{#comm}}
             <a class="sub-item sub-active-item" target="_blank" href="#">
-                <span class="s-title">Комментарии: </span>
-                <span class="s-val">{{comm}}</span>
+              <span class="s-title">Комментарии: </span>
+              <span class="s-val">{{comm}}</span>
             </a> {{/comm}}
+          </div>
         </div>
         {{#press.length}}
-        <div class="sectors sub-list">
+        <div class="sectors sub-list news">
             <h6 class="sub-header">Новости </h6> {{#press}}
-            <a class="sub-item sub-active-item" target="_blank" href="{{1}}">
+            <a class="sub-item url" target="_blank" href="{{1}}">
                 <span class="s-title">{{0}}</span>
                 <!-- <span  class="s-val">{{1}}</span> -->
             </a> {{/press}}
@@ -100,10 +104,10 @@
         {{/region}}
         <div id="region-comments"></div>
         <div class="sectors more sub-list" id="region-more">
-            <h6 class="sub-header">Подробнее</h6>
+            <h6 class="sub-header">Больше информации <i class="icon-angle-down"></i></h6>
             <ul>
                 {{#department}}{{#department}}
-                <li class="sub-item sub-active-item dep-regions">
+                <li class="sub-item dep-regions">
                     <span class="s-title">Подчиняется {{name}}</span>
                     <span class="s-val">{{addr}}</span>
                 </li>
@@ -112,8 +116,8 @@
                     <div class="s-title">Контакты прокуратуры</div>
                     <div class="s-val">{{prokName}}</div>
                     <div class="s-val">{{prokAddr}}</div>
-                    <div class="s-val tel"><i class="icon-phone"></i>{{prokTel}} (дежурный прокурор)</div>
-                    <a class="s-val hot-line" title="Подать заявление в прокуратуру через электронную приёмную" href="{{prokPriemnaya}}" target="_blank">Обратиться в прокуратуру</a><span class="s-val"> (электронная приемная)</span>
+                    <div class="s-val tel"><span></span><u>{{prokTel}}</u> (дежурный прокурор)</div>
+                    <a class="s-val hot-line url" title="Подать заявление в прокуратуру через электронную приёмную" href="{{prokPriemnaya}}" target="_blank">Обратиться в прокуратуру</a><span class="s-val"> (электронная приемная)</span>
                 </li>
                 {{/prokName}} {{#bezop}}
                 <li class="sub-item">
@@ -267,17 +271,21 @@
         <div class="img-wrap">
             <div class="img" style="background-image: url('//static.mvd.ru/upload/site79/document_district/{{photo}}') "></div>
         </div>
-        <h1 class="name capitalize-all">{{name}} </h1>
-        <h2 class="rank"> {{rank}} </h2>
-        <div class="addr">{{raddr}}</div>
+        <h1 class="name capitalize-all">
+          {{name}}
+          <div class="rank"> {{rank}} </div>
+        </h1>
+
+        <div>Время приёма:</div>
         <div class="desc">{{time}}</div>
         <div class="contacts">
-            <div class="tel"> <i class="icon-phone"></i> {{tel}}</div>
+            <div class="tel"> <span></span><u>{{tel}}</u></div>
+            <div class="addr">{{raddr}}</div>
         </div>
         <div class="clear"></div>
         {{#region}} {{#department}} {{#department}}
-        <div class="contacts">
-            <a class="hot-line btn" title="Подать заявление через электронную приёмную" href="{{priemnaya}}" target="_blank">Отправить обращение</a><div class="real-hot-line">для составления обращения воспользуйтесь <a title="Составить обращение о нарушениях" href="#">Конструктором обращений</a></div>
+        <div>
+            <a class="hot-line btn" title="Подать заявление через электронную приёмную" href="{{priemnaya}}" target="_blank">Отправить обращение</a><div class="real-hot-line obr">для составления обращения воспользуйтесь <a class="url" title="Составить обращение о нарушениях" href="https://formalist.info/partners/?user=5a3687975163f15af17255c8">Конструктором обращений</a></div>
         </div>
         {{/department}} {{/department}}
         <div class="sectors sub-list" id="dep-regions">
@@ -301,7 +309,7 @@
         <ul class="streets ">
             {{#streets}}
             {{#numbers.length}}
-            <li class="street">
+            <li class="street sub-list">
                 <h4 class="title">{{name}}</h4>
                 <div class="numbers ">
                     {{#numbers}}
@@ -313,15 +321,15 @@
         </ul>
         {{#region}}
         <div class="sectors more sub-list" id="sector-more">
-            <h6 class="sub-header">Подробнее о работе и обязанностях участкового</h6>
+            <h6 class="sub-header">Больше информации <i class="icon-angle-down"></i></h6>
             <ul>
                 {{#department}}{{#department}} {{#prokName}}
                 <li class="sub-item">
                     <div class="s-title">Контакты прокуратуры</div>
                     <div class="s-val">{{prokName}}</div>
                     <div class="s-val">{{prokAddr}}</div>
-                    <div class="s-val tel"><i class="icon-phone"></i>{{prokTel}} (дежурный прокурор)</div>
-                    <a class="s-val hot-line" title="Подать заявление в прокуратуру через электронную приёмную" href="{{prokPriemnaya}}" target="_blank">Обратиться в прокуратуру</a><span class="s-val"> (электронная приемная)</span>
+                    <div class="s-val tel"><span></span><u>{{prokTel}}</u>(дежурный прокурор)</div>
+                    <a class="s-val hot-line url" title="Подать заявление в прокуратуру через электронную приёмную" href="{{prokPriemnaya}}" target="_blank">Обратиться в прокуратуру</a><span class="s-val"> (электронная приемная)</span>
                 </li>
                 {{/prokName}} {{#bezop}}
                 <li class="sub-item">

@@ -24,6 +24,7 @@
 <script data-template="regionComments" type="text/template">
     <div class="details-comments">
         <h6 class="sub-header">Отзывы </h6>
+        <div class="sub-details">
         <ul>
             {{#.}}
             <li class="comment accepted-{{accepted}}" >
@@ -43,13 +44,14 @@
         <div class="comment-form">
             <form onsubmit="return false">
                 <input type="text" name="" placeholder="Ваше имя" id="region-comment-name" >
-                <input type="email" name="email" placeholder="Ваше email (обязательное поле)" id="region-comment-email" required>
+                <input type="email" name="email" placeholder="Ваш email (обязательное поле)" id="region-comment-email" required>
                 <textarea id="region-comment-text" placeholder="Оставьте свой отзыв (обязательное поле)" rows="4" required></textarea>
-                <div class="tip"> <i class="icon-info"></i> Ваш отзыв пройдет премодерацию. E-mail не будет опубликован. </div>
                 <div class="btns">
                     <button id="region-comment-submit" type="submit" class="btn btn-primary btn-accept"> Отправить</button>
+                    <div class="tip">Ваш отзыв пройдет премодерацию. E-mail не будет опубликован. </div>
                 </div>
             </form>
         </div>
+      </div>
     </div>
 </script>

@@ -27,7 +27,7 @@ $(function() {
         $('#search-msg').addClass('shown').on('click', function() {
             $(this).removeClass('shown')
         });
-        setTimeout(function() { $('#search-msg').removeClass('shown'); }, 10000)
+        setTimeout(function() { $('#search-msg').removeClass('shown'); }, 60000)
 
         var $txtSearch = $('#txt-search')
             .on('focus', function() { this.select() })
@@ -56,7 +56,7 @@ $(function() {
                         o.select(true)
                     } else if (dsind == 3) { //sector
                         (o.location || o).select(true)
-                    } 
+                    }
                     State.addState({query : args.query})
                 }
             })
@@ -92,7 +92,7 @@ $(function() {
 
         $('#btn-search').on('click', function() {
             autocomplete.search();
-        }) 
+        })
         $('#btn-search-empty').on('click', function() {
             autocomplete.empty();
         })
@@ -215,7 +215,7 @@ $(function() {
 
             console.log('res', res)
             success(res)
-            
+
             //console.log(res)
             return API.resolveAddr(city, q, function(data) {
                 console.log('resolve yandex', q, data)
