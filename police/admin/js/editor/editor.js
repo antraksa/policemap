@@ -196,31 +196,41 @@ $(function() {
                 $('#edit-news-template').data('init', function(cell) {
                     var $this = $('#edit-news-template').show();
                     var original = JSON.parse(JSON.stringify(cell.item.press)); 
-                    console.log(this,original)
-                    $('#edit-news').html(Mustache.render(templates.editNews, cell.item.press)).find('li').each(function() {
-                        var ind = $(this).index(), item = cell.item.press[ind];
-                        var $li = $(this);
-                        
-                        $li.find('input').on('change', function() {
-                            var iind = $(this).index();
-                            var val = $(this).val();
-                            cell.item.press[ind][iind] = val;
-                            $li.find('.val').eq(iind).html(val)
-                            console.log('change', $(this).val(), ind, iind)
+                    function renderNews() {
+                        $('#edit-news').html(Mustache.render(templates.editNews, cell.item.press)).find('li').each(function() {
+                            var ind = $(this).index(), item = cell.item.press[ind];
+                            var $li = $(this);
+                            
+                            $li.find('input').on('change', function() {
+                                var iind = $(this).index();
+                                var val = $(this).val();
+                                cell.item.press[ind][iind] = val;
+                                $li.find('.val').eq(iind).html(val)
+                                console.log('change', $(this).val(), ind, iind)
+                            })
+                            
+                            $li.find('.remove').on('click', function(e) {
+                                cell.item.press.splice(ind, 1);
+                                $li.remove();
+                                e.stopPropagation();
+                            });
+                            $li.on('click', function( ) {
+                                $li.addClass('selected').siblings().removeClass('selected');
+                            })
                         })
-                        
-                        $li.find('.remove').on('click', function(e) {
-                            cell.item.press.splice(ind, 1);
-                            $li.remove();
-                            e.stopPropagation();
-                        });
-                        $li.on('click', function( ) {
-                            $li.addClass('selected').siblings().removeClass('selected');
-                        })
-                    })
+                    }
+                    renderNews()
+
                     $('#btn-news-save')[0].onclick = function() {
                         $this.hide();
                         changeCell(cell, cell.item.press)
+                    }
+                    $('#btn-news-add')[0].onclick = function() {
+                        cell.item.press.push(['','']);
+                        renderNews();
+                        $('#edit-news').scrollTop(1000);
+                        $('#edit-news li').last().addClass('selected')
+
                     }
                     $('#btn-news-cancel')[0].onclick = function() {
                         $this.hide();

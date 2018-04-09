@@ -122,6 +122,9 @@ var ObjectWrapper = (function() {
             doSelect = function(val) {
                 var $p = $('#point-icon-' + type + '-' + obj.number()).addClass('marked');
                 var iconUrl = (val ? 'css/img/icons/geo/{0}-selected.svg' : 'css/img/icons/geo/{0}.svg').format(type);
+                 if (isAdmin) {
+                    iconUrl = '../' + iconUrl;
+                }
                 $p.css('background-image', 'url({0})'.format(iconUrl));
             }
             doSelect(true);

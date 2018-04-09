@@ -378,7 +378,7 @@ body {height: 100%;position: relative;min-height: 100%;}
 .anketa .subject-title {font-size: 16px;margin-bottom: 20px;}
 .anketa.edit-mode .subject-title { display: none }
 .anketa .item .check {font-size: 12px;line-height: 30px;display: none;}
-.anketa .item.checked .check { display: block }
+.anketa .item.checked .check {display: block;color: #000;}
 .anketa .item.empty b {background: rgba(255, 255, 255, 0.4); background: #dfdfdf;}
 .anketa .ank-temp {}
 .anketa .ank-content {overflow-y: auto;padding: 0 20px 30px;top: 70px;left: 0;position: absolute;bottom: 0;right: 0;z-index: 3;}
@@ -395,7 +395,7 @@ body {height: 100%;position: relative;min-height: 100%;}
 
 
 
-.anketa .title{display: block;margin-left: 0;margin-right: 20px;font-size: 12px;cursor: default;}
+.anketa .title{display: block;margin-left: 0;margin-right: 20px;font-size: 12px;cursor: default;color: #333;}
 .anketa.edit-mode .title, .anketa.edit-mode .weight, .anketa.edit-mode .new-template .cat{background: #f2f2f3;border-radius: 0;/* color: #333; */height: 30px;/* user-select: none; */}
 .anketa.edit-mode .editable:focus, .anketa .weight:focus , .anketa.edit-mode input[type="text"]:focus  {background: rgba(234, 115, 48, 0.21) !important; color: #000}
 .anketa.edit-mode .title { padding: 0 10px }
@@ -426,7 +426,7 @@ body {height: 100%;position: relative;min-height: 100%;}
 .new-template :-ms-input-placeholder   {line-height: 30px; color:#777;}
 .new-template .cat {width: 100px;float: left;margin-right: 4px;}
 .anketa  .list {max-height: 1000px;transition: ease-in-out 0.5s max-height;overflow: hidden;margin-bottom: 4px;}
-.anketa .category {line-height: 20px;font-size: 13px;/* text-transform: capitalize; */font-weight: bold;margin-bottom: 6px;padding-bottom: 6px;color: #555;cursor: pointer;}
+.anketa .category {line-height: 20px;font-size: 13px;text-transform: capitalize;font-weight: bold;margin-bottom: 6px;padding-bottom: 6px;color: #555;cursor: pointer;}
 .anketa .category .stat {overflow: hidden;margin-right: 10px;float: left;font-size: 11px;}
 .anketa .category .stat q, .anketa .category .stat u {float: left;line-height: 20px;/* padding: 0 6px; *//* color: #fff; */background: rgba(255, 255, 255, 0.9);width: 20px;text-align: center;}
 .anketa .category .stat q {background: rgba(255, 255, 255, 0.89);}

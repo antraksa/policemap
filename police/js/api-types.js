@@ -74,7 +74,7 @@ $(function() {
                 "name": "press",
                 "edit": true,
                 "width": "400px",
-                "template": "{{#.}} <div>{{0}} $<i>{{1}}</i>;</div>{{/.}}",
+                "template": "{{#.}} <div>{{0}} ,<i>{{1}}</i>;</div>{{/.}}",
                 editTemplate : 'edit-news-template'
             }, {
                 "name": "point",

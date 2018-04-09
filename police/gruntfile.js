@@ -7,6 +7,7 @@ module.exports = function(grunt) {
             main: 'dist/js/main.js',
             admin: 'dist/admin/js/admin.js',
             libs: ['dist/js/libs.js', 'https://api-maps.yandex.ru/2.1/?lang=ru_RU'],
+            libsOnly: ['dist/js/libs.js'],
             editor: ['dist/js/common.js', 'admin/js/editor/editor.js']
         },
         beautify: true,
@@ -53,6 +54,8 @@ module.exports = function(grunt) {
                     { expand: true, src: ['php/**'], dest: 'dist/' },
                     { expand: true, src: ['css/libs/**'], dest: 'dist/' },
                     { expand: true, src: ['css/img/**'], dest: 'dist/' },
+                    { expand: true, src: ['css/img/icons/geo/**'], dest: 'dist/' },
+                    { expand: true, src: ['css/img/icons/new/**'], dest: 'dist/' },
                     { expand: true, src: ['css/static.css'], dest: 'dist/' },
                     { expand: true, src: ['css/static-new.css'], dest: 'dist/' },
                     { expand: true, src: ['css/style.css'], dest: 'dist/' },

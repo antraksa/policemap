@@ -1,6 +1,6 @@
-.bgc {background: #205e62;}
+.bgc {background: #8b3d4b;}
 .all {     overflow: hidden;    height: 100%;}
-.parser .toolbar {width: 250px;}
+.parser .toolbar {width: 250px;height: 100%;}
 .mt .btn, .mt-toggle{display: block;margin-bottom: 1px;background: rgba(255, 243, 119, 0.68);font-size: 11px;border-radius: 0;}
 .mt-toggle, .mt {
     text-transform: uppercase;
@@ -24,24 +24,25 @@
 .mt-toggle.selected {/* background: rgba(255, 255, 255, 0.77); */}
 .mt-toggle.selected + .mt {max-height: 500px}
 .mt {/* padding: 10px; */box-sizing: border-box;transition: max-height 0.3s;/* max-height: 0; */overflow: hidden;margin-bottom: 31px;position: absolute;z-index: 2;width: 300px;top: 0;}
-.values {position: relative;margin-left: 250px;/* background: rgba(255, 255, 255, 0.46); */overflow: auto;}
+.values {position: relative;margin-left: 250px;/* background: rgba(255, 255, 255, 0.2); */overflow: auto;height: 100%;}
 .flex {flex-direction: row; display: flex;}
 .item {}
 .cell {border-right: 1px solid rgba(255, 255, 255, 0.39);display: block;}
 .values .cell{padding: 4px 8px;overflow: hidden;box-sizing: border-box;max-height: 38px;flex-shrink: 0;/* overflow-y: auto; *//* white-space: nowrap; */font-size: 12px;line-height: 16px;/* min-height: 30px; */}
 .table-header {position: absolute;/* background: rgba(255, 255, 255, 0.63); *//* right: 0; */left: 0;top: 0;transition: top 0.3s 0.3s;}
-.table-body .cell {background: rgba(255, 255, 255, 0.8);transition: background 0.3s;}
-.item.current .cell{background: rgba(255, 255, 255, 0.9);overflow-y: auto;max-height: 100px;}
-.item.current .cell.edited {background: #fff;box-shadow: 0 0 5px rgba(0, 0, 0, 0.31);}
+.table-body .cell {background: rgba(255, 255, 255, 0.1);transition: background 0.3s;}
+.item.current .cell{background: rgba(255, 255, 255, 0.3);overflow-y: auto;max-height: 100px;}
+.item.current .cell.edited {background: #fff;box-shadow: 0 0 5px rgba(0, 0, 0, 0.31); color: #000}
 .history-list ul {overflow-y:auto;bottom: 40px;position: absolute;right: 0;left: 0;top: 68px;}
 .cell div {margin-bottom: 4px;border-bottom: 1px solid #ffffffdb;padding-bottom: 4px;}
-.cell i { color: #777 }
+.cell i {color: #fff;text-decoration: underline;}
 .table-header .header-cell{padding: 10px;color: rgba(255, 255, 255, 0.9);text-transform: uppercase;font-size: 11px;}
 .table-body {padding-top: 36px;/* position: absolute; *//* overflow: auto; *//* background: rgba(255, 255, 255, 0.46); */}
 .table-body .current .cell-key {/* padding-left: 30px; */}
 .city-toggle, .city-popup a {font-size: 12px;padding: 0 10px;line-height: 30px;background: rgba(255, 255, 255, 0.58);display: block;}
 .city-popup {width: 250px;margin: 0;}
 .parser .cell-popup {display: block;margin-left: 52px;margin-top: -5px;overflow: auto;max-height: 182px;width: 251px;}
+
 
 .dialog {position: fixed;background: #8b3d4b;display: none;top: 100px;left: calc(50% - 150px);width: 300px;padding: 20px;}
 .news-dialog input{margin: 4px 0;}
@@ -57,8 +58,9 @@
 	margin-bottom: 1px;
 	padding: 10px;
 	overflow: hidden;
-	background: #ffffffb8;
+	background: #ffffff59;
 }
+.news-dialog .btn-add{ float: left; }
 .news .remove {float: right;padding: 10px;background: #ffffff73;margin-left: 10px;}
 .news li a{
     margin-top: 7px;
