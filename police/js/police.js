@@ -317,7 +317,8 @@
         })
 
         function location(success, error) {
-            loading(true)
+            loading(true);
+            Core.trigger('location.start', {})
             navigator.geolocation.getCurrentPosition(function(location) {
                 var p = [location.coords.latitude, location.coords.longitude];
                 success(p);
@@ -389,13 +390,16 @@
             Core.trigger('mess', { mess: 'Все совсем плохо. Ошибка в скриптах', error: true })
         }
         $('#legend-toggle').on('click', function() {
-            $(this).parent().toggleClass('collapsed');
             $('body').toggleClass('legend-collapsed');
             resizeMap();
         })
         $('.pane-toggle').on('click', function() {
             $(this).parents('.pane').toggleClass('collapsed')
             resizeMap();
+        })
+
+        $('#mobile-menu').on('click', function() {
+            $('body').toggleClass('mobile-menu-expanded');
         })
 
         Core.on('map.resized', resizeMap);

@@ -11,7 +11,7 @@ module.exports = function(grunt) {
         },
         beautify: true,
         sections: {
-            home : 'html/toolbar.html',
+            home : 'html/home.html',
             toolbar: 'html/toolbar.html',
             details: 'html/details.html',
             map: 'html/map.html',
@@ -28,7 +28,7 @@ module.exports = function(grunt) {
             },
             target: {
                 files: {
-                    "dist/css/main.css": ['css/reset.css', 'css/style.css', 'css/police.css', 'css/view.css']
+                    "dist/css/main.css": ['css/reset.css', 'css/style.css', 'css/police.css', 'css/view.css', 'css/mobile.css']
                 }
             }
         },
@@ -49,9 +49,12 @@ module.exports = function(grunt) {
             main: {
                 files: [
                     { expand: true, src: ['css/fonts/**'], dest: 'dist/' },
+                    { expand: true, src: ['*.php'], dest: 'dist/' },
+                    { expand: true, src: ['php/**'], dest: 'dist/' },
                     { expand: true, src: ['css/libs/**'], dest: 'dist/' },
                     { expand: true, src: ['css/img/**'], dest: 'dist/' },
                     { expand: true, src: ['css/static.css'], dest: 'dist/' },
+                    { expand: true, src: ['css/static-new.css'], dest: 'dist/' },
                     { expand: true, src: ['css/style.css'], dest: 'dist/' },
                     { expand: true, src: ['css/pages.css'], dest: 'dist/' },
                     { expand: true, src: ['css/editor.css'], dest: 'dist/' },

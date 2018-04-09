@@ -106,10 +106,15 @@ $(function() {
                 $('#photo-large').addClass('expanded').find('#photo-large-img').css('background-image', $(this).css('background-image'))
             })
         }
-        $('#photo-large .btn-close, #info-holder .btn-close').on('click', function() {
-            $('#photo-large').removeClass('expanded')
-            $('#info-holder').removeClass('expanded')
-        })
+        $('#photo-large .btn-close, #info-holder .btn-close').on('click', closeHolders)
+        
+        Core.on('search.click', closeHolders)
+
+        Core.on('location.start', closeHolders)
+
+        function closeHolders() {
+            $('#photo-large, #info-holder').removeClass('expanded');
+        }
 
         Core.on('sector.select', function(args) {
             renderSector(args.sector, args.focus);

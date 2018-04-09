@@ -57,7 +57,9 @@ $(function() {
                     } else if (dsind == 3) { //sector
                         (o.location || o).select(true)
                     }
-                    State.addState({query : args.query})
+                    var sargs = {query : args.query};
+                    State.addState(sargs);
+                    Core.trigger('search.click', sargs)
                 }
             })
 
