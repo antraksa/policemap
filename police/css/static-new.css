@@ -46,11 +46,11 @@ a:hover {color: #fff;text-decoration:  none;}
 
 .container {width: 100%;position: relative;}
 .home-map {width:33%;/* position:  relative; */}
-.home-map .city-point  {width: 10px;height:  10px;background: #f00;position: absolute;z-index: 1;border: #fff 2px solid;border-radius: 100%;width: 30px;height: 30px;margin-left: -15px;margin-top: -15px;display: block;box-shadow: 0 0 10px #000;}
+.home-map .city-point  {width: 10px;height:  10px;background: #f00;background: url('img/geoteg_40x50_main.svg');background-size:  100%;position: absolute;z-index: 1;/* border: #fff 2px solid; *//* border-radius: 100%; */width: 38px;height: 50px;/* margin-left: -15px; *//* margin-top: -15px; */display: block;/* box-shadow: 0 0 10px #000; */}
 .home-map .city-point:hover {opacity: 0.5}
-.home-map .spb-point {top: 9%;left: 11%;}
-.home-map .msc-point {top: 49%;left: 49%;}
-.home-map .vo-point {top: 85%;left: 58%;}
+.home-map .spb-point {top: 3%;left: 7%;}
+.home-map .msc-point {top: 43.7%;left: 45.5%;}
+.home-map .vo-point {top: 80%;left: 53.5%;}
 .home-map .img {background-image: url(img/home-map-tall.jpg);background-repeat: no-repeat;background-size: auto 100%;/* background-position: left top; */position: absolute;width: 33%;height: 100%;background-position: center;background-size: cover;display: flex;align-items: center;}
 .home-map .rel {position: absolute;width: 100%;/* background: #00ff004a; */padding: 50%;}
 .home-info{width:67%;background-color: #a9d1e5;padding: 50px 50px 0 50px;position:  relative;}
@@ -123,6 +123,9 @@ form textarea {height: 200px;}
 
 @media screen and (max-width: 1400px) {
   .inner h3 {font-size: 22px;}
+  .home-map .spb-point {top: 2%;left: 7%;}
+  .home-map .msc-point {top: 42.7%;left: 45.3%;}
+  .home-map .vo-point {top: 79%;left: 53.5%;}
 }
 @media screen and (max-width: 1265px) {
   .inner .cities .link {padding: 20px;}
@@ -141,6 +144,9 @@ form textarea {height: 200px;}
   .inner .text-wrap {margin-top: 0px;}
   .inner #main-menu {left:0;margin-top:  18px;}
   nav > a {font-size: 14px;}
+  .home-map .spb-point {top: 0%;left: 6%;}
+  .home-map .msc-point {top: 40.7%;left: 44.5%;}
+  .home-map .vo-point {top: 77%;left: 52.5%;}
 
 }
 @media screen and (max-width: 1040px) {
@@ -155,6 +161,9 @@ form textarea {height: 200px;}
   .inner h1 {font-size: 22px;}
   .inner .text-wrap p, .inner .text-wrap ul, .inner .text-wrap p, .inner .text-wrap form {margin-left: 0px;font-size: 14px;}
   .inner .donate {width: 180px;margin-top: 5px;}
+  .home-map .spb-point {top: -2%;left: 6%;}
+  .home-map .msc-point {top: 37.7%;left: 43.5%;}
+  .home-map .vo-point {top: 75%;left: 51.5%;}
 }
 @media screen and (max-width: 925px) {
   .home-info {width: 100%;}
@@ -192,6 +201,9 @@ form textarea {height: 200px;}
 @media screen and (min-width: 1550px) {
     .home-info {padding: 100px 100px 50px 100px;}
     #index #main-menu {right: 100px;}
+    .home-map .spb-point {top:5%; left:8%;}
+    .home-map .msc-point {top: 45.7%; left: 46.3%;}
+    .home-map .vo-point {top: 82%;left: 54.5%;}
 }
 @media screen and (min-width: 1850px) {
     .home-info {padding: 150px 150px 100px 150px;}

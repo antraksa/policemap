@@ -675,3 +675,6 @@ body {height: 100%;position: relative;min-height: 100%;}
   .comment-form .btns {text-align: left;}
   .btn-icon {padding: 0;}
 }
+@media screen and (max-width: 1030px) {
+  .home nav {width: 270px;}
+}
