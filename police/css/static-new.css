@@ -46,7 +46,13 @@ a:hover {color: #fff;text-decoration:  none;}
 
 .container {width: 100%;position: relative;}
 .home-map {width:33%;/* position:  relative; */}
-.home-map div {background-image: url(img/home-map-2.jpg);background-repeat: no-repeat;background-size: auto 100%;background-position: left top;background-position:  no-repeat;position: absolute;width: 33%;height: 100%;}
+.home-map .city-point  {width: 10px;height:  10px;background: #f00;position: absolute;z-index: 1;border: #fff 2px solid;border-radius: 100%;width: 30px;height: 30px;margin-left: -15px;margin-top: -15px;display: block;box-shadow: 0 0 10px #000;}
+.home-map .city-point:hover {opacity: 0.5}
+.home-map .spb-point {top: 9%;left: 11%;}
+.home-map .msc-point {top: 49%;left: 49%;}
+.home-map .vo-point {top: 85%;left: 58%;}
+.home-map .img {background-image: url(img/home-map-tall.jpg);background-repeat: no-repeat;background-size: auto 100%;/* background-position: left top; */position: absolute;width: 33%;height: 100%;background-position: center;background-size: cover;display: flex;align-items: center;}
+.home-map .rel {position: absolute;width: 100%;/* background: #00ff004a; */padding: 50%;}
 .home-info{width:67%;background-color: #a9d1e5;padding: 50px 50px 0 50px;position:  relative;}
 .logo-wrap > * {display: inline-block;}
 .logo-wrap h1 {max-width: 200px;color:#fff;text-decoration: none;letter-spacing:  1px;padding-left:  10px;font-size:  30px;}

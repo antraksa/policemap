@@ -11,7 +11,14 @@
   <body id="index" class="pages static all">
     <div class="container">
       <div class="home-map right">
-        <div></div>
+        <div class="img">
+          <div class="rel">
+            <a href="police.html#city=0" class="city-point spb-point"></a>
+            <a  href="police.html#city=1" class="city-point msc-point"></a>
+            <a  href="police.html#city=2" class="city-point vo-point"></a>
+          </div>
+          
+        </div>
         <!--img src="css/img/home-map.png" alt="Карта полиции"-->
       </div>
       <div class="home-info">
