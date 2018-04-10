@@ -391,8 +391,12 @@
         }
         $('#legend-toggle').on('click', function() {
             $('body').toggleClass('legend-collapsed');
+            localStorage['legend-collapsed'] = $('body').hasClass('legend-collapsed')
             resizeMap();
         })
+        if (localStorage['legend-collapsed']) {
+            $('body').addClass('legend-collapsed')
+        }
         $('.pane-toggle').on('click', function() {
             $(this).parents('.pane').toggleClass('collapsed')
             resizeMap();
