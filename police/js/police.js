@@ -404,6 +404,9 @@
 
         $('#mobile-menu').on('click', function() {
             $('body').toggleClass('mobile-menu-expanded');
+            $('.donate, .mail-to').toggleClass('append')
+            $('#main-info-list').append($('.donate, .mail-to'));
+
         })
 
         Core.on('map.resized', resizeMap);
