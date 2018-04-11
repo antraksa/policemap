@@ -206,7 +206,7 @@ var ObjectWrapper = (function() {
             if (r.pol) map.geoObjects.remove(r.pol);
             var reg = r.region;
             if (!reg.coords || !reg.coords.length) return;
-            var pol = new ymaps.Polygon([reg.coords, []], { hintContent: reg.name }, { zIndex: 0, fillOpacity: 0.3, fillColor: r.color });
+            var pol = new ymaps.Polygon([reg.coords, []], { hintContent: reg.name }, { zIndex: 0, fillOpacity: 0.3, fillColor: '#62365A' });
             map.geoObjects.add(pol);
             pol.events.add('mouseenter', function(e) { r.hover(true) })
             pol.events.add('mouseleave', function(e) { r.hover(false) })
@@ -231,9 +231,9 @@ var ObjectWrapper = (function() {
         },
         clearStyle: function() {
             if (this.pol) {
-                this.pol.options.set('strokeWidth', 1)
+                this.pol.options.set('strokeWidth', 2)
                     .set('zIndex', 0)
-                    .set('strokeColor', '#777')
+                    .set('strokeColor', '#62365A')
                     .set('fillColor', this.color);
             }
         },
@@ -292,9 +292,9 @@ var ObjectWrapper = (function() {
             this.markPointOpacity(val);
             //if (this.place && !val) this.place.balloon.close();
             if (val && this.pol) {
-                this.pol.options.set('strokeWidth', 2)
+                this.pol.options.set('strokeWidth', 4)
                     //.set('zIndex', 11)
-                    .set('strokeColor', '#444');
+                    .set('strokeColor', '#62365A');
             } else {
                 this.clearStyle()
             }
