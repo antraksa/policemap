@@ -235,10 +235,10 @@ body {height: 100%;position: relative;min-height: 100%;}
 .details .photo, .photo-large {background-repeat: no-repeat;background-size: cover;cursor: pointer;background-position: center;/* border: 3px solid #bfe3f1; */}
 .details .photo {border: 2px solid #bfe3f1;}
 .photo-large, .info-holder {visibility: hidden;opacity: 0;background-color: #fff;position: fixed;position: relative;transition: opacity 0.5s ease-out,  visiblity 0s 0.5s;}
-.photo-large {background-color: rgba(29, 56, 84, 0.63);}
-.photo-large.expanded , .info-holder.expanded {position: fixed;top: 60px;left: 0;right: 0;bottom: 0;z-index: 3;transition: opacity 0.5s ease-out;background-color: rgba(255, 255, 255, 0.67);visibility: visible;opacity: 1;padding: 20px 0;}
+.photo-large {/* background-color: rgba(29, 56, 84, 0.63); */}
+.photo-large.expanded , .info-holder.expanded {position: fixed;top: 60px;left: 0;right: 0;bottom: 0;z-index: 3;transition: opacity 0.5s ease-out;background-color: #fff;visibility: visible;opacity: 1;padding: 20px 0;}
 .photo-large .icon-close, .info-holder .icon-close{cursor: pointer;position: absolute;top: 0;font-size: 30px;width: 50px;height: 50px;z-index: 1;/* background: rgba(255, 255, 255, 0.54); */text-align: center;line-height: 40px;color: #000;right: 0;padding: 20px;}
-.photo-large .icon-close:after, .info-holder .icon-close:after {content: 'Закрыть';font-size: 20px;font-family: Tahoma;position: absolute;left: -100px;/* background: #ffffffbf; */padding: 0 20px;top: 23px;}
+.photo-large .icon-close:after, .info-holder .icon-close:after {content: '';font-size: 20px;font-family: Tahoma;position: absolute;left: -100px;/* background: #ffffffbf; */padding: 0 20px;top: 23px;}
 .photo-large > div {position: absolute;top: 50px;left: 50px;right: 50px;bottom: 50px;background-repeat: no-repeat;background-size: contain;background-position: center;}
 .info-holder {}
 .info-holder .info-cont {background:#fff;/* width: 70%; */height: 100%;box-sizing: border-box;/* margin: 100px auto; */position: relative;}
@@ -646,7 +646,7 @@ body {height: 100%;position: relative;min-height: 100%;}
     .city-toggle {padding: 0 20px;}
     .main-list .item {padding: 8px 20px 8px 45px;}
     .main-list .item b {margin-left: 20px;}
-    .main-list .head-item {padding: 15px 20px;}
+    .main-list .head-item, .main-list .head-item:first-child {padding: 15px 20px;}
     .pane.toolbar, .home .left {width:230px;}
     .pane.details.collapsed ~ .results {margin-left: 230px;}
     .pane.details {left:230px;width: 360px;}
@@ -662,6 +662,9 @@ body {height: 100%;position: relative;min-height: 100%;}
     .i-department, .i-region, .i-sector, .i-department-transport, .i-department-water, .i-department-air {padding-right: 0;}
     .switch .line {height: 20px;}
     .btn-icon {padding: 0 5px;}
+    #info-holder-iframe {
+    padding: 0px 50px;
+}
 }
 @media screen and (max-width: 1150px) {
   .logo {font-size: 0px;width:50px;}

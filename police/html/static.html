@@ -1,69 +1,144 @@
 <script data-template="staticList" type="text/template">
-    <!DOCTYPE html>
-    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1">
-    <meta charset="utf-8">
-    <link rel="shortcut icon" type="image/png" sizes="16x16" href="favicon-16x16.png" >
-    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
-    <title>Карта полиции / {{city.name}}</title>
-    <link href="css/static.css" rel="stylesheet" media="screen">
-    <link href="css/style.css" rel="stylesheet" media="screen"> {{#scripts}} {{{.}}} {{/scripts}}
-    <link href="css/pages.css" rel="stylesheet" media="screen">
-    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400" rel="stylesheet">
-    <body class="pages static">
-    <div class="overlay">
-    </div>
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1">
+  <meta charset="utf-8">
+  <!--link href="css/static.css" rel="stylesheet" media="screen">
+  <link href="css/pages.css" rel="stylesheet" media="screen"-->
+  <link href="css/style.css" rel="stylesheet" media="screen">
+  <!-- <link href="css/police.css" rel="stylesheet" media="screen"> -->
+  <link href="css/static-new.css" rel="stylesheet" media="screen">
+  <link rel="shortcut icon" type="image/png" sizes="16x16" href="favicon-16x16.png" >
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+  <title>Все отделения полиции города {{city.name}}</title>
+  {{#scripts}} {{{.}}} {{/scripts}}
+    <body id="city" class="pages static all inner">
+
     <input type="hidden" id="city-ind" value="{{city.ind}}">
     <div class="all">
-        <header>
-        	<a href="/" title="На главную"><img src="css/img/logo.png" alt="Policemap">
-            <h1>Карта полиции</h1></a>
-            <h3>
-              <a class="full">Открыть карту</a>
-                <div class="hidden">
-                  <a class="full" href="police.html#city=2">Воронеж</a>
-                  <a class="full" href="police.html#city=0">Санкт-Петербург</a>
-                  <a class="full" href="police.html#city=1">Москва</a>
-                </div>
-
-            </h3>
-            <div class="search">
-              <i class="icon-search fgc"> </i>
-              <input type="text" placeholder="Адрес, Номер отдела или ФИО" id="txt-search">
-              <button  id="btn-search">Поиск</button>
-            </div>
+      <div class="container">
+        <header class="header-inner">
+          <div class="pad-inner logo-wrap">
+            <a class="" href="." title="На главную">
+              <img class="logo" src="css/img/logo-man-small.png" alt="Карта полиции">
+              <span class="logo-title">Карта полиции</span>
+            </a>
+          </div>
+          <div class="pad-inner menu-wrap right">
+            <a href="support.php" class="donate btn right">Поддержать Проект</a>
+            <nav id="main-menu">
+              <a href=".">Главная</a>
+              <a href="about.php">О проекте</a>
+              <a href="how-to-use.php">Как пользоваться</a>
+              <a href="http://policemap.tilda.ws/documents" target="_blank">FAQ о полиции</a>
+            </nav>
+          </div>
         </header>
+        <div class="pad-inner content right">
+          <div class="all text-wrap">
 
-        <div class="bread"><a href="/">Все города</a> / <span>Все подразделения города {{city.name}}</span></div>
+                  <!-- <div class="search">
+                    <i class="icon-search fgc"> </i>
+                    <input type="text" placeholder="Адрес, Номер отдела или ФИО" id="txt-search">
+                    <button  id="btn-search">Поиск</button>
+                  </div> -->
 
-        <div class="text">
-          <p>Нажмите на подразделение, чтобы открыть его на карте, оставить комментарий или узнать больше о рейтинге.</p>
+                  <h1>Отделения полиции {{city.name}}
+                  </h1>
+              <div>
+                <p class="note">Нажмите на подразделение, чтобы открыть его на карте, оставить комментарий или узнать больше о рейтинге.</p>
+              <div class="list">
+                  <ul class="regions" id="all-list">
+                      {{#departments}}
+                      <li class="head-item item overflow" data-dep-id="{{department.number}}">
+                          <a class="title" href="police.html#city={{city.ind}}&rowId={{ind}}&type=department" target="_blank">
+                              {{department.name}}
+                              {{#department}}
+                              <div class="reports">
+                                {{#rukReports}}
+                                <a class="sub-item url" target="_blank" href="{{rukReports}}"> Отчеты руководителя за 2016 год </a> /  {{/rukReports}}
+                                {{^rukReports}}
+                                <a class="no-records  ">Отчеты руководителя не опубликованы</a> /
+                                {{/rukReports}}
+                                {{#uchReports}}
+                                <a class="sub-item url" target="_blank" href="{{uchReports}}">Отчеты участковых за за 2016 год</a> {{/uchReports}}
+                                {{^uchReports}}
+                                <a class="no-records">Отчеты участковых не опубликованы</a>
+                                {{/uchReports}}
+                              </div>
+                              {{/department}}
+                          </a>
+                      </li>
+                      {{#regions}}
+                      <li class="item child-item published-{{anketaPublished}} brated{{rate.formatted}}" data-reg-id="{{region.number}}">
+                          <a class="title" href="police.html#city={{city.ind}}&rowId={{ind}}&type=region" target="_blank">
+                          <span title="{{name}}" class="title overflow"> {{region.name}}</span>
+                          <div id="details-rate-toggle" class="btn-ank star-rate">
+                              <span class="lb rate-up-{{rateUp}}">Рейтинг:  {{rate.fixed}}</span> {{#starRate}} {{^.}}
+                              <i class="icon-star_border srated{{rate.formatted}}"></i>{{/.}} {{#.}}
+                              <i class="icon-star srated{{rate.formatted}}"></i>{{/.}} {{/starRate}}
+                          </div>
+                          {{#region}}
+                          <span class="addr"> {{addr}}</span>
+                          <span class="tel " title="Телефон дежурной части"><span></span> {{#tel}} <u>{{.}}</u> {{/tel}}</span>
+                          <span class="name"> {{personName}} </span>
+                          <span class="rank"> {{personRank}} </span>
+                          {{/region}}
+                      </a>
+                      </li>
+                      {{/regions}} {{/departments}}
+                  </ul>
+              </div>
+          </div>
         </div>
-        <div class="list">
-            <ul class="regions" id="all-list">
-                {{#departments}}
-                <li class="head-item item overflow" data-dep-id="{{department.number}}">
-                    <a class="title" href="police.html#city={{city.ind}}&rowId={{ind}}&type=department" target="_blank">
-                        {{department.name}}
-                    </a>
-                </li>
-                {{#regions}}
-                <li class="item child-item published-{{anketaPublished}}" data-reg-id="{{region.number}}">
-                    <a href="police.html#city={{city.ind}}&rowId={{ind}}&type=region" target="_blank">
-                    <span title="{{name}}" class="title overflow"> {{region.name}}</span>
-                    <div id="details-rate-toggle" class="btn-ank star-rate">
-                        <em class="lb rate-up-{{rateUp}}">Рейтинг:  {{rate.fixed}}</em> {{#starRate}} {{^.}}
-                        <i class="icon-star_border srated{{rate.formatted}}"></i>{{/.}} {{#.}}
-                        <i class="icon-star srated{{rate.formatted}}"></i>{{/.}} {{/starRate}}
-                    </div>
-                    {{#region}}
-                    <span class="tel " title="Телефон дежурной части"> <i class="icon-phone"></i> {{#tel}} <u>{{.}}</u> {{/tel}}</span>
-                    <span class="name"> {{personName}} </span>
-                    <span class="rank"> {{personRank}} </span>
-                    {{/region}}
-                </a>
-                </li>
-                {{/regions}} {{/departments}}
-            </ul>
+      </div>
+
+        <div class="pad-inner sidebar right">
+          <nav class="cities">
+            <div class="link" >
+              <a class="city-link" href="police.html#city=0"></a>
+
+              <h3>Санкт-Петербург</h3>
+              <div class="summary">
+                <div class="item">
+                  УМВД: <b>27</b> /
+                  Отделов: <b>86  </b> /
+                  Участковых: <b>927  </b></a>
+                </div>
+                <div class="item inner-link">
+                  <a class="map-link" href="police.html#city=0">Показать на карте</a>
+                  <a class="transparent" href="static-spb.html">Отделения списком</a>
+                </div>
+              </div>
+            </div>
+            <div class="link" >
+              <a class="city-link" href="police.html#city=2"></a>
+              <h3>Воронеж</h3>
+              <div class="summary">
+                <div class="item">
+                  УМВД: <b>3</b> /
+                  Отделов: <b>7</b> /
+                  Участковых: <b>593</b></a>
+                </div>
+                <div class="item inner-link">
+                  <a class="map-link" href="police.html#city=2">Посмотреть на карте</a>
+                  <a class="transparent" href="static-vo.html">Отделения списком</a>
+                </div>
+              </div>
+            </div>
+            <div class="link" >
+              <h3>Москва</h3>
+              <div class="summary">
+                <div class="item">Данные обрабатываются
+                </div>
+              </span>
+            </div>
+          </nav>
+           <div class="text">
+             <p>Возникли вопросы или пожелания - напишите нам!</p>
+             <a class="contact btn" href="contact-us.php">Задать вопрос</a>
+           </div>
+        </div>
+        <div class="clear"></div>
+      </div>
         </div>
     </div>
 </script>

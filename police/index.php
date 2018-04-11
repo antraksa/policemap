@@ -17,7 +17,7 @@
             <a  href="police.html#city=1" class="city-point msc-point"></a>
             <a  href="police.html#city=2" class="city-point vo-point"></a>
           </div>
-          
+
         </div>
         <!--img src="css/img/home-map.png" alt="Карта полиции"-->
       </div>
@@ -25,7 +25,7 @@
         <div class="about left">
           <header>
             <a class="logo-wrap left" href="/" title="На главную">
-              <img class="logo" src="css/img/logo-man.png" alt="Карта полиции">
+              <img class="logo" src="css/img/logo.svg" alt="Карта полиции">
               <h1>Карта полиции</h1>
             </a>
 

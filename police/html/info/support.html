@@ -10,6 +10,8 @@
             <form onsubmit="return false">
                 <input type="number" name="" placeholder="Сумма в рублях" id="donate-amount">
                 <input type="email" name="email" placeholder="Ваше email (необязательно)" id="donate-email">
+                <input type="checkbox" name="agree" value="agree" class="agree" checked>Я принимаю <a href="#" data-link="html/info/oferta.html">Договор оферты</a> и <a href="#" data-link="html/info/policy.html" >Соглашение об использовании персональных данных</a><br>
+                <p id="warning">Для продолженич необходимо принять условия</p>
                 <div class="btns">
                     <button id="payButton" class="btn btn-primary btn-accept contact" type="submit">Поддержать</button>
                 </div>
@@ -19,7 +21,12 @@
   </div>
   <script src="../../libs/jquery-2.1.3.min.js"></script>
 
-
+  <script>
+  $('body').find('[data-link]').on('click', function() {
+      var link = $(this).attr('data-link');
+      $('#info-holder-iframe', parent.document).attr('src', link)
+  })
+  </script>
   <script type="text/javascript">
     var payHandler = function () {
           //требуется библиотека jquery
@@ -42,5 +49,11 @@
                   //действие при неуспешном платеже
               });
       };
-      $("#payButton").on("click", payHandler); //кнопка "Оплатить"
+      $("#payButton").on("click", function(){
+        if ($('input.agree').is(':checked')) {
+          payHandler()
+        } else {
+          $('#warning').show();
+        }
+      }); //кнопка "Оплатить"
   </script>

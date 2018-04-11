@@ -15,15 +15,15 @@
       require_once("php/header.php");
       ?>
 
-        <div class="pad-inner sidebar left">
+      <div class="pad-inner content right">
+        <?php
+        $html = file_get_contents('html/info/contact-us.html');
+        echo $html;
+        ?>
+      </div>
+        <div class="pad-inner sidebar right">
           <?php
           require_once("php/leftsidebar.php");
-          ?>
-        </div>
-        <div class="pad-inner content right">
-          <?php
-          $html = file_get_contents('html/info/contact-us.html');
-          echo $html;
           ?>
         </div>
         <div class="clear"></div>

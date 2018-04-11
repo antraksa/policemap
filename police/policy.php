@@ -4,9 +4,9 @@
   <?php
     require_once("php/head.php");
    ?>
-<title>О проекте</title>
-<meta name="description" content="Карта полиции помогает найти участкового, отдел полиции или УМВД по адресу" />
-<link rel="canonical" href="https://policemap.ru/about" />
+<title>Политика в отношении обработки персональных данных</title>
+<meta name="description" content="Политика в отношении обработки персональных данных" />
+<link rel="canonical" href="https://policemap.ru/policy" />
 </head>
   <body id="about" class="pages static all inner">
     <div class="container">
@@ -18,7 +18,7 @@
 
         <div class="pad-inner content right">
           <?php
-          $html = file_get_contents('html/info/about.html');
+          $html = file_get_contents('html/info/policy.html');
           echo $html;
           ?>
         </div>

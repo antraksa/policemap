@@ -106,8 +106,8 @@ $(function() {
                 $('#photo-large').addClass('expanded').find('#photo-large-img').css('background-image', $(this).css('background-image'))
             })
         }
-        $('#photo-large .btn-close, #info-holder .btn-close').on('click', closeHolders)
-        
+        $('#photo-large, #photo-large .btn-close, #info-holder .btn-close').on('click', closeHolders)
+
         Core.on('search.click', closeHolders)
 
         Core.on('location.start', closeHolders)
