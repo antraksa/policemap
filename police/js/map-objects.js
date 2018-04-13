@@ -121,7 +121,11 @@ var ObjectWrapper = (function() {
         if (obj && obj.place) {
             doSelect = function(val) {
                 var $p = $('#point-icon-' + type + '-' + obj.number()).addClass('marked');
-                var iconUrl = (val ? 'css/img/icons/geo/{0}-selected.svg' : 'css/img/icons/geo/{0}.svg').format(type);
+                var icon = type;
+                if (type == 'department' && obj.department.subIcon) {
+                    icon += '-' + obj.department.subIcon;
+                }
+                var iconUrl = (val ? 'css/img/icons/geo/{0}-selected.svg' : 'css/img/icons/geo/{0}.svg').format(icon);
                  if (isAdmin) {
                     iconUrl = '../' + iconUrl;
                 }
@@ -161,8 +165,11 @@ var ObjectWrapper = (function() {
         // var icon = obj.icon;
         // if (!icon) icon = 'sheriff.png';
         // if (type=='tmp-point') icon = 'arrested.png';
-
-        var iconUrl = 'css/img/icons/geo/{0}.svg'.format(type);
+        var icon = type;
+        if (type == 'department' && obj.subIcon) {
+            icon += '-' + obj.subIcon;
+        }
+        var iconUrl = 'css/img/icons/geo/{0}.svg'.format(icon);
         var emptyUrl = 'css/img/empty.png';
         if (isAdmin) {
             iconUrl = '../' + iconUrl;

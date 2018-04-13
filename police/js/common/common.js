@@ -20,6 +20,11 @@ var State = (function() {
         for (var key in args) {
             var sv = oldstate[key],
                 tv = args[key];
+            if (tv === null && oldstate[key]) {
+                changed = true;
+                delete oldstate[key]
+                break;
+            }
             if (!sv || sv != tv) {
                 changed = true;
                 oldstate[key] = tv;

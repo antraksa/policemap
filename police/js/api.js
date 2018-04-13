@@ -65,11 +65,25 @@ var API = (function() {
                     _regs[r.number] = reg;
                     return reg;
                 })
-                //deps[0].sort(function(a, b) { return a.number - b.number })
+                //deps[0].sort(function(a, b) { return a.number - b.number });
+                var allicons = []
                 var deps = deps[0].map(function(d, i) {
                     var dep = ObjectWrapper.wrapDepartment(d);
                     if (d.photo)
                         dep.photoLink = pref + 'data/photo/{0}/{1}'.format(city, d.photo);
+                    if (allicons.indexOf(d.icon) < 0) {
+                        allicons.push(d.icon);
+                    }
+                    if (d.icon.indexOf('train')>=0) {
+                        d.subIcon = 'transport';
+
+                    } else if (d.icon.indexOf('water')>=0) {
+                        d.subIcon = 'water';
+
+                    } else if (d.icon.indexOf('airport')>=0) {
+                        d.subIcon = 'air';
+
+                    }
                     dep.regions = d.regions.map(function(rnum) {
                         return _regs[rnum]
                     }).filter(function(o) {
@@ -84,6 +98,7 @@ var API = (function() {
                     return dep;
                     //console.log(d)
                 })
+                //console.log('allicons', allicons);
 
                 var areas = areas[0].map(function(a, i) {
                     return ObjectWrapper.wrapArea(a)

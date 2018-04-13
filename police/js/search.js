@@ -97,6 +97,7 @@ $(function() {
         })
         $('#btn-search-empty').on('click', function() {
             autocomplete.empty();
+            State.addState({query :  null})
         })
 
         function searchPoint(pos) {
