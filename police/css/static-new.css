@@ -109,6 +109,7 @@ footer {width: 100%;padding: 20px 50px;background-color: #62355a;color: #fff;}
 .page-more + .more-content, .page-more + #more-content {display: none;}
 .page-more.expanded + .more-content, .page-more.expanded + #more-content {display: block;}
 .text-wrap ul {list-style-type: disc;padding-left: 30px;}
+.text-wrap ul.dashed, .text-wrap ul.regions {list-style-type: none;padding-left: 0;}
 form {max-width: 500px;}
 form > * {width: 100%;}
 textarea, input {
@@ -127,11 +128,15 @@ form textarea {height: 200px;}
     line-height:  15px;
     /* margin-top: 22px; */
 }
+input[type=checkbox] {float: left;
+    width: auto;
+    margin-top: 6px;
+    margin-right: 10px;}
 #contactButton, #payButton {width: auto;min-width:  300px;font-size:  15px;font-family:  'Roboto', sans-serif;font-weight: 700;cursor:  pointer;border: 0;}
 .clearfix {content: "";
     clear: both;
     display: table;}
-#warning {display: none;}
+#warning {display: none;color: red;margin-left:  0;}
 
 /* STATIC CITIES */
 .inner .text-wrap p.note {background-color: #f9f9f9;display: inline-block;padding: 10px;margin-top: 20px;}

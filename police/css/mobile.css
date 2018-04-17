@@ -1,7 +1,7 @@
 .mobile-layout .pane {}
 .mobile-layout .home .main-info-list {display: none;}
 .mobile-layout .hello-mess  { display: none }
-.mobile-layout .logo {top: 0px;left: -13px;width: 0;font-size:  0;}
+.mobile-layout .logo {top: 13px;left: -13px;width: 0;font-size:  0;background: url('img/logo-mini.svg') no-repeat;background-size: auto 60%;}
 .mobile-layout .full-version {position: absolute;right: 4px;bottom: 4px;line-height: 30px;padding: 0 10px;color: #333;text-shadow: 0 0 5px #fff;}
 .mobile-layout .pane.results {margin: 0 !important;}
 .mobile-layout .pane.details {width: auto;display: none;position: absolute;top: 60px;right: 0;bottom: 0;left: 0;z-index: 1;}
