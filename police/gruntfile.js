@@ -29,7 +29,7 @@ module.exports = function(grunt) {
             },
             target: {
                 files: {
-                    "dist/css/main.css": ['css/reset.css', 'css/style.css', 'css/police.css', 'css/view.css', 'css/mobile.css']
+                    "dist/css/main.css": [ 'css/fonts.css', 'css/reset.css', 'css/style.css', 'css/police.css', 'css/view.css', 'css/mobile.css']
                 }
             }
         },
@@ -50,6 +50,7 @@ module.exports = function(grunt) {
             main: {
                 files: [
                     { expand: true, src: ['css/fonts/**'], dest: 'dist/' },
+                    { expand: true, src: ['.htaccess'], dest: 'dist/' },
                     { expand: true, src: ['*.php'], dest: 'dist/' },
                     { expand: true, src: ['php/**'], dest: 'dist/' },
                     { expand: true, src: ['css/libs/**'], dest: 'dist/' },

@@ -87,6 +87,12 @@ $(function() {
             $('#details-rate-toggle').on('click', function() {
                 $('#details-rate').toggleClass('expanded')
             })
+            $rdetails.find('.region-dep-link').on('click', function() {
+                console.log(region)
+                if (region.department)
+                    region.department.select(true)
+            })
+
             Core.trigger('details.rendered', { region: region, $rdetails: $rdetails })
             if (rdata.photo) initFoto($rdetails)
             initPanels($rdetails)
@@ -131,7 +137,7 @@ $(function() {
                 if (sector.region)
                     sector.region.select(true)
             })
-            $('#sector-dep-link').on('click', function() {
+            $sdetails.find('.sector-dep-link').on('click', function() {
                 console.log(sector.departments)
                 if (sector.region && sector.region.department)
                     sector.region.department.select(true)
