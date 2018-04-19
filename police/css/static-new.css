@@ -30,6 +30,7 @@ h3 {
 p {margin: 15px 0 0;}
 a {text-decoration: underline;font-weight: 700; color: #4c7998;cursor: pointer;}
 a:hover {color: #fff;text-decoration:  none;}
+b {font-weight: 700;}
 
 .btn {width:  100%;display: inline-block;padding: 10px;text-decoration:  none;text-transform:  uppercase;color:  #fff;text-align:  center;border-radius: 5px;}
 .donate {/* width: 100%; */background-color:  #e94944;/* margin-top: -100px; */}
@@ -169,6 +170,9 @@ input[type=checkbox] {float: left;
 .reports {text-transform: none;color: #4d4d4d;font-weight: 300;font-size: 12px;}
 .reports .no-records {text-decoration: none;color: #4d4d4d;font-weight:  300;}
 
+.images .text-image {display: inline-block;margin-right: 50px;}
+.images .text-image img {max-height: 100px;}
+
 
 @media screen and (max-width: 1400px) {
   .inner h3 {font-size: 22px;}
@@ -227,6 +231,7 @@ input[type=checkbox] {float: left;
   .inner .cities .link {width: 33%;display:  inline-block;vertical-align: top;}
   .pad-inner .text {width: 30%;margin:  0 auto;}
   .pad-inner, .header-inner .pad-inner {padding: 10px 20px;}
+  .pad-inner.sidebar, #index .nav-wrap {padding: 20px 20px 40px;}
   .inner .text-wrap {padding: 10px 0;}
 }
 @media screen and (max-width: 725px) {
@@ -237,16 +242,23 @@ input[type=checkbox] {float: left;
   .inner .logo-wrap  {width: 10%;}
   .inner #main-menu {display: block;vertical-align: middle;margin:  0;word-wrap: break-word;white-space: nowrap;/* float: left; *//* position:  absolute; *//* left: 70px; */}
   nav > a {/* display: inline; *//* line-height:  50px; *//* font-size:  11px; */float:  left;margin-top:  6px;}
-  .inner .donate {width: 115px;margin-top:  0;float:  right;font-size:  11px;}
+  .inner .donate {width: 115px;margin-top: 0px;float:  right;font-size:  11px;}
   #main-menu {width: 70%;}
   .regions .child-item {width: 49%;}
 }
 @media screen and (max-width: 600px) {
   .logo-wrap h1 {display: none;}
+
+  .inner .menu-wrap {width: 85%;}
   .about.left, .nav-wrap.right {float: left;width:100%;max-width: none;}
   .regions .child-item {width: 99%;}
 }
-@media screen and (max-width: 460px) {
+@media screen and (max-width: 475px) {
+  .inner .menu-wrap {width: 80%;}
+  .inner .logo {    margin-top: 10px;}
+  .inner .donate {margin-top: 10px;width:97px;}
+  .inner .logo-wrap  {width:17%;min-height:  110px;}
+  .inner .menu-wrap {padding-top:  15px;}
   body, nav > a {font-size: 12px;}
 
 }
@@ -261,4 +273,6 @@ input[type=checkbox] {float: left;
 @media screen and (min-width: 1850px) {
     .home-info {padding: 150px 150px 100px 150px;}
     #index #main-menu {right: 150px;}
+}
+x;}
 }
