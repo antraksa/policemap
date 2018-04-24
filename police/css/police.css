@@ -469,7 +469,7 @@ body {height: 100%;position: relative;min-height: 100%;}
 .comment .date {float: right;color: rgba(255, 255, 255, 0.35);font-size: 11px;font-weight: normal;}
 .comment.expanded .body{max-height: 200px; transition: max-height 0.5s ease-out, overflow-y 1s ease-out 1s;}
 
-.comments-popup {position: fixed;bottom: 0;right: 400px;background: rgb(54, 78, 103);z-index: 1;margin: 4px;width: 160px;}
+.comments-popup {position: fixed;bottom: 0;right: 0;background: rgb(54, 78, 103);z-index: 1;margin: 4px;width: 200px;}
 .comments-popup.expanded { width: 400px; }
 .comments-popup .toggle {padding: 0 10px;line-height: 30px;display: block;color: #ffa878;font-size: 12px;}
 .comments-popup .list {visibility: hidden;max-height: 0;transition: max-height ease-out 0.5s;overflow: hidden;overflow-y: auto;/* background: rgba(255, 255, 255, 0.46); */color: #000;font-size: 12px;}

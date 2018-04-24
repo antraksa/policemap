@@ -249,10 +249,14 @@ var ObjectWrapper = (function() {
             var num = r.region.number;
             var published = meta.data.published;
             if (published)
-                r.anketaPublished = published[num]
+                r.anketaPublished = published[num];
+
             var res = calcRate(anvalues[num]);
             if (res) {
-                if (!isAdmin && !r.anketaPublished) return;
+                if (!isAdmin && !r.anketaPublished) {
+                    console.log('не опубликован рейтинг', r)
+                    return;
+                }
                 r.rate = res.totalRate;
                 r.rates = res.rates;
                 r.color = getRateColor(r)

@@ -9,6 +9,12 @@ $(function() {
     // var ank1Url = useLocal  ? '../data/anketa1.csv?' + rand :  'https://docs.google.com/spreadsheets/d/1BfDEwci1YAcbQa-uSk8-ejSE6aTPgWRlIGnZ9Mm_cPc/pub?output=csv';
     // var ank2Url = useLocal  ? '../data/anketa2.csv?' + rand :  'https://docs.google.com/spreadsheets/d/1veV_YBTtjxK575FHg_u9sy_pOjCy9pPMXzon4NY1Vc4/pub?output=csv';
 
+
+    //getVo()
+    //getSpb();
+
+
+    
     function getSpb() {
         var city = 'spb';
         $.when($.getJSON("../data/{0}/poligoni_rayonov.geojson".format(city)),
@@ -39,8 +45,7 @@ $(function() {
             })
 
     }
-    getVo()
-    //getSpb();
+
 
     function getVo() {
         var city = 'vo';
@@ -278,8 +283,6 @@ $(function() {
         save('areas', city, areas)
         save('departments', city, departments)
 
-        save('meta', city, { "data": { "published": {} } })
-
         function parseAnketas(ankOtkr, ankDost) {
             var anfields = [],
                 anvalues = {};
@@ -301,7 +304,7 @@ $(function() {
                         return o == 'да' ? true : o == 'нет' ? false : null;
                     }))
 
-                    console.log(name, number, vals)
+                    //console.log(name, number, vals)
                     anvalues[number] = vals;
                 })
                 var fields = questions.map(function(f, i) {
@@ -314,8 +317,8 @@ $(function() {
             console.log('Парсим вторую анкету')
             parseAnk(csv(ankOtkr), 'открытость')
 
-            console.log('Вопросы', anfields)
-            console.log('Ответы', anvalues)
+            console.log('anfields', anfields)
+            console.log('anvalues', anvalues)
             save('anfields', city, { fields: anfields })
             save('anvalues',city, anvalues)
             var meta = {
@@ -326,6 +329,7 @@ $(function() {
                 published[key] = true
             }
             save('meta',city, meta)
+            console.log('meta', meta)
 
         }
     }
@@ -428,7 +432,7 @@ $(function() {
             })
         })
     }
-    validateSectors()
+    //validateSectors()
 
     function resolveSectors(pots, success) {
         var ind = 0;
