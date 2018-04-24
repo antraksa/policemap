@@ -39,7 +39,7 @@ $(function() {
             })
 
     }
-    //getVo()
+    getVo()
     //getSpb();
 
     function getVo() {
@@ -265,20 +265,20 @@ $(function() {
         console.log('departments', departments)
         console.log('regions', regions)
 
-        // if (ankOtkr && ankDost) {
-        //     parseAnketas(ankOtkr, ankDost)
-        // } else {
-        //     console.log('нет файлов анкет');
-        //     save('anvalues', city, [])
+        if (ankOtkr && ankDost) {
+            parseAnketas(ankOtkr, ankDost)
+        } else {
+            console.log('нет файлов анкет');
+            save('anvalues', city, [])
 
-        // }
+        }
 
 
-        //save('regions', city, regions)
-        //save('areas', city, areas)
-        //save('departments', city, departments)
+        save('regions', city, regions)
+        save('areas', city, areas)
+        save('departments', city, departments)
 
-        // save('meta', city, { "data": { "published": {} } })
+        save('meta', city, { "data": { "published": {} } })
 
         function parseAnketas(ankOtkr, ankDost) {
             var anfields = [],
@@ -316,8 +316,8 @@ $(function() {
 
             console.log('Вопросы', anfields)
             console.log('Ответы', anvalues)
-            //save('anfields', city, { fields: anfields })
-            //save('anvalues',city, anvalues)
+            save('anfields', city, { fields: anfields })
+            save('anvalues',city, anvalues)
             var meta = {
                 data:{published:{}, rateHistory : {}}
             }
@@ -325,7 +325,7 @@ $(function() {
             for (var key in anvalues) {
                 published[key] = true
             }
-            //save('meta',city, meta)
+            save('meta',city, meta)
 
         }
     }
