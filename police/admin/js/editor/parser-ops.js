@@ -14,7 +14,7 @@ $(function() {
     //getSpb();
 
 
-    
+
     function getSpb() {
         var city = 'spb';
         $.when($.getJSON("../data/{0}/poligoni_rayonov.geojson".format(city)),
@@ -397,8 +397,11 @@ $(function() {
             var map = {};
             rsectors.forEach(function(s, i)  {
                 var key = (s.name + s.addr).trim().toLowerCase();
-                if (s.photo)
-                    s.photo = s.photo.replace('//static.mvd.ru/upload/site79/document_district/', '')
+                if (s.photo) {
+                  s.photo = '//static.mvd.ru/upload/site79/document_district/' + s.photo;
+                  s.photo = s.photo.replace('//static.mvd.ru/upload/', '')
+
+                }
                 var os = map[key];
                 if (!os) {
                     map[key] = [s];
@@ -432,7 +435,7 @@ $(function() {
             })
         })
     }
-    //validateSectors()
+    //validateSpbSectors()
 
     function resolveSectors(pots, success) {
         var ind = 0;
