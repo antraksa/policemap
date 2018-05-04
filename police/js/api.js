@@ -55,8 +55,13 @@ var API = (function() {
                     persons = {}
                 var regions = regions[0].map(function(r, i) {
                     var reg = ObjectWrapper.wrapRegion(r);
-                    if (r.photo)
+                    if (r.photo){
+                      if (r.photo.indexOf('NO_PHOTO')>=0) {
+                        reg.photoLink = pref + 'data/photo/common/' + r.icon;
+                      } else {
                         reg.photoLink = pref + 'data/photo/{0}/{1}'.format(city, r.photo);
+                      }
+                    }
                     reg.ind = i;
                     if (r.personName) {
                         persons[r.personName.toLowerCase()] = { location: reg, locationName: r.name };
@@ -69,8 +74,13 @@ var API = (function() {
                 var allicons = []
                 var deps = deps[0].map(function(d, i) {
                     var dep = ObjectWrapper.wrapDepartment(d);
-                    if (d.photo)
+                    if (d.photo) {
+                      if (d.photo.indexOf('NO_PHOTO')>=0) {
+                        dep.photoLink = pref + 'data/photo/common/' + d.icon;
+                      } else {
                         dep.photoLink = pref + 'data/photo/{0}/{1}'.format(city, d.photo);
+                      }
+                    }
                     if (allicons.indexOf(d.icon) < 0) {
                         allicons.push(d.icon);
                     }
