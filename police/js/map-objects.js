@@ -52,7 +52,7 @@ var ObjectWrapper = (function() {
                 var w = fi.weight || 1,
                     cat = fi.category;
                 if (fi.hidden) return;
-                if (vals[i] == null) notFull = true;
+                if (vals[i] === null) notFull = true;
                 if (!count[cat]) count[cat] = 0;
                 if (!all[cat]) all[cat] = 0;
                 if (vals[i]) count[cat] += w;
@@ -62,11 +62,13 @@ var ObjectWrapper = (function() {
                 totalCount = 0;
             for (var cat in count) {
                 rates[cat] = getRate(count[cat] / all[cat]);
-                totalCount += count[cat];
-                total += all[cat];
-            }
 
-            return { totalRate: getRate(totalCount / total), rates: rates, notFull: notFull };
+                totalCount++;
+                total += count[cat] / all[cat];
+            }
+            //console.log('calcRate', count, total, totalCount, all)
+
+            return { totalRate: getRate(total /totalCount), rates: rates, notFull: notFull };
         }
     }
 
@@ -505,7 +507,7 @@ var ObjectWrapper = (function() {
             if (!map || !window.ymaps) return;
             var a = this.area;
             if (a.pol) map.geoObjects.remove(a.pol);
-            var pol = new ymaps.Polyline(a.coords, { hintContent: a.name }, { zIndex: 0, strokeOpacity: 0.7, fillOpacity: 0, strokeColor: '#592167', strokeWidth: 2 });
+            var pol = new ymaps.Polyline(a.coords, { hintContent: a.name }, { zIndex: 0, strokeOpacity: 1, fillOpacity: 0, strokeColor: '#f00', strokeWidth: 4 });
             this.pol = pol;
             map.geoObjects.add(pol);
         },

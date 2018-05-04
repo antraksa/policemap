@@ -14,7 +14,7 @@ $(function() {
     //getSpb();
 
 
-    
+
     function getSpb() {
         var city = 'spb';
         $.when($.getJSON("../data/{0}/poligoni_rayonov.geojson".format(city)),
@@ -71,7 +71,7 @@ $(function() {
                     deps: deps,
                     ankOtkr: ankOtkr,
                     ankDost: ankDost,
-                    potds : potds,
+                    potds: potds,
 
                 })
             })
@@ -105,7 +105,7 @@ $(function() {
         var getv = function(val) {
             var val = val ? val.trim() : '';
             if (val == '-') val = ''
-                //console.log(val)
+            //console.log(val)
             return val || null;
         }
 
@@ -187,7 +187,8 @@ $(function() {
             console.warn('Нет файла geojson с мунициальными округами')
         }
 
-        var departments = [], _deps = {}
+        var departments = [],
+            _deps = {}
         deps = deps.splice(1)
         console.log('_regions', _regions)
         for (var i = 0; i < deps.length; i++) {
@@ -242,7 +243,7 @@ $(function() {
             departments.push(dep)
         }
 
-         if (potds) {
+        if (potds) {
             for (var i = 0; i < potds.length; i++) {
                 var po = potds[i];
 
@@ -251,7 +252,7 @@ $(function() {
                     console.warn('кривая номер  ', po.properties)
                     continue;
                 }
-                var isDep = (num.indexOf('У') == 0 || num=='ГУ');
+                var isDep = (num.indexOf('У') == 0 || num == 'ГУ');
                 var tar = isDep ? _deps[num] : _regions[num];
                 if (!tar) {
                     console.warn('кривая точка ', num, po.properties)
@@ -320,15 +321,15 @@ $(function() {
             console.log('anfields', anfields)
             console.log('anvalues', anvalues)
             save('anfields', city, { fields: anfields })
-            save('anvalues',city, anvalues)
+            save('anvalues', city, anvalues)
             var meta = {
-                data:{published:{}, rateHistory : {}}
+                data: { published: {}, rateHistory: {} }
             }
             var published = meta.data.published;
             for (var key in anvalues) {
                 published[key] = true
             }
-            save('meta',city, meta)
+            save('meta', city, meta)
             console.log('meta', meta)
 
         }
@@ -388,14 +389,32 @@ $(function() {
         })
     }
 
-// сычев сергей александровичСанкт-Петербург (г), , 1-й Рабфаковский (пер), 9/1
+    // сычев сергей александровичСанкт-Петербург (г), , 1-й Рабфаковский (пер), 9/1
 
-// сычев сергей александровичСанкт-Петербург (г), , 1-й Рабфаковский (пер), 9/1
+    // сычев сергей александровичСанкт-Петербург (г), , 1-й Рабфаковский (пер), 9/1
+
+    function prepareVOSectors() {
+        $.getJSON("../data/resolved/vo/sectors.json", function(sectors) {
+            console.log('prepareVOSectors', sectors)
+            sectors.forEach(function(s) { 
+                s.streets.forEach(function(st) { 
+                    if (st.name.indexOf('Воронеж (г)') == 0) {
+                        st.name = st.numbers[0];
+                        st.numbers = st.numbers.slice(1);
+                        console.log(st);
+                    }
+                }); 
+            })
+            //save('sectors', 'vo', sectors)
+        })
+    }
+
+    //prepareVOSectors();
 
     function validateSectors() {
         $.getJSON("../data/resolved/spb/sectors.json", function(rsectors) {
             var map = {};
-            rsectors.forEach(function(s, i)  {
+            rsectors.forEach(function(s, i) {
                 var key = (s.name + s.addr).trim().toLowerCase();
                 if (s.photo)
                     s.photo = s.photo.replace('//static.mvd.ru/upload/site79/document_district/', '')
@@ -416,13 +435,13 @@ $(function() {
                     if (os) {
                         os.forEach(function(sec) {
                             if (s.check != sec.raddr) {
-                                console.log('replace addr', '"' +  sec.raddr + '"', s.check);
+                                console.log('replace addr', '"' + sec.raddr + '"', s.check);
                                 sec.raddr = s.check
                             }
-                            console.log('replace', '"' +  sec.coords + '"', [s['ncoords/0'], s['ncoords/1']]);
+                            console.log('replace', '"' + sec.coords + '"', [s['ncoords/0'], s['ncoords/1']]);
                             sec.coords = [s['ncoords/0'], s['ncoords/1']];
                         })
-                    }  else {
+                    } else {
                         console.warn('не нашел', key, s);
 
                     }
@@ -513,7 +532,7 @@ $(function() {
                 });
                 if (!$list.length) {
                     console.log('complete')
-                        //download('ment{0}).json'.format(sub), res)
+                    //download('ment{0}).json'.format(sub), res)
                     save('sectors-parsed', city, res)
                     return
                 }
@@ -596,7 +615,7 @@ $(function() {
             data = JSON.stringify(data);
         pom.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(data));
         var d = new Date().format()
-            //pom.setAttribute('download', '{1}_{0}.json'.format(d, name));
+        //pom.setAttribute('download', '{1}_{0}.json'.format(d, name));
         pom.setAttribute('download', name);
         if (document.createEvent) {
             var event = document.createEvent('MouseEvents');

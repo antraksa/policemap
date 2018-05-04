@@ -10,17 +10,24 @@ $(function() {
 
 
         if (window.ymaps && sectors[0].sector.regionId === undefined) {
+            
             regions.forEach(function(r) {
                 var rdata = r.region;
                 r.sectors = []
+
                 sectors.forEach(function(s) {
                     //console.log(r, s);
                     if (s.sector.regionId === undefined) s.sector.regionId = -1;
                     var coords = s.sector.coords;
-                    if (!coords) return
+                    if (!coords) {
+                        //console.warn('Empty sectorscoords', s)
+                        return;
+                    }
                     if (r.pol && r.pol.geometry.contains(coords)) {
                         s.sector.regionId = r.region.number;
                         s.region = r;
+                    } else {
+                        
                     }
                 })
                 // areas.forEach(function(a) {
@@ -41,6 +48,9 @@ $(function() {
             })
             console.log('prepare', args)
         }
+
+        var sectorsOutOfBounds = sectors.filter(function(s) { return !s.region});
+        console.warn('Sectors out of region bounds', sectorsOutOfBounds)
 
     })
 
