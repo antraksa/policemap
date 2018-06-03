@@ -9,9 +9,9 @@
 <!-- Bootstrap styles -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <!-- Generic page styles -->
-<link rel="stylesheet" href="js/jQuery-File-Upload-master/css/style.css">
+<link rel="stylesheet" href="../libs/jQuery-File-Upload-master/css/style.css">
 <!-- CSS to style the file input field as button and adjust the Bootstrap progress bars -->
-<link rel="stylesheet" href="js/jQuery-File-Upload-master/css/jquery.fileupload.css">
+<link rel="stylesheet" href="../libs/jQuery-File-Upload-master/css/jquery.fileupload.css">
 </head>
 <body>
 
@@ -26,24 +26,22 @@
         <!-- The file input field used as target for the file upload widget -->
         <input id="fileupload-spb" type="file" name="files[]" multiple>
     </span>
-		<span class="btn btn-success fileinput-button">
+		<!-- <span class="btn btn-success fileinput-button">
         <i class="glyphicon glyphicon-plus"></i>
         <span>Санкт-Петербург (мобильная)</span>
-        <!-- The file input field used as target for the file upload widget -->
         <input id="fileupload-spb-mobile" type="file" name="files[]" multiple>
-    </span>
+    </span> -->
 		<span class="btn btn-success fileinput-button">
         <i class="glyphicon glyphicon-plus"></i>
         <span>Воронеж</span>
         <!-- The file input field used as target for the file upload widget -->
         <input id="fileupload-vo" type="file" name="files[]" multiple>
     </span>
-		<span class="btn btn-success fileinput-button">
+		<!-- <span class="btn btn-success fileinput-button">
         <i class="glyphicon glyphicon-plus"></i>
         <span>Воронеж (мобильная)</span>
-        <!-- The file input field used as target for the file upload widget -->
         <input id="fileupload-vo-mobile" type="file" name="files[]" multiple>
-    </span>
+    </span> -->
     <br>
     <br>
     <!-- The global progress bar -->
@@ -70,11 +68,11 @@
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <!-- The jQuery UI widget factory, can be omitted if jQuery UI is already included -->
-<script src="js/jQuery-File-Upload-master/js/vendor/jquery.ui.widget.js"></script>
+<script src="../libs/jQuery-File-Upload-master/js/vendor/jquery.ui.widget.js"></script>
 <!-- The Iframe Transport is required for browsers without support for XHR file uploads -->
-<script src="js/jQuery-File-Upload-master/js/jquery.iframe-transport.js"></script>
+<script src="../libs/jQuery-File-Upload-master/js/jQuery.iframe-transport.js"></script>
 <!-- The basic File Upload plugin -->
-<script src="js/jQuery-File-Upload-master/js/jquery.fileupload.js"></script>
+<script src="../libs/jQuery-File-Upload-master/js/jQuery.fileupload.js"></script>
 <!-- Bootstrap JS is not required, but included for the responsive demo navigation -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script>
@@ -83,7 +81,7 @@
 $(function () {
     'use strict';
     // Change this to the location of your server-side upload handler:
-    var url = 'js/jQuery-File-Upload-master/server/php/';
+    var url = '../libs/jQuery-File-Upload-master/server/php/';
     $('#fileupload-spb').fileupload({
         url: url,
         dataType: 'json',
@@ -105,47 +103,47 @@ $(function () {
     }).prop('disabled', !$.support.fileInput)
         .parent().addClass($.support.fileInput ? undefined : 'disabled');
 
-				$('#fileupload-spb-mobile').fileupload({
-						url: url,
-						dataType: 'json',
-						formData: [{ name: 'custom_dir', value: '/mobile/data/photo/spb/' }],
-						done: function (e, data) {
-								console.log(data);
-								$.each(data.result.files, function (index, file) {
-										$('<p/>').html('Загружен файл <b>'+file.name+'</b> для города Санкт-Петербург - мобильная версия. Используйте полное название файла в таблице с данными.').appendTo('#files');
-								});
-						},
-						progressall: function (e, data) {
-								console.log(data);
-								var progress = parseInt(data.loaded / data.total * 100, 10);
-								$('#progress .progress-bar').css(
-										'width',
-										progress + '%'
-								);
-						}
-				}).prop('disabled', !$.support.fileInput)
-						.parent().addClass($.support.fileInput ? undefined : 'disabled');
-
-				$('#fileupload-vo-mobile').fileupload({
-						url: url,
-						dataType: 'json',
-						formData: [{ name: 'custom_dir', value: '/mobile/data/photo/vo/' }],
-						done: function (e, data) {
-								console.log(data);
-								$.each(data.result.files, function (index, file) {
-										$('<p/>').html('Загружен файл <b>'+file.name+'</b> для города Воронеж - мобильная версия. Используйте полное название файла в таблице с данными.').appendTo('#files');
-								});
-						},
-						progressall: function (e, data) {
-								console.log(data);
-								var progress = parseInt(data.loaded / data.total * 100, 10);
-								$('#progress .progress-bar').css(
-										'width',
-										progress + '%'
-								);
-						}
-				}).prop('disabled', !$.support.fileInput)
-						.parent().addClass($.support.fileInput ? undefined : 'disabled');
+				// $('#fileupload-spb-mobile').fileupload({
+				// 		url: url,
+				// 		dataType: 'json',
+				// 		formData: [{ name: 'custom_dir', value: '/mobile/data/photo/spb/' }],
+				// 		done: function (e, data) {
+				// 				console.log(data);
+				// 				$.each(data.result.files, function (index, file) {
+				// 						$('<p/>').html('Загружен файл <b>'+file.name+'</b> для города Санкт-Петербург - мобильная версия. Используйте полное название файла в таблице с данными.').appendTo('#files');
+				// 				});
+				// 		},
+				// 		progressall: function (e, data) {
+				// 				console.log(data);
+				// 				var progress = parseInt(data.loaded / data.total * 100, 10);
+				// 				$('#progress .progress-bar').css(
+				// 						'width',
+				// 						progress + '%'
+				// 				);
+				// 		}
+				// }).prop('disabled', !$.support.fileInput)
+				// 		.parent().addClass($.support.fileInput ? undefined : 'disabled');
+        //
+				// $('#fileupload-vo-mobile').fileupload({
+				// 		url: url,
+				// 		dataType: 'json',
+				// 		formData: [{ name: 'custom_dir', value: '/mobile/data/photo/vo/' }],
+				// 		done: function (e, data) {
+				// 				console.log(data);
+				// 				$.each(data.result.files, function (index, file) {
+				// 						$('<p/>').html('Загружен файл <b>'+file.name+'</b> для города Воронеж - мобильная версия. Используйте полное название файла в таблице с данными.').appendTo('#files');
+				// 				});
+				// 		},
+				// 		progressall: function (e, data) {
+				// 				console.log(data);
+				// 				var progress = parseInt(data.loaded / data.total * 100, 10);
+				// 				$('#progress .progress-bar').css(
+				// 						'width',
+				// 						progress + '%'
+				// 				);
+				// 		}
+				// }).prop('disabled', !$.support.fileInput)
+				// 		.parent().addClass($.support.fileInput ? undefined : 'disabled');
 
 				$('#fileupload-vo').fileupload({
 						url: url,
