@@ -10,7 +10,8 @@ $(function() {
     // var ank2Url = useLocal  ? '../data/anketa2.csv?' + rand :  'https://docs.google.com/spreadsheets/d/1veV_YBTtjxK575FHg_u9sy_pOjCy9pPMXzon4NY1Vc4/pub?output=csv';
 
 
-    //getVo()
+    // getVo()
+    // prepareVOSectors()
     //getSpb();
 
 
@@ -396,14 +397,14 @@ $(function() {
     function prepareVOSectors() {
         $.getJSON("../data/resolved/vo/sectors.json", function(sectors) {
             console.log('prepareVOSectors', sectors)
-            sectors.forEach(function(s) { 
-                s.streets.forEach(function(st) { 
+            sectors.forEach(function(s) {
+                s.streets.forEach(function(st) {
                     if (st.name.indexOf('Воронеж (г)') == 0) {
                         st.name = st.numbers[0];
                         st.numbers = st.numbers.slice(1);
                         console.log(st);
                     }
-                }); 
+                });
             })
             //save('sectors', 'vo', sectors)
         })

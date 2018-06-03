@@ -146,7 +146,7 @@ input[type=checkbox] {float: left;
 .inner .text-wrap p.note {background-color: #f9f9f9;display: inline-block;padding: 10px;margin-top: 20px;}
 .star-rate {margin: 10px 0;background-color: #fff;margin: 0px -15px;padding: 10px 15px;font-weight:  400;}
 .star-rate .lb {margin-right: 5px;}
-.star-rate i{font-size: 16px;color: #e7e221;}
+.star-rate i{font-size: 16px;font-family: 'icomoon' !important;color: #e7e221;}
 .srated0 {color: #e93232  !important; }
 .srated1 {color: #ff5c00  !important;}
 .srated2 {color: #fb7c00  !important;}
@@ -195,7 +195,7 @@ input[type=checkbox] {float: left;
   h3 {   font-size:  22px; }
   .home-info { padding: 30px 30px 0 30px;}
   footer {padding-left: 30px;padding-right: 30px;}
-  #index #main-menu { right: 30px;   margin-top:  0px; }
+  #index #main-menu {right: 30px;margin-top:  0px;}
   .logo-wrap h1 { font-size:  26px; }
   #index .logo {width:50px;/* text-decoration:  none; */}
   #index .cities {margin-top: 53px;}
@@ -254,7 +254,7 @@ input[type=checkbox] {float: left;
   .inner #main-menu {display: block;vertical-align: middle;margin:  0;word-wrap: break-word;white-space: nowrap;/* float: left; *//* position:  absolute; *//* left: 70px; */}
   nav > a {/* display: inline; *//* line-height:  50px; *//* font-size:  11px; */float:  left;margin-top:  6px;}
   .inner .donate {width: 115px;margin-top: 0px;float:  right;font-size:  11px;}
-  #main-menu {width: 70%;}
+  #main-menu {/* width: 70%; */}
   .regions .child-item {width: 49%;}
   .images .text-image {width: 20%;margin-right: 5%;}
   .images .text-image img {/* width:100%; */vertical-align:  middle;/* max-height:  none; */}
@@ -271,7 +271,8 @@ input[type=checkbox] {float: left;
   .inner .donate {margin-top: 10px;width:97px;}
   .inner .logo-wrap  {width:17%;min-height:  110px;}
   .inner .menu-wrap {padding-top:  15px;}
-  body, nav > a {font-size: 12px;}
+  #main-menu {width: 70%; }
+  body, nav > a {font-size: 14px;}
 
 }
 @media screen and (min-width: 1550px) {

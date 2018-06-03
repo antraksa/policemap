@@ -65,6 +65,7 @@
   content: "\e906";
 }
 .icon-plus:before {
+  font-family: 'icomoon' !important;
   content: "\e916";
 }
 .icon-cloud-upload:before {
@@ -92,7 +93,7 @@
   content: "\e901";
 }
 .icon-check:before {
-  content: "\e908";
+  font-family: 'icomoon' !important;  content: "\e908";;
 }
 .icon-search-minus:before {
   content: "\e904";

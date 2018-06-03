@@ -36,17 +36,22 @@
             <a class="name-link editable">{{name}}</a>
             <q  class="area">{{area}}</q>
         </h1>
+        {{#comm}}
+        <div class="comm"> {{comm}} </div>
+        {{/comm}}
         <div class="contacts">
           <div class="clearfix">
             <u  class="number photo" style="background-image: url('{{photoLink}}')"> </u>
             <span  class="addr editable">{{addr}}</span>
 
             <div class="tel " title="Телефон дежурной части"><div class="tel-name">Дежурная часть:</div> <span></span> {{#tel}} <u>{{.}}</u> {{/tel}}</div>
+            <div class="clearfix"></div>
             {{#rate}}
             <div id="details-rate-toggle" class="btn-ank star-rate">
                 <em class="lb">Рейтинг:  {{rate.fixed}}</em> {{#starRate}} {{^.}}
                 <i class="icon-star_border srated{{rate.formatted}}"></i>{{/.}} {{#.}}
                 <i class="icon-star srated{{rate.formatted}}"></i>{{/.}} {{/starRate}}
+                <i class="icon-angle-down"></i>
             </div>
             {{/rate}}
             {{^rate}}
@@ -60,7 +65,7 @@
                 {{/getRates}} {{^getRates}}
                 <li class="no-records"> Нет рейтинга </li>
                 {{/getRates}}
-                <li class="info"><a class="sub-item sub-active-item" href="#" title="Как формируется рейтинг?"><span class="s-title">Как формируется рейтинг?</span></a></li>
+                <li class="info"><a class="url" href="https://policemap.ru/how-to-rate" title="Как формируется рейтинг?" target="_blank"><span class="s-title">Как формируется рейтинг?</span></a></li>
             </ul>
           </div>
         {{#region}}
@@ -86,7 +91,7 @@
             <h1 class="name"> {{personName}} </h1>
             <h2 class="rank"> {{personRank}} </h2>
             <div class="desc"><span class="prop-title">Принимает посетителей:</span> {{personTime}}</div>
-            <h3 class="tel"><div class="prop-title">Записаться на прием:</div><span></span><u>{{personTel}}</u></h3> {{#personTime}}
+            <h3 class="tel"><div class="prop-title">Записаться на прием:</div>{{#personTel}}<span></span><u>{{personTel}}</u>{{/personTel}}</h3> {{#personTime}}
             <p class="tip"> Актуальное время приёма может отличаться от указанного, для записи уточняйте график по телефону</p>
             {{/personTime}}
         </div>
@@ -98,11 +103,7 @@
             <div class="sub-item" target="_blank" href="#">
               <span class="">Отчет руководителя</span>
               <div class="s-val">{{report}}</div>
-            </div> {{/report}} {{#comm}}
-            <a class="sub-item sub-active-item" target="_blank" href="#">
-              <span class="s-title">Комментарии: </span>
-              <span class="s-val">{{comm}}</span>
-            </a> {{/comm}}
+            </div> {{/report}}
           </div>
         </div>
         {{#press.length}}
@@ -291,7 +292,8 @@
         </h1>
 
         <div>Время приёма:</div>
-        <div class="desc">{{time}}</div>
+        {{#time}}<div class="desc">{{time}}</div>{{/time}}
+        {{^time}}<div class="desc">Нет информации</div>{{/time}}
         <div class="contacts">
             <div class="tel"> <span></span><u>{{tel}}</u></div>
             <div class="addr">{{raddr}}</div>
