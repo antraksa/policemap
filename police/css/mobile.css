@@ -12,7 +12,7 @@
 .mobile-layout .home .locate {position: absolute;right: 20px;}
 .mobile-layout .pane .map-tools {bottom: 0;top: initial;     width: 100%;    left: 0;}
 .mobile-layout .search {width: auto;left: 40px;margin: 0;float: none;position: absolute;right: 77px;}
-.mobile-layout .search-autocomplete{left: 0;right: 0;width: auto;max-height: initial;margin: 0;margin-top: 60px;}
+.mobile-layout .search-autocomplete{left: 0;right: 0;width: auto;margin: 0;margin-top: 60px;}
 .mobile-layout .map {background-repeat: no-repeat;background-size: cover;background-position: center;/* opacity: 0.8; */bottom: 0;}
 .mobile-layout .back-to-map {display: block;position: absolute;top:0;height: 38px;line-height: 38px;left: 0;background: rgba(255, 255, 255, 0.46);width: 38px;text-align: center;cursor: pointer;color: #fff;display: none;}
 .mobile-layout .details-toggle {/* margin-top: 30px */margin-left: 38px;}

@@ -6,6 +6,8 @@
    ?>
 <title>Карта полиции: все поразделения полиции на карте</title>
 <meta name="description" content="Карта подразделений полиции поможет найти участкового, определить границы отдела полиции и иерархию подчинения" />
+<meta property="og:title"              content="Карта полиции: все поразделения полиции на карте" />
+<meta property="og:description"        content="Карта подразделений полиции поможет найти участкового, определить границы отдела полиции и иерархию подчинения" />
 <link rel="canonical" href="https://policemap.ru/" />
 </head>
   <body id="index" class="pages static all">
@@ -40,8 +42,8 @@
             <div class="text-wrap useful-links">
               <h2>Проекту нужны:</h2>
               <ul class="dashed">
-                <li><a href="support.php">Волонтёры</a></li>
-                <li><a href="support.php">Координаторы проекта в регионах</a></li>
+                <li><a href="contact-us.php">Волонтёры</a></li>
+                <li><a href="contact-us.php">Координаторы проекта в регионах</a></li>
               </ul>
             </div>
         </div>
@@ -52,9 +54,17 @@
 
           <div class="clear">&nbsp;</div>
           <a href="support.php" class="donate btn">Поддержать Проект</a>
+
           <?php
-          require_once("php/leftsidebar.php");
+            require_once("php/citiesnav.php");
           ?>
+          <div class="text">
+            <p>Возникли вопросы или пожелания - напишите нам!</p>
+            <a class="contact btn" href="contact-us.php">Задать вопрос</a>
+          </div>
+          <?php
+            require_once("php/share.php");
+           ?>
 
         </div>
 

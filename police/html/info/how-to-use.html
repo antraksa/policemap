@@ -1,6 +1,10 @@
 <meta charset=utf-8>
 <link href='../../css/static-new.css' rel='stylesheet'>
-
+<link href='../../css/style.css' rel='stylesheet'>
+<title>Как пользоваться Картой полиции</title>
+<meta name="description" content="Основные возможности карты полиции" />
+<meta property="og:title"              content="Как пользоваться Картой полиции" />
+<meta property="og:description"        content="Основные возможности карты полиции" />
 <div class="inner">
 
   <div class="text-wrap pages">
@@ -24,13 +28,22 @@
 
     <p>Если у вас возникли вопросы, связанные с работой карты, или предложения о её возможном функционале, пожалуйста, воспользуйтесь <a href="#" data-link="html/info/contact-us.html">формой обратной связи</a>.</p>
 
+    <p><b>Группа во Вконтакте</b>: <a href="https://vk.com/policemap" target="_blank">https://vk.com/policemap</a></p>
+
+    <span id="share"></span>
   </div>
   </div>
   <script src="../../libs/jquery-2.1.3.min.js"></script>
+    <script src="../../js/share.js"></script>
 
-  <script>
-  $('body').find('[data-link]').on('click', function() {
-      var link = $(this).attr('data-link');
-      $('#info-holder-iframe', parent.document).attr('src', link)
-  })
-  </script>
+    <script>
+
+    $('body').find('[data-link]').on('click', function() {
+        var link = $(this).attr('data-link');
+        $('#info-holder-iframe', parent.document).attr('src', link)
+    })
+
+    var maplink = $('#info-holder-iframe', parent.document).attr('src');
+    if (maplink) { addShareLinks(maplink) }
+
+    </script>

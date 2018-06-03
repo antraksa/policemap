@@ -1,7 +1,12 @@
 
 <meta charset=utf-8>
 <link href='../../css/static-new.css' rel='stylesheet'>
-
+<link href="../../css/style.css" rel="stylesheet" media="screen">
+<title>Как вычисляется рейтинг отделов полиции</title>
+<meta name="description" content="Параметры оценки работы отделов полиции, сформированные на основе мониторинга и отзывов о полиции" />
+<link rel="canonical" href="https://policemap.ru/how-to-rate" />
+<meta property="og:title"              content="Как вычисляется рейтинг отделов полиции" />
+<meta property="og:description"        content="Параметры оценки работы отделов полиции, сформированные на основе мониторинга и отзывов о полиции" />
 <div class="inner">
 
   <div class="text-wrap pages">
@@ -124,13 +129,19 @@
           </li>
         </ul>
       </div>
+
     </div>
+    <span id="share"></span>
+    
   </div>
     </div>
     <script src="../../libs/jquery-2.1.3.min.js"></script>
+    <script src="../../js/share.js"></script>
 
     <script>
     $('.page-more').on('click', function() {
         $(this).toggleClass('expanded')
     })
+    var maplink = $('#info-holder-iframe', parent.document).attr('src');
+    if (maplink) { addShareLinks(maplink) }
     </script>

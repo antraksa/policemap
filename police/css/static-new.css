@@ -1,5 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,700,900|Russo+One&amp;subset=cyrillic');
-
+html, body {min-height: 100vh!important;margin: 0;}
 body {
   font-family: 'Roboto', sans-serif;
   font-size: 15px;
@@ -45,7 +45,7 @@ b {font-weight: 700;}
 }
 
 
-.container {width: 100%;position: relative;}
+.container {width: 100%;position: relative;    min-height: calc(100vh - 58px);}
 .home-map {width:33%;/* position:  relative; */}
 .home-map .city-point  {width: 10px;height:  10px;background: #f00;background: url('img/geoteg_40x50_main.svg');background-size:  100%;position: absolute;z-index: 1;/* border: #fff 2px solid; *//* border-radius: 100%; */width: 38px;height: 50px;/* margin-left: -15px; *//* margin-top: -15px; */display: block;/* box-shadow: 0 0 10px #000; */}
 .home-map .city-point:hover {opacity: 0.5}
@@ -54,27 +54,29 @@ b {font-weight: 700;}
 .home-map .vo-point {top: 80%;left: 53.5%;}
 .home-map .img {background-image: url(img/home-map-tall.jpg);background-repeat: no-repeat;background-size: auto 100%;/* background-position: left top; */position: absolute;width: 33%;height: 100%;background-position: center;background-size: cover;display: flex;align-items: center;}
 .home-map .rel {position: absolute;width: 100%;/* background: #00ff004a; */padding: 50%;}
-.home-info{width:67%;background-color: #a9d1e5;padding: 50px 50px 0 50px;position:  relative;}
+.home-info{width:67%;background-color: #a9d1e5;padding: 50px 50px 0 50px;position:  relative;    min-height: calc(100vh - 58px);}
 .logo-wrap {text-decoration: none;}
 .logo-wrap > * {display: inline-block;}
 .logo-wrap h1 {max-width: 200px;color:#fff;text-decoration: none;letter-spacing:  1px;padding-left:  10px;font-size:  30px;}
 #index .logo {width:72px;}
+#index .cities {margin-top: 53px;}
 .about, .nav-wrap {width: 47%;max-width:  450px;}
-.nav-wrap {/* text-align: right; *//* min-height: 116px; */margin-top: 60px;}
-nav {margin: 20px 0;}
+.nav-wrap {/* text-align: right; *//* min-height: 116px; */margin-top: 45px;}
+nav {margin: 20px 0;margin: 17px 0;}
 nav > a {margin-left: 30px;}
 nav > a.active {color: #fff;text-decoration: none;}
 
 .text-wrap {padding: 30px;margin: 30px 0;}
-.about .text-wrap {background-color: #fff;border-radius:  5px;}
+.about .text-wrap {background-color: #fff;border-radius:  5px;padding: 50px;}
 .about .text-wrap p {margin-left: 50px;color: #416e8c;line-height: 24px;font-weight:  300;}
 .about .text-wrap.useful-links {background-color: transparent;color: #4c7998;margin-bottom:  0;}
 ul  {list-style-type: none;padding:  0;}
 ul li {margin-bottom:  6px;}
 ul.dashed li::before {content:""; */background-image:  url(img/li-dash.png);/* left:-100%; */width:50px;height:  100%;height: 13px;display: inline-block;margin-right: 10px;background-image: url(img/li-dash.png);background-repeat:  no-repeat;background-position: center center;}
 .about .text-wrap.useful-links h2::before {display: none;}
-
-.cities {margin-top: 50px;color: #fff;font-size:  13px;}
+.sidebar .contact {margin-top: 60px;}
+.sidebar h4 {font-family: 'Russo One', sans-serif;margin-top: 50px;font-size: 18px;letter-spacing: 1px;line-height: 30px;font-weight: 300;text-transform:  uppercase;}
+.cities {color: #fff;font-size:  13px;}
 .cities .link {padding: 30px;margin-bottom: 30px;width: 100%;border-radius: 5px;background-color: #4b7898;display:  block;position:  relative;}
 .cities .link:hover {    background-color: #74a3bb;}
 .cities .link .item {   margin-top: 10px; }
@@ -89,7 +91,7 @@ ul.dashed li::before {content:""; */background-image:  url(img/li-dash.png);/* l
 
 footer {width: 100%;padding: 20px 50px;background-color: #62355a;color: #fff;}
 
-.inner h1 {font-size: 30px;color:#8b3d4b;margin-left: 70px;}
+.inner h1 {font-size: 30px;color:#8b3d4b;margin-left: 70px;letter-spacing: 1px;}
 .inner h1::before {content:"";width: 55px;height:  100%;height: 19px;display: inline-block;margin-right: 13px;margin-left:  -70px;background-image:  url(img/h1-dash.png);background-repeat:  no-repeat;background-position: center center;}
 .pad-inner{padding:20px 50px;}
 .inner .donate {width: 250px;margin-top: 9px;}
@@ -120,6 +122,7 @@ textarea, input {
     color:  #4b7898;
     font-size:  14px;
     margin-bottom:  20px;
+    font-family: "Roboto", sans-serif;
 }
 form textarea {height: 200px;}
 .inner .text-wrap div.tip, .captcha-label {
@@ -163,7 +166,7 @@ input[type=checkbox] {float: left;
 .regions .head-item a.title:hover {text-decoration: none;color: #33566f;}
 .regions a.title:hover {color: #4b4b4b;}
 .title > span {display: block;margin: 7px 0;position:  relative;line-height: 15px;}
-.tel span {content:url(img/icon-phone-blue.png);display:  inline-block;vertical-align:  text-top;margin-right: 8px;position:  absolute;top: 4px;}
+.tel span {content:url(img/icon-phone-blue.png);display: block;vertical-align:  text-top;margin-right: 8px;position:  absolute;top: 18px;}
 .tel u {text-decoration: none;margin-left: 24px;display:  block;line-height: 20px;}
 .regions .child-item .name, .regions .child-item .rank {font-weight: 400;line-height: 14px;}
 .regions .child-item .rank {font-size: 10px;}
@@ -171,7 +174,7 @@ input[type=checkbox] {float: left;
 .reports .no-records {text-decoration: none;color: #4d4d4d;font-weight:  300;}
 
 .images .text-image {display: inline-block;margin-right: 50px;}
-.images .text-image img {max-height: 100px;}
+.images .text-image img {max-height: 70px;}
 
 
 @media screen and (max-width: 1400px) {
@@ -180,21 +183,28 @@ input[type=checkbox] {float: left;
   .home-map .msc-point {top: 42.7%;left: 45.3%;}
   .home-map .vo-point {top: 79%;left: 53.5%;}
   .regions .child-item {width: 32%;}
+  .sidebar h4 {font-size: 15px;}
+  .about .text-wrap {padding: 30px;}
 }
 @media screen and (max-width: 1265px) {
   .inner .cities .link {padding: 20px;}
   .inner #main-menu {/* left: -100px; */}
+  .sidebar h4 {font-size: 13px;}
 }
 @media screen and (max-width: 1205px) {
   h3 {   font-size:  22px; }
   .home-info { padding: 30px 30px 0 30px;}
+  footer {padding-left: 30px;padding-right: 30px;}
   #index #main-menu { right: 30px;   margin-top:  0px; }
   .logo-wrap h1 { font-size:  26px; }
   #index .logo {width:50px;/* text-decoration:  none; */}
-  .nav-wrap {margin-top: 25px;}
+  #index .cities {margin-top: 53px;}
+  .nav-wrap {margin-top: 15px;}
   nav > a {margin-left: 15px;}
   .pad-inner {padding: 20px 30px;}
-  .inner .cities {margin-top: 20px;vertical-align:  t;}
+  .sidebar .contact {margin-top: 30px;}
+
+  .inner .cities {vertical-align:  t;}
   .inner .text-wrap {margin-top: 0px;}
   .inner #main-menu {left:0;margin-top:  18px;}
   nav > a {font-size: 14px;}
@@ -218,6 +228,7 @@ input[type=checkbox] {float: left;
   .home-map .spb-point {top: -2%;left: 6%;}
   .home-map .msc-point {top: 37.7%;left: 43.5%;}
   .home-map .vo-point {top: 75%;left: 51.5%;}
+  .sidebar h4 {font-size: 11px;}
 }
 @media screen and (max-width: 925px) {
   .home-info {width: 100%;}
@@ -231,7 +242,7 @@ input[type=checkbox] {float: left;
   .inner .cities .link {width: 33%;display:  inline-block;vertical-align: top;}
   .pad-inner .text {width: 30%;margin:  0 auto;}
   .pad-inner, .header-inner .pad-inner {padding: 10px 20px;}
-  .pad-inner.sidebar, #index .nav-wrap {padding: 20px 20px 40px;}
+  #index .pad-inner.sidebar, #index .nav-wrap {padding: 0;}
   .inner .text-wrap {padding: 10px 0;}
 }
 @media screen and (max-width: 725px) {
@@ -245,10 +256,11 @@ input[type=checkbox] {float: left;
   .inner .donate {width: 115px;margin-top: 0px;float:  right;font-size:  11px;}
   #main-menu {width: 70%;}
   .regions .child-item {width: 49%;}
+  .images .text-image {width: 20%;margin-right: 5%;}
+  .images .text-image img {/* width:100%; */vertical-align:  middle;/* max-height:  none; */}
 }
 @media screen and (max-width: 600px) {
-  .logo-wrap h1 {display: none;}
-
+  .logo-wrap h1, .about .text-wrap {display: none;}
   .inner .menu-wrap {width: 85%;}
   .about.left, .nav-wrap.right {float: left;width:100%;max-width: none;}
   .regions .child-item {width: 99%;}
@@ -264,14 +276,16 @@ input[type=checkbox] {float: left;
 }
 @media screen and (min-width: 1550px) {
   .regions .child-item {width: 19%;}
-    .home-info {padding: 100px 100px 50px 100px;}
+    .home-info {padding: 50px 100px 0px 100px;}
+    footer {padding-left: 100px;padding-right: 100px;}
     #index #main-menu {right: 100px;}
     .home-map .spb-point {top:5%; left:8%;}
     .home-map .msc-point {top: 45.7%; left: 46.3%;}
     .home-map .vo-point {top: 82%;left: 54.5%;}
 }
 @media screen and (min-width: 1850px) {
-    .home-info {padding: 150px 150px 100px 150px;}
+    .home-info {padding: 50px 150px 50px 150px;/* float:  left; */}
+    footer {padding-left: 150px;padding-right: 150px;}
     #index #main-menu {right: 150px;}
 }
 x;}

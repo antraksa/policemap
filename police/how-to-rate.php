@@ -7,6 +7,8 @@
 <title>Как вычисляется рейтинг отделов полиции</title>
 <meta name="description" content="Параметры оценки работы отделов полиции, сформированные на основе мониторинга и отзывов о полиции" />
 <link rel="canonical" href="https://policemap.ru/how-to-rate" />
+<meta property="og:title"              content="Как вычисляется рейтинг отделов полиции" />
+<meta property="og:description"        content="Параметры оценки работы отделов полиции, сформированные на основе мониторинга и отзывов о полиции" />
 </head>
   <body id="how-to-rate" class="pages static all inner">
     <div class="container">
@@ -19,6 +21,11 @@
         $html = file_get_contents('html/info/how-to-rate.html');
         echo $html;
         ?>
+        <div class="inner ">
+          <div class="text-wrap share-block">
+            <?php require_once("php/share.php"); ?>
+          </div>
+        </div>
       </div>
         <div class="pad-inner sidebar right">
           <?php

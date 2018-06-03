@@ -39,7 +39,7 @@
 .table-header .header-cell{padding: 10px;color: rgba(255, 255, 255, 0.9);text-transform: uppercase;font-size: 11px;}
 .table-body {padding-top: 36px;/* position: absolute; *//* overflow: auto; *//* background: rgba(255, 255, 255, 0.46); */}
 .table-body .current .cell-key {/* padding-left: 30px; */}
-.city-toggle, .city-popup a {font-size: 12px;padding: 0 10px;line-height: 30px;background: rgba(255, 255, 255, 0.58);display: block;}
+.city-toggle, .city-popup a {font-size: 12px;padding: 0 10px;line-height: 30px;background: rgba(255, 255, 255, 0.58);display: block;color:  #000;}
 .city-popup {width: 250px;margin: 0;}
 .parser .cell-popup {display: block;margin-left: 52px;margin-top: -5px;overflow: auto;max-height: 182px;width: 251px;}
 

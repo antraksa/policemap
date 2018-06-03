@@ -6,6 +6,8 @@
    ?>
 <title>Напишите нам</title>
 <meta name="description" content="Обратная связь с проектом: оставить отзыв об отделе полиции, задать вопрос или стать волонтёром проекта" />
+<meta property="og:title"              content="Напишите нам" />
+<meta property="og:description"        content="Обратная связь с проектом: оставить отзыв об отделе полиции, задать вопрос или стать волонтёром проекта" />
 <link rel="canonical" href="https://policemap.ru/contact-us" />
 </head>
   <body id="contact-us" class="pages static all inner">
@@ -20,6 +22,11 @@
         $html = file_get_contents('html/info/contact-us.html');
         echo $html;
         ?>
+        <div class="inner ">
+          <div class="text-wrap share-block">
+            <?php require_once("php/share.php"); ?>
+          </div>
+        </div>
       </div>
         <div class="pad-inner sidebar right">
           <?php

@@ -1,5 +1,10 @@
 <link href='../../css/static-new.css' rel='stylesheet'>
+<link href='../../css/style.css' rel='stylesheet'>
 <meta charset=utf-8>
+<title>О проекте</title>
+<meta name="description" content="Карта полиции помогает найти участкового, отдел полиции или УМВД по адресу" />
+<meta property="og:title"              content="О проекте" />
+<meta property="og:description"        content="Карта полиции помогает найти участкового, отдел полиции или УМВД по адресу" />
 
 <div class="inner">
   <div class="text-wrap pages">
@@ -23,17 +28,26 @@
     <p><b>Группа во Вконтакте</b>: <a href="https://vk.com/policemap" target="_blank">https://vk.com/policemap</a></p>
     <p><b>Партнёры проекта</b></p>
     <p class="images">
+      <a class="text-image" href="http://ogonwatch.org/" title="Объединенная Группа Общественного Наблюдения" target="_blank"><img src="./ogon.png" alt="Объединенная Группа Общественного Наблюденияа"></a>
       <a class="text-image" href="https://formalist.info" title="Конструктор обращений Формалист" target="_blank"><img  src="./formalist.png" alt="Конструктор обращений Формалист"></a>
-      <a class="text-image" href="https://www.mhg.ru/" title="Московская Хельсинская Группа" target="_blank"><img class="text-image" src="./mhg.png" alt="Московская Хельсинская Группа"></a>
+      <a class="text-image" href="https://www.mhg.ru/" title="Московская Хельсинская Группа" target="_blank"><img src="./mhg.png" alt="Московская Хельсинская Группа"></a>
     </p>
+
+    <span id="share"></span>
 
   </div>
 </div>
-  <script src="../../libs/jquery-2.1.3.min.js"></script>
+<script src="../../libs/jquery-2.1.3.min.js"></script>
+  <script src="../../js/share.js"></script>
 
   <script>
+
+  var maplink = $('#info-holder-iframe', parent.document).attr('src');
   $('body').find('[data-link]').on('click', function() {
       var link = $(this).attr('data-link');
       $('#info-holder-iframe', parent.document).attr('src', link)
   })
+
+  if (maplink) { addShareLinks(maplink) }
+
   </script>

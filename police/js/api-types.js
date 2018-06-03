@@ -42,7 +42,7 @@ $(function() {
             }, {
                 'title': 'Телефон',
                 "name": "tel",
-                "edit": true,
+                "edit": false,
                 "width": "150px"
             }, {
                 'title': 'Имя начальника',
@@ -57,7 +57,7 @@ $(function() {
             }, {
                 'title': 'Телефон начальника',
                 "name": "personTel",
-                "edit": true,
+                "edit": false,
                 "width": "200px"
             }, {
                 'title': 'Время приема нач. ',
@@ -76,6 +76,11 @@ $(function() {
                 "width": "400px",
                 "template": "{{#.}} <div>{{0}} ,<i>{{1}}</i>;</div>{{/.}}",
                 editTemplate : 'edit-news-template'
+            }, {
+                "name": "comm",
+                "edit": true,
+                "width": "150px",
+                'title': 'Комментарий'
             }, {
                 "name": "point",
                 "edit": false
@@ -135,11 +140,21 @@ $(function() {
                 "width": "150px",
                 'title': 'Фото'
             }, {
-                "name": "reports",
+                "name": "rukReports",
                 "edit": true,
                 "width": "150px",
-                'title': 'Отчеты'
+                'title': 'Отчеты руководителей'
+            },{
+                "name": "uchReports",
+                "edit": true,
+                "width": "150px",
+                'title': 'Отчеты участковых'
             }, {
+                "name": "comm",
+                "edit": true,
+                "width": "150px",
+                'title': 'Комментарий'
+            },{
                 "name": "coords",
                 "edit": false,
             }]

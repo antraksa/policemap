@@ -1,5 +1,5 @@
 <footer class="static">
-  <div class="left">2017-2018  «Карта Полиции»</div>
+  <div class="left">© 2017-2018  «Карта Полиции»</div>
   <div class="clear">
 </footer>
 <script>
@@ -12,12 +12,15 @@ $( document ).ready(function() {
     $('#main-menu a').each(function() {
       var href = $(this).attr('href');
       href = href.replace('.php','')
-      if ($('body').attr('id') == href) {
+      if (($('body').attr('id') == href) || (($('body').attr('id') == 'index') && href == '.')) {
         $(this).addClass('active');
       }
     })
 });
-
+$('.social_share').on('click', function(){
+  console.log('cshare');
+  Share.go(this);
+});
 
 </script>
 <script src="js/static/metrika.js"></script>

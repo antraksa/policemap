@@ -47,6 +47,7 @@
 }
 .icon-location:before {
   content: "\e914";
+  font-family: 'icomoon';
 }
 .icon-location2:before {
   content: "\e915";
@@ -61,7 +62,7 @@
   content: "\e91a";
 }
 .icon-sort-amount-asc:before {
-  content: "\e91b";
+  content: "\e906";
 }
 .icon-plus:before {
   content: "\e916";
@@ -73,7 +74,7 @@
   content: "\e90e";
 }
 .icon-close:before {
-  content: "\002573";
+  content: "\e900";
 }
 .icon-phone-square:before {
   content: "\e90c";
@@ -88,7 +89,7 @@
   content: "\e90b";
 }
 .icon-th-list:before {
-  content: "\e909";
+  content: "\e901";
 }
 .icon-check:before {
   content: "\e908";
@@ -100,16 +101,25 @@
   content: "\e905";
 }
 .icon-search:before {
-  content: "\e906";
+  content: "\e905";
 }
 .icon-binoculars:before {
   content: "\e907";
 }
 .icon-angle-down:before {
-  content: "\e900";
+  content: "\e907";
+  font-size: 8px;
 }
 .icon-angle-up:before {
-  content: "\e901";
+  content: "\e907";
+  display: block;
+  font-size:  8px;
+  -webkit-transform: rotate(180deg);
+  -moz-transform: rotate(180deg);
+  -o-transform: rotate(180deg);
+  -ms-transform: rotate(180deg);
+  transform: rotate(180deg);
+  vertical-align: middle;
 }
 .icon-angle-right:before {
   content: "\e902";
@@ -117,3 +127,177 @@
 .icon-angle-left:before {
   content: "\e903";
 }
+
+@font-face {
+  font-family: 'icomoon2';
+  src:  url('fonts/icomoon2.eot?6jjiz3');
+  src:  url('fonts/icomoon2.eot?6jjiz3#iefix') format('embedded-opentype'),
+    url('fonts/icomoon2.ttf?6jjiz3') format('truetype'),
+    url('fonts/icomoon2.woff?6jjiz3') format('woff'),
+    url('fonts/icomoon2.svg?6jjiz3#icomoon2') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'icomoon2' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-Close_b:before {
+  content: "\e900";
+  color: #fff;
+}
+.icon-Gruppirovka:before {
+  content: "\e901";
+  color: #fff;
+}
+.icon-Icon_mestopolozhenie .path1:before {
+  content: "\e902";
+  color: rgb(255, 255, 255);
+}
+.icon-Icon_mestopolozhenie .path2:before {
+  content: "\e903";
+  margin-left: -0.7763671875em;
+  color: rgb(233, 73, 68);
+}
+.icon-Napisat:before {
+  content: "\e904";
+  color: #fff;
+}
+.icon-Poisk:before {
+  content: "\e905";
+  color: #63365a;
+}
+.icon-Sortirovka:before {
+  content: "\e906";
+  color: #fff;
+}
+.icon-Strelka_vniz_b:before {
+  content: "\e907";
+  color: #fff;
+}
+.icon-FB .path1:before {
+  content: "\e908";
+  color: rgb(50, 75, 127);
+}
+.icon-FB .path2:before {
+  content: "\e909";
+  margin-left: -1em;
+  color: rgb(241, 242, 242);
+}
+.icon-Google .path1:before {
+  content: "\e90a";
+  color: rgb(207, 58, 50);
+}
+.icon-Google .path2:before {
+  content: "\e90b";
+  margin-left: -1em;
+  color: rgb(255, 255, 255);
+}
+.icon-Google .path3:before {
+  content: "\e90c";
+  margin-left: -1em;
+  color: rgb(255, 255, 255);
+}
+.icon-OK .path1:before {
+  content: "\e90d";
+  color: rgb(239, 123, 24);
+}
+.icon-OK .path2:before {
+  content: "\e90e";
+  margin-left: -1em;
+  color: rgb(255, 255, 255);
+}
+.icon-OK .path3:before {
+  content: "\e90f";
+  margin-left: -1em;
+  color: rgb(255, 255, 255);
+}
+.icon-OK .path4:before {
+  content: "\e910";
+  margin-left: -1em;
+  color: rgb(239, 123, 24);
+}
+.icon-Telegramm .path1:before {
+  content: "\e911";
+  color: rgb(46, 171, 226);
+}
+.icon-Telegramm .path2:before {
+  content: "\e912";
+  margin-left: -1em;
+  color: rgb(255, 255, 255);
+}
+.icon-Twitter .path1:before {
+  content: "\e913";
+  color: rgb(46, 171, 226);
+}
+.icon-Twitter .path2:before {
+  content: "\e914";
+  margin-left: -1em;
+  color: rgb(255, 255, 255);
+}
+.icon-Viber .path1:before {
+  content: "\e915";
+  color: rgb(123, 83, 157);
+}
+.icon-Viber .path2:before {
+  content: "\e916";
+  margin-left: -1em;
+  color: rgb(255, 255, 255);
+}
+.icon-Viber .path3:before {
+  content: "\e917";
+  margin-left: -1em;
+  color: rgb(255, 255, 255);
+}
+.icon-Viber .path4:before {
+  content: "\e918";
+  margin-left: -1em;
+  color: rgb(255, 255, 255);
+}
+.icon-Viber .path5:before {
+  content: "\e919";
+  margin-left: -1em;
+  color: rgb(255, 255, 255);
+}
+.icon-VK .path1:before {
+  content: "\e91a";
+  color: rgb(70, 93, 130);
+}
+.icon-VK .path2:before {
+  content: "\e91b";
+  margin-left: -1em;
+  color: rgb(255, 255, 255);
+}
+.icon-WhatsApp .path1:before {
+  content: "\e91c";
+  color: rgb(77, 174, 63);
+}
+.icon-WhatsApp .path2:before {
+  content: "\e91d";
+  margin-left: -1em;
+  color: rgb(255, 255, 255);
+}
+.icon-WhatsApp .path3:before {
+  content: "\e91e";
+  margin-left: -1em;
+  color: rgb(255, 255, 255);
+}
+
+.share  {margin-top: 30px;}
+.share-wrap {margin-top: 15px;}
+.text-wrap.share-block {margin-top: 0;padding-top:  0;}
+.social_share {font-size: 32px;cursor: pointer;}
+.social_share:hover {opacity: 0.7;}
+a.social_share {text-decoration: none;}

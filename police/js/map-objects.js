@@ -215,7 +215,7 @@ var ObjectWrapper = (function() {
             if (r.pol) map.geoObjects.remove(r.pol);
             var reg = r.region;
             if (!reg.coords || !reg.coords.length) return;
-            var pol = new ymaps.Polygon([reg.coords, []], { hintContent: reg.name }, { zIndex: 0, fillOpacity: 0.3, fillColor: '#62365A' });
+            var pol = new ymaps.Polygon([reg.coords, []], { hintContent: reg.name }, { zIndex: 0, fillOpacity: 0.4, fillColor: '#62365A' });
             map.geoObjects.add(pol);
             pol.events.add('mouseenter', function(e) { r.hover(true) })
             pol.events.add('mouseleave', function(e) { r.hover(false) })
@@ -507,7 +507,7 @@ var ObjectWrapper = (function() {
             if (!map || !window.ymaps) return;
             var a = this.area;
             if (a.pol) map.geoObjects.remove(a.pol);
-            var pol = new ymaps.Polyline(a.coords, { hintContent: a.name }, { zIndex: 0, strokeOpacity: 1, fillOpacity: 0, strokeColor: '#f00', strokeWidth: 4 });
+            var pol = new ymaps.Polyline(a.coords, { hintContent: a.name }, { zIndex: 0, strokeOpacity: 1, fillOpacity: 0, strokeColor: '#8B3D4B', strokeWidth: 4 });
             this.pol = pol;
             map.geoObjects.add(pol);
         },

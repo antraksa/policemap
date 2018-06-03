@@ -9,7 +9,11 @@
   <link rel="shortcut icon" type="image/png" sizes="16x16" href="favicon-16x16.png" >
   <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
   <title>Все отделения полиции города {{city.name}}</title>
+  <meta name="description" content="Справочная информация об отделениях полиции в городе {{city.name}}: адреса, телефоны, начальники, рейтинг отдела полиции" />
+  <meta property="og:title"              content="Все отделения полиции города {{city.name}}" />
+  <meta property="og:description"        content="Справочная информация об отделениях полиции в городе {{city.name}}: адреса, телефоны, начальники, рейтинг отдела полиции" />
   {{#scripts}} {{{.}}} {{/scripts}}
+
     <body id="city" class="pages static all inner">
 
     <input type="hidden" id="city-ind" value="{{city.ind}}">
@@ -48,18 +52,18 @@
               <div class="list">
                   <ul class="regions" id="all-list">
                       {{#departments}}
-                      <li class="head-item item overflow" data-dep-id="{{department.number}}">
-                          <a class="title" href="police.html#city={{city.ind}}&rowId={{ind}}&type=department" target="_blank">
+                      <li itemscope itemtype="http://schema.org/PoliceStation" class="vcard head-item item overflow" data-dep-id="{{department.number}}">
+                          <a class="title" href="police.html#city={{city.ind}}&rowId={{ind}}&type=department" target="_blank" itemprop="name">
                               {{department.name}}
                               {{#department}}
                               <div class="reports">
                                 {{#rukReports}}
-                                <a class="sub-item url" target="_blank" href="{{rukReports}}"> Отчеты руководителя за 2016 год </a> /  {{/rukReports}}
+                                <a class="sub-item url" target="_blank" href="{{rukReports}}"> Отчеты руководителя</a> /  {{/rukReports}}
                                 {{^rukReports}}
                                 <a class="no-records  ">Отчеты руководителя не опубликованы</a> /
                                 {{/rukReports}}
                                 {{#uchReports}}
-                                <a class="sub-item url" target="_blank" href="{{uchReports}}">Отчеты участковых за за 2016 год</a> {{/uchReports}}
+                                <a class="sub-item url" target="_blank" href="{{uchReports}}">Отчеты участковых</a> {{/uchReports}}
                                 {{^uchReports}}
                                 <a class="no-records">Отчеты участковых не опубликованы</a>
                                 {{/uchReports}}
@@ -68,17 +72,23 @@
                           </a>
                       </li>
                       {{#regions}}
-                      <li class="item child-item published-{{anketaPublished}} brated{{rate.formatted}}" data-reg-id="{{region.number}}">
-                          <a class="title" href="police.html#city={{city.ind}}&rowId={{ind}}&type=region" target="_blank">
-                          <span title="{{name}}" class="title overflow"> {{region.name}}</span>
+                      <li itemscope itemtype="http://schema.org/PoliceStation" class="vcard item child-item published-{{anketaPublished}} brated{{rate.formatted}}" data-reg-id="{{region.number}}">
+                          <a class="title" title="{{region.name}} ({{region.area}} район)" href="police.html#city={{city.ind}}&rowId={{ind}}&type=region" target="_blank">
+                          <span itemprop="name" title="{{region.name}} ({{region.area}} район)" class="title overflow fn org"> {{region.name}}
+                            <!-- <span>{{region.area}} район</span> -->
+                          </span>
                           <div id="details-rate-toggle" class="btn-ank star-rate">
                               <span class="lb rate-up-{{rateUp}}">Рейтинг:  {{rate.fixed}}</span> {{#starRate}} {{^.}}
                               <i class="icon-star_border srated{{rate.formatted}}"></i>{{/.}} {{#.}}
                               <i class="icon-star srated{{rate.formatted}}"></i>{{/.}} {{/starRate}}
                           </div>
                           {{#region}}
-                          <span class="addr"> {{addr}}</span>
-                          <span class="tel " title="Телефон дежурной части"><span></span> {{#tel}} <u>{{.}}</u> {{/tel}}</span>
+                          <span title="Адрес {{region.name}} ({{region.area}} район)">Адрес:
+                          <span itemprop="address" itemscope itemtype="http://schema.org/PostalAddress" class="addr adr"> {{addr}}</span> </span>
+                          <span title="Телефон {{region.name}} ({{region.area}} район)">
+                            <span class="rank">Телефон дежурной части:</span>
+                            <span itemprop="telephone" class="tel "><span></span> {{#tel}} <u>{{.}}</u> {{/tel}}</span>
+                          </span>
                           <span class="name"> {{personName}} </span>
                           <span class="rank"> {{personRank}} </span>
                           {{/region}}
@@ -87,6 +97,59 @@
                       {{/regions}} {{/departments}}
                   </ul>
               </div>
+          </div>
+        </div>
+
+        <!-- share -->
+        <div class="inner ">
+          <div class="text-wrap share-block">
+
+            <p class="share">
+              Расскажите о проекте друзьям:
+            </p>
+              <p class="share-wrap">
+                <span class="social_share nav" data-type="vk">
+                  <span class="icon-VK">
+                        <span class="path1"></span><span class="path2"></span>
+                  </span>
+                </span>
+                <span class="social_share nav" data-type="fb">
+                  <span class="icon-FB">
+                              <span class="path1"></span><span class="path2"></span>
+                              </span>
+                </span>
+                <span class="social_share nav" data-type="tw">
+                  <span class="icon-Twitter">
+                              <span class="path1"></span><span class="path2"></span>
+                              </span>
+                </span>
+                <span class="social_share nav" data-type="gp">
+                  <span class="icon-Google">
+                                <span class="path1"></span><span class="path2"></span><span class="path3"></span>
+                                </span>
+                </span>
+                <!-- <span class="social_share nav" data-type="lj">LiveJournal</span> -->
+                <span class="social_share nav" data-type="ok">
+                  <span class="icon-OK">
+                              <span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span>
+                              </span>
+                </span>
+
+
+                <span class="social_share nav" data-type="wa">
+                  <span class="icon-WhatsApp">
+                                <span class="path1"></span><span class="path2"></span><span class="path3"></span>
+                                </span>
+                </span>
+                <span class="social_share nav" data-type="tg">
+                  <span class="icon-Telegramm">
+                                  <span class="path1"></span><span class="path2"></span>
+                                  </span>
+                </span>
+                <!-- <span class="social_share nav" data-type="mr">Mail.Ru</span> -->
+              </p>
+            </p>
+
           </div>
         </div>
       </div>
