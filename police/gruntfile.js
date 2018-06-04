@@ -52,6 +52,7 @@ module.exports = function(grunt) {
                     { expand: true, src: ['css/fonts/**'], dest: 'dist2/' },
                     { expand: true, src: ['.htaccess'], dest: 'dist2/' },
                     { expand: true, src: ['*.php'], dest: 'dist2/' },
+                    { expand: true, src: ['*.png'], dest: 'dist2/' },
                     { expand: true, src: ['php/**'], dest: 'dist2/' },
                     { expand: true, src: ['css/libs/**'], dest: 'dist2/' },
                     { expand: true, src: ['css/img/**'], dest: 'dist2/' },
@@ -68,11 +69,21 @@ module.exports = function(grunt) {
                     { expand: true, src: ['js/static/**'], dest: 'dist2/' },
                     { expand: true, src: ['libs/**'], dest: 'dist2/' },
                     { expand: true, src: ['js/share.js'], dest: 'dist2/' },
+                    { expand: true, cwd: 'admin/js/editor/', src: ['**'], dest: 'dist2/admin/js/editor/' },
                 ],
             },
             mobile: {
                 files: [
-                    { expand: true, cwd: 'dist2', src: ['**'], dest: 'dist2/mobile/' },
+                    { expand: true, cwd: 'dist2', src: ['*.png'], dest: 'dist2/mobile/' },
+                    { expand: true, cwd: 'dist2', src: ['*.php'], dest: 'dist2/mobile/' },
+                    { expand: true, cwd: 'dist2', src: ['*.html'], dest: 'dist2/mobile/' },
+                    { expand: true, cwd: 'dist2', src: ['admin/**'], dest: 'dist2/mobile/' },
+                    { expand: true, cwd: 'dist2', src: ['css/**'], dest: 'dist2/mobile/' },
+                    { expand: true, cwd: 'dist2', src: ['html/**'], dest: 'dist2/mobile/' },
+                    { expand: true, cwd: 'dist2', src: ['js/**'], dest: 'dist2/mobile/' },
+                    { expand: true, cwd: 'dist2', src: ['libs/**'], dest: 'dist2/mobile/' },
+                    { expand: true, cwd: 'dist2', src: ['php/**'], dest: 'dist2/mobile/' },
+                    // { expand: true, cwd: 'dist2', src: ['**'], dest: 'dist2/mobile/' },
                 ]
             },
             data: {

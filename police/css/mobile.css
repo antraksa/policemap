@@ -19,7 +19,7 @@
 .mobile-layout .details-toggle a {padding: 0 14px;}
 .mobile-layout .city-popup {bottom: 40px;}
 .mobile-details-view .pane.details { display: block}
-.mobile-details-view .results {/* display: none; */margin: 0 !important;}
+/* .mobile-details-view .results {/* display: none; */margin: 0 !important;} */
 .mobile-layout .mobile-menu {position: absolute;line-height: 30px;z-index: 1;right: 5px;width: 30px;background: #e6624f;text-align: center;top: 15px;border-radius: 4px;}
 
 .mobile-layout.mobile-menu-expanded .main-info-list {display: block;position: absolute;z-index: 2;background: #62365a;top: 60px;left: 0;right: 0;margin: 0;padding: 10px;width: auto;}
