@@ -537,7 +537,7 @@ body {height: 100%;position: relative;min-height: 100%;}
     color: #fff;
     font-weight: bold;
     text-transform:  uppercase;
-    letter-spacing: 0.3px;
+    /* letter-spacing: 0.3px; */
     font-size:  13px;
 }
 .home {

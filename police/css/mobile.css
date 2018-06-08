@@ -26,6 +26,7 @@
 .mobile-layout .main-info-list a {line-height: 35px;}
 
 .mobile-layout .info-holder.expanded iframe{padding: 20px;}
+.mobile-menu.icon-th-list{float:right;    margin-top: 15px;}
 
 @media screen and (max-width: 570px) {
 .legend {max-height: 100%;overflow: scroll;}
