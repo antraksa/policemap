@@ -609,7 +609,7 @@ body {height: 100%;position: relative;min-height: 100%;}
 .home .left {float: left;width: 320px;}
 .mail-to {/* height: 60px; *//* width: 60px; */float:  right;}
 .mail-to:before {font-family: 'icomoon2';content:	"\e904";font-size: 16px;line-height: 30px;margin-right:  30px;}
-#btn-city-toggle .icon-angle-down {font-size: 18px;box-sizing:  border-box;padding: 10px;vertical-align: top;}
+#btn-city-toggle .icon-angle-down {font-size: 18px;box-sizing:  border-box;padding: 10px 10px 10px 5px;vertical-align: top;}
 #btn-city-toggle .icon-angle-down::before {/* padding-top: 15;/* margin-top: -3px; */ }
 #region-comment-submit {min-width: 146px;}
 .other li {margin-top: 10px;}
