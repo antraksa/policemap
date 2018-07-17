@@ -1,6 +1,7 @@
 'use strict'
 $(function() {
     loading(true);
+    var state = State.getState()
     var $ttoggles = $('#types-toggle'),
         types = API.types,
         $history = $('#history-list'),
@@ -8,12 +9,13 @@ $(function() {
         $th,
         templates = Common.getTemplates();
     var cities = API.getCities(),
-        city = cities[0];
-    
+        city = cities[state.cityIndex || 0];
+
 
     function renderCities() {
         $('#cities').html(Mustache.render(templates.cities, { cities: cities, city: city })).find('.city').on('click', function() {
             city = cities[$(this).index()];
+            State.addState({ cityIndex: $(this).index() })
             load()
             renderCities()
         })
@@ -26,13 +28,11 @@ $(function() {
     function load() {
 
         console.log('load', city)
-
         API.all(city.code, function(args) {
-       
+
             console.warn(args)
             var datas = args, renderSaveButtons;
             var typearr = [];
-            var state = State.getState()
 
             var ti = 0;
             for (var key in types) {
@@ -172,6 +172,7 @@ $(function() {
                     $('#cities').addClass('locked');
                 }
                 renderSaveButtons = function() {
+                    console.log('render', city.code);
                     $('#btn-cancel').on('click', update)
                     $('#btn-save').on('click', function() {
                         API.save(type.ds, city.code, datas[type.ds], function() {
@@ -185,6 +186,7 @@ $(function() {
 
                 function update() {
                     loading(true)
+                    console.log('update', city.code);
                     API.requests[type.ds](city.code).success(function(data) {
                         datas[type.ds] = data;
                         console.log('update ', type.name, data)
@@ -195,12 +197,12 @@ $(function() {
 
                 $('#edit-news-template').data('init', function(cell) {
                     var $this = $('#edit-news-template').show();
-                    var original = JSON.parse(JSON.stringify(cell.item.press)); 
+                    var original = JSON.parse(JSON.stringify(cell.item.press));
                     function renderNews() {
                         $('#edit-news').html(Mustache.render(templates.editNews, cell.item.press)).find('li').each(function() {
                             var ind = $(this).index(), item = cell.item.press[ind];
                             var $li = $(this);
-                            
+
                             $li.find('input').on('change', function() {
                                 var iind = $(this).index();
                                 var val = $(this).val();
@@ -208,7 +210,7 @@ $(function() {
                                 $li.find('.val').eq(iind).html(val)
                                 console.log('change', $(this).val(), ind, iind)
                             })
-                            
+
                             $li.find('.remove').on('click', function(e) {
                                 cell.item.press.splice(ind, 1);
                                 $li.remove();
@@ -226,10 +228,10 @@ $(function() {
                         changeCell(cell, cell.item.press)
                     }
                     $('#btn-news-add')[0].onclick = function() {
-                        cell.item.press.push(['','']);
+                        cell.item.press.splice(0, 0, ['','']);
                         renderNews();
-                        $('#edit-news').scrollTop(1000);
-                        $('#edit-news li').last().addClass('selected')
+                        $('#edit-news').scrollTop(0);
+                        $('#edit-news li').first().addClass('selected')
 
                     }
                     $('#btn-news-cancel')[0].onclick = function() {

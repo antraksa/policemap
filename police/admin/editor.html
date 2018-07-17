@@ -76,8 +76,8 @@
             </ul>
             <div class="btns">
                 <button type="button" id="btn-news-add" class="btn btn-add"> <i class="icon-plus"></i> Добавить </button>
-                
-                
+
+
                 <button type="button" id="btn-news-cancel" class="btn btn-cancel"> Отмена </button>
                 <button type="button" id="btn-news-save" class="btn btn-save"> Сохранить </button>
             </div>
@@ -85,13 +85,13 @@
         <script data-template="editNews" type="text/template">
             {{#.}}
             <li>
-                <div class="read-only">
-                    <i class="remove icon-close"></i>
-                    <span class="val">{{0}}</span> <a class="val">{{1}}</a>
-                </div>
                 <div class="edit-mode">
                     <input type="text" value="{{0}}" placeholder="Новость">
                     <input type="text" value="{{1}}" placeholder="Ссылка">
+                </div>
+                <div class="read-only">
+                    <i class="remove icon-close"></i>
+                    <span class="val">{{0}}</span> <a class="val">{{1}}</a>
                 </div>
             </li>
             {{/.}}

@@ -111,6 +111,7 @@ $(function() {
                     return;
                 }
             }
+            Core.trigger('mess', { mess: 'Ваше местоположение вне рамок города' });
         }
 
         function resolvePoint(p, parentRegion) {
@@ -128,8 +129,10 @@ $(function() {
                     var sec = strres[i].item.sector;
                     if (parentRegion.contains(sec.coords())) {
                         sec.select(true);
+                        return;
                     }
                 }
+                Core.trigger('mess', { mess: 'Адрес не найден в базе участковых' });
             })
         }
 

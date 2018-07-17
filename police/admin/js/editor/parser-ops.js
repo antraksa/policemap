@@ -9,10 +9,22 @@ $(function() {
     // var ank1Url = useLocal  ? '../data/anketa1.csv?' + rand :  'https://docs.google.com/spreadsheets/d/1BfDEwci1YAcbQa-uSk8-ejSE6aTPgWRlIGnZ9Mm_cPc/pub?output=csv';
     // var ank2Url = useLocal  ? '../data/anketa2.csv?' + rand :  'https://docs.google.com/spreadsheets/d/1veV_YBTtjxK575FHg_u9sy_pOjCy9pPMXzon4NY1Vc4/pub?output=csv';
 
+    function save(key, city, data) {
+        // if (!city) city = 'spb';
 
-    // getVo()
+        // console.info('Cохраняем', key, data)
+        // API.save(key, city, data, function(res) {
+        //     console.info('Cохранилось', key, data)
+        // })
+    }
+
+
+    //getVo()
     // prepareVOSectors()
     //getSpb();
+
+    prepareVOSectors()
+
 
 
 
@@ -348,7 +360,6 @@ $(function() {
         })
     }
 
-    //prepareSectors('spb')
 
     function prepareSectors(city) {
         function parseOptions(data) {
@@ -402,11 +413,30 @@ $(function() {
                     if (st.name.indexOf('Воронеж (г)') == 0) {
                         st.name = st.numbers[0];
                         st.numbers = st.numbers.slice(1);
-                        console.log(st);
+                        var res = st.name.split('д.');
+                        st.numbers = st.numbers.slice(1);
+                        st.oname = st.name;
+                        if (res[1]) {
+                            st.numbers.splice(0, 0, res[1])
+                            st.name = res[0];
+                            console.log('hack update', s)
+                        }
+
+                        var res = st.name.split(' ');
+                        var last = res[res.length - 1];
+                        if (Number(last)) {
+                            st.name = res.slice(0, res.length - 1).join(' ');
+                            st.numbers.splice(0,0, last)
+                            console.log('hack update', s)
+                        }
                     }
                 });
+                // if (s.name.toLowerCase().indexOf('денисов')>=0) {
+                //     console.log(s);
+
+                // }
             })
-            //save('sectors', 'vo', sectors)
+            save('sectors', 'vo', sectors)
         })
     }
 
@@ -493,12 +523,7 @@ $(function() {
 
     })
 
-    function save(key, city, data) {
-        if (!city) city = 'spb';
-        API.save(key, city, data, function(res) {
-            //console.info('Cохранилось', key, data)
-        })
-    }
+
     $('#btn-resolve-spb').on('click', function() { prepareSectors('spb') })
     $('#btn-resolve-msc').on('click', function() { prepareSectors('msc') })
     $('#btn-resolve-vo').on('click', function() { prepareSectors('vo') })
