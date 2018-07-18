@@ -157,6 +157,11 @@ $(function() {
             },{
                 "name": "coords",
                 "edit": false,
+            }, {
+                "name": "sovet",
+                "edit": true,
+                "width": "150px",
+                'title': 'Общественный совет'
             }]
         },
         "sector": {

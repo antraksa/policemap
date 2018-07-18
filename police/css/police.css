@@ -231,7 +231,7 @@ body {height: 100%;position: relative;min-height: 100%;}
 #sector-details .cur-address:not(:empty) + .details-wrap {padding-top: 0px;}
 .details .number {float: right;width: 120px;height: 120px;background: rgba(255, 255, 255, 0.19);margin-left: 15px;line-height: 50px;font-size: 18px;font-weight: bold;/* color: rgba(255, 255, 255, 0.58); */position: relative;}
 .details .number .lb {position: absolute;top: 0;left: 0;right: 0;height: 16px;line-height: 16px;font-size: 7px;text-transform: uppercase;text-align: center;}
-.details .photo, .photo-large {background-repeat: no-repeat;background-size: cover;cursor: pointer;background-position: center;/* border: 3px solid #bfe3f1; */}
+.details .photo, .photo-large {background-repeat: no-repeat;background-size: cover;cursor: pointer;background-position: center;z-index:1;/* border: 3px solid #bfe3f1; */}
 .details .photo {border: 2px solid #bfe3f1;}
 .photo-large, .info-holder {visibility: hidden;opacity: 0;background-color: #fff;position: fixed;position: relative;transition: opacity 0.5s ease-out,  visiblity 0s 0.5s;}
 .photo-large {/* background-color: rgba(29, 56, 84, 0.63); */}
@@ -476,7 +476,7 @@ body {height: 100%;position: relative;min-height: 100%;}
 .comment .head{ color: #fff }
 .comment .body{color: rgba(255, 255, 255, 0.78);margin-top: 10px;line-height: 16px;overflow: hidden;max-height: 30px;}
 .comment .date {float: right;color: rgba(255, 255, 255, 0.35);font-size: 11px;font-weight: normal;}
-.comment.expanded .body{max-height: 200px; transition: max-height 0.5s ease-out, overflow-y 1s ease-out 1s;}
+.comment.expanded .body{overflow: auto;max-height: 200px; transition: max-height 0.5s ease-out, overflow-y 1s ease-out 1s;}
 
 .comments-popup {position: fixed;bottom: 0;right: 0;background: rgb(54, 78, 103);z-index: 1;margin: 4px;width: 200px;}
 .comments-popup.expanded { width: 400px; }
