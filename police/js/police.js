@@ -320,8 +320,8 @@
             loading(true);
             Core.trigger('location.start', {})
             navigator.geolocation.getCurrentPosition(function(location) {
-                //var p = [location.coords.latitude, location.coords.longitude];
-                var p =  [70.942830699999995, 80.3475806];
+                var p = [location.coords.latitude, location.coords.longitude];
+                // var p =  [70.942830699999995, 80.3475806];
                 success(p);
                 loading(false)
             }, function() {

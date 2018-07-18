@@ -162,7 +162,7 @@ body {height: 100%;position: relative;min-height: 100%;}
 .checkbox-list li.checked i {  background: rgba(255, 255, 255, 0.5); }
 .checkbox-list li.checked {color: #fff;}
 
-.mess {position: absolute;bottom: 0;left: 0;line-height: 30px;background: rgba(144, 236, 96, 0.65);z-index: 20;right: 0;text-align: center;}
+.mess {position: absolute;bottom: 0;left: 0;line-height: 30px;background: #e94944;z-index: 20;right: 0;text-align: center;}
 .mess:before { display: block; width: 20px; height:20px; border-radius: 30px; background: #c00  }
 .mess.warn {background: rgba(253, 255, 0, 0.79);}
 .mess.error {background: rgba(253, 0 , 0, 0.79);color: #fff;display: none;}
