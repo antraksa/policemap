@@ -182,7 +182,10 @@ $(function() {
               "title": "Телефон",
                 "name": "tel",
                 "edit": true,
-                "width": "200px"
+                "width": "200px",
+                convert: function(val) {
+                    return val ? val.split(',') : [];
+                }
             }, {
               "title": "Время работы",
                 "name": "time",

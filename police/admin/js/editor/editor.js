@@ -29,9 +29,10 @@ $(function() {
 
         console.log('load', city)
         API.all(city.code, function(args) {
-
-            console.warn(args)
             var datas = args, renderSaveButtons;
+
+            console.log('load complte', city, datas);
+
             var typearr = [];
 
             var ti = 0;
@@ -173,8 +174,9 @@ $(function() {
                 }
                 renderSaveButtons = function() {
                     console.log('render', city.code);
-                    $('#btn-cancel').on('click', update)
-                    $('#btn-save').on('click', function() {
+                    $('#btn-cancel').off('click').on('click', update)
+                    $('#btn-save').off('click').on('click', function() {
+                        console.log(1);
                         API.save(type.ds, city.code, datas[type.ds], function() {
                             Core.trigger('mess', { mess: '"{0}" сохранены'.format(type.title) })
                             update()
