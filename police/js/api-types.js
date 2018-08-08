@@ -42,7 +42,7 @@ $(function() {
             }, {
                 'title': 'Телефон',
                 "name": "tel",
-                "edit": false,
+                "edit": true,
                 "width": "150px"
             }, {
                 'title': 'Имя начальника',
@@ -57,7 +57,7 @@ $(function() {
             }, {
                 'title': 'Телефон начальника',
                 "name": "personTel",
-                "edit": false,
+                "edit": true,
                 "width": "200px"
             }, {
                 'title': 'Время приема нач. ',
