@@ -16,15 +16,32 @@
 <style type="text/css">
 </style>
 
-<body class="bgc parser">
+<body class="bgc parser" style="font-size: 14px">
     <div class="mt">
-        <a class="btn" id="btn-ank"> Анкеты и отделения</a>
-        <a class="btn" id="btn-sectors-spb">Ддосить Сектора СПБ </a>
-        <a class="btn" id="btn-sectors-msc">Ддосить Сектора Москвы </a>
-        <a class="btn" id="btn-sectors-vo">Ддосить Сектора ВО </a>
+        <a class="btn" id="btn-data"> Загрузить данные анкет и карт</a>
+        <a class="btn" id="btn-sectors">Ддосить Сектора</a>
         <a class="btn" id="btn-resolve-dep"> Ресолвить Деп </a>
-        <a class="btn" id="btn-resolve-spb"> Ресолвить Сектора СПБ </a>
-        <a class="btn" id="btn-resolve-msc"> Ресолвить Сектора Москвы </a>
-        <a class="btn" id="btn-resolve-vo"> Ресолвить Сектора ВО </a>
+        <a class="btn" id="btn-resolve-sec"> Ресолвить Сектора</a>
+        <a class="btn" id="btn-validate"> Валидировать Сектора</a>
     </div>
+    <div style="margin-left: 400px">
+
+        <select id="city-select">
+            <option value ="spb">Питер</option>
+            <option value ="msc">Москва</option>
+            <option value ="vo">ВО</option>
+        </select>
+
+        <label>
+            <input type="checkbox" name="" id="chk-save">
+            Сохранять
+        </label>
+        <br>
+
+        <br><br>
+    В папке /data/{city} - данные анкет и карт <br>
+    В папке /data/sectors-parsed - чистые результаты ддоса секторов <br>
+    В папке /data/resolved - конченые данные. Ставить чекбокс "Сохранять" чтобы там данные обновилдись <br>
+    </div>
+
 </body>

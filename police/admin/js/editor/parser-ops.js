@@ -8,28 +8,56 @@ $(function() {
     // var depUrl = useLocal  ? '../data/departments.csv?' + rand :  'https://docs.google.com/spreadsheets/d/1DtMId9BgjVerPKLW1edJedVB9CVUTl1tP3ZwCQ48jMY/pub?output=csv';
     // var ank1Url = useLocal  ? '../data/anketa1.csv?' + rand :  'https://docs.google.com/spreadsheets/d/1BfDEwci1YAcbQa-uSk8-ejSE6aTPgWRlIGnZ9Mm_cPc/pub?output=csv';
     // var ank2Url = useLocal  ? '../data/anketa2.csv?' + rand :  'https://docs.google.com/spreadsheets/d/1veV_YBTtjxK575FHg_u9sy_pOjCy9pPMXzon4NY1Vc4/pub?output=csv';
+    var city = 'spb';
 
-    function save(key, city, data) {
-        // if (!city) city = 'spb';
-
-        // console.info('Cохраняем', key, data)
-        // API.save(key, city, data, function(res) {
-        //     console.info('Cохранилось', key, data)
-        // })
+    var cityKeys = {
+        vo: 3600000000000,
+        spb: 7800000000000,
+        msc: 7700000000000,
     }
 
+    $('#btn-resolve-sec').on('click', function() {
+        prepareSectors(city);
+    })
+    $('#btn-data').on('click', function() {
+        if (city == 'spb') {
+            getSpb()
+        } else if (city == 'vo') {
+            getVo();
+        }
+    })
 
-    //getVo()
-    // prepareVOSectors()
-    //getSpb();
+    $('#btn-resolve-dep').on('click', function() {
+        resolveDepartments(city);
+    })
 
-    prepareVOSectors()
+    $('#btn-validate').on('click', function() {
+        validateSectors(city);
+    })
 
+    $('#btn-sectors').on('click', function() {
+        parseSectors(cityKeys[city], city)
+    })
 
+    $('#city-select').on('change', function() {
+        city = this.value;
+        console.log('Текущий город ', city);
+    });
 
+    function save(key, city, data) {
+        if (!city) city = 'spb';
+
+        if ($('#chk-save')[0].checked) {
+            console.info('Cохраняем', key, data)
+            API.save(key, city, data, function(res) {
+                console.info('Cохранилось', key, data)
+            })
+        } else {
+            console.info('Готово', key, data)
+        }
+    }
 
     function getSpb() {
-        var city = 'spb';
         $.when($.getJSON("../data/{0}/poligoni_rayonov.geojson".format(city)),
                 $.getJSON("../data/{0}/tochki_otdelov.geojson".format(city)),
                 $.getJSON("../data/{0}/otdeleniya.geojson".format(city)),
@@ -61,7 +89,6 @@ $(function() {
 
 
     function getVo() {
-        var city = 'vo';
         $.when(
                 $.getJSON("../data/{0}/otdeleniya.geojson".format(city)),
                 $.get('../data/{0}/regions.csv?'.format(city) + rand),
@@ -353,6 +380,7 @@ $(function() {
     //resolveDepartments('spb')
 
     function resolveDepartments(city) {
+        console.log('ресолвим департаменты', city)
         $.getJSON("../data/resolved/{0}/departments.json".format(city), function(data) {
             resolveSectors(data, function() {
                 save('departments', city, data)
@@ -519,16 +547,6 @@ $(function() {
         resolve()
     }
 
-    $('#btn-resolve-dep').on('click', function() {
-
-    })
-
-
-    $('#btn-resolve-spb').on('click', function() { prepareSectors('spb') })
-    $('#btn-resolve-msc').on('click', function() { prepareSectors('msc') })
-    $('#btn-resolve-vo').on('click', function() { prepareSectors('vo') })
-
-
     function convertCoords(coords) {
         if (coords) {
             for (var j = 0; j < coords.length; j++) {
@@ -538,9 +556,7 @@ $(function() {
         }
         return coords;
     }
-    $('#btn-sectors-spb').on('click', function() { parseSectors(7800000000000, 'spb') })
-    $('#btn-sectors-msc').on('click', function() { parseSectors(7700000000000, 'msc') })
-    $('#btn-sectors-vo').on('click', function() { parseSectors(3600000000000, 'vo') })
+
 
 
     //parseSectors(7800000000000, 'spb')
